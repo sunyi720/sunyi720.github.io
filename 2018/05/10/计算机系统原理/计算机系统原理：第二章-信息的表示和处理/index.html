@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机系统原理,信息的表示和处理,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="三种最重要的数字表示：  无符号编码：基于传统的二进制表示，表示大于或者等于0的数。 补码编码：表示有符号整数的最常见的方式，有符号整数就是可以为正或者为负的元素。 浮点数编码：表示浮点数的科学计数法以二为基数的版本。  计算机的表示法会产生一些问题：  范围是有限的，当超过时就会发生溢出（overflow）。 整数满足运算性质（结合律，交互律等），浮点数不满足。  信息存储大部分计算机使用8位为">
+<meta name="keywords" content="计算机系统原理,信息的表示和处理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机系统原理：第二章-信息的表示和处理">
+<meta property="og:url" content="https://sunyi720.github.io/2018/05/10/计算机系统原理/计算机系统原理：第二章-信息的表示和处理/index.html">
+<meta property="og:site_name" content="Sun">
+<meta property="og:description" content="三种最重要的数字表示：  无符号编码：基于传统的二进制表示，表示大于或者等于0的数。 补码编码：表示有符号整数的最常见的方式，有符号整数就是可以为正或者为负的元素。 浮点数编码：表示浮点数的科学计数法以二为基数的版本。  计算机的表示法会产生一些问题：  范围是有限的，当超过时就会发生溢出（overflow）。 整数满足运算性质（结合律，交互律等），浮点数不满足。  信息存储大部分计算机使用8位为">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?B2T_{w}">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?B2U_{w}">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?U2B_{w}">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?U2T_{w}">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?T2B_{w}">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?T2U_{w}">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?TMin_{w}">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?TMax_{w}">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?UMax_{w}">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?+_{t}^{w}">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?+_{u}^{w}">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?*_{t}^{w}">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?*_{u}^{w}">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?-_{t}^{w}">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?-_{t}^{w}">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?B2U_{w}(\overrightarrow{x})=\sum_{i=0}^{w-1}x_{i}2^{i}">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?B2T_{w}(\overrightarrow{x})=-x_{w-1}2^{w-1}+\sum_{i=0}^{w-2}x_{i}2^{i}">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?B2T_{w}(\overrightarrow{x})=-x_{w-1}2^{w}+B2U_{w}(\overrightarrow{x})">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?T2U_{w}(x)=B2U_{w}(T2B_{w}(x))=x_{w-1}2^{w}+x">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?U2T_{w}(u)=-u_{w-1}2^{w}+u">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?B2U_{k}(u)[x_{k-1},x_{k-2},...,x_{0}]=B2U_{w}(w)[x_{w-1},x_{w-2},...,x_{0}]mod2^{k}">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?B2U_{k}(u)[x_{k-1},x_{k-2},...,x_{0}]=U2T_{k}(B2U_{w}(w)[x_{w-1},x_{w-2},...,x_{0}]mod2^{k})">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?x+_{u}^{w}y=\begin{cases}&space;&&space;x+y\text{&space;if&space;}&space;x+y<2^{w}&space;\\&space;&&space;x+y-2^{w}\text{&space;if&space;}&space;x+y>=2^{w}&space;\end{cases}">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?-_{u}^{w}x=\begin{cases}&space;&&space;x\text{&space;if&space;}&space;x=0&space;\\&space;&&space;2^{w}-x\text{&space;if&space;}&space;x>0&space;\end{cases}">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?\vec{x}">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?\vec{y}">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?T2B_{w}(x*_{w}^{t}y)=U2B_{w}(x'*_{w}^{u}y')">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?(x\cdot&space;y)mod2^w=(x'\cdot&space;y')mod2^w">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?x*_{w}^{u}y=(x\cdot&space;y)mod2^w">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?x*_{w}^{t}y=U2T_{w}((x\cdot&space;y)mod2^w)">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?V=(-1)^{s}*M*2^{E}">
+<meta property="og:updated_time" content="2018-08-17T08:13:08.522Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="计算机系统原理：第二章-信息的表示和处理">
+<meta name="twitter:description" content="三种最重要的数字表示：  无符号编码：基于传统的二进制表示，表示大于或者等于0的数。 补码编码：表示有符号整数的最常见的方式，有符号整数就是可以为正或者为负的元素。 浮点数编码：表示浮点数的科学计数法以二为基数的版本。  计算机的表示法会产生一些问题：  范围是有限的，当超过时就会发生溢出（overflow）。 整数满足运算性质（结合律，交互律等），浮点数不满足。  信息存储大部分计算机使用8位为">
+<meta name="twitter:image" content="https://latex.codecogs.com/gif.latex?B2T_{w}">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":20},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://sunyi720.github.io/2018/05/10/计算机系统原理/计算机系统原理：第二章-信息的表示和处理/">
+
+
+
+
+
+  <title>计算机系统原理：第二章-信息的表示和处理 | Sun</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sun</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数字人生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2018/05/10/计算机系统原理/计算机系统原理：第二章-信息的表示和处理/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="SunY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">计算机系统原理：第二章-信息的表示和处理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-10T00:22:19+08:00">
+                2018-05-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/计算机系统原理/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机系统原理</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/05/10/计算机系统原理/计算机系统原理：第二章-信息的表示和处理/" class="leancloud_visitors" data-flag-title="计算机系统原理：第二章-信息的表示和处理">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>三种最重要的数字表示：</strong></p>
+<ul>
+<li><em>无符号编码</em>：基于传统的二进制表示，表示大于或者等于0的数。</li>
+<li><em>补码编码</em>：表示有符号整数的最常见的方式，有符号整数就是可以为正或者为负的元素。</li>
+<li><em>浮点数编码</em>：表示浮点数的科学计数法以二为基数的版本。<br></li>
+</ul>
+<p><strong>计算机的表示法会产生一些问题：</strong></p>
+<ul>
+<li>范围是有限的，当超过时就会发生<em>溢出</em>（overflow）。</li>
+<li>整数满足运算性质（结合律，交互律等），浮点数不满足。</li>
+</ul>
+<h1 id="信息存储"><a href="#信息存储" class="headerlink" title="信息存储"></a>信息存储</h1><p>大部分计算机使用8位为一块，称为<em>字节</em>，作为最小的访问单位。<br>机器级程序将内存视为一个非常大的字节数组，称为<em>虚拟内存</em>。内存的每个字节都是由哦一个唯一的数字来标识，称为<em>地址</em>。所有可能的虚拟地址的集合称为<em>虚拟地址空间</em>。</p>
+<h2 id="十六进制表示法"><a href="#十六进制表示法" class="headerlink" title="十六进制表示法"></a>十六进制表示法</h2><p>二进制太长，十进制不好转换成二进制，最好的方式是用十六进制来表示数。<br>二进制与十六进制之间的转换比较简单，其它进制转换为十进制用幂乘法，十进制转其它进制用模运算。</p>
+<h2 id="字数据大小"><a href="#字数据大小" class="headerlink" title="字数据大小"></a>字数据大小</h2><p><em>字长</em>：指针数据的大小，决定了虚拟地址空间的最大大小。</p>
+<table>
+<thead>
+<tr>
+<th>有符号</th>
+<th>无符号</th>
+<th>32位</th>
+<th>64位</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{signed} char</td>
+<td>unsigned char</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>shrot</td>
+<td>unsigned short</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>int</td>
+<td>unsigned</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>long</td>
+<td>unsigned long</td>
+<td>4</td>
+<td>8</td>
+</tr>
+<tr>
+<td>int32_t</td>
+<td>uint32_t</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>int64_t</td>
+<td>uint64_t</td>
+<td>8</td>
+<td>8</td>
+</tr>
+<tr>
+<td>char *</td>
+<td></td>
+<td>4</td>
+<td>8</td>
+</tr>
+<tr>
+<td>float</td>
+<td></td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>double</td>
+<td></td>
+<td>8</td>
+<td>8</td>
+</tr>
+</tbody>
+</table>
+<p>上表是C基本数据类型的典型大小，注意事项：</p>
+<ul>
+<li>char一般不区分符号</li>
+<li>ISO C99引入了一类数据类型，不依赖“典型”数据大小和编译器环境，其中包括int32_t和int64_t。</li>
+<li>对关键词的顺序以及是否省略可选关键词，C允许存在多种形式。</li>
+</ul>
+<h2 id="寻址和字节顺序"><a href="#寻址和字节顺序" class="headerlink" title="寻址和字节顺序"></a>寻址和字节顺序</h2><p><em>位</em>：[xn,…x1]<br>xn为<em>最高有效位</em>，x1为<em>最低有效位</em>。转换成字节（为8的倍数时）对应<em>最高有效字节</em>，和<em>最低有效字节</em>。<br><em>小端法</em>：在地址中有效字节从低到高。大端法相反。</p>
+<p>字节顺序会影响的问题时：</p>
+<ul>
+<li>当传输和接受网络数据时</li>
+<li>当阅读数据类型的字节序列时</li>
+<li>当使用强制类型转型时</li>
+</ul>
+<h2 id="字符串的表示"><a href="#字符串的表示" class="headerlink" title="字符串的表示"></a>字符串的表示</h2><p>每一个字符都由标准字符编码来表示，最常见的是ASCII表。<br>使用ASCII表来进行编码的文件成为文本文件，其他的成为二进制文件。在使用ASCII编码的系统中，文本文件比二进制文件具有更强的平台独立性，因为不受字节顺序和字大小的约束。</p>
+<h2 id="布尔代数简介"><a href="#布尔代数简介" class="headerlink" title="布尔代数简介"></a>布尔代数简介</h2><p>用于处理真和假，0和1的逻辑运算。拓展到多个就 叫做位向量，位向量一个很实用的作用是用来表示有限的集合，以及很方便的做集合之间的交，并，补。</p>
+<h2 id="C语言中的布尔运算，逻辑运算，移位运算"><a href="#C语言中的布尔运算，逻辑运算，移位运算" class="headerlink" title="C语言中的布尔运算，逻辑运算，移位运算"></a>C语言中的布尔运算，逻辑运算，移位运算</h2><p>布尔：|，&amp;，~，^<br>逻辑：||，&amp;&amp;，!<br>移位运算：&lt;&lt;，&gt;&gt;，&gt;&gt;&gt;（java）</p>
+<blockquote>
+<p>对于左移运算，在低位补0.对于右移运算，一般都有逻辑右移（高位补0）和算术右移（高位补和最高有效位相同的数），对于确切的是哪一种，没有明确定义。但是，一般来说，对于有符号的数据，采用算术右移；无符号的采取逻辑右移。而在java中，明确表示&gt;&gt;表示算术右移；&gt;&gt;&gt;表示逻辑右移。</p>
+</blockquote>
+<blockquote>
+<p>当移动的数大于数据本身的位数时，C语言会报错，而在java中要求采取模运算的方式来处理移动的位数。</p>
+</blockquote>
+<h1 id="整数表示"><a href="#整数表示" class="headerlink" title="整数表示"></a>整数表示</h1><table>
+<thead>
+<tr>
+<th>符号</th>
+<th>类型</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://latex.codecogs.com/gif.latex?B2T_{w}"></td>
+<td>函数</td>
+<td>二进制转补码</td>
+</tr>
+<tr>
+<td><img src="https://latex.codecogs.com/gif.latex?B2U_{w}"></td>
+<td>函数</td>
+<td>二进制转无符号</td>
+</tr>
+<tr>
+<td><img src="https://latex.codecogs.com/gif.latex?U2B_{w}"></td>
+<td>函数</td>
+<td>无符号转二进制</td>
+</tr>
+<tr>
+<td><img src="https://latex.codecogs.com/gif.latex?U2T_{w}"></td>
+<td>函数</td>
+<td>无符号转补码</td>
+</tr>
+<tr>
+<td><img src="https://latex.codecogs.com/gif.latex?T2B_{w}"></td>
+<td>函数</td>
+<td>补码转二进制</td>
+</tr>
+<tr>
+<td><img src="https://latex.codecogs.com/gif.latex?T2U_{w}"></td>
+<td>函数</td>
+<td>补码转无符号</td>
+</tr>
+<tr>
+<td><img src="https://latex.codecogs.com/gif.latex?TMin_{w}"></td>
+<td>常数</td>
+<td>最小补码值</td>
+</tr>
+<tr>
+<td><img src="https://latex.codecogs.com/gif.latex?TMax_{w}"></td>
+<td>常数</td>
+<td>最大补码值</td>
+</tr>
+<tr>
+<td><img src="https://latex.codecogs.com/gif.latex?UMax_{w}"></td>
+<td>常数</td>
+<td>最大无符号值</td>
+</tr>
+<tr>
+<td><img src="https://latex.codecogs.com/gif.latex?+_{t}^{w}"></td>
+<td>操作</td>
+<td>补码加</td>
+</tr>
+<tr>
+<td><img src="https://latex.codecogs.com/gif.latex?+_{u}^{w}"></td>
+<td>操作</td>
+<td>无符号加</td>
+</tr>
+<tr>
+<td><img src="https://latex.codecogs.com/gif.latex?*_{t}^{w}"></td>
+<td>操作</td>
+<td>补码乘</td>
+</tr>
+<tr>
+<td><img src="https://latex.codecogs.com/gif.latex?*_{u}^{w}"></td>
+<td>操作</td>
+<td>无符号乘</td>
+</tr>
+<tr>
+<td><img src="https://latex.codecogs.com/gif.latex?-_{t}^{w}"></td>
+<td>操作</td>
+<td>补码减</td>
+</tr>
+<tr>
+<td><img src="https://latex.codecogs.com/gif.latex?-_{t}^{w}"></td>
+<td>操作</td>
+<td>无符号减</td>
+</tr>
+</tbody>
+</table>
+<p>有符号的数和无符号的数之间存在隐式或者显式的转换。尤其注意在逻辑运算时，这种隐式的转换会带来一些非直观的效果，导致程序出现异常。</p>
+<h2 id="无符号的编码"><a href="#无符号的编码" class="headerlink" title="无符号的编码"></a>无符号的编码</h2><p><img src="https://latex.codecogs.com/gif.latex?B2U_{w}(\overrightarrow{x})=\sum_{i=0}^{w-1}x_{i}2^{i}"></p>
+<h2 id="补码编码"><a href="#补码编码" class="headerlink" title="补码编码"></a>补码编码</h2><p><img src="https://latex.codecogs.com/gif.latex?B2T_{w}(\overrightarrow{x})=-x_{w-1}2^{w-1}+\sum_{i=0}^{w-2}x_{i}2^{i}"></p>
+<h2 id="无符号与补码之间的转换"><a href="#无符号与补码之间的转换" class="headerlink" title="无符号与补码之间的转换"></a>无符号与补码之间的转换</h2><p>首先，我们必须认清楚一个概念，就是无符号和补码之间的转换是以相同的二进制码为基础的不同的表示方法之间的转换，通过上面的补码和无符号的两个公司我们可以得到：</p>
+<p><img src="https://latex.codecogs.com/gif.latex?B2T_{w}(\overrightarrow{x})=-x_{w-1}2^{w}&plus;B2U_{w}(\overrightarrow{x})"></p>
+<h3 id="补码转无符号"><a href="#补码转无符号" class="headerlink" title="补码转无符号"></a>补码转无符号</h3><p><img src="https://latex.codecogs.com/gif.latex?T2U_{w}(x)=B2U_{w}(T2B_{w}(x))=x_{w-1}2^{w}&plus;x"></p>
+<p>在补码范围内的非负数，对应的无符号一致；负数对应的无符号需要增加一个步长。</p>
+<h3 id="无符号转补码"><a href="#无符号转补码" class="headerlink" title="无符号转补码"></a>无符号转补码</h3><p>为补码转无符号 公式的反函数：</p>
+<p><img src="https://latex.codecogs.com/gif.latex?U2T_{w}(u)=-u_{w-1}2^{w}&plus;u"></p>
+<p>在无符号范围内的小于补码最大值的数，对应的补码一致；大于补码最大值的数对应的无符号减少增加一个步长。</p>
+<h2 id="位的扩展和截断"><a href="#位的扩展和截断" class="headerlink" title="位的扩展和截断"></a>位的扩展和截断</h2><p>扩展：</p>
+<ul>
+<li>补码在开头补符号位</li>
+<li>无符号在开头补0.</li>
+</ul>
+<p>截断：<br>截断可以解释为先转换成无符号码进行模运算，再转成成对应的编码表示。</p>
+<ul>
+<li>无符号：<img src="https://latex.codecogs.com/gif.latex?B2U_{k}(u)[x_{k-1},x_{k-2},...,x_{0}]=B2U_{w}(w)[x_{w-1},x_{w-2},...,x_{0}]mod2^{k}"></li>
+<li>补码：<img src="https://latex.codecogs.com/gif.latex?B2U_{k}(u)[x_{k-1},x_{k-2},...,x_{0}]=U2T_{k}(B2U_{w}(w)[x_{w-1},x_{w-2},...,x_{0}]mod2^{k})"></li>
+</ul>
+<h1 id="整数运算"><a href="#整数运算" class="headerlink" title="整数运算"></a>整数运算</h1><h2 id="无符号加法"><a href="#无符号加法" class="headerlink" title="无符号加法"></a>无符号加法</h2><p>在无符号的值范围内可以正常相加，当有溢出时，溢出的位截断，只保留定常的位。公式如下：<br><img src="https://latex.codecogs.com/gif.latex?x&plus;_{u}^{w}y=\begin{cases}&space;&&space;x&plus;y\text{&space;if&space;}&space;x&plus;y<2^{w}&space;\\&space;&&space;x&plus;y-2^{w}\text{&space;if&space;}&space;x&plus;y>=2^{w}&space;\end{cases}"></p>
+<p>一般来说，当程序发生溢出，并不会报错，因此需要人为的去进行判断，判断的方法是：对x+y=s，若s&lt;x，则发生溢出。</p>
+<p>模运算是一个阿贝尔群，因此满足交换律，结合律，并有一个单位元，且有逆元。公式如下：<br><img src="https://latex.codecogs.com/gif.latex?-_{u}^{w}x=\begin{cases}&space;&&space;x\text{&space;if&space;}&space;x=0&space;\\&space;&&space;2^{w}-x\text{&space;if&space;}&space;x>0&space;\end{cases}"></p>
+<h2 id="补码加法"><a href="#补码加法" class="headerlink" title="补码加法"></a>补码加法</h2><p>无论是无符号加法还是补码加法或者是其它加法，在计算机底层都是同一种二进制的加法，而二进制的加法可以表现成无符号加法，因此补码的加法可以表现为先转换成无符号进行加法运算，截断后再转换成补码公式如下:</p>
+<ul>
+<li>对于补码加法的正溢出，可以理解为最高符号位上的0变成了1，因此从正数变成了负数，然后转补码（此时需要减去一个位长值）。</li>
+<li>对于补码加法的负溢出，可以理解为在位之外多了一个1，截断即为做了模运算，然后转补码（此时不需要减去位长值，但是模运算的时候也相当于加上了位长值）。</li>
+</ul>
+<h3 id="补码的溢出判断"><a href="#补码的溢出判断" class="headerlink" title="补码的溢出判断"></a>补码的溢出判断</h3><p>对于x+y=s，当x&gt;0，y&gt;0时，s&lt;=0，发生了正溢出。当x&lt;0，y&lt;0时，s&gt;=0，发生了负溢出。</p>
+<h2 id="乘法"><a href="#乘法" class="headerlink" title="乘法"></a>乘法</h2><p>首先我们得知道，对于无符号和有符号的底层乘法实现方式是不一样的， 具体是如何可以参考其他的书籍，在C语言中，w位的整数相乘后可能需要2w位来进行表示，而有符号和无符号被定义为相应的2w位二进制截断w位后的不同编码方式。而对它们来说，2w位的二进制可能不一样，但是截断后的w位恰巧都是相同的，这也就是所谓的<em>乘法的位级表示是一样的</em>，表示成定义即：给定位向量<img src="https://latex.codecogs.com/gif.latex?\vec{x}">和位向量<img src="https://latex.codecogs.com/gif.latex?\vec{y}">,他们的补码表示为x和y，无符号表示为x’和y’，因而有：<br><img src="https://latex.codecogs.com/gif.latex?T2B_{w}(x*_{w}^{t}y)=U2B_{w}(x'*_{w}^{u}y')"><br>在理解乘法公式之前，先提出模运算具有的一个性质：<img src="https://latex.codecogs.com/gif.latex?(x\cdot&space;y)mod2^w=(x'\cdot&space;y')mod2^w"></p>
+<ul>
+<li>无符号的乘法公式：<img src="https://latex.codecogs.com/gif.latex?x*_{w}^{u}y=(x\cdot&space;y)mod2^w"></li>
+<li>补码的乘法公式：<img src="https://latex.codecogs.com/gif.latex?x*_{w}^{t}y=U2T_{w}((x\cdot&space;y)mod2^w)"></li>
+</ul>
+<p>一开始对补码公式一直乘法 不太理解，后来才明白，这样的表示，其实就是结合上面模运算的性质，先进性无符号的运算，再将无符号转换成补码。</p>
+<h2 id="乘一个常数"><a href="#乘一个常数" class="headerlink" title="乘一个常数"></a>乘一个常数</h2><p>整数的乘法指令速度相当慢，需要10个或者更多的时钟周期，而其它的运算只需要一个。因而对于乘一个常数，我们往往用移位来实现。</p>
+<ul>
+<li>乘2的幂：无论是无符号还是补码，乘2的k次方等价于左移k位，发生溢出导致的结果也一样。</li>
+<li>乘任意常数：如14=2^3+2^2+2，因此，x*2^14可以用(x&lt;&lt;3)+(x&lt;&lt;2)+(x&lt;&lt;1)来实现。</li>
+</ul>
+<h2 id="除一个2的幂"><a href="#除一个2的幂" class="headerlink" title="除一个2的幂"></a>除一个2的幂</h2><p>计算机中的除法是向下舍入正数值，向上舍入负数值，在使用右移来实现除2的幂时需要注意，因为右移只能产生向下舍入的结果，对于负数的向上舍入，需要先加上一个偏量，再做右移操作。</p>
+<ul>
+<li>无符号的除以2的k次幂：x&gt;&gt;k。</li>
+<li>补码的除以2的k次幂：(x&lt;0?x+(1&lt;&lt;k)-1:x)&gt;&gt;k</li>
+</ul>
+<h1 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h1><h2 id="定点表示法"><a href="#定点表示法" class="headerlink" title="定点表示法"></a>定点表示法</h2><ul>
+<li>定点整数：纯整数，小数点定在最低有效位后。</li>
+<li>定点小数：纯小数，小数点定在符号位之后，最高有效位之前。</li>
+<li>定点浮点数：需要一个比例因子先转换成定点小数或者定点整数，运算后再根据比例因子还原成实际结果。比例因子的选择不当，往往会造成溢出或者降低有效精度。</li>
+</ul>
+<h2 id="IEEE浮点表示法"><a href="#IEEE浮点表示法" class="headerlink" title="IEEE浮点表示法"></a>IEEE浮点表示法</h2><p>公式：<img src="https://latex.codecogs.com/gif.latex?V=(-1)^{s}*M*2^{E}"></p>
+<ul>
+<li>s：符号，对于0的符号作位特殊情况处理。</li>
+<li>M：尾数，二进制数,f为其二进制表示的小数,M=f或者是1+f。</li>
+<li>E：阶码，2的E次幂。<blockquote>
+<p>对于32位机器来说，s长1,M长8,E长23。对于64位的机器来说，s长1，M长11，E长52.</p>
+</blockquote>
+</li>
+</ul>
+<p>值分成三种情况</p>
+<ul>
+<li>规格化的值：阶码位不全为0或者1，这种情况下，M=1+f，阶码字段被解释为以偏置形式来表示有符号整数，也就是说阶码值E=e-Bias，其中e是无符号值，Bias是偏置值等于2^k-1-1（单精度127，双精度1023）由此产生的指数的取值范围：单精度：-126~127.双精度：-1022~1023.</li>
+<li>非规格化的值：阶码位全为0，这种情况下，E=1-Bias，M=f。非规格化的值提供两个功能：①提供+0和-0的表示②提供了接近0的值均匀分布。</li>
+<li>特殊值：阶码位全为1时。若尾数位全为0，根据符号表示正无穷或负无穷。若尾数位不全为0，表示NaN.</li>
+</ul>
+<h2 id="舍入"><a href="#舍入" class="headerlink" title="舍入"></a>舍入</h2><ul>
+<li>偶数舍入：对于中间值，向偶数舍入，在小数舍入时，尤其要确认该小数是否中间值。</li>
+<li>向零舍入：绝对值变小。</li>
+<li>向上舍入：上确界。</li>
+<li>向下舍入：下确界。</li>
+</ul>
+<h2 id="浮点运算"><a href="#浮点运算" class="headerlink" title="浮点运算"></a>浮点运算</h2><p>Round(x?Y)，满足交换律，不满足结合律，具备单调性。<br>这里书中也没有很具体，需要从其它地方获取详细的过程。</p>
+<h2 id="C语言的浮点数"><a href="#C语言的浮点数" class="headerlink" title="C语言的浮点数"></a>C语言的浮点数</h2><p>C提供两种浮点是，float和double且大多情况下支持IEEE标准， 但C并没有强制要求符合IEEE标准，因此并没有标准方法改变舍入方式或者定义诸如-0, +∞+∞, −∞−∞或者NaN这些特殊值， 大多数系统提供相应头文件或库，但没有统一标准，可能细节有所不同。</p>
+<p>强制转换的规则：</p>
+<ul>
+<li>从int到float，数字不会溢出，但可能被舍入。</li>
+<li>从int/float转到double，因double精度更大，因此能保留精确的数值。</li>
+<li>从double到float，可能溢出成为 ±∞±∞，也有可能因精度问题被舍入</li>
+<li>从float/double转为int，值将向零舍入。进一步说，值可能会溢出（毕竟浮点数范围更大）。然而，C标准没有对此的规定。因此，有些诸如与Intel兼容的微处理器将整数最小值统一定义为整数不确定（integer indefinite）值，即溢出结果。例如对于32位数，TMin_32 = [10…000] = -2^31 = 2 147 483 648。</li>
+</ul>
+<h1 id="常用的移位运算"><a href="#常用的移位运算" class="headerlink" title="常用的移位运算"></a>常用的移位运算</h1><ul>
+<li><p>数据位长：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sizeof(date)&lt;&lt;3（字节长×8个位）</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>溢出判断：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">t = a + b时，如果a，b异号（或者存在0），则肯定不会溢出。</span><br><span class="line">如果a，b均大于等于0，则t&lt;0就是正溢出，如果a，b均小于0，则t&gt;=0就是负溢出。</span><br><span class="line">于是，可以利用三个变量来表示是正溢出，负溢出还是无溢出。</span><br><span class="line">int w = sizeof(int)&lt;&lt;3;</span><br><span class="line">int t = x + y;</span><br><span class="line">int ans = x + y;</span><br><span class="line">x&gt;&gt;=(w-1);//11111111</span><br><span class="line">y&gt;&gt;=(w-1);//11111111</span><br><span class="line">t&gt;&gt;=(w-1);//00000000</span><br><span class="line">int pos_ovf = ~x&amp;~y&amp;t;//00000000</span><br><span class="line">int neg_ovf = x&amp;y&amp;~t;//11111111</span><br><span class="line">int novf = ~(pos_ovf|neg_ovf);//00000000</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">对于有符号整数相减，溢出的规则可以总结为：</span><br><span class="line">t = a-b;</span><br><span class="line">如果a, b 同号，则肯定不会溢出。</span><br><span class="line">如果a&gt;=0 &amp;&amp; b&lt;0，则只有当t&lt;=0时才算溢出。</span><br><span class="line">如果a&lt;0 &amp;&amp; b&gt;=0，则只有当t&gt;=0时才算溢出。</span><br><span class="line">不过，上述t肯定不会等于0，因为当a，b不同号时：</span><br><span class="line">1) a!=b，因此a-b不会等于0。</span><br><span class="line">2) a-b &lt;= abs(a) + abs(b) &lt;= abs(TMax) + abs(TMin)=(2^w - 1)</span><br><span class="line">所以，a，b异号，t，b同号即可判定为溢出。</span><br><span class="line">int tsub_ovf(int x, int y)&#123;</span><br><span class="line">    int w = sizeof(int)&lt;&lt;3;</span><br><span class="line">    int t = x - y;</span><br><span class="line">    x&gt;&gt;=(w-1);</span><br><span class="line">    y&gt;&gt;=(w-1);</span><br><span class="line">    t&gt;&gt;=(w-1);</span><br><span class="line">    return (x != y) &amp;&amp; (y == t);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+	
+	<div>
+      
+        
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="SunY 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="SunY 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机系统原理/" rel="tag"><i class="fa fa-tag"></i> 计算机系统原理</a>
+          
+            <a href="/tags/信息的表示和处理/" rel="tag"><i class="fa fa-tag"></i> 信息的表示和处理</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/08/MarkDown语法/" rel="next" title="MarkDown">
+                <i class="fa fa-chevron-left"></i> MarkDown
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/22/计算机网络/计算机网络：第一章-概论/" rel="prev" title="计算机网络：第一章-概论">
+                计算机网络：第一章-概论 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjMzMS8xMjg2Ng=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/head.png" alt="SunY">
+            
+              <p class="site-author-name" itemprop="name">SunY</p>
+              <p class="site-description motion-element" itemprop="description">Lv.0</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/sunyi720" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="codersun2018@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#信息存储"><span class="nav-number">1.</span> <span class="nav-text">信息存储</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#十六进制表示法"><span class="nav-number">1.1.</span> <span class="nav-text">十六进制表示法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字数据大小"><span class="nav-number">1.2.</span> <span class="nav-text">字数据大小</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#寻址和字节顺序"><span class="nav-number">1.3.</span> <span class="nav-text">寻址和字节顺序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串的表示"><span class="nav-number">1.4.</span> <span class="nav-text">字符串的表示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#布尔代数简介"><span class="nav-number">1.5.</span> <span class="nav-text">布尔代数简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C语言中的布尔运算，逻辑运算，移位运算"><span class="nav-number">1.6.</span> <span class="nav-text">C语言中的布尔运算，逻辑运算，移位运算</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#整数表示"><span class="nav-number">2.</span> <span class="nav-text">整数表示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#无符号的编码"><span class="nav-number">2.1.</span> <span class="nav-text">无符号的编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补码编码"><span class="nav-number">2.2.</span> <span class="nav-text">补码编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无符号与补码之间的转换"><span class="nav-number">2.3.</span> <span class="nav-text">无符号与补码之间的转换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#补码转无符号"><span class="nav-number">2.3.1.</span> <span class="nav-text">补码转无符号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#无符号转补码"><span class="nav-number">2.3.2.</span> <span class="nav-text">无符号转补码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#位的扩展和截断"><span class="nav-number">2.4.</span> <span class="nav-text">位的扩展和截断</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#整数运算"><span class="nav-number">3.</span> <span class="nav-text">整数运算</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#无符号加法"><span class="nav-number">3.1.</span> <span class="nav-text">无符号加法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补码加法"><span class="nav-number">3.2.</span> <span class="nav-text">补码加法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#补码的溢出判断"><span class="nav-number">3.2.1.</span> <span class="nav-text">补码的溢出判断</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#乘法"><span class="nav-number">3.3.</span> <span class="nav-text">乘法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#乘一个常数"><span class="nav-number">3.4.</span> <span class="nav-text">乘一个常数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#除一个2的幂"><span class="nav-number">3.5.</span> <span class="nav-text">除一个2的幂</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#浮点数"><span class="nav-number">4.</span> <span class="nav-text">浮点数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定点表示法"><span class="nav-number">4.1.</span> <span class="nav-text">定点表示法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IEEE浮点表示法"><span class="nav-number">4.2.</span> <span class="nav-text">IEEE浮点表示法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#舍入"><span class="nav-number">4.3.</span> <span class="nav-text">舍入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浮点运算"><span class="nav-number">4.4.</span> <span class="nav-text">浮点运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C语言的浮点数"><span class="nav-number">4.5.</span> <span class="nav-text">C语言的浮点数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用的移位运算"><span class="nav-number">5.</span> <span class="nav-text">常用的移位运算</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SunY</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("iTVMQ8rz1NpV1RJ716VOA2rG-gzGzoHsz", "j0zy5JQ2bmQXtJ8PeP5gAiKM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

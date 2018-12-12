@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JAVA编程思想,Thinking in JAVA,类型信息,反射,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="类型信息RTTIjava如何支持运行时类型检查？  RTTI：运行时类型信息 反射  RTTI的应用？ JAVA中所有的类型转换，都会在运行时期做类型检查（比如判断能否转换），这就需要获取到对应的类型信息，这也是RTTI最基本的应用。运行时类型检查是隐式的运用了RTTI要想理解RTTI的工作原理，或者显式的使用RTTI，那么就要明白Class对象。 Class对象如何生成和使用Class对象？ 每">
+<meta name="keywords" content="JAVA编程思想,Thinking in JAVA,类型信息,反射">
+<meta property="og:type" content="article">
+<meta property="og:title" content="14 类型信息">
+<meta property="og:url" content="https://sunyi720.github.io/2018/11/02/THING IN JAVA/14 类型信息/index.html">
+<meta property="og:site_name" content="Sun">
+<meta property="og:description" content="类型信息RTTIjava如何支持运行时类型检查？  RTTI：运行时类型信息 反射  RTTI的应用？ JAVA中所有的类型转换，都会在运行时期做类型检查（比如判断能否转换），这就需要获取到对应的类型信息，这也是RTTI最基本的应用。运行时类型检查是隐式的运用了RTTI要想理解RTTI的工作原理，或者显式的使用RTTI，那么就要明白Class对象。 Class对象如何生成和使用Class对象？ 每">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-12-12T08:45:23.367Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="14 类型信息">
+<meta name="twitter:description" content="类型信息RTTIjava如何支持运行时类型检查？  RTTI：运行时类型信息 反射  RTTI的应用？ JAVA中所有的类型转换，都会在运行时期做类型检查（比如判断能否转换），这就需要获取到对应的类型信息，这也是RTTI最基本的应用。运行时类型检查是隐式的运用了RTTI要想理解RTTI的工作原理，或者显式的使用RTTI，那么就要明白Class对象。 Class对象如何生成和使用Class对象？ 每">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":20},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://sunyi720.github.io/2018/11/02/THING IN JAVA/14 类型信息/">
+
+
+
+
+
+  <title>14 类型信息 | Sun</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sun</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数字人生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2018/11/02/THING IN JAVA/14 类型信息/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="SunY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">14 类型信息</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-02T00:42:00+08:00">
+                2018-11-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Thinking-in-Java-读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Thinking in Java 读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/11/02/THING IN JAVA/14 类型信息/" class="leancloud_visitors" data-flag-title="14 类型信息">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="类型信息"><a href="#类型信息" class="headerlink" title="类型信息"></a>类型信息</h1><h2 id="RTTI"><a href="#RTTI" class="headerlink" title="RTTI"></a>RTTI</h2><p><strong>java如何支持运行时类型检查？</strong></p>
+<ol>
+<li>RTTI：运行时类型信息</li>
+<li>反射</li>
+</ol>
+<p><strong>RTTI的应用？</strong></p>
+<p>JAVA中所有的类型转换，都会在运行时期做类型检查（比如判断能否转换），这就需要获取到对应的类型信息，这也是RTTI最基本的应用。<br>运行时类型检查是隐式的运用了RTTI<br>要想理解RTTI的工作原理，或者显式的使用RTTI，那么就要明白Class对象。</p>
+<h2 id="Class对象"><a href="#Class对象" class="headerlink" title="Class对象"></a>Class对象</h2><p><strong>如何生成和使用Class对象？</strong></p>
+<p>每一个类在创建的同时会生成同名的.class文件，保存着这个类的信息，JVM类加载器将会加载这个文件。<br>JAVA提供Class类来让程序员获取类信息，每一个类都会有一个Class对象。</p>
+<p>如何生成Class对象。</p>
+<ol>
+<li>使用Class.forName()</li>
+<li>使用类字面常量：类.class</li>
+<li>使用对象中的方法：对象.getClass()<blockquote>
+<p>使用getClass()是获取运行时的实际类型信息</p>
+</blockquote>
+</li>
+</ol>
+<p><strong>使用.class和使用Class有什么不同</strong></p>
+<p>初始化的阶段不同，.class的初始化（执行静态初始化块）是延迟性的，在访问他的静态方法或者非静态成员的时候才开始初始化。注意在访问静态常量的时候是不会执行<br>初始化的：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Initable</span> </span>&#123;   </span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> staticFinal = <span class="number">47</span>;   <span class="comment">//静态常量</span></span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> staticFinal2 = ClassInitialization.rand.nextInt(<span class="number">1000</span>);   </span><br><span class="line">  <span class="keyword">static</span> &#123;    </span><br><span class="line">    System.out.println(<span class="string">"Initializing Initable"</span>);   </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>为什么使用泛化的Class？</strong></p>
+<p>给Class的引用加一个限定，让编译器做类型检查，这也是泛型的一个作用。<br>并且在使用newInstance()的时候也可以用具体类型的引用去接收。</p>
+<p><strong>如果我们想放宽泛型的类型检查？</strong></p>
+<p>使用父类为类型参数的泛型时行不通的。</p>
+<p>分析下面两个向上转型的情形：<br>Number和Integer：可以向上转型<br>Class<number>和Class<integer>：不可以向上转型</integer></number></p>
+<p>解决方案是使用通配符：Class&lt;?&gt;</p>
+<p><strong>使用通配符的Class和平凡的Class的区别？</strong></p>
+<p>仅仅时候&lt;?&gt;行和平凡的Class没有任何区别，只是这样表示我们是有意为之，而不是大意疏忽。<br>另外，&lt;?&gt;可以使用边界限定来进一步限定。</p>
+<h2 id="类型转换前先做类型检查"><a href="#类型转换前先做类型检查" class="headerlink" title="类型转换前先做类型检查"></a>类型转换前先做类型检查</h2><p><strong>为什么要做类型检查？</strong></p>
+<p>仅仅使用RTTI的话，可以支持类型检查，但是如果到了运行时期才发现类型不一致，会报错抛出ClassCastException异常。</p>
+<p><strong>如何做类型检查？</strong></p>
+<ol>
+<li>使用 对象 instanceOf 类型名：对象是该类型或者子类</li>
+</ol>
+<p><strong>instanceof的限制？</strong></p>
+<p>这里的“类型名”无法放在容器中做迭代处理，如果需求需要计数，只是使用很多instanceOf来一一判断，这是不好的。</p>
+<p><strong>如何优化？</strong></p>
+<ol start="2">
+<li><p>使用 Class对象.isInstance(对象)：对象是该类型或者子类<br>这样一来可以将多个Class对象存放到容器中，做遍历。</p>
+</li>
+<li><p>使用 Class对象 == Class对象 或者 Class对象.equle(Class对象)，这两个产生的效果一样;</p>
+<blockquote>
+<p>使用Class的话，是不涉及子类、父类的，就是类型比较。</p>
+</blockquote>
+</li>
+</ol>
+<p><strong>容器中的Class对象必须写死，如何进一步优化？</strong></p>
+<ol start="3">
+<li>使用 Class对象.isAssignableFrom(Class对象)：后者是前者类型或者其父类。<br>这样一来，前一个父级Class对象可以作为参数传递进来。</li>
+</ol>
+<h2 id="注册工厂"><a href="#注册工厂" class="headerlink" title="注册工厂"></a>注册工厂</h2><p>这个知识点没弄太明白，先只介绍，案例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Part</span> </span>&#123;   </span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;     </span><br><span class="line">    <span class="keyword">return</span> getClass().getSimpleName();   </span><br><span class="line">  &#125;   </span><br><span class="line">  <span class="keyword">static</span> List&lt;Factory&lt;? extends Part&gt;&gt; partFactories =     <span class="keyword">new</span> ArrayList&lt;Factory&lt;? extends Part&gt;&gt;();        </span><br><span class="line">  <span class="keyword">static</span> &#123;     </span><br><span class="line">    <span class="comment">// Collections.addAll() gives an "unchecked generic     </span></span><br><span class="line">    <span class="comment">// array creation ... for varargs parameter" warning.     </span></span><br><span class="line">    partFactories.add(<span class="keyword">new</span> FuelFilter.Factory());     </span><br><span class="line">    partFactories.add(<span class="keyword">new</span> AirFilter.Factory());     </span><br><span class="line">    partFactories.add(<span class="keyword">new</span> CabinAirFilter.Factory());     </span><br><span class="line">    partFactories.add(<span class="keyword">new</span> OilFilter.Factory());     </span><br><span class="line">    partFactories.add(<span class="keyword">new</span> FanBelt.Factory());     </span><br><span class="line">    partFactories.add(<span class="keyword">new</span> PowerSteeringBelt.Factory());     </span><br><span class="line">    partFactories.add(<span class="keyword">new</span> GeneratorBelt.Factory());   </span><br><span class="line">  &#125;   </span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> Random rand = <span class="keyword">new</span> Random(<span class="number">47</span>);  </span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Part <span class="title">createRandom</span><span class="params">()</span> </span>&#123;     </span><br><span class="line">     <span class="keyword">int</span> n = rand.nextInt(partFactories.size());     </span><br><span class="line">     <span class="keyword">return</span> partFactories.get(n).create();   </span><br><span class="line">   &#125;</span><br><span class="line">  &#125;     </span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Filter</span> <span class="keyword">extends</span> <span class="title">Part</span> </span>&#123;&#125;</span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">FuelFilter</span> <span class="keyword">extends</span> <span class="title">Filter</span> </span>&#123;   </span><br><span class="line">    <span class="comment">// Create a Class Factory for each specific type:   </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Factory</span>   <span class="keyword">implements</span> <span class="title">typeinfo</span>.<span class="title">factory</span>.<span class="title">Factory</span>&lt;<span class="title">FuelFilter</span>&gt; </span>&#123;     </span><br><span class="line">      <span class="function"><span class="keyword">public</span> FuelFilter <span class="title">create</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> FuelFilter();</span><br><span class="line">      &#125;   </span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">AirFilter</span> <span class="keyword">extends</span> <span class="title">Filter</span> </span>&#123;   </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Factory</span>   <span class="keyword">implements</span> <span class="title">typeinfo</span>.<span class="title">factory</span>.<span class="title">Factory</span>&lt;<span class="title">AirFilter</span>&gt; </span>&#123;     </span><br><span class="line">      <span class="function"><span class="keyword">public</span> AirFilter <span class="title">create</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> AirFilter();</span><br><span class="line">      &#125;   </span><br><span class="line">    &#125;</span><br><span class="line">  &#125;      </span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">CabinAirFilter</span> <span class="keyword">extends</span> <span class="title">Filter</span> </span>&#123;   </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Factory</span>   <span class="keyword">implements</span> <span class="title">typeinfo</span>.<span class="title">factory</span>.<span class="title">Factory</span>&lt;<span class="title">CabinAirFilter</span>&gt; </span>&#123;     </span><br><span class="line">      <span class="function"><span class="keyword">public</span> CabinAirFilter <span class="title">create</span><span class="params">()</span> </span>&#123;      </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> CabinAirFilter();     </span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">OilFilter</span> <span class="keyword">extends</span> <span class="title">Filter</span> </span>&#123;   </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Factory</span>   <span class="keyword">implements</span> <span class="title">typeinfo</span>.<span class="title">factory</span>.<span class="title">Factory</span>&lt;<span class="title">OilFilter</span>&gt; </span>&#123;    </span><br><span class="line">      <span class="function"><span class="keyword">public</span> OilFilter <span class="title">create</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> OilFilter();</span><br><span class="line">      &#125;   </span><br><span class="line">    &#125;</span><br><span class="line">  &#125;      </span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Belt</span> <span class="keyword">extends</span> <span class="title">Part</span> </span>&#123;&#125;</span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">FanBelt</span> <span class="keyword">extends</span> <span class="title">Belt</span> </span>&#123;   </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Factory</span>   <span class="keyword">implements</span> <span class="title">typeinfo</span>.<span class="title">factory</span>.<span class="title">Factory</span>&lt;<span class="title">FanBelt</span>&gt; </span>&#123;     </span><br><span class="line">      <span class="function"><span class="keyword">public</span> FanBelt <span class="title">create</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> FanBelt();</span><br><span class="line">      &#125;   </span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">GeneratorBelt</span> <span class="keyword">extends</span> <span class="title">Belt</span> </span>&#123;   </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Factory</span>   <span class="keyword">implements</span> <span class="title">typeinfo</span>.<span class="title">factory</span>.<span class="title">Factory</span>&lt;<span class="title">GeneratorBelt</span>&gt; </span>&#123;     </span><br><span class="line">      <span class="function"><span class="keyword">public</span> GeneratorBelt <span class="title">create</span><span class="params">()</span> </span>&#123;       </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> GeneratorBelt();     </span><br><span class="line">      &#125;   </span><br><span class="line">    &#125;</span><br><span class="line">  &#125;      </span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">PowerSteeringBelt</span> <span class="keyword">extends</span> <span class="title">Belt</span> </span>&#123;   </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Factory</span>   <span class="keyword">implements</span> <span class="title">typeinfo</span>.<span class="title">factory</span>.<span class="title">Factory</span>&lt;<span class="title">PowerSteeringBelt</span>&gt; </span>&#123;     </span><br><span class="line">      <span class="function"><span class="keyword">public</span> PowerSteeringBelt <span class="title">create</span><span class="params">()</span> </span>&#123;       </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> PowerSteeringBelt();     </span><br><span class="line">      &#125;   </span><br><span class="line">    &#125;</span><br><span class="line">  &#125;      </span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RegisteredFactories</span> </span>&#123;   </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;     </span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)       </span><br><span class="line">      System.out.println(Part.createRandom());   </span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">/*</span></span><br><span class="line"><span class="comment">  Output: GeneratorBelt CabinAirFilter GeneratorBelt AirFilter PowerSteeringBelt CabinAirFilter FuelFilter PowerSteeringBelt PowerSteeringBelt FuelFilter */</span><span class="comment">//:~</span></span><br></pre></td></tr></table></figure></p>
+<p>和之前在学习类型检查的时候定义的Pet和LiteralPetCreator的运用相比，有以下区别：</p>
+<ol>
+<li>需要生成对象的列表信息存放在基类中，而不是其他的类。</li>
+<li>生成对象的方式不一样，注册工厂采用了工厂模式的方法。</li>
+</ol>
+<p><strong>使用new 和 newInstance()的区别</strong></p>
+<p>new:效率较高，但其实是一种硬编码，耦合度较高，使用工厂方法减缓了这种硬编码，但也只是把耦合弄到了工厂中。<br>newInstance:所有Class都具有的方法，可以实现代码的自动化，实现完全耦合。</p>
+<h2 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h2><p>之前讲到的RTTI都存在一个限制，那就是都可以明确我们想要处理的类型是哪一种，如果出现下面几种情况(举例)：</p>
+<ol>
+<li>工具类中的一个方法，需要传入一个Class类型的参数，这时候不能明确需要处理的类型。</li>
+<li>IOC编程。</li>
+<li>.class文件通过网络传输过来。<br>这些时候就需要使用反射了：</li>
+</ol>
+<p>反射是使用Class和java.lang.reflect(包含Field，Method和Constructor)做支持。</p>
+<p><strong>RTTI和反射的区别？</strong><br>RTTI实际上是一个来之C++的概念，是传统的获取类型信息的方式，获取类型名称，对比类型是否一致等等，而JAVA中的反射是一种新的获取类型信息的方式，功能比RTTI更强大，可以把使用到reflect的RTTI叫作反射，又或者都可以称之为反射，不要太纠结。</p>
+<p><strong>反射的应用：</strong></p>
+<ol>
+<li>类方法生成器</li>
+<li>代理</li>
+</ol>
+<p><strong>什么是代理模式？</strong></p>
+<p>当您希望将额外的操作分离到与“真正的对象”不同的位置时，代理可能会很有帮助，特别是当您希望轻松地从不使用额外的操作更改为使用额外的操作时，反之亦然。</p>
+<p>案例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Interface</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">doSomething</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">somethingElse</span><span class="params">(String arg)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RealObject</span> <span class="keyword">implements</span> <span class="title">Interface</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        print(<span class="string">"doSomething"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">somethingElse</span><span class="params">(String arg)</span> </span>&#123;</span><br><span class="line">        print(<span class="string">"somethingElse "</span> + arg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SimpleProxy</span> <span class="keyword">implements</span> <span class="title">Interface</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Interface proxied;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SimpleProxy</span><span class="params">(Interface proxied)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.proxied = proxied;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        print(<span class="string">"SimpleProxy doSomething"</span>);</span><br><span class="line">        proxied.doSomething();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">somethingElse</span><span class="params">(String arg)</span> </span>&#123;</span><br><span class="line">        print(<span class="string">"SimpleProxy somethingElse "</span> + arg);</span><br><span class="line">        proxied.somethingElse(arg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SimpleProxyDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">consumer</span><span class="params">(Interface iface)</span> </span>&#123;</span><br><span class="line">        iface.doSomething();</span><br><span class="line">        iface.somethingElse(<span class="string">"bonobo"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        consumer(<span class="keyword">new</span> RealObject());</span><br><span class="line">        consumer(<span class="keyword">new</span> SimpleProxy(<span class="keyword">new</span> RealObject()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* Output:</span></span><br><span class="line"><span class="comment">doSomething</span></span><br><span class="line"><span class="comment">somethingElse bonobo</span></span><br><span class="line"><span class="comment">SimpleProxy doSomething</span></span><br><span class="line"><span class="comment">doSomething</span></span><br><span class="line"><span class="comment">SimpleProxy somethingElse bonobo</span></span><br><span class="line"><span class="comment">somethingElse bonobo</span></span><br><span class="line"><span class="comment">*/</span><span class="comment">//:~</span></span><br></pre></td></tr></table></figure></p>
+<p>上面的代理方法稍微还有点缺陷，那就是需要每次都需要人为的去创建一个代理类，其实我们关注的只是代理了哪些操作，对于代理类的名字并不是那么的重要。<br>因此JAVA更进一步的完善了代理，使用反射的技术，实现了动态代理。</p>
+<p><strong>如何实现了动态代理？</strong><br>JAVA使用了Proxy类来实现动态代理的功能，如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DynamicProxyHandler</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>&#123;   </span><br><span class="line">  <span class="keyword">private</span> Object proxied;   </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">DynamicProxyHandler</span><span class="params">(Object proxied)</span> </span>&#123;     </span><br><span class="line">    <span class="keyword">this</span>.proxied = proxied;   </span><br><span class="line">  &#125;   </span><br><span class="line">  <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;     </span><br><span class="line">    System.out.println(<span class="string">"**** proxy: "</span> + proxy.getClass() + <span class="string">", method: "</span> + method + <span class="string">", args: "</span> + args);     </span><br><span class="line">    <span class="keyword">if</span>(args != <span class="keyword">null</span>)       </span><br><span class="line">    <span class="keyword">for</span>(Object arg : args)         </span><br><span class="line">    System.out.println(<span class="string">"  "</span> + arg);    </span><br><span class="line">    <span class="keyword">return</span> method.invoke(proxied, args);   </span><br><span class="line">  &#125;</span><br><span class="line">&#125;      </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SimpleDynamicProxy</span> </span>&#123;   </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">consumer</span><span class="params">(Interface iface)</span> </span>&#123;     </span><br><span class="line">    iface.doSomething();     </span><br><span class="line">    iface.somethingElse(<span class="string">"bonobo"</span>);   </span><br><span class="line">  &#125;   </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;     </span><br><span class="line">    RealObject real = <span class="keyword">new</span> RealObject();     </span><br><span class="line">    consumer(real);     </span><br><span class="line">    <span class="comment">// Insert a proxy and call again:     </span></span><br><span class="line">    Interface proxy = (Interface)Proxy.newProxyInstance(       </span><br><span class="line">    Interface.class.getClassLoader(),       </span><br><span class="line">    <span class="keyword">new</span> Class[]&#123; Interface.class &#125;,       </span><br><span class="line">    <span class="keyword">new</span> DynamicProxyHandler(real));     </span><br><span class="line">    consumer(proxy);   </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Proxy中的静态方法newProxyInstance(类加载器，代理的接口，代理的逻辑处理类)可以用来生成代理类：</p>
+<ol>
+<li>类加载器：作用暂时未知，以后讨论。</li>
+<li>代理的接口：一个Class数组。</li>
+<li>代理的逻辑处理类，实现了InvocationHandler接口，需要提供一个带参数构造器，把真正的对象传递进去，还需要实现里面的invoke(Object proxy, Method method, Object[] args)方法，再在调用反射方法method.invoke(proxied, args)前后我们可以添加需要代理的操作。<blockquote>
+<p>这里有个误区，就是构造器传进去的对象就是被代理的对象，注意到被代理的对象是method.invoke()中的proxied参数表示的对象，在这之间通过构造器穿进去的对象依然可以改变。</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="空对象"><a href="#空对象" class="headerlink" title="空对象"></a>空对象</h2><p>null在程序中很容易引起问题，因此最好给一个类创建一个表示“空”的空对象，空对象实现了空接口。如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Null</span> </span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;   </span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">final</span> String first;   </span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">final</span> String last;   </span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">final</span> String address;   </span><br><span class="line">  <span class="comment">// etc.   </span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(String first, String last, String address)</span></span>&#123;     </span><br><span class="line">    <span class="keyword">this</span>.first = first;     </span><br><span class="line">    <span class="keyword">this</span>.last = last;     </span><br><span class="line">    <span class="keyword">this</span>.address = address;   </span><br><span class="line">  &#125;    </span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;     </span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Person: "</span> + first + <span class="string">" "</span> + last + <span class="string">" "</span> + address;   </span><br><span class="line">  &#125;   </span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">NullPerson</span> <span class="keyword">extends</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">Null</span> </span>&#123;     </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">NullPerson</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">super</span>(<span class="string">"None"</span>, <span class="string">"None"</span>, <span class="string">"None"</span>);</span><br><span class="line">    &#125;     </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">"NullPerson"</span>;</span><br><span class="line">    &#125;   </span><br><span class="line">  &#125;   </span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Person NULL = <span class="keyword">new</span> NullPerson(); &#125;</span><br></pre></td></tr></table></figure></p>
+<p>空对象的判断和null的判断没什么区别，只是在使用对象中的方法或者字段的时候，可以避免出现空指针异常。</p>
+<h2 id="接口与类型信息"><a href="#接口与类型信息" class="headerlink" title="接口与类型信息"></a>接口与类型信息</h2><p><strong>通过RTII，绕过接口会增加耦合：</strong></p>
+<p>之前说了使用接口可以实现完全解耦，因为接口相当于一个安全机制，不会涉及到真正的类的信息，也就无法在代码中使用真正对象的其他方法，无法做关系到某个具体对象的硬编码。<br>但事实真的是这样的吗？其实，<br>只要我们在代码中看到这个接口具体的类是什么，我们就可以使用instanceOf结合转型转变成真正的类型。<br>这样接口解耦就毫无意义了。</p>
+<p><strong>如何防止这种情况？</strong></p>
+<p>我们可能会想，如果防止转型的发生就可以杜绝这种操作了。</p>
+<p><strong>如何防止转型的发生呢？</strong></p>
+<p>把真正的类信息设置成包类型的，这样可以杜绝转型的发生。</p>
+<p><strong>这样真的解决问题了吗？</strong></p>
+<p>通过设置访问权限我可以无法访问到真正的类型，但是只要我能知道你的字段，方法名称是什么，我还是能使用反射来调用。</p>
+<p>我们可能回想，<strong>能不能不让他看到我们类型的字段，方法名字了？</strong></p>
+<p>比如只发布编译后的代码，其实也没用，因为通过反编译，我还是能知道原来的类型信息。<br>实际上<em>使用反射，没有任何类信息可以隐藏起来</em>。</p>
+<p>如果执意使用反射，也就意味着没办法解耦了，那么也就得承受这种结果。<br>存在即合理，反射提供了一种后门，没准就能在某个时候解决特定的问题。</p>
+
+      
+    </div>
+    
+    
+    
+
+	
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2018/11/02/THING IN JAVA/14 类型信息/">14 类型信息</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 SunY 的个人博客">SunY</a></p>
+  <p><span>发布时间:</span>2018年11月02日 - 00:11</p>
+  <p><span>最后更新:</span>2018年12月12日 - 16:12</p>
+  <p><span>原始链接:</span><a href="/2018/11/02/THING IN JAVA/14 类型信息/" title="14 类型信息">https://sunyi720.github.io/2018/11/02/THING IN JAVA/14 类型信息/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2018/11/02/THING IN JAVA/14 类型信息/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="SunY 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="SunY 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JAVA编程思想/" rel="tag"><i class="fa fa-tag"></i> JAVA编程思想</a>
+          
+            <a href="/tags/Thinking-in-JAVA/" rel="tag"><i class="fa fa-tag"></i> Thinking in JAVA</a>
+          
+            <a href="/tags/类型信息/" rel="tag"><i class="fa fa-tag"></i> 类型信息</a>
+          
+            <a href="/tags/反射/" rel="tag"><i class="fa fa-tag"></i> 反射</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/26/THING IN JAVA/13 String/" rel="next" title="13 String">
+                <i class="fa fa-chevron-left"></i> 13 String
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/08/THING IN JAVA/16 数组/" rel="prev" title="16 数组">
+                16 数组 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjMzMS8xMjg2Ng=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/head.png" alt="SunY">
+            
+              <p class="site-author-name" itemprop="name">SunY</p>
+              <p class="site-description motion-element" itemprop="description">Lv.0</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/sunyi720" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="codersun2018@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#类型信息"><span class="nav-number">1.</span> <span class="nav-text">类型信息</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RTTI"><span class="nav-number">1.1.</span> <span class="nav-text">RTTI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Class对象"><span class="nav-number">1.2.</span> <span class="nav-text">Class对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类型转换前先做类型检查"><span class="nav-number">1.3.</span> <span class="nav-text">类型转换前先做类型检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注册工厂"><span class="nav-number">1.4.</span> <span class="nav-text">注册工厂</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#反射"><span class="nav-number">1.5.</span> <span class="nav-text">反射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#空对象"><span class="nav-number">1.6.</span> <span class="nav-text">空对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接口与类型信息"><span class="nav-number">1.7.</span> <span class="nav-text">接口与类型信息</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SunY</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("iTVMQ8rz1NpV1RJ716VOA2rG-gzGzoHsz", "j0zy5JQ2bmQXtJ8PeP5gAiKM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

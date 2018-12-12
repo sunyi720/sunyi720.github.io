@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JAVA编程思想,Thinking in JAVA,I/O流,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="I/O流File类仅从名字，我们很容易误解File表示一个真实存在的文件，但实际不是这样的 File类表示的含义？ 用FilePath来形容它会更加合适，它可以有以下的含义：  一个已存在的文件。 已存在的目录。 尚不存在的文件或目录。 这个文件或目录的特性。 这个文件或目录的一些操作。  之前在正则表达式中提到正则表达式结合I/O流可以实现对文件的检索。 如何实现文件的检索？ File类中有个p">
+<meta name="keywords" content="JAVA编程思想,Thinking in JAVA,I&#x2F;O流">
+<meta property="og:type" content="article">
+<meta property="og:title" content="18 IO">
+<meta property="og:url" content="https://sunyi720.github.io/2018/11/21/THING IN JAVA/18 IO流/index.html">
+<meta property="og:site_name" content="Sun">
+<meta property="og:description" content="I/O流File类仅从名字，我们很容易误解File表示一个真实存在的文件，但实际不是这样的 File类表示的含义？ 用FilePath来形容它会更加合适，它可以有以下的含义：  一个已存在的文件。 已存在的目录。 尚不存在的文件或目录。 这个文件或目录的特性。 这个文件或目录的一些操作。  之前在正则表达式中提到正则表达式结合I/O流可以实现对文件的检索。 如何实现文件的检索？ File类中有个p">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/18%20IO/1.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/18%20IO/2.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/18%20IO/3.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/18%20IO/4.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/18%20IO/5.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/18%20IO/6.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/18%20IO/7.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/18%20IO/8.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/18%20IO/9.png">
+<meta property="og:updated_time" content="2018-12-12T08:55:22.813Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="18 IO">
+<meta name="twitter:description" content="I/O流File类仅从名字，我们很容易误解File表示一个真实存在的文件，但实际不是这样的 File类表示的含义？ 用FilePath来形容它会更加合适，它可以有以下的含义：  一个已存在的文件。 已存在的目录。 尚不存在的文件或目录。 这个文件或目录的特性。 这个文件或目录的一些操作。  之前在正则表达式中提到正则表达式结合I/O流可以实现对文件的检索。 如何实现文件的检索？ File类中有个p">
+<meta name="twitter:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/18%20IO/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":20},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://sunyi720.github.io/2018/11/21/THING IN JAVA/18 IO流/">
+
+
+
+
+
+  <title>18 IO | Sun</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sun</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数字人生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2018/11/21/THING IN JAVA/18 IO流/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="SunY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">18 IO</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-21T18:00:00+08:00">
+                2018-11-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Thinking-in-Java-读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Thinking in Java 读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/11/21/THING IN JAVA/18 IO流/" class="leancloud_visitors" data-flag-title="18 IO">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="I-O流"><a href="#I-O流" class="headerlink" title="I/O流"></a>I/O流</h1><h2 id="File类"><a href="#File类" class="headerlink" title="File类"></a>File类</h2><p>仅从名字，我们很容易误解File表示一个真实存在的文件，但实际不是这样的</p>
+<p><strong>File类表示的含义？</strong></p>
+<p>用FilePath来形容它会更加合适，它可以有以下的含义：</p>
+<ol>
+<li>一个已存在的文件。</li>
+<li>已存在的目录。</li>
+<li>尚不存在的文件或目录。</li>
+<li>这个文件或目录的特性。</li>
+<li>这个文件或目录的一些操作。</li>
+</ol>
+<p>之前在正则表达式中提到正则表达式结合I/O流可以实现对文件的检索。</p>
+<p><strong>如何实现文件的检索？</strong></p>
+<p>File类中有个public String[] list(FilenameFilter filter)的方法，其中FilenameFilter就是定制过滤规则的接口，这个接口的内如很简单：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">FilenameFilter</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">accept</span><span class="params">(File dir, String name)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这是使用了策略模式。</p>
+<p><strong>如何向文件中读写数据？</strong></p>
+<p>有了文件还无法进行读写的操作，JAVA把能够产生数据输入和输出的数据源称为流，以此来屏蔽I/O设备处理数据的细节。</p>
+<h2 id="输入流-输出流"><a href="#输入流-输出流" class="headerlink" title="输入流/输出流"></a>输入流/输出流</h2><ul>
+<li><p>JAVA中用InterStream和Read表示可以产生数据的流，具有read()的方法。</p>
+</li>
+<li><p>JAVA中用OuterStream和Writer表示可以接口数据的流，具有write()的方法。<br>比如文件，如果要进行读数据，需要转成文件流(FileInputStream)。<br>还可以作为数据源的比如：</p>
+</li>
+</ul>
+<ol>
+<li>字符串</li>
+<li>字节数组</li>
+<li>管道</li>
+<li>一个由其他种类的流组成的序列</li>
+<li>其他数据流</li>
+</ol>
+<p><img src="/2018/11/21/THING IN JAVA/18 IO流/18 IO/1.png" alt="输入流InterStream"><br><img src="/2018/11/21/THING IN JAVA/18 IO流/18 IO/2.png" alt="输出流OuterStream"></p>
+<p>读写的方式有很多，因此一半不会直接使用InterStream和Read/OuterStream和Writer里的读写方法，一般都会包装一层，增强读写的功能，这也叫做装饰器模式。</p>
+<p><strong>什么是装饰器模式？</strong></p>
+<p>先说一个比较通俗的例子，玩游戏的时候，给人物穿戴各种装备，其实就是装饰器模式的一种应用，这个人物还是这个人物（这个接口还是这个接口），只是新的对象具有了更强大的功能。</p>
+<p>案例:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Troll</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">attack</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">int</span> <span class="title">getAttackPower</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">fleeBattle</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleTroll</span> <span class="keyword">implements</span> <span class="title">Troll</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(SimpleTroll.class);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attack</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    LOGGER.info(<span class="string">"The troll tries to grab you!"</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAttackPower</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">10</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fleeBattle</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    LOGGER.info(<span class="string">"The troll shrieks in horror and runs away!"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClubbedTroll</span> <span class="keyword">implements</span> <span class="title">Troll</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(ClubbedTroll.class);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> Troll decorated;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">ClubbedTroll</span><span class="params">(Troll decorated)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.decorated = decorated;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attack</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    decorated.attack();</span><br><span class="line">    LOGGER.info(<span class="string">"The troll swings at you with a club!"</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAttackPower</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> decorated.getAttackPower() + <span class="number">10</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fleeBattle</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    decorated.fleeBattle();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面的ClubbedTroll类就是一个装饰器，把我们的SimpleTroll类给包装了一下，让它更加强大。<br>说到包装，我们想到我们的适配器。</p>
+<p><strong>装饰器和适配器的区别是？</strong></p>
+<p>最本质的区别的：</p>
+<ol>
+<li>适配器会改变被包装的类来适用新的接口。</li>
+<li>装饰器不会改变接口。</li>
+</ol>
+<h2 id="流的装饰器"><a href="#流的装饰器" class="headerlink" title="流的装饰器"></a>流的装饰器</h2><p>I/O流对象的装饰器都是以FilterInputStream/FilterOuterStream为父类。</p>
+<p><strong>装饰什么？</strong><br>主要分为两类：</p>
+<ol>
+<li>改变读写方式的装饰器（DataInputStream/DataOuterStream）：流读写一般只读写一个字节，为了读写更多的类型，如int，float，boolean，double，char等。</li>
+<li>在内部提高读写性能的装饰器：如是否缓存，是否保留读写的行，是否把单一的字符推入输入流等等。</li>
+</ol>
+<p><img src="/2018/11/21/THING IN JAVA/18 IO流/18 IO/3.png" alt="装饰器DataInputStream"><br><img src="/2018/11/21/THING IN JAVA/18 IO流/18 IO/4.png" alt="装饰器DataOuterStream"></p>
+<p><strong>PrintStream和DataOuterStream有什么区别？</strong></p>
+<p>PrintStream:格式化的输出基本类型数据</p>
+<ol>
+<li>PrintStream会捕获IO异常，之后使用checkError()来获取输出成功还是失败。</li>
+<li>PrintStream作用是打印基本数据类型的数据，底层使用的是Writer，操作对象是字符（可以选择编码方式），里面使用了Formatter类，因此支持格式化的输出，System.out就是一种PrintStream类。</li>
+</ol>
+<p>DataOuterStream:以字节的形式存储基本类型数据</p>
+<ol>
+<li>将基本类型数据以字节的形式保存在流中，随后搭配的使用DataInputStream来获取这些数据。保持存取的顺序一致，就可以保证获取的数据准确无误。<blockquote>
+<p>RandomAccessFile 实现了 DataInput和DataOuter 因此可以看做是DataOuterStream和DataInputStream 的一个综合，除此之外还具有seek()等发方法来定位文件中的某个字节位置。</p>
+</blockquote>
+</li>
+</ol>
+<p><strong>一个字节一个字节处理的缺陷？</strong></p>
+<p>效率低，使用批量读写代替一个字节一个字节处理，增加一个缓冲区来辅助处理——BufferedInputStream/BufferedOutputStream：</p>
+<p><strong>如何理解BufferedInputStream的功能？</strong></p>
+<p>4个索引：<br>count：缓冲区有效数据<br>pos：当前缓冲区内读写的位置<br>markpos：标记<br>marklimit：缓冲区大小上限</p>
+<p>1个关键函数<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">fill</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">byte</span>[] buffer = getBufIfOpen();</span><br><span class="line">    <span class="keyword">if</span> (markpos &lt; <span class="number">0</span>)</span><br><span class="line">        pos = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (pos &gt;= buffer.length) &#123;</span><br><span class="line">        <span class="keyword">if</span> (markpos &gt; <span class="number">0</span>) &#123;  <span class="comment">/* can throw away early part of the buffer */</span></span><br><span class="line">            <span class="keyword">int</span> sz = pos - markpos;</span><br><span class="line">            System.arraycopy(buffer, markpos, buffer, <span class="number">0</span>, sz);</span><br><span class="line">            pos = sz;</span><br><span class="line">            markpos = <span class="number">0</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (buffer.length &gt;= marklimit) &#123;</span><br><span class="line">            markpos = -<span class="number">1</span>;   <span class="comment">/* buffer got too big, invalidate mark */</span></span><br><span class="line">            pos = <span class="number">0</span>;        <span class="comment">/* drop buffer contents */</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;            <span class="comment">/* grow buffer */</span></span><br><span class="line">            <span class="keyword">int</span> nsz = pos * <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (nsz &gt; marklimit)</span><br><span class="line">                nsz = marklimit;</span><br><span class="line">            <span class="keyword">byte</span> nbuf[] = <span class="keyword">new</span> <span class="keyword">byte</span>[nsz];</span><br><span class="line">            System.arraycopy(buffer, <span class="number">0</span>, nbuf, <span class="number">0</span>, pos);</span><br><span class="line">            <span class="keyword">if</span> (!bufUpdater.compareAndSet(<span class="keyword">this</span>, buffer, nbuf)) &#123;</span><br><span class="line">                <span class="comment">// Can't replace buf if there was an async close.</span></span><br><span class="line">                <span class="comment">// Note: This would need to be changed if fill()</span></span><br><span class="line">                <span class="comment">// is ever made accessible to multiple threads.</span></span><br><span class="line">                <span class="comment">// But for now, the only way CAS can fail is via close.</span></span><br><span class="line">                <span class="comment">// assert buf == null;</span></span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IOException(<span class="string">"Stream closed"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            buffer = nbuf;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    count = pos;</span><br><span class="line">    <span class="keyword">int</span> n = getInIfOpen().read(buffer, pos, buffer.length - pos);</span><br><span class="line">    <span class="keyword">if</span> (n &gt; <span class="number">0</span>)</span><br><span class="line">        count = n + pos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>根据if-esle分为以下5中情况：</p>
+<p>1.<br>pos&gt;count:读取完buffer中的数据<br>且 markpos&lt;0:buffer没有被标记<br>则 重新覆盖缓冲区数据</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">fill</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">byte</span>[] buffer = getBufIfOpen();</span><br><span class="line">    <span class="keyword">if</span> (markpos &lt; <span class="number">0</span>)</span><br><span class="line">        pos = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    count = pos;</span><br><span class="line">    <span class="keyword">int</span> n = getInIfOpen().read(buffer, pos, buffer.length - pos);</span><br><span class="line">    <span class="keyword">if</span> (n &gt; <span class="number">0</span>)</span><br><span class="line">        count = n + pos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2.<br>pos&gt;count:读取完buffer中的数据<br>且 markpos&gt;0:buffer有标记<br>且 buffer没有多余的空间<br>则 重新覆盖0到标记处的字节<br>且 令markpos=0</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">fill</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">byte</span>[] buffer = getBufIfOpen();</span><br><span class="line">    <span class="keyword">if</span> (markpos &gt;= <span class="number">0</span> &amp;&amp; pos &gt;= buffer.length) &#123;</span><br><span class="line">        <span class="keyword">if</span> (markpos &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">int</span> sz = pos - markpos;</span><br><span class="line">            System.arraycopy(buffer, markpos, buffer, <span class="number">0</span>, sz);</span><br><span class="line">            pos = sz;</span><br><span class="line">            markpos = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    count = pos;</span><br><span class="line">    <span class="keyword">int</span> n = getInIfOpen().read(buffer, pos, buffer.length - pos);</span><br><span class="line">    <span class="keyword">if</span> (n &gt; <span class="number">0</span>)</span><br><span class="line">        count = n + pos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3.<br>pos&gt;count:读取完buffer中的数据<br>且 markpos=0：表示已没有无效数据可覆盖<br>且 buffer没有多余的空间<br>且 buffer.length&lt;marklimit：没有达到扩充上限<br>则 扩充buffer大小</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">fill</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">byte</span>[] buffer = getBufIfOpen();</span><br><span class="line">    <span class="keyword">if</span> (markpos &gt;= <span class="number">0</span> &amp;&amp; pos &gt;= buffer.length) &#123;</span><br><span class="line">        <span class="keyword">if</span> ( (markpos &lt;= <span class="number">0</span>) &amp;&amp; (buffer.length &lt; marklimit) ) &#123;</span><br><span class="line">            <span class="keyword">int</span> nsz = pos * <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (nsz &gt; marklimit)</span><br><span class="line">                nsz = marklimit;</span><br><span class="line">            <span class="keyword">byte</span> nbuf[] = <span class="keyword">new</span> <span class="keyword">byte</span>[nsz];</span><br><span class="line">            System.arraycopy(buffer, <span class="number">0</span>, nbuf, <span class="number">0</span>, pos);</span><br><span class="line">            <span class="keyword">if</span> (!bufUpdater.compareAndSet(<span class="keyword">this</span>, buffer, nbuf)) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IOException(<span class="string">"Stream closed"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            buffer = nbuf;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    count = pos;</span><br><span class="line">    <span class="keyword">int</span> n = getInIfOpen().read(buffer, pos, buffer.length - pos);</span><br><span class="line">    <span class="keyword">if</span> (n &gt; <span class="number">0</span>)</span><br><span class="line">        count = n + pos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4.<br>pos&gt;count:读取完buffer中的数据<br>且 markpos=0：表示已没有无效数据可覆盖<br>且 buffer没有多余的空间<br>且 buffer.length&lt;marklimit：没有达到扩充上限<br>则 扩充buffer大小</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">fill</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">byte</span>[] buffer = getBufIfOpen();</span><br><span class="line">    <span class="keyword">if</span> (markpos &gt;= <span class="number">0</span> &amp;&amp; pos &gt;= buffer.length) &#123;</span><br><span class="line">        <span class="keyword">if</span> ( (markpos &lt;= <span class="number">0</span>) &amp;&amp; (buffer.length &gt;= marklimit) ) &#123;</span><br><span class="line">            markpos = -<span class="number">1</span>;   <span class="comment">/* buffer got too big, invalidate mark */</span></span><br><span class="line">            pos = <span class="number">0</span>;        <span class="comment">/* drop buffer contents */</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    count = pos;</span><br><span class="line">    <span class="keyword">int</span> n = getInIfOpen().read(buffer, pos, buffer.length - pos);</span><br><span class="line">    <span class="keyword">if</span> (n &gt; <span class="number">0</span>)</span><br><span class="line">        count = n + pos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>5.<br>pos&gt;count:读取完buffer中的数据<br>且 buffer有多余的空间<br>则 写入多余的空间<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">fill</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">byte</span>[] buffer = getBufIfOpen();</span><br><span class="line"></span><br><span class="line">    count = pos;</span><br><span class="line">    <span class="keyword">int</span> n = getInIfOpen().read(buffer, pos, buffer.length - pos);</span><br><span class="line">    <span class="keyword">if</span> (n &gt; <span class="number">0</span>)</span><br><span class="line">        count = n + pos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>按字节来读写数据的缺陷？</strong></p>
+<p>字节流只能很好的处理二进制数据，对于文本数据，使用字节流来处理就会显得格外的麻烦，需要解码才能转成字符串，并且有时候还会因为变长编码出现一些问题，因此采用字符流来读取数据的方式迫在眉睫。由此，JAVA在1.1发布了Reader和Writer。</p>
+<h2 id="标准I-O"><a href="#标准I-O" class="headerlink" title="标准I/O"></a>标准I/O</h2><p><strong>什么叫做标准？</strong></p>
+<p>也就数据源是控制台，从控制台输入输出数据。</p>
+<p>System.out 和 System.err都是PrintStream字符流<br>System.in 是 InputStream 只有读字节的方法read()，因此需要包装一下</p>
+<h2 id="NIO"><a href="#NIO" class="headerlink" title="NIO"></a>NIO</h2><p><strong>为什么需要NIO？</strong></p>
+<p>实际上有两个原因，文件IO和网络IO，文件IO的话好处是提高了读写的速度。网络IO的话是解决了阻塞IO的问题。</p>
+<blockquote>
+<p>书中只谈文件IO的提高，这一节知识点需要补充：socket和selector，以及网络IO方面的知识。</p>
+</blockquote>
+<p><strong>什么是阻塞？</strong></p>
+<p>就是进行在进行读写的时候，必须等待，这样效率很低。</p>
+<p><strong>如何提高了</strong></p>
+<ol>
+<li>面向缓冲区：NIO的缓冲区是和操作系统紧密关联的，因此效率更高。</li>
+<li>面向非阻塞：读写数据的时候不阻塞原应用进程。</li>
+<li>具有选择器：一个缓冲区可以通过选择器选择不同的通道。</li>
+</ol>
+<p><strong>如何使用NIO</strong></p>
+<p>这里主要讲解文件IO的使用：</p>
+<ul>
+<li><p>通道和缓冲器一起使用</p>
+<p>文件通道：FileChannel<br>唯一与通道交互的缓冲器：ByteBuffer<br>旧的I/O库有3个类被重写了，用以产生FileChannel：FileInputStream,FilterOuterStream和RandomAccessFile.</p>
+<ol>
+<li>获取通道getChannel()</li>
+<li>获取缓冲器ByteBuffer.allocate()或者ByteBuffer.allocateDirect()，后者更接近操作系统，虽然速度会更快，但是分配需额外的开支，需要抉择。</li>
+<li>从通道读到缓冲器中in.read(buffer)，调用filp()来转换缓冲器的状态（实际上是修改了缓冲器的position,limit,capacity），从缓冲器写到通道中out.write(buffer)，调用clear再次转换状态（实际上还是修改了缓冲器的position,limit,capacity）。</li>
+</ol>
+</li>
+<li><p>直接操作缓冲器的方法</p>
+<p>put()：存<br>get()：取<br>wrap()：包装已经存在的数组<br>rewind()：回到数据的起始点<br>还是如下图的各种修改缓冲器4个主要索引的方法：</p>
+<p><img src="/2018/11/21/THING IN JAVA/18 IO流/18 IO/5.png" alt="操作缓冲器"></p>
+<p>mark()需要配合reset()使用，前一个标记position的位置，后者回到标记点。</p>
+</li>
+</ul>
+<p><strong>clear()和rewind()的区别？</strong></p>
+<p>rewind()不会改变position的值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Buffer <span class="title">clear</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Buffer <span class="title">clear</span><span class="params">()</span> </span>&#123;   </span><br><span class="line">    position = <span class="number">0</span>;      <span class="comment">//设置为0</span></span><br><span class="line">    limit = capacity;    <span class="comment">//极限和容量相同</span></span><br><span class="line">    mark = -<span class="number">1</span>;   <span class="comment">//取消标记</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;   </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//把position设为0，把limit设为capacity，一般在把数据写入Buffer前调用。</span></span><br><span class="line"></span><br><span class="line"><span class="function">Buffer <span class="title">flip</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Buffer <span class="title">flip</span><span class="params">()</span> </span>&#123;   </span><br><span class="line">     limit = position;    </span><br><span class="line">     position = <span class="number">0</span>;   </span><br><span class="line">     mark = -<span class="number">1</span>;   </span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">this</span>;   </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//把limit设为当前position，把position设为0，一般在从Buffer读出数据前调用。</span></span><br><span class="line"></span><br><span class="line"><span class="function">Buffer <span class="title">rewind</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Buffer <span class="title">rewind</span><span class="params">()</span> </span>&#123;   </span><br><span class="line">    position = <span class="number">0</span>;   </span><br><span class="line">    mark = -<span class="number">1</span>;   </span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;   </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//把position设为0，limit不变，一般在把数据重写入Buffer前调用。</span></span><br></pre></td></tr></table></figure>
+<p>因为ByteBuffer是处理字节的，那么会有两个问题：</p>
+<p><strong>1 如何解决从字节到字符之间乱码问题？</strong></p>
+<p>输入到缓冲区前对字节进行编码:”qweqwewq”.getBytes(编码类型)<br>从缓冲区读取后对字节进行解码:new String(str,编码类型)</p>
+<p>使用Charser类做相应的转换：<br>Charset.forname(编码类型)。<br>ByteBuffer Charset.encode(CharBuffer)<br>CharBuffer Charset.decode(ByteBuffer)</p>
+<p><strong>2 如何支持更多的基本数据类型</strong></p>
+<p>使用视图缓冲器，如下图：</p>
+<p><img src="/2018/11/21/THING IN JAVA/18 IO流/18 IO/6.png" alt="视图缓冲器"></p>
+<p><strong>为什么称为视图缓冲器？</strong></p>
+<p>从视图缓冲器中读写了基本类型的数据，会使得最基本的ByteBuffer中存放的数据也发生变化。<br>这样的好处是：方便对基本数据类型的读写，我们可以很方便的把基本数据类型的数据读取到缓冲器中，同时也可以很方便的从缓冲器中将基本数据类型写到通道中。</p>
+<p><strong>基本数据类型转成字节后的顺序有何影响？</strong></p>
+<p>默认是大端法，可以使用ByteBuffer类里面的 order(ByteOrder.BIG_ENDIAN/ByteOrder.LITTLE_ENDIAN)来修改成小端法。<br>大端法：高字节在低地址位。<br>小端法：高梓节在高地址位。</p>
+<p><strong>如何操作大文件（2GB）？</strong></p>
+<p>一整个大文件可能在内存中放不下，这时候需要使用内存映射文件——RandomAccessFile<br>使用方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LargeMappedFiles</span> </span>&#123;   <span class="keyword">static</span> <span class="keyword">int</span> length = <span class="number">0x8FFFFFF</span>; <span class="comment">// 128 MB   </span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;     </span><br><span class="line">    MappedByteBuffer out = <span class="keyword">new</span> RandomAccessFile(<span class="string">"test.dat"</span>, <span class="string">"rw"</span>).getChannel().map(FileChannel.MapMode.READ_WRITE, <span class="number">0</span>,length);     </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++)       </span><br><span class="line">        out.put((<span class="keyword">byte</span>)’x’);     </span><br><span class="line">    print(<span class="string">"Finished writing"</span>);   </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = length/<span class="number">2</span>; i &lt; length/<span class="number">2</span> + <span class="number">6</span>; i++)       </span><br><span class="line">        printnb((<span class="keyword">char</span>)out.get(i));   </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>RandomAccessFile会把大文件的小部分一个个放到内存中，隐藏了其它已经交换出去了的部分的细节。</p>
+<p>即便传统的IO已经应用NIO优化过了，但是对于大文件的读写，映射内存文件的使用更有优势：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Stream Write: 0.56</span><br><span class="line">Mapped Write: 0.12</span><br><span class="line">Stream Read: 0.80</span><br><span class="line">Mapped Read: 0.07</span><br><span class="line">Stream Read/Write: 5.32</span><br><span class="line">Mapped Read/Write: 0.02</span><br></pre></td></tr></table></figure></p>
+<p>对数据的读写就涉及到锁的问题，并且系统上的文件竞争的可能是两个完全不同的环境，这时候仅仅使用JVM的加锁可能无法控制，传统的IO没有处理这个问题，<strong>NIO如何解决？</strong></p>
+<p>NIO的加锁直接映射到本地操作系统的加锁工具<br>简单的使用案例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileLocking</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;     </span><br><span class="line">    FileOutputStream fos= <span class="keyword">new</span> FileOutputStream(<span class="string">"file.txt"</span>);     </span><br><span class="line">    FileLock fl = fos.getChannel().tryLock();     </span><br><span class="line">    <span class="keyword">if</span>(fl != <span class="keyword">null</span>) &#123;       </span><br><span class="line">      System.out.println(<span class="string">"Locked File"</span>);       </span><br><span class="line">      TimeUnit.MILLISECONDS.sleep(<span class="number">100</span>);       </span><br><span class="line">      fl.release();      </span><br><span class="line">       System.out.println(<span class="string">"Released Lock"</span>);     </span><br><span class="line">     &#125;     </span><br><span class="line">     fos.close();   </span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>加琐是通道来执行的，还可以使用lock(long position，long size，boolean shared)，区别是lock()是阻塞的，tryLock(long position，long size，boolean shared)是非阻塞的。方法中的参数前两个表示加锁的位置，第三个表示是否可共享。</p>
+<blockquote>
+<p>之前说错对资源的异常处理应该使用嵌套try-finally</p>
+</blockquote>
+<h2 id="压缩"><a href="#压缩" class="headerlink" title="压缩"></a>压缩</h2><p><img src="/2018/11/21/THING IN JAVA/18 IO流/18 IO/7.png" alt="压缩"><br>使用压缩功能的装饰器</p>
+<p><strong>如何使用？</strong></p>
+<ol>
+<li>单个文件压缩</li>
+</ol>
+<p>使用GZIPInputStream或者ZIPInputStream包装一下直接读写即可。</p>
+<ol start="2">
+<li>多个文件压缩</li>
+</ol>
+<p>方式1：<br>使用ZIPInputStream/ZIPOutputStream，必须结合ZipEntry<br>ZipEntry:压缩文件中的子文件<br>ZIPOutputStream.putNextEntry(ZipEntry):指定下一个子文件的名字，注释，等等属性，之后所有的数据都是压缩到这个子文件中。<br>ZIPInputStream.getNextEntry()：指定下一个需要解压的子文件。</p>
+<p>如果是解压缩，有更简单的方法，使用ZipFile，提供了enrtyies方法进行遍历每一个ZipEntry。</p>
+<blockquote>
+<p>这是个独立的File，并不是继承File</p>
+</blockquote>
+<p>ZipFile: 压缩文件</p>
+<p><strong>确保压缩的文件的正确性？</strong></p>
+<p>使用CheckInputStream和CheckOutptuStream计算校验和</p>
+<p><strong>jar和zip的区别？（Copy）</strong></p>
+<p>JAR 文件格式以流行的 ZIP 文件格式为基础。JAR 格式允许您压缩文件以提高存储效率。与 ZIP 文件不同的是，JAR 文件不仅用于压缩和发布，而且还用于部署和封装库、组件和插件程序，并可被像编译器和 JVM 这样的工具直接使用。在 JAR 中包含特殊的文件，如 manifests 和部署描述符，用来指示工具如何处理特定的 JAR。</p>
+<h2 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h2><p><strong>为什么需要序列化？</strong></p>
+<ol>
+<li>轻量级持久化应用：比如将对象序列化后的序列保存下来，下次程序启动的时候恢复。</li>
+<li>远程方法调用：在其他计算机上恢复该对象。</li>
+</ol>
+<p><strong>如何使用？</strong></p>
+<ol>
+<li>实现Serializable接口</li>
+<li>使用ObjectOutputStream/ObjectInputStream读写对象。</li>
+</ol>
+<p><strong>对象从序列化恢复的过程需要做哪些工作？</strong></p>
+<ol>
+<li>寻找Class文件，找不到会抛出异常。</li>
+<li>反序列化</li>
+</ol>
+<p><strong>如何控制需要序列化的字段？</strong></p>
+<ol>
+<li>使用transiant关键词，取消改字段自动化。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> String username;   </span><br><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> String password;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>实现Externalizable接口，实现readObject()和writeObject()自定义序列化<blockquote>
+<p>Externalizable会在一开始调用所有的默认构造器，若无法调用，则无法序列化</p>
+</blockquote>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class Blip3 implements Externalizable &#123;   </span><br><span class="line">  private int i=1;  </span><br><span class="line">  private String s=&quot;123&quot;; // No initialization    </span><br><span class="line">  public void writeExternal(ObjectOutput out)   throws IOException &#123;</span><br><span class="line">    print(&quot;Blip3.writeExternal&quot;);     </span><br><span class="line">    // You must do this:     </span><br><span class="line">    out.writeObject(s);     </span><br><span class="line">    out.writeInt(i);   </span><br><span class="line">  &#125;</span><br><span class="line">  public void readExternal(ObjectInput in) throws IOException , ClassNotFoundException &#123;     print(&quot;Blip3.readExternal&quot;);    </span><br><span class="line">  // You must do this:     </span><br><span class="line">  s = (String)in.readObject();     </span><br><span class="line">  i = in.readInt();   </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>实现Sernalizable接口，也可以做到Externalizable同样的功效，不过要求必须“添加”以下两个方法：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">writeObject</span><span class="params">(ObjectOutputStream stream)</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">readObject</span><span class="params">(ObjectlnputStream stream)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException</span></span><br></pre></td></tr></table></figure>
+<p>ObjectOutputStream/ObjectInputStream读写时候会使用反射去判断Sernalizable的实现中有没有这两个方法。<br>在writeObject中调用stream.defaultWriteObject()（必须作为第一个方法），可以使用默认机制写入非transient部分。</p>
+<hr>
+<p><strong>序列化后的字节是怎样的？</strong></p>
+<p>对象案例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">parent</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;  </span><br><span class="line">       <span class="keyword">int</span> parentVersion = <span class="number">10</span>;  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">contain</span> <span class="keyword">implements</span> <span class="title">Serializable</span></span>&#123;  </span><br><span class="line">       <span class="keyword">int</span> containVersion = <span class="number">11</span>;  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SerialTest</span> <span class="keyword">extends</span> <span class="title">parent</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;  </span><br><span class="line">       <span class="keyword">int</span> version = <span class="number">66</span>;  </span><br><span class="line">       contain con = <span class="keyword">new</span> contain();  </span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getVersion</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">              <span class="keyword">return</span> version;  </span><br><span class="line">       &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>序列化的结果如下图：</p>
+<p><img src="/2018/11/21/THING IN JAVA/18 IO流/18 IO/8.png" alt="序列化字节分析"><br><img src="/2018/11/21/THING IN JAVA/18 IO流/18 IO/9.png" alt="序列化字节分析"></p>
+<p>有一个需要注意的点是：上图中开头的4个字节AC ED 00 05是ObjectOutputStream建立的后就会被写入的，即便没有序列化的对象也会有这4个字节，因此如果重复的生成ObjectOutputStream流，会出现AC ED 00 05 AC ED 00 05的情况，这时候后一串AC ED 00 05会被当做对象字节处理，这时候会抛出StreamCorruptedException异常，<strong>如何解决？</strong></p>
+<p>AC ED 00 05的信息是由 ObjectOutputStream.writeSystemHeader()写进入的，因此对于之后重复创建的ObjectOutputStream流，必须重写这个方法，使其不写入这些头信息。</p>
+<p><strong>反序列化后的对象（包括对象里的对象）是否一样？</strong></p>
+<p>说到一样，就涉及到内容一样（地址不一样，深复制）和地址一样（浅复制）。<br>关于这一部分内容下面的链接可供学习：<br>[深复制和浅复制]<a href="https://www.cnblogs.com/yxnchinahlj/archive/2010/09/20/1831615.html" target="_blank" rel="noopener">https://www.cnblogs.com/yxnchinahlj/archive/2010/09/20/1831615.html</a><br>使用序列化是深复制。<br>但是需要注意的是，<em>在单一流里，相同的对象序列最后反序列化对来的对象地址是一样的。</em></p>
+<p><strong>static会被序列化么？</strong></p>
+<p>序列化的是对象的状态，static的信息是类的状态，放在静态区中，因此不会被序列化。如果希望传递static字段的值，需要把这个值给序列化，之后反序列后重新赋值。</p>
+<h2 id="XML"><a href="#XML" class="headerlink" title="XML"></a>XML</h2><p>Serializable的序列化字节只有JAVA才能反序列化，XML是国际上约定的一种序列化文本，可供JAVA和其它各种语言来进行序列化和反序列化。意味着一个XML文件，往往对应着JAVA中的一个或者多个对象。</p>
+<p>java语言有XOM类库支持转换XML的简单使用。</p>
+<h2 id="Preferences"><a href="#Preferences" class="headerlink" title="Preferences"></a>Preferences</h2><p>一种更小更简单的序列化方式，同时也比较有限。JAVA中preferences类提供支持。</p>
+
+      
+    </div>
+    
+    
+    
+
+	
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2018/11/21/THING IN JAVA/18 IO流/">18 IO</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 SunY 的个人博客">SunY</a></p>
+  <p><span>发布时间:</span>2018年11月21日 - 18:11</p>
+  <p><span>最后更新:</span>2018年12月12日 - 16:12</p>
+  <p><span>原始链接:</span><a href="/2018/11/21/THING IN JAVA/18 IO流/" title="18 IO">https://sunyi720.github.io/2018/11/21/THING IN JAVA/18 IO流/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2018/11/21/THING IN JAVA/18 IO流/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="SunY 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="SunY 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JAVA编程思想/" rel="tag"><i class="fa fa-tag"></i> JAVA编程思想</a>
+          
+            <a href="/tags/Thinking-in-JAVA/" rel="tag"><i class="fa fa-tag"></i> Thinking in JAVA</a>
+          
+            <a href="/tags/I-O流/" rel="tag"><i class="fa fa-tag"></i> I/O流</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/15/THING IN JAVA/17 容器/" rel="next" title="17 容器">
+                <i class="fa fa-chevron-left"></i> 17 容器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/26/THING IN JAVA/19 枚举/" rel="prev" title="19 枚举">
+                19 枚举 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjMzMS8xMjg2Ng=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/head.png" alt="SunY">
+            
+              <p class="site-author-name" itemprop="name">SunY</p>
+              <p class="site-description motion-element" itemprop="description">Lv.0</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/sunyi720" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="codersun2018@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#I-O流"><span class="nav-number">1.</span> <span class="nav-text">I/O流</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#File类"><span class="nav-number">1.1.</span> <span class="nav-text">File类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输入流-输出流"><span class="nav-number">1.2.</span> <span class="nav-text">输入流/输出流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流的装饰器"><span class="nav-number">1.3.</span> <span class="nav-text">流的装饰器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标准I-O"><span class="nav-number">1.4.</span> <span class="nav-text">标准I/O</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NIO"><span class="nav-number">1.5.</span> <span class="nav-text">NIO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#压缩"><span class="nav-number">1.6.</span> <span class="nav-text">压缩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#序列化"><span class="nav-number">1.7.</span> <span class="nav-text">序列化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XML"><span class="nav-number">1.8.</span> <span class="nav-text">XML</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Preferences"><span class="nav-number">1.9.</span> <span class="nav-text">Preferences</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SunY</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("iTVMQ8rz1NpV1RJ716VOA2rG-gzGzoHsz", "j0zy5JQ2bmQXtJ8PeP5gAiKM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

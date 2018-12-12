@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JAVA编程思想,Thinking in JAVA,枚举,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="枚举类型 使用枚举类相比静态变量的优势： 1.使用枚举作为参数，有类型检查的机制，比String作为参数更加安全。 2.提供了很多方法来操作枚举类，更加方便。 3.甚至可以自定义某个枚举类相关的方法。 values()的神秘之处枚举类继承了Enum，但是Enum并没有values()方法，那么，values()从哪来的？ 由编译器帮我们生成。至于为什么这样处理，暂不了解。 Enum没有实现valu">
+<meta name="keywords" content="JAVA编程思想,Thinking in JAVA,枚举">
+<meta property="og:type" content="article">
+<meta property="og:title" content="19 枚举">
+<meta property="og:url" content="https://sunyi720.github.io/2018/11/26/THING IN JAVA/19 枚举/index.html">
+<meta property="og:site_name" content="Sun">
+<meta property="og:description" content="枚举类型 使用枚举类相比静态变量的优势： 1.使用枚举作为参数，有类型检查的机制，比String作为参数更加安全。 2.提供了很多方法来操作枚举类，更加方便。 3.甚至可以自定义某个枚举类相关的方法。 values()的神秘之处枚举类继承了Enum，但是Enum并没有values()方法，那么，values()从哪来的？ 由编译器帮我们生成。至于为什么这样处理，暂不了解。 Enum没有实现valu">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-12-12T08:45:23.373Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="19 枚举">
+<meta name="twitter:description" content="枚举类型 使用枚举类相比静态变量的优势： 1.使用枚举作为参数，有类型检查的机制，比String作为参数更加安全。 2.提供了很多方法来操作枚举类，更加方便。 3.甚至可以自定义某个枚举类相关的方法。 values()的神秘之处枚举类继承了Enum，但是Enum并没有values()方法，那么，values()从哪来的？ 由编译器帮我们生成。至于为什么这样处理，暂不了解。 Enum没有实现valu">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":20},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://sunyi720.github.io/2018/11/26/THING IN JAVA/19 枚举/">
+
+
+
+
+
+  <title>19 枚举 | Sun</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sun</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数字人生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2018/11/26/THING IN JAVA/19 枚举/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="SunY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">19 枚举</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-26T11:27:00+08:00">
+                2018-11-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Thinking-in-Java-读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Thinking in Java 读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/11/26/THING IN JAVA/19 枚举/" class="leancloud_visitors" data-flag-title="19 枚举">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="枚举类型"><a href="#枚举类型" class="headerlink" title="枚举类型"></a>枚举类型</h1><p> 使用枚举类相比静态变量的优势：<br> 1.使用枚举作为参数，有类型检查的机制，比String作为参数更加安全。<br> 2.提供了很多方法来操作枚举类，更加方便。<br> 3.甚至可以自定义某个枚举类相关的方法。</p>
+<h2 id="values-的神秘之处"><a href="#values-的神秘之处" class="headerlink" title="values()的神秘之处"></a>values()的神秘之处</h2><p>枚举类继承了Enum，但是Enum并没有values()方法，那么，<strong>values()从哪来的？</strong></p>
+<p>由编译器帮我们生成。至于为什么这样处理，暂不了解。</p>
+<p><strong>Enum没有实现values()方法带来的问题？</strong></p>
+<p>向上转型的枚举类无法使用values方法，也就意味着无法通过Enum来获取具体的类型信息。<br>当然，我们知道，使用反射基本是无所不能的，并且反射对枚举类型有一些特殊的处理方法。<br>通过getClass()可以获取实际的枚举类型，然后调用getEnumConstants()可以获取枚举类。</p>
+<p><strong>编译器还帮我们做了哪些处理？</strong></p>
+<ol>
+<li>继承了Enum类</li>
+<li>加上final关键词，使得无法被继承。</li>
+<li>重载了valueOf()方法。<blockquote>
+<p>注意是继承，也就意味着枚举类无法继承其他的类。</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><p>由于枚举无法继承，有时也会带来一些使用上的不便，比如给枚举分类的问题，比如拓展枚举类的问题。</p>
+<p><strong>对于无法继承的补偿：</strong></p>
+<ol>
+<li>使用实现进行分类</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Food</span> </span>&#123;</span><br><span class="line">    <span class="keyword">enum</span> Appetizer implements Food &#123;SALAD, SOUP, SPRING_ROLLS;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">enum</span> MainCourse implements Food &#123;LASAGNE, BURRITO, PAD_THAI, LENTILS, HUMMOUS, VINDALOO;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">enum</span> Dessert implements Food &#123;TIRAMISU, GELATO, BLACK_FOREST_CAKE, FRUIT, CREME_CARAMEL;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">enum</span> Coffee implements Food &#123;BLACK_COFFEE, DECAF_COFFEE, ESPRESSO, LATTE, CAPPUCCINO, TEA, HERB_TEA;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接口内的成员变量是final static public的，把枚举类放在接口类纯粹简洁，方便管理。<br>使用方法:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Food food = Food.Appetizer.SALAD;</span><br></pre></td></tr></table></figure></p>
+<p>上面存在的一个限制是，如果我要遍历所有的枚举类（比如我要浏览一个菜单中所有的菜品），会显得不太方便，解决方案是使用组合：如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> Meal2 &#123;</span><br><span class="line">    APPETIZER(Food.Appetizer.class), MAINCOURSE(Food.MainCourse.class), DESSERT(Food.Dessert.class), COFFEE(Food.Coffee.class);</span><br><span class="line">    <span class="keyword">private</span> Food[] values;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Meal2</span><span class="params">(Class&lt;? extends Food&gt; kind)</span> </span>&#123;</span><br><span class="line">        values = kind.getEnumConstants();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Food</span> </span>&#123;</span><br><span class="line">        <span class="keyword">enum</span> Appetizer implements Food &#123;SALAD, SOUP, SPRING_ROLLS;&#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">enum</span> MainCourse implements Food &#123;LASAGNE, BURRITO, PAD_THAI, LENTILS, HUMMOUS, VINDALOO;&#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">enum</span> Dessert implements Food &#123;TIRAMISU, GELATO, BLACK_FOREST_CAKE, FRUIT, CREME_CARAMEL;&#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">enum</span> Coffee implements Food &#123;BLACK_COFFEE, DECAF_COFFEE, ESPRESSO, LATTE, CAPPUCCINO, TEA, HERB_TEA;&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Food <span class="title">randomSelection</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Enums.random(values);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (Meal2 meal : Meal2.values()) &#123;</span><br><span class="line">                Food food = meal.randomSelection();</span><br><span class="line">                System.out.println(food);</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(<span class="string">"---"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面类似把枚举放到了另一个枚举类中，遍历起来会带来很大的方便。<br>关于上面两种用法，都是对于无法继承的一个补偿，但是总的来说，使用枚举的初衷就在于简单，所以尽量不要考虑太多复杂的代码。</p>
+<h2 id="适应枚举的容器"><a href="#适应枚举的容器" class="headerlink" title="适应枚举的容器"></a>适应枚举的容器</h2><p>枚举类还有个不足就是一旦定义之后，就无法增加或者删除，那么如果有时候需要对一个固定的枚举类做一个筛选，就需要配合容器来使用，但是枚举类相比其他的类型天生就有一个“去重”的优势，考虑到这个优势，就可以设计使用枚举类的更高效的容器：</p>
+<p><strong>如何设计更高效的Set容器?</strong></p>
+<p>EnumSet：底层使用位运算实现，速度不要太快。用来操作枚举类<br>把所有的枚举类都放到Set中作为所有的元素，保证不重复。<br>用Long的位数0，1来决定某个枚举实例存在性。</p>
+<p>使用方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建一个包含指定元素类型的所有元素的枚举 set</span></span><br><span class="line">EnumSet&lt;SexTwo&gt; setAll = EnumSet.allOf(SexTwo.class);</span><br><span class="line"><span class="comment">//创建一个指定范围的Set</span></span><br><span class="line">EnumSet&lt;SexTwo&gt; setRange = EnumSet.range(SexTwo.MALE,SexTwo.FEMALE);</span><br><span class="line"><span class="comment">//创建一个指定枚举类型的空set</span></span><br><span class="line">EnumSet&lt;SexTwo&gt; setEmpty = EnumSet.noneOf(SexTwo.class);</span><br><span class="line"><span class="comment">//复制一个set</span></span><br><span class="line">EnumSet&lt;SexTwo&gt; setNew = EnumSet.copyOf(setRange);</span><br></pre></td></tr></table></figure></p>
+<p>虽然Long只有64位，限制了枚举类中实例的个数，但是Long[]就不只64位了，这也是EnumSet有两个实现的原因。</p>
+<p><strong>如何设计更高效的Map容器?</strong></p>
+<p>EnumMap：底层使用数组作为实现，速度也不要太快。<br>让枚举类作为key，确保了key的不重复。<br>枚举类的ordinal()作为数组的索引。</p>
+<h2 id="枚举类的应用"><a href="#枚举类的应用" class="headerlink" title="枚举类的应用"></a>枚举类的应用</h2><ol>
+<li>用作责任链</li>
+</ol>
+<p><strong>什么是责任链模式？</strong></p>
+<p>在面向对象的设计中，责任链模式是由命令对象源和一系列处理对象组成的设计模式。每个处理对象都包含定义它可以处理的命令对象类型的逻辑;其余的传递给链中的下一个处理对象。（维基百科）<br>特性：<br>①一个请求传递给很多个处理对象，不是指向性的，自动寻找可以被解决的处理对象。<br>②能够处理请求的对象称为责任链，是可以动态生成的。</p>
+<p>生成责任链有很多种方式，下面给出一种使用链表的方式：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> RequestType &#123;</span><br><span class="line">  DEFEND_CASTLE, TORTURE_PRISONER, COLLECT_TAX</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Request</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> RequestType requestType;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> String requestDescription;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">boolean</span> handled;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">Request</span><span class="params">(<span class="keyword">final</span> RequestType requestType, <span class="keyword">final</span> String requestDescription)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.requestType = Objects.requireNonNull(requestType);</span><br><span class="line">    <span class="keyword">this</span>.requestDescription = Objects.requireNonNull(requestDescription);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">getRequestDescription</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> requestDescription; &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> RequestType <span class="title">getRequestType</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> requestType; &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">markHandled</span><span class="params">()</span> </span>&#123; <span class="keyword">this</span>.handled = <span class="keyword">true</span>; &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isHandled</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> <span class="keyword">this</span>.handled; &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> getRequestDescription(); &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">RequestHandler</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(RequestHandler.class);</span><br><span class="line">  <span class="keyword">private</span> RequestHandler next;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">RequestHandler</span><span class="params">(RequestHandler next)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.next = next;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleRequest</span><span class="params">(Request req)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (next != <span class="keyword">null</span>) &#123;</span><br><span class="line">      next.handleRequest(req);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">printHandling</span><span class="params">(Request req)</span> </span>&#123;</span><br><span class="line">    LOGGER.info(<span class="string">"&#123;&#125; handling request \"&#123;&#125;\""</span>, <span class="keyword">this</span>, req);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> String <span class="title">toString</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OrcCommander</span> <span class="keyword">extends</span> <span class="title">RequestHandler</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">OrcCommander</span><span class="params">(RequestHandler handler)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(handler);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleRequest</span><span class="params">(Request req)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (req.getRequestType().equals(RequestType.DEFEND_CASTLE)) &#123;</span><br><span class="line">      printHandling(req);</span><br><span class="line">      req.markHandled();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">super</span>.handleRequest(req);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Orc commander"</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// OrcOfficer and OrcSoldier are defined similarly as OrcCommander</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OrcKing</span> </span>&#123;</span><br><span class="line">  RequestHandler chain;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">OrcKing</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    buildChain();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">buildChain</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    chain = <span class="keyword">new</span> OrcCommander(<span class="keyword">new</span> OrcOfficer(<span class="keyword">new</span> OrcSoldier(<span class="keyword">null</span>)));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">makeRequest</span><span class="params">(Request req)</span> </span>&#123;</span><br><span class="line">    chain.handleRequest(req);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    OrcKing king = <span class="keyword">new</span> OrcKing();</span><br><span class="line">    king.makeRequest(<span class="keyword">new</span> Request(RequestType.DEFEND_CASTLE, <span class="string">"defend castle"</span>)); <span class="comment">// Orc commander handling request "defend castle"</span></span><br><span class="line">    king.makeRequest(<span class="keyword">new</span> Request(RequestType.TORTURE_PRISONER, <span class="string">"torture prisoner"</span>)); <span class="comment">// Orc officer handling request "torture prisoner"</span></span><br><span class="line">    king.makeRequest(<span class="keyword">new</span> Request(RequestType.COLLECT_TAX, <span class="string">"collect tax"</span>)); <span class="comment">// Orc soldier handling request "collect tax"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用枚举类也可以构建责任链：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Mail</span> </span>&#123;   <span class="comment">// The NO’s lower the probability of random selection:   </span></span><br><span class="line">    <span class="keyword">enum</span> GeneralDelivery &#123;YES, NO1, NO2, NO3, NO4, NO5&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">enum</span> Scannability &#123;UNSCANNABLE, YES1, YES2, YES3, YES4&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">enum</span> Readability &#123;ILLEGIBLE, YES1, YES2, YES3, YES4&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">enum</span> Address &#123;INCORRECT, OK1, OK2, OK3, OK4, OK5, OK6&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">enum</span> ReturnAddress &#123;MISSING, OK1, OK2, OK3, OK4, OK5&#125;</span><br><span class="line"></span><br><span class="line">    GeneralDelivery generalDelivery;</span><br><span class="line">    Scannability scannability;</span><br><span class="line">    Readability readability;</span><br><span class="line">    Address address;</span><br><span class="line">    ReturnAddress returnAddress;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">long</span> counter = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">long</span> id = counter++;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Mail "</span> + id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">details</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> toString() + <span class="string">", General Delivery: "</span> + generalDelivery + <span class="string">", Address Scanability: "</span> + scannability + <span class="string">", Address Readability: "</span> + readability + <span class="string">", Address Address: "</span> + address + <span class="string">", Return address: "</span> + returnAddress;</span><br><span class="line">    &#125;   <span class="comment">// Generate test Mail:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Mail <span class="title">randomMail</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Mail m = <span class="keyword">new</span> Mail();</span><br><span class="line">        m.generalDelivery = Enums.random(GeneralDelivery.class);</span><br><span class="line">        m.scannability = Enums.random(Scannability.class);</span><br><span class="line">        m.readability = Enums.random(Readability.class);</span><br><span class="line">        m.address = Enums.random(Address.class);</span><br><span class="line">        m.returnAddress = Enums.random(ReturnAddress.class);</span><br><span class="line">        <span class="keyword">return</span> m;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Iterable&lt;Mail&gt; <span class="title">generator</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> count)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Iterable&lt;Mail&gt;() &#123;</span><br><span class="line">            <span class="keyword">int</span> n = count;</span><br><span class="line"></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Iterator&lt;Mail&gt; <span class="title">iterator</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> Iterator&lt;Mail&gt;() &#123;</span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                        <span class="keyword">return</span> n-- &gt; <span class="number">0</span>;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> Mail <span class="title">next</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                        <span class="keyword">return</span> randomMail();</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span> </span>&#123; <span class="comment">// Not implemented             </span></span><br><span class="line">                        <span class="keyword">throw</span> <span class="keyword">new</span> UnsupportedOperationException();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PostOffice</span> </span>&#123;</span><br><span class="line">    <span class="keyword">enum</span> MailHandler &#123;</span><br><span class="line">        GENERAL_DELIVERY &#123;</span><br><span class="line">            <span class="function"><span class="keyword">boolean</span> <span class="title">handle</span><span class="params">(Mail m)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">switch</span> (m.generalDelivery) &#123;</span><br><span class="line">                    <span class="keyword">case</span> YES:</span><br><span class="line">                        print(<span class="string">"Using general delivery for "</span> + m);</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                    <span class="keyword">default</span>:</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, MACHINE_SCAN &#123;</span><br><span class="line">            <span class="function"><span class="keyword">boolean</span> <span class="title">handle</span><span class="params">(Mail m)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">switch</span> (m.scannability) &#123;</span><br><span class="line">                    <span class="keyword">case</span> UNSCANNABLE:</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                    <span class="keyword">default</span>:</span><br><span class="line">                        <span class="keyword">switch</span> (m.address) &#123;</span><br><span class="line">                            <span class="keyword">case</span> INCORRECT:</span><br><span class="line">                                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                            <span class="keyword">default</span>:</span><br><span class="line">                                print(<span class="string">"Delivering "</span> + m + <span class="string">" automatically"</span>);</span><br><span class="line">                                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, VISUAL_INSPECTION &#123;</span><br><span class="line">            <span class="function"><span class="keyword">boolean</span> <span class="title">handle</span><span class="params">(Mail m)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">switch</span> (m.readability) &#123;</span><br><span class="line">                    <span class="keyword">case</span> ILLEGIBLE:</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                    <span class="keyword">default</span>:</span><br><span class="line">                        <span class="keyword">switch</span> (m.address) &#123;</span><br><span class="line">                            <span class="keyword">case</span> INCORRECT:</span><br><span class="line">                                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                            <span class="keyword">default</span>:</span><br><span class="line">                                print(<span class="string">"Delivering "</span> + m + <span class="string">" normally"</span>);</span><br><span class="line">                                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, RETURN_TO_SENDER &#123;</span><br><span class="line">            <span class="function"><span class="keyword">boolean</span> <span class="title">handle</span><span class="params">(Mail m)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">switch</span> (m.returnAddress) &#123;</span><br><span class="line">                    <span class="keyword">case</span> MISSING:</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                    <span class="keyword">default</span>:</span><br><span class="line">                        print(<span class="string">"Returning "</span> + m + <span class="string">" to sender"</span>);</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">abstract</span> <span class="keyword">boolean</span> <span class="title">handle</span><span class="params">(Mail m)</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">handle</span><span class="params">(Mail m)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (MailHandler handler : MailHandler.values()) <span class="keyword">if</span> (handler.handle(m)) <span class="keyword">return</span>;</span><br><span class="line">        print(m + <span class="string">" is a dead letter"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (Mail mail : Mail.generator(<span class="number">10</span>)) &#123;</span><br><span class="line">            print(mail.details());</span><br><span class="line">            handle(mail);</span><br><span class="line">            print(<span class="string">"*****"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="多路分发"><a href="#多路分发" class="headerlink" title="多路分发"></a>多路分发</h2><p><strong>什么是分发？</strong></p>
+<p>根据对象的类型而对方法进行的选择,就是分发(Dispatch)。</p>
+<p><strong>什么是静态分发和动态分发？</strong></p>
+<p>静态分发：编译时期根据对象的类型选择方法<br>动态分发：运行时期根据对象的实际类型“置换”正确的方法</p>
+<p><strong>什么是单路分发和多路分发？</strong></p>
+<p>单路分发：可以根据一个宗量的类型进行对方法的选择<br>多路分发：可以根据多于一个的宗量的类型对方法进行选择</p>
+<p><strong>JAVA所属的分发类别？</strong></p>
+<p>编译时期，可以根据参数的类型或者根据返回值得类型进行方法的选择，属于静态多路分发。<br>运行时期，可以根据返回值的实际类型进行方法的置换，无法根据参数的实际类型进行方法的置换，属于动态单路分发。</p>
+<p><strong>如何简洁的实现动态多路分发？</strong></p>
+<p>使用多次单路分发（一次动态：多态，一次静态：重载）来实现动态多路分发：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Item</span> </span>&#123;   </span><br><span class="line">  <span class="function">Outcome <span class="title">compete</span><span class="params">(Item it)</span></span>;   </span><br><span class="line">  <span class="function">Outcome <span class="title">eval</span><span class="params">(Paper p)</span></span>;   </span><br><span class="line">  <span class="function">Outcome <span class="title">eval</span><span class="params">(Scissors s)</span></span>;   </span><br><span class="line">  <span class="function">Outcome <span class="title">eval</span><span class="params">(Rock r)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Paper</span> <span class="keyword">implements</span> <span class="title">Item</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Outcome <span class="title">compete</span><span class="params">(Item it)</span> </span>&#123;<span class="keyword">return</span> it.eval(<span class="keyword">this</span>);&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Outcome <span class="title">eval</span><span class="params">(Paper p)</span> </span>&#123;<span class="keyword">return</span> DRAW;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Outcome <span class="title">eval</span><span class="params">(Scissors s)</span> </span>&#123;<span class="keyword">return</span> WIN;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Outcome <span class="title">eval</span><span class="params">(Rock r)</span> </span>&#123;<span class="keyword">return</span> LOSE;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> <span class="string">"Paper"</span>;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Scissors</span> <span class="keyword">implements</span> <span class="title">Item</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Outcome <span class="title">compete</span><span class="params">(Item it)</span> </span>&#123;<span class="keyword">return</span> it.eval(<span class="keyword">this</span>);&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Outcome <span class="title">eval</span><span class="params">(Paper p)</span> </span>&#123;<span class="keyword">return</span> LOSE;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Outcome <span class="title">eval</span><span class="params">(Scissors s)</span> </span>&#123;<span class="keyword">return</span> DRAW;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Outcome <span class="title">eval</span><span class="params">(Rock r)</span> </span>&#123;<span class="keyword">return</span> WIN;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> <span class="string">"Scissors"</span>;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rock</span> <span class="keyword">implements</span> <span class="title">Item</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Outcome <span class="title">compete</span><span class="params">(Item it)</span> </span>&#123;<span class="keyword">return</span> it.eval(<span class="keyword">this</span>);&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Outcome <span class="title">eval</span><span class="params">(Paper p)</span> </span>&#123;<span class="keyword">return</span> WIN;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Outcome <span class="title">eval</span><span class="params">(Scissors s)</span> </span>&#123;<span class="keyword">return</span> LOSE;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Outcome <span class="title">eval</span><span class="params">(Rock r)</span> </span>&#123;<span class="keyword">return</span> DRAW;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> <span class="string">"Rock"</span>;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RoShamBo1</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SIZE = <span class="number">20</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Random rand = <span class="keyword">new</span> Random(<span class="number">47</span>);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Item <span class="title">newItem</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">switch</span> (rand.nextInt(<span class="number">3</span>)) &#123;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> Scissors();</span><br><span class="line">            <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> Paper();</span><br><span class="line">            <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> Rock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">match</span><span class="params">(Item a, Item b)</span> </span>&#123;</span><br><span class="line">        System.out.println(a + <span class="string">" vs. "</span> + b + <span class="string">": "</span> + a.compete(b));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; SIZE; i++) match(newItem(), newItem());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>多路分发的作用？</strong></p>
+<p>在于可让调用方法的语法更加的优雅，效果就是不需要关注参数的具体类型，教给程序去判断。</p>
+<p>当把上面的多路分发的方法用于枚举类类型的时候，会有问题。原因在于枚举类无法实现重载，<strong>怎么办？</strong></p>
+<p>自然有适用于枚举类的多路分发的方法，案例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Competitor</span>&lt;<span class="title">T</span> <span class="keyword">extends</span> <span class="title">Competitor</span>&lt;<span class="title">T</span>&gt;&gt; </span>&#123;   <span class="function">Outcome <span class="title">compete</span><span class="params">(T competitor)</span></span>; &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RoShamBo</span> </span>&#123;   </span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> &lt;T extends Competitor&lt;T&gt;&gt; <span class="function"><span class="keyword">void</span> <span class="title">match</span><span class="params">(T a, T b)</span> </span>&#123;    </span><br><span class="line">    System.out.println(       a + <span class="string">" vs. "</span> + b + <span class="string">": "</span> +  a.compete(b));   </span><br><span class="line">  &#125;   </span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> &lt;T extends Enum&lt;T&gt; &amp; Competitor&lt;T&gt;&gt; <span class="function"><span class="keyword">void</span> <span class="title">play</span><span class="params">(Class&lt;T&gt; rsbClass, <span class="keyword">int</span> size)</span> </span>&#123;    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++)</span><br><span class="line">    match(Enums.random(rsbClass) , Enums.random(rsbClass));   </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> RoShamBo2 implements Competitor&lt;RoShamBo2&gt; &#123;</span><br><span class="line">    PAPER(DRAW, LOSE, WIN), SCISSORS(WIN, DRAW, LOSE), ROCK(LOSE, WIN, DRAW);</span><br><span class="line">    <span class="keyword">private</span> Outcome vPAPER, vSCISSORS, vROCK;</span><br><span class="line"></span><br><span class="line">    RoShamBo2(Outcome paper, Outcome scissors, Outcome rock) &#123;</span><br><span class="line">        <span class="keyword">this</span>.vPAPER = paper;</span><br><span class="line">        <span class="keyword">this</span>.vSCISSORS = scissors;</span><br><span class="line">        <span class="keyword">this</span>.vROCK = rock;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Outcome <span class="title">compete</span><span class="params">(RoShamBo2 it)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">switch</span> (it) &#123;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">case</span> PAPER:</span><br><span class="line">                <span class="keyword">return</span> vPAPER;</span><br><span class="line">            <span class="keyword">case</span> SCISSORS:</span><br><span class="line">                <span class="keyword">return</span> vSCISSORS;</span><br><span class="line">            <span class="keyword">case</span> ROCK:</span><br><span class="line">                <span class="keyword">return</span> vROCK;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        RoShamBo.play(RoShamBo2.class, <span class="number">20</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>于之前的相比，区别在于第一次使用了枚举类的方法调用，第二次使用了枚举类的switch()。</p>
+<p>可以使用EnumMap进一步优化：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">table = <span class="keyword">new</span> EnumMap&lt;RoShamBo5,EnumMap&lt;RoShamBo5,Outcome&gt;&gt;(RoShamBo5.class);</span><br></pre></td></tr></table></figure></p>
+<p>因为对于枚举类的多路分发而言，没有复杂的逻辑的情况下，保存两个不同参数下的结果（写死）即可。<br>既然结果已经写死了，那么可以进一步使用数组优化：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> Outcome[][] table = &#123;     </span><br><span class="line">  &#123; DRAW, LOSE, WIN &#125;, <span class="comment">// PAPER     </span></span><br><span class="line">  &#123; WIN, DRAW, LOSE &#125;, <span class="comment">// SCISSORS     </span></span><br><span class="line">  &#123; LOSE, WIN, DRAW &#125;, <span class="comment">// ROCK   </span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>数组的维度可以使用ordinal()来取得。</p>
+
+      
+    </div>
+    
+    
+    
+
+	
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2018/11/26/THING IN JAVA/19 枚举/">19 枚举</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 SunY 的个人博客">SunY</a></p>
+  <p><span>发布时间:</span>2018年11月26日 - 11:11</p>
+  <p><span>最后更新:</span>2018年12月12日 - 16:12</p>
+  <p><span>原始链接:</span><a href="/2018/11/26/THING IN JAVA/19 枚举/" title="19 枚举">https://sunyi720.github.io/2018/11/26/THING IN JAVA/19 枚举/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2018/11/26/THING IN JAVA/19 枚举/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="SunY 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="SunY 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JAVA编程思想/" rel="tag"><i class="fa fa-tag"></i> JAVA编程思想</a>
+          
+            <a href="/tags/Thinking-in-JAVA/" rel="tag"><i class="fa fa-tag"></i> Thinking in JAVA</a>
+          
+            <a href="/tags/枚举/" rel="tag"><i class="fa fa-tag"></i> 枚举</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/21/THING IN JAVA/18 IO流/" rel="next" title="18 IO">
+                <i class="fa fa-chevron-left"></i> 18 IO
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/26/THING IN JAVA/20 注解/" rel="prev" title="20 注解">
+                20 注解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjMzMS8xMjg2Ng=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/head.png" alt="SunY">
+            
+              <p class="site-author-name" itemprop="name">SunY</p>
+              <p class="site-description motion-element" itemprop="description">Lv.0</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/sunyi720" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="codersun2018@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#枚举类型"><span class="nav-number">1.</span> <span class="nav-text">枚举类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#values-的神秘之处"><span class="nav-number">1.1.</span> <span class="nav-text">values()的神秘之处</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分类"><span class="nav-number">1.2.</span> <span class="nav-text">分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#适应枚举的容器"><span class="nav-number">1.3.</span> <span class="nav-text">适应枚举的容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#枚举类的应用"><span class="nav-number">1.4.</span> <span class="nav-text">枚举类的应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多路分发"><span class="nav-number">1.5.</span> <span class="nav-text">多路分发</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SunY</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("iTVMQ8rz1NpV1RJ716VOA2rG-gzGzoHsz", "j0zy5JQ2bmQXtJ8PeP5gAiKM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

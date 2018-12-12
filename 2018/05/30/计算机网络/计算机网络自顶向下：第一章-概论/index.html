@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机网络,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1 什么是网络1.1 硬件和软件组成了计算机网络 终端系统用网络上的通信链路和分组交换器连接在一起  通信链路：由不同类型的物理媒介构成，包括同轴电缆，铜线，光纤和无线电频谱。不同的链路能以不同的速率传递数据，单位是bit/s。这里链路并不是指一个具体的物理路线，而是一个抽象的含义。 分组交换器：将由输入通信链路中获取的分组转发到输出通信链路中,主要有两种：路由器和链路层交换器。链路层交换器一般用">
+<meta name="keywords" content="计算机网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络自顶向下：第一章-概论">
+<meta property="og:url" content="https://sunyi720.github.io/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/index.html">
+<meta property="og:site_name" content="Sun">
+<meta property="og:description" content="1 什么是网络1.1 硬件和软件组成了计算机网络 终端系统用网络上的通信链路和分组交换器连接在一起  通信链路：由不同类型的物理媒介构成，包括同轴电缆，铜线，光纤和无线电频谱。不同的链路能以不同的速率传递数据，单位是bit/s。这里链路并不是指一个具体的物理路线，而是一个抽象的含义。 分组交换器：将由输入通信链路中获取的分组转发到输出通信链路中,主要有两种：路由器和链路层交换器。链路层交换器一般用">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://sunyi720.github.io/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/计算机网络组成.PNG">
+<meta property="og:image" content="https://sunyi720.github.io/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/协议.PNG">
+<meta property="og:image" content="https://sunyi720.github.io/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/终端系统交互.PNG">
+<meta property="og:image" content="https://sunyi720.github.io/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/访问网络.PNG">
+<meta property="og:image" content="https://sunyi720.github.io/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/DSL网络接入方式.PNG">
+<meta property="og:image" content="https://sunyi720.github.io/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/HFC网络接入方式.PNG">
+<meta property="og:image" content="https://sunyi720.github.io/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/FTTP-PONs.PNG">
+<meta property="og:image" content="https://sunyi720.github.io/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/以太网络接入.PNG">
+<meta property="og:image" content="https://sunyi720.github.io/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/网络核心.PNG">
+<meta property="og:image" content="https://sunyi720.github.io/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/分组交换.PNG">
+<meta property="og:image" content="https://sunyi720.github.io/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/存储转发传输.PNG">
+<meta property="og:image" content="https://sunyi720.github.io/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/电路交换.PNG">
+<meta property="og:image" content="https://sunyi720.github.io/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/FDM和TDM.PNG">
+<meta property="og:updated_time" content="2018-08-17T08:13:08.524Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="计算机网络自顶向下：第一章-概论">
+<meta name="twitter:description" content="1 什么是网络1.1 硬件和软件组成了计算机网络 终端系统用网络上的通信链路和分组交换器连接在一起  通信链路：由不同类型的物理媒介构成，包括同轴电缆，铜线，光纤和无线电频谱。不同的链路能以不同的速率传递数据，单位是bit/s。这里链路并不是指一个具体的物理路线，而是一个抽象的含义。 分组交换器：将由输入通信链路中获取的分组转发到输出通信链路中,主要有两种：路由器和链路层交换器。链路层交换器一般用">
+<meta name="twitter:image" content="https://sunyi720.github.io/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/计算机网络组成.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":20},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://sunyi720.github.io/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/">
+
+
+
+
+
+  <title>计算机网络自顶向下：第一章-概论 | Sun</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sun</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数字人生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="SunY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">计算机网络自顶向下：第一章-概论</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-30T21:02:19+08:00">
+                2018-05-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/计算机网络/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/" class="leancloud_visitors" data-flag-title="计算机网络自顶向下：第一章-概论">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-什么是网络"><a href="#1-什么是网络" class="headerlink" title="1 什么是网络"></a>1 什么是网络</h1><h2 id="1-1-硬件和软件组成了计算机网络"><a href="#1-1-硬件和软件组成了计算机网络" class="headerlink" title="1.1 硬件和软件组成了计算机网络"></a>1.1 硬件和软件组成了计算机网络</h2><p><img src="/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/计算机网络组成.PNG" alt="计算机网络组成"></p>
+<p>终端系统用网络上的<strong>通信链路</strong>和<strong>分组交换器</strong>连接在一起</p>
+<ul>
+<li>通信链路：由不同类型的物理媒介构成，包括同轴电缆，铜线，光纤和无线电频谱。不同的链路能以不同的速率传递数据，单位是bit/s。这里链路并不是指一个具体的物理路线，而是一个抽象的含义。</li>
+<li><p>分组交换器：将由输入通信链路中获取的分组转发到输出通信链路中,主要有两种：路由器和链路层交换器。链路层交换器一般用来访问网络，路由器一般用来组成网络核心（网络分为网络核心和网络边缘两个部分）。</p>
+</li>
+<li><p>终端系统通过 <strong>互联网服务供应商(ISP)</strong> 来访问互联网，IPS就是和一些在不同场合提供访问互联网方法的一些机构，譬如电信公司。</p>
+</li>
+<li><p>协议：控制终端系统，分组交换器或者其他互联网部分接受和发送信息。其中TCP和IP是两个主要协议：IP协议指定在路由器和终端系统之间发送和接收的数据包的格式。互联网的主要协议统称为TCP/IP。</p>
+</li>
+</ul>
+<h2 id="1-2-作为服务分布式应用的基础设施"><a href="#1-2-作为服务分布式应用的基础设施" class="headerlink" title="1.2 作为服务分布式应用的基础设施"></a>1.2 作为服务分布式应用的基础设施</h2><p>我们也可以从一个完全不同的角度来描述网络，即作为向应用程序提供服务的基础架构。这些应用程序包括电子邮件，网上冲浪，社交网络，即时消息，IP语音（VoIP），视频流，分布式游戏，P2P文件共享，互联网电视，远程登录等等。<br>首先我们需要在终端上编写我们的应用程序，我们可以使用JAVA,C或者Python等语言，接着我们需要通过API来接入互联网。</p>
+<ul>
+<li>API：互联网API是发送程序必须遵循的一组规则，以便互联网可以将数据传送到目标程序。</li>
+</ul>
+<h2 id="1-3-什么是协议"><a href="#1-3-什么是协议" class="headerlink" title="1.3 什么是协议"></a>1.3 什么是协议</h2><p>用人类协议来类比，通常我们用“HI”来表示我们想要和别人交流，如果别人回复“HI”则表示愿意交流，若回复 “Don’t bother me!” or “I don’t speak English”则没有继续交流的必要了。</p>
+<p><img src="/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/协议.PNG" alt="计算机网络组成"></p>
+<ul>
+<li>协议：协议定义了两个或多个通信实体之间交换消息的格式和顺序，以及在传输和/或接收消息或其他事件时采取的行动。</li>
+</ul>
+<h1 id="2-网络边缘"><a href="#2-网络边缘" class="headerlink" title="2 网络边缘"></a>2 网络边缘</h1><p><img src="/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/终端系统交互.PNG" alt="计算机网络组成"></p>
+<p>如上图，电脑和其他网络设备被称为终端系统，因为他们处于网络的边缘部分。通常我们把主机也叫做终端系统，主机分为客户端和服务器。</p>
+<ul>
+<li>客户端：桌面，移动电脑，手机等等。</li>
+<li>服务器：功能比较强大的机器。</li>
+</ul>
+<h2 id="2-1-网络接入"><a href="#2-1-网络接入" class="headerlink" title="2.1 网络接入"></a>2.1 网络接入</h2><p><img src="/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/访问网络.PNG" alt="计算机网络组成"></p>
+<p>如图：分为三种访问类型：家庭网络接入，企业网络接入，移动网络接入。</p>
+<h3 id="2-1-2-家庭网络接入：DSL，Cable，FTTH，Dial-Up，and-Satellite"><a href="#2-1-2-家庭网络接入：DSL，Cable，FTTH，Dial-Up，and-Satellite" class="headerlink" title="2.1.2 家庭网络接入：DSL，Cable，FTTH，Dial-Up，and Satellite"></a>2.1.2 家庭网络接入：DSL，Cable，FTTH，Dial-Up，and Satellite</h3><p>如今，最主要的两种带宽住宅接入方式是DSL和Cable。</p>
+<ol>
+<li><p>通过数字用户线接入（DSL）：和电信公司提供的本地电话接入方式一致，共用已经存在的电话线。此时，电信公司同时也作为ISP。</p>
+<p><img src="/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/DSL网络接入方式.PNG" alt="计算机网络组成"></p>
+<ul>
+<li>DSL调制解调器：获取数字数据并将它转换成高频音（模拟信号）通过电话线路传输到电信公司中心办公室。</li>
+<li>DSL接入复用器（DSLAM）：将模拟信号转换回数字信号。</li>
+</ul>
+<p>电话线中有3中不同的频率，以区别网络数据和电话信号：</p>
+<ol>
+<li>高速下载通道：50kHz-11MH</li>
+<li>中速上传通道：4kHz-50kHz</li>
+<li>普通双向电话通话：0-4kHz</li>
+</ol>
+</li>
+<li><p>Cable：使用了有限电视公式已经存在的有限电视基础设施。</p>
+<p><img src="/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/HFC网络接入方式.PNG" alt="计算机网络组成"></p>
+<ul>
+<li>有线调制解调器：和DSL调制解调器作用一样，是一个外部设备，通过以太网接口端口连接PC。</li>
+<li>有线调制解调器终端系统（CMTS）:和DSLAM作用一样。</li>
+</ul>
+<p>上面两种方式占90%，之外还有一种速度更快的接入方式。FTTH（fiber to the home）</p>
+</li>
+<li><p>FTTP(fiber to the home)</p>
+<p>直接提供一个光纤路线从中心办公室连到家。<br>对于从CO到家的光纤分布，有几种不同的竞争技术，其中最简单的光分布网络是直纤，一条光纤从CO到一个家庭。然而，更普遍的是CO的每一条光纤都由多个家庭共享，直到离家庭足够近，才会被分割为各个家庭特别的光纤。有两种竞争的光分配网络体系结构执行这种分割：有源光网络（AONs）和无源光网络（PONs）。有源光网络本质上是交换的以太网，将在第五章讨论。接下来简单的讨论PONs。如下图：</p>
+<p><img src="/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/FTTP-PONs.PNG" alt="计算机网络组成"></p>
+<p>每个家庭都有一个光纤网络终端（ONT），它通过专用光纤连接到一个邻居分离器。该分路器将多个家庭（通常少于100个）组合到单个共享光纤上，该光纤连接到电信公司的CO中的光线路终端器（OLT）。OLT提供光信号和电信号之间的转换，连接到通过电信路由器上网。</p>
+</li>
+</ol>
+<h3 id="2-1-3-企业网络接入（家庭也有）：以太网和WIFI"><a href="#2-1-3-企业网络接入（家庭也有）：以太网和WIFI" class="headerlink" title="2.1.3 企业网络接入（家庭也有）：以太网和WIFI"></a>2.1.3 企业网络接入（家庭也有）：以太网和WIFI</h3><ol>
+<li>以太网接入</li>
+</ol>
+<p>将在第五章具体讨论。</p>
+<p><img src="/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/以太网络接入.PNG" alt="计算机网络组成"></p>
+<ol start="2">
+<li>WIFI</li>
+</ol>
+<p>基于IEEE 802.11技术的无线局域网接入，通俗地称为WiFi，现在几乎遍布各处 - 大学，商务办公室，咖啡馆，机场，甚至飞机。</p>
+<p>将在第六章具体讨论。</p>
+<h3 id="2-1-3-广域无线接入：3G和LTE"><a href="#2-1-3-广域无线接入：3G和LTE" class="headerlink" title="2.1.3 广域无线接入：3G和LTE"></a>2.1.3 广域无线接入：3G和LTE</h3><p>将在第六章具体讨论。</p>
+<h1 id="3-网络核心"><a href="#3-网络核心" class="headerlink" title="3 网络核心"></a>3 网络核心</h1><p>互联网终端系统的分组交换和链路网格</p>
+<p><img src="/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/网络核心.PNG" alt="计算机网络组成"></p>
+<h2 id="3-1-分组交换"><a href="#3-1-分组交换" class="headerlink" title="3.1 分组交换"></a>3.1 分组交换</h2><p><img src="/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/分组交换.PNG" alt="计算机网络组成"></p>
+<ul>
+<li>分组：源将长消息分解成已知的更小的数据块。</li>
+<li>通信链路：由不同类型的物理媒介构成，包括同轴电缆，铜线，光纤和无线电频谱。不同的链路能以不同的速率传递数据，单位是bit/s。</li>
+<li>分组交换器：将由输入通信链路中获取的分组转发到输出通信链路中,主要有两种：路由器和链路层交换器。链路层交换器一般用来访问网络，路由器一般用来组成网络核心（网络分为网络核心和网络边缘两个部分）。</li>
+</ul>
+<h3 id="3-1-1-存储转发传输"><a href="#3-1-1-存储转发传输" class="headerlink" title="3.1.1 存储转发传输"></a>3.1.1 存储转发传输</h3><p><img src="/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/存储转发传输.PNG" alt="计算机网络组成"></p>
+<p>每个分组交换器都采用了存储——转发的方式。<br>分组交换器必须接收整个分组，才能开始将分组的第一个比特发送到出站链路。因此，第一个比特到了分组交换器后必须等待其他所有的分组比特到来才能继续发送到下一个分组交换器中，所以在这个过程中就有存储——转发时延，也叫发送时延。</p>
+<h3 id="3-1-2-排队时延和数据包丢失"><a href="#3-1-2-排队时延和数据包丢失" class="headerlink" title="3.1.2 排队时延和数据包丢失"></a>3.1.2 排队时延和数据包丢失</h3><p>每个分组交换器都有很多个相连的链路，每个链路都有一个输出缓存，来决定下一个将被发送的分组。因此除了存储——转发时延之外还有排队时延。排队时延依赖于网络的拥堵状态。<br>由于缓冲区空间的数量是有限的，到达的数据包可能会发现缓冲区已满，其他数据包正在等待传输。在这种情况下，会发生数据包丢失 - 到达的数据包或其中一个已排队的数据包将被丢弃。</p>
+<h2 id="3-1-3-转发表和路由协议"><a href="#3-1-3-转发表和路由协议" class="headerlink" title="3.1.3 转发表和路由协议"></a>3.1.3 转发表和路由协议</h2><p>每一个终端系统都有一个地址叫IP地址。当源端系统想要将数据包发送到目标端系统时，源包括数据包报头中的目标IP地址。与邮政地址一样，该地址具有分层结构。当数据包到达网络中的路由器时，路由器检查数据包的目标地址的一部分，并将数据包转发给相邻的路由器。更具体地说，每个路由器都有一个转发表，用于将目标地址（或部分目标地址）映射到该路由器的出站链路。那么这个转发表是如何来的呢？<br>网络中有许多特殊的路由协议，用于自动设置转发表。比如，一个路由协议可能采用最短路算法来生成转发表。</p>
+<h2 id="3-2-电路交换"><a href="#3-2-电路交换" class="headerlink" title="3.2 电路交换"></a>3.2 电路交换</h2><p>在电路交换网络中，为端系统之间的通信时提供的沿路径所需的资源（缓冲器，链路传输速率）被保留用于终端系统之间的通信会话期间。在分组交换网络中，这些资源不被保留; 会话的消息按需使用资源，因此可能不得不等待（即队列）访问通信链接。作为一个简单的比喻，考虑两家餐厅，一家需要预订，另一家既不需要预订也不需要接受预订。对于需要预订的餐厅，我们必须在离开家之前经历呼叫的麻烦。但是，当我们到达餐厅时，我们原则上可以立即坐下来点餐。对于不需要预订的餐厅，我们无需费心预订餐桌。但是，当我们到达餐厅时，我们可能不得不等待桌子才能坐下。<br>电路交换中，在发送端能发送消息前，会在发送端和接收端中先建立一个连接，确认连接路线中哪些交换器会保持连接状态。同时，也会保持一个固定的链路传输速率（代表了一个链路传输容量的分数）。<br>之前我们说的电话网络就是采用的电路交换的方式。</p>
+<p><img src="/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/电路交换.PNG" alt="计算机网络组成"></p>
+<p>如上图，有3台主机通过4个分组交换器和4个链路连接，每个链路有4个电路。当终端A要与终端B进行通讯时，网络先在两台主机之间建立一个连接，首先确认需要通过的分组交换器，然后确定选择连接的链路中的哪条电路，如第一条链路中选择了第二条电路，第二条链路中选择了第四条电路。此时整个电路交换连接的速率将会是总链路速率的四分之一。</p>
+<h3 id="3-2-1-电路交换中的复用"><a href="#3-2-1-电路交换中的复用" class="headerlink" title="3.2.1 电路交换中的复用"></a>3.2.1 电路交换中的复用</h3><p><img src="/2018/05/30/计算机网络/计算机网络自顶向下：第一章-概论/FDM和TDM.PNG" alt="计算机网络组成"></p>
+<p>链路中的电路采用频分复用（FDM）或者时分复用（TDM）来实施。</p>
+<ul>
+<li>FDM：链路频率范围在链路上建立的连接之间进行划分。</li>
+<li>TDM：被分成固定持续时间的帧，并且每个帧被分成固定数量的时隙。</li>
+</ul>
+<h3 id="3-2-2-电路交换和分组交换的比较"><a href="#3-2-2-电路交换和分组交换的比较" class="headerlink" title="3.2.2 电路交换和分组交换的比较"></a>3.2.2 电路交换和分组交换的比较</h3><p>相比电路交换，分组交换不适合实时服务，比如打电话，视频通话，因为可能存在的时延（主要是排队时延）。而优点是（1）提供更好的共享传输容量。（2）更简单，更高效，实施成本更低。</p>
+
+      
+    </div>
+    
+    
+    
+
+	
+	<div>
+      
+        
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="SunY 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="SunY 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机网络/" rel="tag"><i class="fa fa-tag"></i> 计算机网络</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/29/计算机系统原理/计算机系统原理：第三章-程序的机器级别表示/" rel="next" title="计算机系统原理：第三章-程序的机器级别表示">
+                <i class="fa fa-chevron-left"></i> 计算机系统原理：第三章-程序的机器级别表示
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/01/THING IN JAVA/09 接口/" rel="prev" title="09 接口">
+                09 接口 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjMzMS8xMjg2Ng=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/head.png" alt="SunY">
+            
+              <p class="site-author-name" itemprop="name">SunY</p>
+              <p class="site-description motion-element" itemprop="description">Lv.0</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/sunyi720" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="codersun2018@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-什么是网络"><span class="nav-number">1.</span> <span class="nav-text">1 什么是网络</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-硬件和软件组成了计算机网络"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 硬件和软件组成了计算机网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-作为服务分布式应用的基础设施"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 作为服务分布式应用的基础设施</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-什么是协议"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 什么是协议</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-网络边缘"><span class="nav-number">2.</span> <span class="nav-text">2 网络边缘</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-网络接入"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 网络接入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2-家庭网络接入：DSL，Cable，FTTH，Dial-Up，and-Satellite"><span class="nav-number">2.1.1.</span> <span class="nav-text">2.1.2 家庭网络接入：DSL，Cable，FTTH，Dial-Up，and Satellite</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-3-企业网络接入（家庭也有）：以太网和WIFI"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.1.3 企业网络接入（家庭也有）：以太网和WIFI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-3-广域无线接入：3G和LTE"><span class="nav-number">2.1.3.</span> <span class="nav-text">2.1.3 广域无线接入：3G和LTE</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-网络核心"><span class="nav-number">3.</span> <span class="nav-text">3 网络核心</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-分组交换"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 分组交换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-1-存储转发传输"><span class="nav-number">3.1.1.</span> <span class="nav-text">3.1.1 存储转发传输</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-2-排队时延和数据包丢失"><span class="nav-number">3.1.2.</span> <span class="nav-text">3.1.2 排队时延和数据包丢失</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-3-转发表和路由协议"><span class="nav-number">3.2.</span> <span class="nav-text">3.1.3 转发表和路由协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-电路交换"><span class="nav-number">3.3.</span> <span class="nav-text">3.2 电路交换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-电路交换中的复用"><span class="nav-number">3.3.1.</span> <span class="nav-text">3.2.1 电路交换中的复用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-电路交换和分组交换的比较"><span class="nav-number">3.3.2.</span> <span class="nav-text">3.2.2 电路交换和分组交换的比较</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SunY</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("iTVMQ8rz1NpV1RJ716VOA2rG-gzGzoHsz", "j0zy5JQ2bmQXtJ8PeP5gAiKM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

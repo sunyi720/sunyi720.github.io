@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JAVA编程思想,Thinking in JAVA,异常,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="异常概念为什么需要异常机制？ 可以集中处理处理程序中出现的错误。使程序员把精力花在要解决的问题上。成功的情况只有一种，错误的情况是无限的（未知的才是最可怕的）。 和约定返回一个错误码相比，有什么有优势？  可以用更优美的方式处理。 对于错误信息，我可以直接抛出，没有必要“先判断错误类型，然后返回该错误信息”（如C），因为我函数的返回类型有可能是有意义的，这样可以在外层统一处理所有被抛出的异常。 对">
+<meta name="keywords" content="JAVA编程思想,Thinking in JAVA,异常">
+<meta property="og:type" content="article">
+<meta property="og:title" content="12 异常">
+<meta property="og:url" content="https://sunyi720.github.io/2018/10/25/THING IN JAVA/12 异常/index.html">
+<meta property="og:site_name" content="Sun">
+<meta property="og:description" content="异常概念为什么需要异常机制？ 可以集中处理处理程序中出现的错误。使程序员把精力花在要解决的问题上。成功的情况只有一种，错误的情况是无限的（未知的才是最可怕的）。 和约定返回一个错误码相比，有什么有优势？  可以用更优美的方式处理。 对于错误信息，我可以直接抛出，没有必要“先判断错误类型，然后返回该错误信息”（如C），因为我函数的返回类型有可能是有意义的，这样可以在外层统一处理所有被抛出的异常。 对">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-12-12T08:45:23.362Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="12 异常">
+<meta name="twitter:description" content="异常概念为什么需要异常机制？ 可以集中处理处理程序中出现的错误。使程序员把精力花在要解决的问题上。成功的情况只有一种，错误的情况是无限的（未知的才是最可怕的）。 和约定返回一个错误码相比，有什么有优势？  可以用更优美的方式处理。 对于错误信息，我可以直接抛出，没有必要“先判断错误类型，然后返回该错误信息”（如C），因为我函数的返回类型有可能是有意义的，这样可以在外层统一处理所有被抛出的异常。 对">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":20},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://sunyi720.github.io/2018/10/25/THING IN JAVA/12 异常/">
+
+
+
+
+
+  <title>12 异常 | Sun</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sun</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数字人生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2018/10/25/THING IN JAVA/12 异常/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="SunY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">12 异常</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-25T12:05:00+08:00">
+                2018-10-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Thinking-in-Java-读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Thinking in Java 读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/10/25/THING IN JAVA/12 异常/" class="leancloud_visitors" data-flag-title="12 异常">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p><strong>为什么需要异常机制？</strong></p>
+<p>可以集中处理处理程序中出现的错误。<br>使程序员把精力花在要解决的问题上。<br>成功的情况只有一种，错误的情况是无限的（未知的才是最可怕的）。</p>
+<p><strong>和约定返回一个错误码相比，有什么有优势？</strong></p>
+<ol>
+<li>可以用更优美的方式处理。</li>
+<li>对于错误信息，我可以直接抛出，没有必要“先判断错误类型，然后返回该错误信息”（如C），因为我函数的返回类型有可能是有意义的，这样可以在外层统一处理所有被抛出的异常。</li>
+<li>对于检查异常，会强迫程序员去处理，这样减缓了程序员的马虎不小心。</li>
+<li>对于非检查异常，即便在运行时期发生了，未处理的程序员也可以通过异常信息很好的定位错误的位置。</li>
+</ol>
+<h2 id="基本异常"><a href="#基本异常" class="headerlink" title="基本异常"></a>基本异常</h2><ol>
+<li>普通问题：在当前方法内可以处理异常。</li>
+<li>异常情形：必须要抛出的情况。</li>
+</ol>
+<p>标准异常的构造器：</p>
+<ol>
+<li>默认构造器</li>
+<li>接受字符串为参数的构造器</li>
+</ol>
+<p><strong>如何抛出异常？</strong></p>
+<p>使用throws+异常抛出<br>在方法后面加throws是声明这个方法可能会抛出<br>实际上抛出不抛出由这个方法的实现而定</p>
+<p><strong>抛出异常和方法返回的相似之处：</strong></p>
+<p>他们都会从当前方法跳出，仅此而已。至于跳出后的落点，完全不一样。（异常在异常处理程序中落脚）</p>
+<h2 id="捕获异常"><a href="#捕获异常" class="headerlink" title="捕获异常"></a>捕获异常</h2><p>当前方法抛出了异常如果不处理，那么需要在方法后当前方法加throws是声明这个方法继续抛出，当前方法结束并且跳出，那么总要在某个地方处理被抛出的异常，否则就会一直跳出，知道终止程序。</p>
+<p><strong>如果不希望终止程序，如何处理</strong></p>
+<p>像C一样在源代码的后面放上一堆判断错误类型的代码并处理吗？不需要<br>在try{}里编写的代码会捕获异常，然后结合异常处理程序catch{}来处理异常。</p>
+<h2 id="自定义异常"><a href="#自定义异常" class="headerlink" title="自定义异常"></a>自定义异常</h2><p>实现Exception即可。</p>
+<p><strong>如何打印异常信息？</strong><br>Throwable中有printStackTrace()方法，打印<em>从方法调用处到异常抛出处</em>的方法调用序列<br>Exception实现了Throwable<br>默认printStackTrace()是将信息输出到System.err中<br>使用printStackTrace(System.out)可以把异常序列输出到控制台。</p>
+<h2 id="捕获所有异常"><a href="#捕获所有异常" class="headerlink" title="捕获所有异常"></a>捕获所有异常</h2><p><strong>什么是轨迹栈？</strong></p>
+<p>轨迹栈可以理解为异常在被捕获打印出来的时候都经历了哪些方法，并且按照从里到外的顺序记录着（实际上就是方法栈的顺序）。</p>
+<p><strong>如果我在捕获之后重新抛出，轨迹先改变了吗？</strong></p>
+<p>我的理解是，这个异常对象没有改变重新被抛出，它记录的轨迹栈就没有变化，</p>
+<p><strong>轨迹线没有变化如何理解？</strong></p>
+<p>看案例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Rethrowing</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">f</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"originating the exception in f()"</span>);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"thrown from f()"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">g</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            f();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            System.out.println(<span class="string">"Inside g(),e.printStackTrace()"</span>);</span><br><span class="line">            e.printStackTrace(System.out);</span><br><span class="line">            <span class="keyword">throw</span> e;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            g();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            System.out.println(<span class="string">"main: printStackTrace()"</span>);</span><br><span class="line">            e.printStackTrace(System.out);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* Output:</span></span><br><span class="line"><span class="comment">originating the exception in f()</span></span><br><span class="line"><span class="comment">Inside g(),e.printStackTrace()</span></span><br><span class="line"><span class="comment">java.lang.Exception: thrown from f()         </span></span><br><span class="line"><span class="comment">    at Rethrowing.f(Rethrowing.java:7)         </span></span><br><span class="line"><span class="comment">    at Rethrowing.g(Rethrowing.java:11)         </span></span><br><span class="line"><span class="comment">    at Rethrowing.main(Rethrowing.java:29)</span></span><br><span class="line"><span class="comment">main: printStackTrace()</span></span><br><span class="line"><span class="comment">java.lang.Exception: thrown from f()         </span></span><br><span class="line"><span class="comment">    at Rethrowing.f(Rethrowing.java:7)         </span></span><br><span class="line"><span class="comment">    at Rethrowing.g(Rethrowing.java:11)         </span></span><br><span class="line"><span class="comment">    at Rethrowing.main(Rethrowing.java:29)</span></span><br><span class="line"><span class="comment">*/</span><span class="comment">//:~</span></span><br></pre></td></tr></table></figure></p>
+<p>可以看到，两个地方打印出来的异常轨迹线都是一样的。</p>
+<p><strong>为什么？</strong></p>
+<p>我的理解是：<br>我们知道有方法栈这么一个概念，<br>最开始main()入栈，<br>在main()中调用g()，g()入栈，<br>g()中调用f()，f()入栈<br>f()中抛出异常，该异常的轨迹栈就是当前的方法栈。</p>
+<p><strong>如何修改轨迹栈？</strong></p>
+<p>使用e.fillInStackTrace()方法，它的作用是重写<em>把当前的方法栈写入到原异常的轨迹栈中。</em><br>如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Rethrowing</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">f</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"originating the exception in f()"</span>);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"thrown from f()"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">h</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            f();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            System.out.println(<span class="string">"Inside h(),e.printStackTrace()"</span>);</span><br><span class="line">            e.printStackTrace(System.out);</span><br><span class="line">            <span class="keyword">throw</span> (Exception) e.fillInStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            h();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            System.out.println(<span class="string">"main: printStackTrace()"</span>);</span><br><span class="line">            e.printStackTrace(System.out);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* Output:</span></span><br><span class="line"><span class="comment">originating the exception in f()</span></span><br><span class="line"><span class="comment">Inside h(),e.printStackTrace()</span></span><br><span class="line"><span class="comment">java.lang.Exception: thrown from f()         </span></span><br><span class="line"><span class="comment">    at Rethrowing.f(Rethrowing.java:7)         </span></span><br><span class="line"><span class="comment">    at Rethrowing.h(Rethrowing.java:20)         </span></span><br><span class="line"><span class="comment">    at Rethrowing.main(Rethrowing.java:35)</span></span><br><span class="line"><span class="comment">main: printStackTrace()</span></span><br><span class="line"><span class="comment">java.lang.Exception: thrown from f()         </span></span><br><span class="line"><span class="comment">    at Rethrowing.h(Rethrowing.java:24)         </span></span><br><span class="line"><span class="comment">    at Rethrowing.main(Rethrowing.java:35)</span></span><br><span class="line"><span class="comment">*/</span><span class="comment">//:~</span></span><br></pre></td></tr></table></figure></p>
+<p>使用e.fillInStackTrace()方法和抛出一个新的异常结果是一样的。</p>
+<p><strong>如何在打印一个异常的同时把它之前出现的异常信息也同时打印出来呢？</strong></p>
+<p>使用<em>异常链</em><br>Error,Exception,RuntimeException可以使用构造器传入一个异常，构成异常链。<br>其它异常要使用initCause(e)来构成异常链。</p>
+<h2 id="标准JAVA异常"><a href="#标准JAVA异常" class="headerlink" title="标准JAVA异常"></a>标准JAVA异常</h2><p><strong>异常的分类：</strong></p>
+<p>Error:属于系统错误<br>Exception:属于编程错误</p>
+<p><strong>所有的Exception都需要手动抛出吗？</strong></p>
+<p>目前看来，所有的异常在被抛出后有两种解决方案：</p>
+<ol>
+<li>try-catch 捕获处理</li>
+<li>继续抛出</li>
+</ol>
+<p>如果是这样，每一个对象在使用前都要处理“为NULL的异常”,或者继续抛出异常，但在代码里总需要有处理的地方，这还是会十分麻烦。<br>因此RuntimeException类型的异常JAVA会帮我们自动判断并抛出。</p>
+<p><strong>JAVA帮我们抛出的异常如果没有处理会怎样？</strong></p>
+<p>会一直抵达main()方法并抛出<br>最后JAVA发现是这个类型的异常后会在退出程序前调用printStachTrace（）方法。</p>
+<p>也就是说运行时异常可以不用在代码中声明抛出和写处理程序，而检查异常这两个都是必有的。</p>
+<h2 id="finally"><a href="#finally" class="headerlink" title="finally"></a>finally</h2><p><strong>对于一些代码，无论try中的异常是否抛出，我们都希望在最后执行，怎么处理？</strong></p>
+<p>使用finally{}<br>对于没有垃圾回收机制的语言来说，这种情况一般是处理内存的回收。<br>对于JAVA而言，用来清理除了内存之外的资源，譬如文件，网络连接，开关等等。</p>
+<h2 id="异常的限制"><a href="#异常的限制" class="headerlink" title="异常的限制"></a>异常的限制</h2><p>重写方法时，只能抛出在该方法的基类版本中指定的异常。</p>
+<p><strong>为啥？</strong><br>更好的支持多态。</p>
+<h2 id="构造器和异常"><a href="#构造器和异常" class="headerlink" title="构造器和异常"></a>构造器和异常</h2><p>我们之前说过，在finally中的处理是执行完异常代码后，清理除内存之外的资源，但是有一个问题是：<br><strong>这些资源会被正确的清理吗？</strong></p>
+<p>怎么理解这句话，这么一个情况，如果资源还没有被打开？需要被清理吗？不需要清理反而清理了，是不是就有问题了？</p>
+<p><strong>什么时候资源不会被打开呢？</strong></p>
+<p>在构造器方法里抛出了异常，这时候资源对象还未被创建。</p>
+<p><strong>如何处理最安全？</strong></p>
+<p>如果是单独捕获构造器抛出的异常并处理，也不是非常安全，因为有可能其它语句也会抛出这个异常，这时候就无法区分。<br>最好的解决办法是，使用嵌套try-finally</p>
+<p><strong>为什么要使用嵌套？</strong></p>
+<p>try和finally是绑定的，对于构造器的finally，我们希望区别开来：<br>在创建需要清理的对象之后，立即进入一个try-finally的语句。<br>这样如果创建对象失败了，<em>后面的的语句也就不会执行了。</em><br>这也是使用嵌套而不写分开写成多个try-finally的原因。</p>
+<p>无论构造器会不会抛出异常都可以这样使用：<br>基本规则是：在创建需要清理的对象之后，立即进入一个try-finally的语句。</p>
+<h2 id="检查异常"><a href="#检查异常" class="headerlink" title="检查异常"></a>检查异常</h2><p><strong>C如何处理错误？</strong></p>
+<p>判断错误的类型并使用代码处理<br>程序员往往忽略这些错误的处理，之后出现问题的时候再调试找出问题。</p>
+<p><strong>C++如何处理错误？</strong></p>
+<p>C++有异常声明，表明当前方法有异常被抛出，至于处不处理是程序员的事。<br>有兴趣的再去更深入的了解</p>
+<p><strong>被检查异常会有什么问题吗？</strong></p>
+<p>强迫程序员必须要某个地方解决这个异常，但有时候这个异常的产生是由底层的代码抛出的，没有足够的条件去处理，这时候为了使程序继续运行，往往假装解决了，这时候异常就消失不见了，潜在的危急十分恐怖。<br>“吞食即伤害”<br>成功的情况往往只有一种，错误的情况是无限的（未知的才是最可怕的）。</p>
+<p><strong>类型检查的弊端？</strong></p>
+<p>java是一种静态类型语言，意味着在编译时期会对类型做检查，这虽然减少了很多错误的出现，但也一定程序上限制了程序员编码的自由，因此后面设计的泛型和反射都是弥补这种缺失的自由的。</p>
+<p><strong>被检查异常无法时处理的时候怎么办？</strong></p>
+<ol>
+<li>在main()后抛出被检查的异常，异常信息会被打印到控制台中，作后续处理。</li>
+<li>将被检查异常转为非检查异常，使用异常链记录之前的被检查的异常，在必要的时候使用getCause()重新抛出这些异常。</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+	
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2018/10/25/THING IN JAVA/12 异常/">12 异常</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 SunY 的个人博客">SunY</a></p>
+  <p><span>发布时间:</span>2018年10月25日 - 12:10</p>
+  <p><span>最后更新:</span>2018年12月12日 - 16:12</p>
+  <p><span>原始链接:</span><a href="/2018/10/25/THING IN JAVA/12 异常/" title="12 异常">https://sunyi720.github.io/2018/10/25/THING IN JAVA/12 异常/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2018/10/25/THING IN JAVA/12 异常/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="SunY 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="SunY 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JAVA编程思想/" rel="tag"><i class="fa fa-tag"></i> JAVA编程思想</a>
+          
+            <a href="/tags/Thinking-in-JAVA/" rel="tag"><i class="fa fa-tag"></i> Thinking in JAVA</a>
+          
+            <a href="/tags/异常/" rel="tag"><i class="fa fa-tag"></i> 异常</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/23/THING IN JAVA/11 持有对象/" rel="next" title="11 持有对象">
+                <i class="fa fa-chevron-left"></i> 11 持有对象
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/26/THING IN JAVA/13 String/" rel="prev" title="13 String">
+                13 String <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjMzMS8xMjg2Ng=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/head.png" alt="SunY">
+            
+              <p class="site-author-name" itemprop="name">SunY</p>
+              <p class="site-description motion-element" itemprop="description">Lv.0</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/sunyi720" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="codersun2018@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#异常"><span class="nav-number">1.</span> <span class="nav-text">异常</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概念"><span class="nav-number">1.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本异常"><span class="nav-number">1.2.</span> <span class="nav-text">基本异常</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#捕获异常"><span class="nav-number">1.3.</span> <span class="nav-text">捕获异常</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义异常"><span class="nav-number">1.4.</span> <span class="nav-text">自定义异常</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#捕获所有异常"><span class="nav-number">1.5.</span> <span class="nav-text">捕获所有异常</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标准JAVA异常"><span class="nav-number">1.6.</span> <span class="nav-text">标准JAVA异常</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#finally"><span class="nav-number">1.7.</span> <span class="nav-text">finally</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异常的限制"><span class="nav-number">1.8.</span> <span class="nav-text">异常的限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造器和异常"><span class="nav-number">1.9.</span> <span class="nav-text">构造器和异常</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#检查异常"><span class="nav-number">1.10.</span> <span class="nav-text">检查异常</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SunY</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("iTVMQ8rz1NpV1RJ716VOA2rG-gzGzoHsz", "j0zy5JQ2bmQXtJ8PeP5gAiKM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>
