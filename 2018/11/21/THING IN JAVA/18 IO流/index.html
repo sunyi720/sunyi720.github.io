@@ -82,25 +82,25 @@
 <meta name="description" content="I/O流File类仅从名字，我们很容易误解File表示一个真实存在的文件，但实际不是这样的 File类表示的含义？ 用FilePath来形容它会更加合适，它可以有以下的含义：  一个已存在的文件。 已存在的目录。 尚不存在的文件或目录。 这个文件或目录的特性。 这个文件或目录的一些操作。  之前在正则表达式中提到正则表达式结合I/O流可以实现对文件的检索。 如何实现文件的检索？ File类中有个p">
 <meta name="keywords" content="JAVA编程思想,Thinking in JAVA,I&#x2F;O流">
 <meta property="og:type" content="article">
-<meta property="og:title" content="18 IO">
+<meta property="og:title" content="18 IO流">
 <meta property="og:url" content="https://sunyi720.github.io/2018/11/21/THING IN JAVA/18 IO流/index.html">
 <meta property="og:site_name" content="Sun">
 <meta property="og:description" content="I/O流File类仅从名字，我们很容易误解File表示一个真实存在的文件，但实际不是这样的 File类表示的含义？ 用FilePath来形容它会更加合适，它可以有以下的含义：  一个已存在的文件。 已存在的目录。 尚不存在的文件或目录。 这个文件或目录的特性。 这个文件或目录的一些操作。  之前在正则表达式中提到正则表达式结合I/O流可以实现对文件的检索。 如何实现文件的检索？ File类中有个p">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/18%20IO/1.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/18%20IO/2.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/18%20IO/3.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/18%20IO/4.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/18%20IO/5.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/18%20IO/6.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/18%20IO/7.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/18%20IO/8.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/18%20IO/9.png">
-<meta property="og:updated_time" content="2018-12-12T08:55:22.813Z">
+<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/1.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/2.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/3.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/4.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/5.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/6.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/7.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/8.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/9.png">
+<meta property="og:updated_time" content="2018-12-12T09:14:24.890Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="18 IO">
+<meta name="twitter:title" content="18 IO流">
 <meta name="twitter:description" content="I/O流File类仅从名字，我们很容易误解File表示一个真实存在的文件，但实际不是这样的 File类表示的含义？ 用FilePath来形容它会更加合适，它可以有以下的含义：  一个已存在的文件。 已存在的目录。 尚不存在的文件或目录。 这个文件或目录的特性。 这个文件或目录的一些操作。  之前在正则表达式中提到正则表达式结合I/O流可以实现对文件的检索。 如何实现文件的检索？ File类中有个p">
-<meta name="twitter:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/18%20IO/1.png">
+<meta name="twitter:image" content="https://sunyi720.github.io/2018/11/21/THING%20IN%20JAVA/18%20IO流/1.png">
 
 
 
@@ -136,7 +136,7 @@
 
 
 
-  <title>18 IO | Sun</title>
+  <title>18 IO流 | Sun</title>
   
 
 
@@ -268,7 +268,7 @@
     <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2018/11/21/THING IN JAVA/18 IO流/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="SunY">
+      <meta itemprop="name" content="Sun">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/head.png">
     </span>
@@ -282,7 +282,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">18 IO</h1>
+          <h1 class="post-title" itemprop="name headline">18 IO流</h1>
         
 
         <div class="post-meta">
@@ -334,7 +334,7 @@
 
           
           
-             <span id="/2018/11/21/THING IN JAVA/18 IO流/" class="leancloud_visitors" data-flag-title="18 IO">
+             <span id="/2018/11/21/THING IN JAVA/18 IO流/" class="leancloud_visitors" data-flag-title="18 IO流">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -394,7 +394,7 @@
 <li>一个由其他种类的流组成的序列</li>
 <li>其他数据流</li>
 </ol>
-<p><img src="/2018/11/21/THING IN JAVA/18 IO流/18 IO/1.png" alt="输入流InterStream"><br><img src="/2018/11/21/THING IN JAVA/18 IO流/18 IO/2.png" alt="输出流OuterStream"></p>
+<p><img src="/2018/11/21/THING IN JAVA/18 IO流/1.png" alt="输入流InterStream"><br><img src="/2018/11/21/THING IN JAVA/18 IO流/2.png" alt="输出流OuterStream"></p>
 <p>读写的方式有很多，因此一半不会直接使用InterStream和Read/OuterStream和Writer里的读写方法，一般都会包装一层，增强读写的功能，这也叫做装饰器模式。</p>
 <p><strong>什么是装饰器模式？</strong></p>
 <p>先说一个比较通俗的例子，玩游戏的时候，给人物穿戴各种装备，其实就是装饰器模式的一种应用，这个人物还是这个人物（这个接口还是这个接口），只是新的对象具有了更强大的功能。</p>
@@ -412,7 +412,7 @@
 <li>改变读写方式的装饰器（DataInputStream/DataOuterStream）：流读写一般只读写一个字节，为了读写更多的类型，如int，float，boolean，double，char等。</li>
 <li>在内部提高读写性能的装饰器：如是否缓存，是否保留读写的行，是否把单一的字符推入输入流等等。</li>
 </ol>
-<p><img src="/2018/11/21/THING IN JAVA/18 IO流/18 IO/3.png" alt="装饰器DataInputStream"><br><img src="/2018/11/21/THING IN JAVA/18 IO流/18 IO/4.png" alt="装饰器DataOuterStream"></p>
+<p><img src="/2018/11/21/THING IN JAVA/18 IO流/3.png" alt="装饰器DataInputStream"><br><img src="/2018/11/21/THING IN JAVA/18 IO流/4.png" alt="装饰器DataOuterStream"></p>
 <p><strong>PrintStream和DataOuterStream有什么区别？</strong></p>
 <p>PrintStream:格式化的输出基本类型数据</p>
 <ol>
@@ -472,7 +472,7 @@
 </li>
 <li><p>直接操作缓冲器的方法</p>
 <p>put()：存<br>get()：取<br>wrap()：包装已经存在的数组<br>rewind()：回到数据的起始点<br>还是如下图的各种修改缓冲器4个主要索引的方法：</p>
-<p><img src="/2018/11/21/THING IN JAVA/18 IO流/18 IO/5.png" alt="操作缓冲器"></p>
+<p><img src="/2018/11/21/THING IN JAVA/18 IO流/5.png" alt="操作缓冲器"></p>
 <p>mark()需要配合reset()使用，前一个标记position的位置，后者回到标记点。</p>
 </li>
 </ul>
@@ -485,7 +485,7 @@
 <p>使用Charser类做相应的转换：<br>Charset.forname(编码类型)。<br>ByteBuffer Charset.encode(CharBuffer)<br>CharBuffer Charset.decode(ByteBuffer)</p>
 <p><strong>2 如何支持更多的基本数据类型</strong></p>
 <p>使用视图缓冲器，如下图：</p>
-<p><img src="/2018/11/21/THING IN JAVA/18 IO流/18 IO/6.png" alt="视图缓冲器"></p>
+<p><img src="/2018/11/21/THING IN JAVA/18 IO流/6.png" alt="视图缓冲器"></p>
 <p><strong>为什么称为视图缓冲器？</strong></p>
 <p>从视图缓冲器中读写了基本类型的数据，会使得最基本的ByteBuffer中存放的数据也发生变化。<br>这样的好处是：方便对基本数据类型的读写，我们可以很方便的把基本数据类型的数据读取到缓冲器中，同时也可以很方便的从缓冲器中将基本数据类型写到通道中。</p>
 <p><strong>基本数据类型转成字节后的顺序有何影响？</strong></p>
@@ -500,7 +500,7 @@
 <blockquote>
 <p>之前说错对资源的异常处理应该使用嵌套try-finally</p>
 </blockquote>
-<h2 id="压缩"><a href="#压缩" class="headerlink" title="压缩"></a>压缩</h2><p><img src="/2018/11/21/THING IN JAVA/18 IO流/18 IO/7.png" alt="压缩"><br>使用压缩功能的装饰器</p>
+<h2 id="压缩"><a href="#压缩" class="headerlink" title="压缩"></a>压缩</h2><p><img src="/2018/11/21/THING IN JAVA/18 IO流/7.png" alt="压缩"><br>使用压缩功能的装饰器</p>
 <p><strong>如何使用？</strong></p>
 <ol>
 <li>单个文件压缩</li>
@@ -555,7 +555,7 @@
 <p><strong>序列化后的字节是怎样的？</strong></p>
 <p>对象案例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">parent</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;  </span><br><span class="line">       <span class="keyword">int</span> parentVersion = <span class="number">10</span>;  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">contain</span> <span class="keyword">implements</span> <span class="title">Serializable</span></span>&#123;  </span><br><span class="line">       <span class="keyword">int</span> containVersion = <span class="number">11</span>;  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SerialTest</span> <span class="keyword">extends</span> <span class="title">parent</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;  </span><br><span class="line">       <span class="keyword">int</span> version = <span class="number">66</span>;  </span><br><span class="line">       contain con = <span class="keyword">new</span> contain();  </span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getVersion</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">              <span class="keyword">return</span> version;  </span><br><span class="line">       &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>序列化的结果如下图：</p>
-<p><img src="/2018/11/21/THING IN JAVA/18 IO流/18 IO/8.png" alt="序列化字节分析"><br><img src="/2018/11/21/THING IN JAVA/18 IO流/18 IO/9.png" alt="序列化字节分析"></p>
+<p><img src="/2018/11/21/THING IN JAVA/18 IO流/8.png" alt="序列化字节分析"><br><img src="/2018/11/21/THING IN JAVA/18 IO流/9.png" alt="序列化字节分析"></p>
 <p>有一个需要注意的点是：上图中开头的4个字节AC ED 00 05是ObjectOutputStream建立的后就会被写入的，即便没有序列化的对象也会有这4个字节，因此如果重复的生成ObjectOutputStream流，会出现AC ED 00 05 AC ED 00 05的情况，这时候后一串AC ED 00 05会被当做对象字节处理，这时候会抛出StreamCorruptedException异常，<strong>如何解决？</strong></p>
 <p>AC ED 00 05的信息是由 ObjectOutputStream.writeSystemHeader()写进入的，因此对于之后重复创建的ObjectOutputStream流，必须重写这个方法，使其不写入这些头信息。</p>
 <p><strong>反序列化后的对象（包括对象里的对象）是否一样？</strong></p>
@@ -582,11 +582,11 @@
   <!-- JS库 sweetalert 可修改路径 -->
   <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>本文标题:</span><a href="/2018/11/21/THING IN JAVA/18 IO流/">18 IO</a></p>
-  <p><span>文章作者:</span><a href="/" title="访问 SunY 的个人博客">SunY</a></p>
+  <p><span>本文标题:</span><a href="/2018/11/21/THING IN JAVA/18 IO流/">18 IO流</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Sun 的个人博客">Sun</a></p>
   <p><span>发布时间:</span>2018年11月21日 - 18:11</p>
-  <p><span>最后更新:</span>2018年12月12日 - 16:12</p>
-  <p><span>原始链接:</span><a href="/2018/11/21/THING IN JAVA/18 IO流/" title="18 IO">https://sunyi720.github.io/2018/11/21/THING IN JAVA/18 IO流/</a>
+  <p><span>最后更新:</span>2018年12月12日 - 17:12</p>
+  <p><span>原始链接:</span><a href="/2018/11/21/THING IN JAVA/18 IO流/" title="18 IO流">https://sunyi720.github.io/2018/11/21/THING IN JAVA/18 IO流/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2018/11/21/THING IN JAVA/18 IO流/" aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
@@ -621,14 +621,14 @@
 
     
       <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="SunY 微信支付">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Sun 微信支付">
         <p>微信支付</p>
       </div>
     
 
     
       <div id="alipay" style="display: inline-block">
-        <img id="alipay_qr" src="/images/alipay.jpg" alt="SunY 支付宝">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Sun 支付宝">
         <p>支付宝</p>
       </div>
     
@@ -747,9 +747,9 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/images/head.png" alt="SunY">
+              <img class="site-author-image" itemprop="image" src="/images/head.png" alt="Sun">
             
-              <p class="site-author-name" itemprop="name">SunY</p>
+              <p class="site-author-name" itemprop="name">Sun</p>
               <p class="site-description motion-element" itemprop="description">Lv.0</p>
           </div>
 
@@ -771,7 +771,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -862,7 +862,7 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">SunY</span>
+  <span class="author" itemprop="copyrightHolder">Sun</span>
 
   
 </div>
