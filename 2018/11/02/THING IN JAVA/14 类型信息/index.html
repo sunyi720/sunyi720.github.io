@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="类型信息RTTIjava如何支持运行时类型检查？  RTTI：运行时类型信息 反射  RTTI的应用？ JAVA中所有的类型转换，都会在运行时期做类型检查（比如判断能否转换），这就需要获取到对应的类型信息，这也是RTTI最基本的应用。运行时类型检查是隐式的运用了RTTI要想理解RTTI的工作原理，或者显式的使用RTTI，那么就要明白Class对象。 Class对象如何生成和使用Class对象？ 每">
+<meta name="description" content="类型信息类型信息是什么？ 回顾一下java的类初始化和对象初始化：  当首次调用静态方法，静态字段，构造器（可以看成静态方法）时，检查.class文件，若未发现，则编译源文件生成.class文件，然后加载生成Class对象，开始类初始化：按顺序执行所有的静态初始化。 之后就不会再做类初始化了，当调用new()的时候执行对象的初始化：先在堆上分配空间，这块空间会被清零，也就是开始赋默认值，执行非静态">
 <meta name="keywords" content="JAVA编程思想,Thinking in JAVA,类型信息,反射">
 <meta property="og:type" content="article">
 <meta property="og:title" content="14 类型信息">
 <meta property="og:url" content="https://sunyi720.github.io/2018/11/02/THING IN JAVA/14 类型信息/index.html">
 <meta property="og:site_name" content="Sun">
-<meta property="og:description" content="类型信息RTTIjava如何支持运行时类型检查？  RTTI：运行时类型信息 反射  RTTI的应用？ JAVA中所有的类型转换，都会在运行时期做类型检查（比如判断能否转换），这就需要获取到对应的类型信息，这也是RTTI最基本的应用。运行时类型检查是隐式的运用了RTTI要想理解RTTI的工作原理，或者显式的使用RTTI，那么就要明白Class对象。 Class对象如何生成和使用Class对象？ 每">
+<meta property="og:description" content="类型信息类型信息是什么？ 回顾一下java的类初始化和对象初始化：  当首次调用静态方法，静态字段，构造器（可以看成静态方法）时，检查.class文件，若未发现，则编译源文件生成.class文件，然后加载生成Class对象，开始类初始化：按顺序执行所有的静态初始化。 之后就不会再做类初始化了，当调用new()的时候执行对象的初始化：先在堆上分配空间，这块空间会被清零，也就是开始赋默认值，执行非静态">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-12T08:45:23.367Z">
+<meta property="og:updated_time" content="2018-12-17T06:30:16.722Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="14 类型信息">
-<meta name="twitter:description" content="类型信息RTTIjava如何支持运行时类型检查？  RTTI：运行时类型信息 反射  RTTI的应用？ JAVA中所有的类型转换，都会在运行时期做类型检查（比如判断能否转换），这就需要获取到对应的类型信息，这也是RTTI最基本的应用。运行时类型检查是隐式的运用了RTTI要想理解RTTI的工作原理，或者显式的使用RTTI，那么就要明白Class对象。 Class对象如何生成和使用Class对象？ 每">
+<meta name="twitter:description" content="类型信息类型信息是什么？ 回顾一下java的类初始化和对象初始化：  当首次调用静态方法，静态字段，构造器（可以看成静态方法）时，检查.class文件，若未发现，则编译源文件生成.class文件，然后加载生成Class对象，开始类初始化：按顺序执行所有的静态初始化。 之后就不会再做类初始化了，当调用new()的时候执行对象的初始化：先在堆上分配空间，这块空间会被清零，也就是开始赋默认值，执行非静态">
 
 
 
@@ -355,7 +355,16 @@
       
 
       
-        <h1 id="类型信息"><a href="#类型信息" class="headerlink" title="类型信息"></a>类型信息</h1><h2 id="RTTI"><a href="#RTTI" class="headerlink" title="RTTI"></a>RTTI</h2><p><strong>java如何支持运行时类型检查？</strong></p>
+        <h1 id="类型信息"><a href="#类型信息" class="headerlink" title="类型信息"></a>类型信息</h1><p><strong>类型信息是什么？</strong></p>
+<p>回顾一下java的类初始化和对象初始化：</p>
+<ol>
+<li>当首次调用静态方法，静态字段，构造器（可以看成静态方法）时，检查.class文件，若未发现，则编译源文件生成.class文件，然后加载生成Class对象，开始类初始化：按顺序执行所有的静态初始化。</li>
+<li>之后就不会再做类初始化了，当调用new()的时候执行对象的初始化：先在堆上分配空间，这块空间会被清零，也就是开始赋默认值，执行非静态的初始化。</li>
+<li>执行构造器。</li>
+<li>将引用指向这个地址（这一步有可能重排序）</li>
+</ol>
+<p>.class文件是编译后产生的。<br>因此：这里的类型信息指的就是在类初始化的时候，加载完.class文件后，由JVM生成的Class类型实例。</p>
+<h2 id="RTTI"><a href="#RTTI" class="headerlink" title="RTTI"></a>RTTI</h2><p><strong>java如何支持运行时类型检查？</strong></p>
 <ol>
 <li>RTTI：运行时类型信息</li>
 <li>反射</li>
@@ -363,7 +372,7 @@
 <p><strong>RTTI的应用？</strong></p>
 <p>JAVA中所有的类型转换，都会在运行时期做类型检查（比如判断能否转换），这就需要获取到对应的类型信息，这也是RTTI最基本的应用。<br>运行时类型检查是隐式的运用了RTTI<br>要想理解RTTI的工作原理，或者显式的使用RTTI，那么就要明白Class对象。</p>
 <h2 id="Class对象"><a href="#Class对象" class="headerlink" title="Class对象"></a>Class对象</h2><p><strong>如何生成和使用Class对象？</strong></p>
-<p>每一个类在创建的同时会生成同名的.class文件，保存着这个类的信息，JVM类加载器将会加载这个文件。<br>JAVA提供Class类来让程序员获取类信息，每一个类都会有一个Class对象。</p>
+<p>JAVA提供Class类来让程序员获取类信息，每一个类都会有一个Class对象。</p>
 <p>如何生成Class对象。</p>
 <ol>
 <li>使用Class.forName()</li>
@@ -373,8 +382,8 @@
 </blockquote>
 </li>
 </ol>
-<p><strong>使用.class和使用Class有什么不同</strong></p>
-<p>初始化的阶段不同，.class的初始化（执行静态初始化块）是延迟性的，在访问他的静态方法或者非静态成员的时候才开始初始化。注意在访问静态常量的时候是不会执行<br>初始化的：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Initable</span> </span>&#123;   </span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> staticFinal = <span class="number">47</span>;   <span class="comment">//静态常量</span></span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> staticFinal2 = ClassInitialization.rand.nextInt(<span class="number">1000</span>);   </span><br><span class="line">  <span class="keyword">static</span> &#123;    </span><br><span class="line">    System.out.println(<span class="string">"Initializing Initable"</span>);   </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>使用.class和使用Class.forName()生成Class对象有什么不同</strong></p>
+<p>初始化的阶段不同，.class的类初始化（执行静态初始化块）是延迟性的，在访问他的静态方法或者非静态成员的时候才开始初始化。注意在访问静态常量的时候是不会执行<br>初始化的：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Initable</span> </span>&#123;   </span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> staticFinal = <span class="number">47</span>;   <span class="comment">//静态常量</span></span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> staticFinal2 = ClassInitialization.rand.nextInt(<span class="number">1000</span>);   </span><br><span class="line">  <span class="keyword">static</span> &#123;    </span><br><span class="line">    System.out.println(<span class="string">"Initializing Initable"</span>);   </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p><strong>为什么使用泛化的Class？</strong></p>
 <p>给Class的引用加一个限定，让编译器做类型检查，这也是泛型的一个作用。<br>并且在使用newInstance()的时候也可以用具体类型的引用去接收。</p>
 <p><strong>如果我们想放宽泛型的类型检查？</strong></p>
@@ -387,7 +396,7 @@
 <p>仅仅使用RTTI的话，可以支持类型检查，但是如果到了运行时期才发现类型不一致，会报错抛出ClassCastException异常。</p>
 <p><strong>如何做类型检查？</strong></p>
 <ol>
-<li>使用 对象 instanceOf 类型名：对象是该类型或者子类</li>
+<li>使用instanceOf关键词（注意，这是一个关键字。） 对象 instanceOf 类型名：对象是该类型或者子类</li>
 </ol>
 <p><strong>instanceof的限制？</strong></p>
 <p>这里的“类型名”无法放在容器中做迭代处理，如果需求需要计数，只是使用很多instanceOf来一一判断，这是不好的。</p>
@@ -473,7 +482,7 @@
   <p><span>本文标题:</span><a href="/2018/11/02/THING IN JAVA/14 类型信息/">14 类型信息</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Sun 的个人博客">Sun</a></p>
   <p><span>发布时间:</span>2018年11月02日 - 00:11</p>
-  <p><span>最后更新:</span>2018年12月12日 - 16:12</p>
+  <p><span>最后更新:</span>2018年12月17日 - 14:12</p>
   <p><span>原始链接:</span><a href="/2018/11/02/THING IN JAVA/14 类型信息/" title="14 类型信息">https://sunyi720.github.io/2018/11/02/THING IN JAVA/14 类型信息/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2018/11/02/THING IN JAVA/14 类型信息/" aria-label="复制成功！"></i></span>
   </p>
@@ -650,7 +659,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -672,7 +681,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
