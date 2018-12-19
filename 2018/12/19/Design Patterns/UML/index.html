@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="清理和初始化,JAVA编程思想,Thinking in JAVA,">
+  <meta name="keywords" content="UML,">
 
 
 
@@ -79,18 +79,25 @@
 
 
 
-<meta name="description" content="清理和初始化默认构造器只要定义了一个构造器，编译器就不会帮我们自动创建默认构造器了。 this123String a = new String();String b = new String();a.toString(); 如何确定调用类中的方法的对象是哪一个？ 实际上，a.toString()的真实调用时这样的：String(a)。编译器会暗自把“所操作的对象的引用”作为第一个参数传递给peel">
-<meta name="keywords" content="清理和初始化,JAVA编程思想,Thinking in JAVA">
+<meta name="description" content="UML类图和时序图UML类图表明类（对象）之前关系的一种方式。  泛型关系：  代码里就是继承关系。   实现关系：    依赖关系  只要两个类之间有关系，就可以叫做有依赖关系  依赖关系可以是成员变量，可以是参数。 作为参数存在的时候只有当方法被调用的时候才会用到另一个类。  关联关系   强依赖关系，体现为成员变量。 关联关系根据两个对象的生命周期又可以分成聚合关系和组合关系。  聚合关系：">
+<meta name="keywords" content="UML">
 <meta property="og:type" content="article">
-<meta property="og:title" content="05 清理和初始化">
-<meta property="og:url" content="https://sunyi720.github.io/2018/11/14/THING IN JAVA/05 清理和初始化/index.html">
+<meta property="og:title" content="UML类图和时序图">
+<meta property="og:url" content="https://sunyi720.github.io/2018/12/19/Design Patterns/UML/index.html">
 <meta property="og:site_name" content="Sun">
-<meta property="og:description" content="清理和初始化默认构造器只要定义了一个构造器，编译器就不会帮我们自动创建默认构造器了。 this123String a = new String();String b = new String();a.toString(); 如何确定调用类中的方法的对象是哪一个？ 实际上，a.toString()的真实调用时这样的：String(a)。编译器会暗自把“所操作的对象的引用”作为第一个参数传递给peel">
+<meta property="og:description" content="UML类图和时序图UML类图表明类（对象）之前关系的一种方式。  泛型关系：  代码里就是继承关系。   实现关系：    依赖关系  只要两个类之间有关系，就可以叫做有依赖关系  依赖关系可以是成员变量，可以是参数。 作为参数存在的时候只有当方法被调用的时候才会用到另一个类。  关联关系   强依赖关系，体现为成员变量。 关联关系根据两个对象的生命周期又可以分成聚合关系和组合关系。  聚合关系：">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-12T08:45:23.350Z">
+<meta property="og:image" content="https://sunyi720.github.io/2018/12/19/Design%20Patterns/UML/1.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/12/19/Design%20Patterns/UML/2.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/12/19/Design%20Patterns/UML/5.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/12/19/Design%20Patterns/UML/6.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/12/19/Design%20Patterns/UML/3.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/12/19/Design%20Patterns/UML/4.png">
+<meta property="og:updated_time" content="2018-12-19T12:16:23.767Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="05 清理和初始化">
-<meta name="twitter:description" content="清理和初始化默认构造器只要定义了一个构造器，编译器就不会帮我们自动创建默认构造器了。 this123String a = new String();String b = new String();a.toString(); 如何确定调用类中的方法的对象是哪一个？ 实际上，a.toString()的真实调用时这样的：String(a)。编译器会暗自把“所操作的对象的引用”作为第一个参数传递给peel">
+<meta name="twitter:title" content="UML类图和时序图">
+<meta name="twitter:description" content="UML类图和时序图UML类图表明类（对象）之前关系的一种方式。  泛型关系：  代码里就是继承关系。   实现关系：    依赖关系  只要两个类之间有关系，就可以叫做有依赖关系  依赖关系可以是成员变量，可以是参数。 作为参数存在的时候只有当方法被调用的时候才会用到另一个类。  关联关系   强依赖关系，体现为成员变量。 关联关系根据两个对象的生命周期又可以分成聚合关系和组合关系。  聚合关系：">
+<meta name="twitter:image" content="https://sunyi720.github.io/2018/12/19/Design%20Patterns/UML/1.png">
 
 
 
@@ -120,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="https://sunyi720.github.io/2018/11/14/THING IN JAVA/05 清理和初始化/">
+  <link rel="canonical" href="https://sunyi720.github.io/2018/12/19/Design Patterns/UML/">
 
 
 
 
 
-  <title>05 清理和初始化 | Sun</title>
+  <title>UML类图和时序图 | Sun</title>
   
 
 
@@ -255,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2018/11/14/THING IN JAVA/05 清理和初始化/">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2018/12/19/Design Patterns/UML/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sun">
@@ -272,7 +279,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">05 清理和初始化</h1>
+          <h1 class="post-title" itemprop="name headline">UML类图和时序图</h1>
         
 
         <div class="post-meta">
@@ -284,8 +291,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-14T20:49:00+08:00">
-                2018-11-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-19T19:58:00+08:00">
+                2018-12-19
               </time>
             
 
@@ -307,8 +314,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Thinking-in-Java-读书笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">Thinking in Java 读书笔记</span>
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
                   </a>
                 </span>
 
@@ -324,7 +331,7 @@
 
           
           
-             <span id="/2018/11/14/THING IN JAVA/05 清理和初始化/" class="leancloud_visitors" data-flag-title="05 清理和初始化">
+             <span id="/2018/12/19/Design Patterns/UML/" class="leancloud_visitors" data-flag-title="UML类图和时序图">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -355,53 +362,44 @@
       
 
       
-        <h1 id="清理和初始化"><a href="#清理和初始化" class="headerlink" title="清理和初始化"></a>清理和初始化</h1><h2 id="默认构造器"><a href="#默认构造器" class="headerlink" title="默认构造器"></a>默认构造器</h2><p>只要定义了一个构造器，编译器就不会帮我们自动创建默认构造器了。</p>
-<h2 id="this"><a href="#this" class="headerlink" title="this"></a>this</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String a = <span class="keyword">new</span> String();</span><br><span class="line">String b = <span class="keyword">new</span> String();</span><br><span class="line">a.toString();</span><br></pre></td></tr></table></figure>
-<p><strong>如何确定调用类中的方法的对象是哪一个？</strong></p>
-<p>实际上，a.toString()的真实调用时这样的：String(a)。<br>编译器会暗自把“所操作的对象的引用”作为第一个参数传递给peel()。</p>
-<p><strong>使用this有什么用？</strong></p>
+        <h1 id="UML类图和时序图"><a href="#UML类图和时序图" class="headerlink" title="UML类图和时序图"></a>UML类图和时序图</h1><h2 id="UML类图"><a href="#UML类图" class="headerlink" title="UML类图"></a>UML类图</h2><p>表明类（对象）之前关系的一种方式。</p>
 <ol>
-<li>构造器中调用其它构造器只能使用this(参数)，这时候的this的含义不表示对象的引用了。不能使用两次。</li>
-<li>区别参数和成员对象。</li>
-<li>返回当前的对象，this的类型是实际运行时类型。</li>
+<li>泛型关系：</li>
 </ol>
-<p>注意：static方法不能使用this</p>
-<h2 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h2><p>一般来说，JAVA中的GC可以帮我们回收无用对象占有的资源，但也有一些特殊情况：垃圾回收期只回收使用new关键字分配的内存，通过其他方式获取的“特殊”内存区域，GC不知道如何回收。</p>
-<p><strong>如何应对这种情况？</strong></p>
-<p>JAVA提供了finalize()方法，垃圾回收器在回收对象前会调用这个方法。</p>
-<p><strong>finalize()这和C++中的析构函数一样吗？</strong></p>
-<p>C++中的对象可以在栈中，也可以在堆中。在栈中的对象生命周期是当前方法的作用域，离开这个作用域“{}”，就会调用析构函数，并且回收内存。在堆中的对象（使用new）需要使用delete来销毁，并且在回收内存也会调用析构函数。那么这里有两点：</p>
-<ol>
-<li>对象内存一定会被回收。</li>
-<li>析构函数正常情况下都会被调用。<blockquote>
-<p>C++中没有被回收的内存会造成内存泄漏，一直到下次重启这部分占用的内存才会消除。</p>
-</blockquote>
-</li>
+<p>代码里就是继承关系。</p>
+<p><img src="/2018/12/19/Design Patterns/UML/1.png" alt="泛型关系"></p>
+<ol start="2">
+<li>实现关系：</li>
 </ol>
-<p>由此我们可以分析出java中的垃圾回收和finalize()的区别了：</p>
-<ol>
-<li>对象不一定会被回收,即便是GC开始回收了。</li>
-<li>因此finalize()也不一定会被调用，因此在finalize()中处理关闭资源等普通的清理操作是没有意义的。<blockquote>
-<p>和C++还有不一样的一点是，finalize()是不能被直接调用的。</p>
-</blockquote>
-</li>
-</ol>
-<p><strong>那么finalize()有什么用呢？</strong></p>
-<p>我们说垃圾回收是和内存不足了有关的，那么也就意味着：</p>
+<p><img src="/2018/12/19/Design Patterns/UML/2.png" alt="继承关系"></p>
 <ol start="3">
-<li>只有内存不足的时候才会调用finalize()，也就意味着，在finalize()中最好也是处理内存相关的清理操作，而不是关闭资源等普通的清理操作。</li>
+<li>依赖关系</li>
 </ol>
-<p><strong>需要在finalize()里处理的内存清理操作是什么？</strong></p>
-<p>这种情况主要发生在“本地方法”的情况下，即在JAVA中调用了非JAVA的方法，这部分方法申请的内存需要使用free()来释放，因此在finalize()中调用free()方法。</p>
-<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>变量在使用前必须初始化，否则会出现程序错误。<br>成员变量会有一个默认值，局部变量需要手动赋值。</p>
-<p><strong>初始化的顺序是怎样的？</strong></p>
-<p>感觉就是分为类的初始化和对象的初始化。</p>
-<ol>
-<li>当首次调用静态方法，静态字段，构造器（可以看成静态方法）时，检查Class文件，若未发现，开始类初始化：加载.class文件，然后按顺序执行所有的静态初始化。</li>
-<li>之后就不会再做类初始化了，当调用new()的时候执行对象的初始化：先在堆上分配空间，这块空间会被清零，也就是开始赋默认值，执行非静态的初始化。</li>
-<li>执行构造器。</li>
-<li>将引用指向这个地址（这一步有可能重排序）</li>
+<p>只要两个类之间有关系，就可以叫做有依赖关系</p>
+<p><img src="/2018/12/19/Design Patterns/UML/5.png" alt="依赖关系"></p>
+<p>依赖关系可以是成员变量，可以是参数。</p>
+<p>作为参数存在的时候只有当方法被调用的时候才会用到另一个类。</p>
+<ol start="4">
+<li>关联关系</li>
 </ol>
+<p><img src="/2018/12/19/Design Patterns/UML/6.png" alt="关联关系"></p>
+<p>强依赖关系，体现为成员变量。</p>
+<p>关联关系根据两个对象的生命周期又可以分成聚合关系和组合关系。</p>
+<ol start="5">
+<li>聚合关系：</li>
+</ol>
+<p>B由A组成。<br>表示整体由部分构成的语义，与组合关系不同的是，整体和部分不是强依赖的，即使整体不存在了，部分仍然存在；</p>
+<p><img src="/2018/12/19/Design Patterns/UML/3.png" alt="聚合关系"></p>
+<ol start="6">
+<li>组合关系：</li>
+</ol>
+<p>同样表示整体由部分构成的语义，但组合关系是一种强依赖的特殊聚合关系，如果整体不存在了，则部分也不存在了；</p>
+<p><img src="/2018/12/19/Design Patterns/UML/4.png" alt="组合关系"></p>
+<p><strong>如何理解聚合和组合的区别？</strong></p>
+<p>生命周期:<br>聚合：A和B生命周期不同<br>组合：A和B生命周期相同。</p>
+<p>生活案例：<br>聚合：雁群有雁子<br>组合：雁子有翅膀</p>
+<p>代码区别：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//聚合:GooseGroup对象死亡了，其中的Goose还可以存在。</span></span><br><span class="line"><span class="keyword">public</span>  <span class="class"><span class="keyword">class</span> <span class="title">GooseGroup</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">      <span class="keyword">public</span> Goose goose;</span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="title">GooseGroup</span><span class="params">(Goose goose)</span></span></span><br><span class="line"><span class="function">      </span>&#123;</span><br><span class="line">          <span class="keyword">this</span>.goose = goose;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//组合:GooseGroup对象死亡了，其中的Wings也死亡。</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Goose</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> Wings wings;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Goose</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        wings=<span class="keyword">new</span> Wings();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="时序"><a href="#时序" class="headerlink" title="时序"></a>时序</h2><p>[时序图]<a href="https://www.cnblogs.com/ywqu/archive/2009/12/22/1629426.html" target="_blank" rel="noopener">https://www.cnblogs.com/ywqu/archive/2009/12/22/1629426.html</a></p>
 
       
     </div>
@@ -413,35 +411,6 @@
 	<div>
       
         
-<div class="my_post_copyright">
-  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
-  
-  <!-- JS库 sweetalert 可修改路径 -->
-  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <p><span>本文标题:</span><a href="/2018/11/14/THING IN JAVA/05 清理和初始化/">05 清理和初始化</a></p>
-  <p><span>文章作者:</span><a href="/" title="访问 Sun 的个人博客">Sun</a></p>
-  <p><span>发布时间:</span>2018年11月14日 - 20:11</p>
-  <p><span>最后更新:</span>2018年12月12日 - 16:12</p>
-  <p><span>原始链接:</span><a href="/2018/11/14/THING IN JAVA/05 清理和初始化/" title="05 清理和初始化">https://sunyi720.github.io/2018/11/14/THING IN JAVA/05 清理和初始化/</a>
-    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2018/11/14/THING IN JAVA/05 清理和初始化/" aria-label="复制成功！"></i></span>
-  </p>
-  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
-</div>
-<script> 
-    var clipboard = new Clipboard('.fa-clipboard');
-    $(".fa-clipboard").click(function(){
-      clipboard.on('success', function(){
-        swal({   
-          title: "",   
-          text: '复制成功',
-          icon: "success", 
-          showConfirmButton: true
-          });
-    });
-    });  
-</script>
-
       
     </div>
 
@@ -484,11 +453,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/清理和初始化/" rel="tag"><i class="fa fa-tag"></i> 清理和初始化</a>
-          
-            <a href="/tags/JAVA编程思想/" rel="tag"><i class="fa fa-tag"></i> JAVA编程思想</a>
-          
-            <a href="/tags/Thinking-in-JAVA/" rel="tag"><i class="fa fa-tag"></i> Thinking in JAVA</a>
+            <a href="/tags/UML/" rel="tag"><i class="fa fa-tag"></i> UML</a>
           
         </div>
       
@@ -501,8 +466,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/11/08/THING IN JAVA/16 数组/" rel="next" title="16 数组">
-                <i class="fa fa-chevron-left"></i> 16 数组
+              <a href="/2018/12/17/THING IN JAVA/15 泛型/" rel="next" title="15 泛型">
+                <i class="fa fa-chevron-left"></i> 15 泛型
               </a>
             
           </div>
@@ -510,10 +475,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/11/15/THING IN JAVA/17 容器/" rel="prev" title="17 容器">
-                17 容器 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -668,7 +629,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#清理和初始化"><span class="nav-number">1.</span> <span class="nav-text">清理和初始化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#默认构造器"><span class="nav-number">1.1.</span> <span class="nav-text">默认构造器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#this"><span class="nav-number">1.2.</span> <span class="nav-text">this</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#垃圾回收"><span class="nav-number">1.3.</span> <span class="nav-text">垃圾回收</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化"><span class="nav-number">1.4.</span> <span class="nav-text">初始化</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#UML类图和时序图"><span class="nav-number">1.</span> <span class="nav-text">UML类图和时序图</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#UML类图"><span class="nav-number">1.1.</span> <span class="nav-text">UML类图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时序"><span class="nav-number">1.2.</span> <span class="nav-text">时序</span></a></li></ol></li></ol></div>
             
 
           </div>
