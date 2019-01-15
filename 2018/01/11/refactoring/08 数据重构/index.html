@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="重构,数据重构,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="数据重构数据应该符合封装的思想是直接读取还是间接读取？是用字段还是用对象？是值对象还是引用对象？是单向关联还是双向关联？如何更好的表示类型码？常量？类？ Self Encapsulate Field（自封装值域）problem:你直接访问一个私有值域（field），但与值域之间的耦合关系逐渐无法满足需求。solution:为这个值域建立取值/设值函数（getting and setting met">
+<meta name="keywords" content="重构,数据重构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="08 数据重构">
+<meta property="og:url" content="https://sunyi720.github.io/2018/01/11/refactoring/08 数据重构/index.html">
+<meta property="og:site_name" content="Sun">
+<meta property="og:description" content="数据重构数据应该符合封装的思想是直接读取还是间接读取？是用字段还是用对象？是值对象还是引用对象？是单向关联还是双向关联？如何更好的表示类型码？常量？类？ Self Encapsulate Field（自封装值域）problem:你直接访问一个私有值域（field），但与值域之间的耦合关系逐渐无法满足需求。solution:为这个值域建立取值/设值函数（getting and setting met">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://sunyi720.github.io/2018/01/11/refactoring/08%20数据重构/png8/1.gif">
+<meta property="og:image" content="https://sunyi720.github.io/2018/01/11/refactoring/08%20数据重构/png8/2.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/01/11/refactoring/08%20数据重构/png8/3.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/01/11/refactoring/08%20数据重构/png8/4.gif">
+<meta property="og:image" content="https://sunyi720.github.io/2018/01/11/refactoring/08%20数据重构/png8/5.gif">
+<meta property="og:image" content="https://sunyi720.github.io/2018/01/11/refactoring/08%20数据重构/png8/7.gif">
+<meta property="og:image" content="https://sunyi720.github.io/2018/01/11/refactoring/08%20数据重构/png8/8.gif">
+<meta property="og:image" content="https://sunyi720.github.io/2018/01/11/refactoring/08%20数据重构/png8/9.gif">
+<meta property="og:image" content="https://sunyi720.github.io/2018/01/11/refactoring/08%20数据重构/png8/6.gif">
+<meta property="og:updated_time" content="2019-01-15T03:45:08.888Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="08 数据重构">
+<meta name="twitter:description" content="数据重构数据应该符合封装的思想是直接读取还是间接读取？是用字段还是用对象？是值对象还是引用对象？是单向关联还是双向关联？如何更好的表示类型码？常量？类？ Self Encapsulate Field（自封装值域）problem:你直接访问一个私有值域（field），但与值域之间的耦合关系逐渐无法满足需求。solution:为这个值域建立取值/设值函数（getting and setting met">
+<meta name="twitter:image" content="https://sunyi720.github.io/2018/01/11/refactoring/08%20数据重构/png8/1.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":20},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://sunyi720.github.io/2018/01/11/refactoring/08 数据重构/">
+
+
+
+
+
+  <title>08 数据重构 | Sun</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sun</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数字人生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2018/01/11/refactoring/08 数据重构/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">08 数据重构</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-11T17:41:00+08:00">
+                2018-01-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/重构-学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">重构 学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/01/11/refactoring/08 数据重构/" class="leancloud_visitors" data-flag-title="08 数据重构">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="数据重构"><a href="#数据重构" class="headerlink" title="数据重构"></a>数据重构</h1><p>数据应该符合封装的思想<br>是直接读取还是间接读取？<br>是用字段还是用对象？<br>是值对象还是引用对象？<br>是单向关联还是双向关联？<br>如何更好的表示类型码？常量？类？</p>
+<h2 id="Self-Encapsulate-Field（自封装值域）"><a href="#Self-Encapsulate-Field（自封装值域）" class="headerlink" title="Self Encapsulate Field（自封装值域）"></a>Self Encapsulate Field（自封装值域）</h2><p>problem:你直接访问一个私有值域（field），但与值域之间的耦合关系逐渐无法满足需求。<br>solution:为这个值域建立取值/设值函数（getting and setting methods ），并且只以这些函数来访问值域。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">private</span> <span class="keyword">int</span> _low, _high;</span><br><span class="line"> <span class="function"><span class="keyword">boolean</span> <span class="title">includes</span> <span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">return</span> arg &gt;= _low &amp;&amp; arg &lt;= _high;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//======================after refactoring=========================</span></span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span> <span class="keyword">int</span> _low, _high;</span><br><span class="line"> <span class="function"><span class="keyword">boolean</span> <span class="title">includes</span> <span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">return</span> arg &gt;= getLow() &amp;&amp; arg &lt;= getHigh();</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="function"><span class="keyword">int</span> <span class="title">getLow</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> _low;&#125;</span><br><span class="line"> <span class="function"><span class="keyword">int</span> <span class="title">getHigh</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> _high;&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>重构原因？</strong></p>
+<p>「直接访问变量」的好处则是：代码比较容易阅读，不需要再多此一举。</p>
+<p>「间接访问变量」更符合封装，好处是：</p>
+<ol>
+<li>我可以在getter方式，或者setter方法中统一增加查询和修改的逻辑，减少耦合。</li>
+<li>支持更灵活的数据管理方式：在字段getter和setter中可以轻松实现字段值的延迟初始化和验证。</li>
+<li>可以在子类中覆盖getter和setter中和方法，实现自己的需求。<blockquote>
+<p>直接访问变量也并无坏处，一般可以根据公司的要求来，或者根据需要变化。</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="Replace-Data-Value-with-Object（以对象取代数据值）"><a href="#Replace-Data-Value-with-Object（以对象取代数据值）" class="headerlink" title="Replace Data Value with Object（以对象取代数据值）"></a>Replace Data Value with Object（以对象取代数据值）</h2><p>problem:多个类中包含相同的一个数据字段，这个数据字段有相同的行为和关联数据。<br>solution:创建一个新类，把这个字段和他的行为放进去；original class保存这个新类。</p>
+<p><img src="/2018/01/11/refactoring/08 数据重构/png8/1.gif" alt=""></p>
+<p><strong>重构原因？</strong></p>
+<p>该重构是Extract Class的特例。Extract Class是分离类的职责，而Replace Data Value with Object是解决“这个字段和行为系列可以同时出现在几个类中，从而创建重复的代码”的问题的。</p>
+<p><strong>如何重构?</strong></p>
+<ul>
+<li>使用Self Encapsulate Field隐藏original class中对于这个字段的访问</li>
+<li>创建一个新类，copy字段和getter方法。创建一个构造器来初始化值。暂时不需要setter字段，因为目前只是重构成一个值对象。</li>
+<li>在original class中，把字段的类型改成new class类型。</li>
+<li>在original class的构造器中初始化这个字段。</li>
+<li>original class的getter调用associated object的getter</li>
+<li>original class的setter创建一个new class。</li>
+</ul>
+<p><strong>什么是值对象和引用对象？</strong></p>
+<p>值对象：一个现实对象对应多个对象。比如地址/颜色/喜好。用对象的关系来体现，引用对象就是组合关系。<br><img src="/2018/01/11/refactoring/08 数据重构/png8/2.png" alt=""></p>
+<p>引用对象：一个现实对象对应一个对象。比如客户/产品。用对象的关系来体现，引用对象就是聚合关系。<br><img src="/2018/01/11/refactoring/08 数据重构/png8/3.png" alt=""></p>
+<blockquote>
+<p>对于对象关系，请参考【UML】一文</p>
+</blockquote>
+<h2 id="Change-Value-to-Reference（将实值对象改为引用对象）"><a href="#Change-Value-to-Reference（将实值对象改为引用对象）" class="headerlink" title="Change Value to Reference（将实值对象改为引用对象）"></a>Change Value to Reference（将实值对象改为引用对象）</h2><p>把值对象变为引用对象</p>
+<p><strong>重构原因？</strong></p>
+<p>值对象一般不应该具有setter方法，如果希望修改数据，并且希望所有引用此对象的地方都能看到这个修改。</p>
+<h2 id="Change-Reference-to-Value（把引用对象变成值对象）"><a href="#Change-Reference-to-Value（把引用对象变成值对象）" class="headerlink" title="Change Reference to Value（把引用对象变成值对象）"></a>Change Reference to Value（把引用对象变成值对象）</h2><p>把引用对象变成值对象</p>
+<p><strong>重构原因？</strong></p>
+<p>引用对象不好用了：</p>
+<ol>
+<li>可能造成内存区域之间错综复杂的关联。</li>
+<li>在分布系统和并发系统中，不可变的value object特别有用，因为你无须考虑它们的同步问题。</li>
+<li>我希望简单的访问一些不会被改变的对象</li>
+</ol>
+<h2 id="Replace-Array-with-Object（以对象取代数组）"><a href="#Replace-Array-with-Object（以对象取代数组）" class="headerlink" title="Replace Array with Object（以对象取代数组）"></a>Replace Array with Object（以对象取代数组）</h2><p>以对象替换数组。对于数组中的每个元素，以一个值域表示之。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">String[] row = <span class="keyword">new</span> String[<span class="number">3</span>];</span><br><span class="line">row [<span class="number">0</span>] = <span class="string">"Liverpool"</span>;</span><br><span class="line">row [<span class="number">1</span>] = <span class="string">"15"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//======================after refactoring=========================</span></span><br><span class="line"></span><br><span class="line">Performance row = <span class="keyword">new</span> Performance();</span><br><span class="line">row.setName(<span class="string">"Liverpool"</span>);</span><br><span class="line">row.setWins(<span class="string">"15"</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>重构原因？</strong></p>
+<p>数组应该只用于「以某种顺序容纳一组相似对象」<br>不要用数组来记录数种不同对象，因为很难记住第一个元素表示什么含义。</p>
+<h2 id="Change-Unidirectional-Association-to-Bidirectional（将单向关联改为双向）"><a href="#Change-Unidirectional-Association-to-Bidirectional（将单向关联改为双向）" class="headerlink" title="Change Unidirectional Association to Bidirectional（将单向关联改为双向）"></a>Change Unidirectional Association to Bidirectional（将单向关联改为双向）</h2><p>problem:两个classes都需要使用对方特性，但其间只有一条单向连接（one-way link）。<br>solution:添加一个反向指针，并使修改函数（modifiers）能够同时更新两条连接。（译注：这里的指针等同于句柄（handle），修改函数（modifier）指的是改变双方关系者）<br>这个修改函数所在类就是维护方。</p>
+<p><strong>重构原因？</strong></p>
+<p>随着时间推移，可能发现referred class需要得到其引用者（某个object）以便进行某些处理。<br>在获取反向引用的过程比较麻烦的时候需要进行重构</p>
+<p><strong>如何重构？</strong></p>
+<ul>
+<li>在class中增加一个值域，用以保存「反向指针」。</li>
+<li>决定由哪个class (引用端或被引用端）控制关联性（association）。</li>
+<li>在「被控端」建立一个辅助函数，其命名应该清楚指出它的有限用途。</li>
+<li>如果既有的修改函数（modifier）在「控制端」，让它负责更新反向指针。</li>
+<li>如果既有的修改函数（modifier）在「被控端」，就在「控制端」建立一个控制函数，并让既有的修改函数调用这个新建的控制函数。</li>
+</ul>
+<p><strong>哪一段比较适合作为控制端？</strong></p>
+<p>【一对多】：让多的一方作为控制端<br>【一对一和多对多】：任意一方</p>
+<h2 id="Change-Bidirectional-Association-to-Unidirectional（将双向关联改为单向）"><a href="#Change-Bidirectional-Association-to-Unidirectional（将双向关联改为单向）" class="headerlink" title="Change Bidirectional Association to Unidirectional（将双向关联改为单向）"></a>Change Bidirectional Association to Unidirectional（将双向关联改为单向）</h2><p>problem:两个鄉之间有双向关联，但其中一个class如今不再需要另一个class的特性。<br>solution:去除不必要的关联（association）。</p>
+<p><img src="/2018/01/11/refactoring/08 数据重构/png8/4.gif" alt=""></p>
+<p><strong>重构原因？</strong></p>
+<ol>
+<li>双向关联（bidirectional associations）很有用，但你也必须为它付出代价，那就是「维护双向连接、确保对象被正确创建和删除」而增加的复杂度。</li>
+<li>大量的双向连接（two-way links）也很容易引发「僵尸对象」：某个对象本来已经该死亡了，却仍然保留在系统中，因为对它的各项引用还没有完全清除。</li>
+<li>过多的双向关联会导致紧耦合过多，造成一个类的变化对另外的类造成影响。<br>当不再需要另一个class的特性的时候，可以进行重构。</li>
+</ol>
+<h2 id="Replace-Magic-Number-with-Symbolic-Constant（以符号常量-字面常量取代魔法数）"><a href="#Replace-Magic-Number-with-Symbolic-Constant（以符号常量-字面常量取代魔法数）" class="headerlink" title="Replace Magic Number with Symbolic Constant（以符号常量/字面常量取代魔法数）"></a>Replace Magic Number with Symbolic Constant（以符号常量/字面常量取代魔法数）</h2><p>problem:使用具有特定含义的数字。<br>solution:将此数字替换为具有解释数字含义的可读名称的常量。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">potentialEnergy</span><span class="params">(<span class="keyword">double</span> mass, <span class="keyword">double</span> height)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> mass * <span class="number">9.81</span> * height;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//======================after refactoring=========================</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">potentialEnergy</span><span class="params">(<span class="keyword">double</span> mass, <span class="keyword">double</span> height)</span> </span>&#123;     </span><br><span class="line">  <span class="keyword">return</span> mass * GRAVITATIONAL_CONSTANT * height;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">double</span> GRAVITATIONAL_CONSTANT = <span class="number">9.81</span>;</span><br></pre></td></tr></table></figure>
+<p><strong>重构原因？</strong></p>
+<p>一旦这些具有特殊含义的数值不断发生改变，将会是一场噩梦。</p>
+<h2 id="Encapsulate-Field（封装值域）"><a href="#Encapsulate-Field（封装值域）" class="headerlink" title="Encapsulate Field（封装值域）"></a>Encapsulate Field（封装值域）</h2><p>problem:你的class中存在一个public值域。<br>solution:将它声明为private，并提供相应的访问函数（accessors）。</p>
+<blockquote>
+<p>和Self Encapsulate Field不同，这里的字段是public的。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> String _name</span><br><span class="line"></span><br><span class="line"><span class="comment">//======================after refactoring=========================</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> String _name;</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> _name;&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String arg)</span> </span>&#123;_name = arg;&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>重构原因？</strong></p>
+<p>符合封装的思想<br>间接管理更灵活</p>
+<h2 id="Encapsulate-Collection（封装群集）"><a href="#Encapsulate-Collection（封装群集）" class="headerlink" title="Encapsulate Collection（封装群集）"></a>Encapsulate Collection（封装群集）</h2><p>有个函数（method）返回一个群集（collection）。<br>让这个函数返回该群集的一个只读映件（read-only view），并在这个class中提供「添加/移除」（add/remove）群集元素的函数。</p>
+<p><img src="/2018/01/11/refactoring/08 数据重构/png8/5.gif" alt=""></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"> <span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">   <span class="keyword">private</span> Set _courses;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> Set <span class="title">getCourses</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> _courses;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCourses</span><span class="params">(Set arg)</span> </span>&#123;</span><br><span class="line">       _courses = arg;</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//======================after refactoring=========================</span></span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addCourse</span> <span class="params">(Course arg)</span> </span>&#123;</span><br><span class="line">       _courses.add(arg);</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeCourse</span> <span class="params">(Course arg)</span> </span>&#123;</span><br><span class="line">       _courses.remove(arg);</span><br><span class="line">   &#125;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> Set <span class="title">getCourses</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> Collections.unmodifiableSet(_courses);</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>重构原因？</strong></p>
+<p>也是封装的思想<br>不应该让其他类直接获取和修改数据</p>
+<h2 id="Replace-Type-Code-with-Class（以类取代型别码）"><a href="#Replace-Type-Code-with-Class（以类取代型别码）" class="headerlink" title="Replace Type Code with Class（以类取代型别码）"></a>Replace Type Code with Class（以类取代型别码）</h2><p>class之中有一个数值型别码（numeric type code），但它并不影响class的行为。</p>
+<blockquote>
+<p>针对JAVA，使用枚举类也行</p>
+</blockquote>
+<p><img src="/2018/01/11/refactoring/08 数据重构/png8/7.gif" alt=""></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> O = <span class="number">0</span>;</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> A = <span class="number">1</span>;</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> B = <span class="number">2</span>;</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> AB = <span class="number">3</span>;</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">int</span> _bloodGroup;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">Person</span> <span class="params">(<span class="keyword">int</span> bloodGroup)</span> </span>&#123;</span><br><span class="line">       _bloodGroup = bloodGroup;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBloodGroup</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">       _bloodGroup = arg;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getBloodGroup</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> _bloodGroup;</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//======================after refactoring=========================</span></span><br><span class="line"></span><br><span class="line"> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> BloodGroup _bloodGroup;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">Person</span> <span class="params">(BloodGroup bloodGroup)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">this</span>._bloodGroup = bloodGroup;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getBloodGroup</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> _bloodGroup.getCode();</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBloodGroup</span><span class="params">(BloodGroup bloodGroup)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">this</span>._bloodGroup = bloodGroup;</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BloodGroup</span> </span>&#123;</span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> BloodGroup O = <span class="keyword">new</span> BloodGroup(<span class="number">0</span>);</span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> BloodGroup A = <span class="keyword">new</span> BloodGroup(<span class="number">1</span>);</span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> BloodGroup B = <span class="keyword">new</span> BloodGroup(<span class="number">2</span>);</span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> BloodGroup AB = <span class="keyword">new</span> BloodGroup(<span class="number">3</span>);</span><br><span class="line"> <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> BloodGroup[] _values = &#123;O, A, B, AB&#125;;</span><br><span class="line"> <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> _code;</span><br><span class="line"> <span class="function"><span class="keyword">private</span> <span class="title">BloodGroup</span> <span class="params">(<span class="keyword">int</span> code )</span> </span>&#123;</span><br><span class="line">     _code = code;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     <span class="keyword">return</span> _code;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> BloodGroup <span class="title">code</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">return</span> _values[arg];</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>type code是什么？</strong></p>
+<p>表示一系列实体的类型常量值集合</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> O = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> A = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> B = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> AB = <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<p><strong>不影响class的行为是什么意思？</strong></p>
+<p>type code只是纯粹数据<br>表示class不会因为type code的不同而执行不同的方法，表现不同的行为（比较常见的是type code会在switch语句中引起行为变化时）。</p>
+<p><strong>重构原因？</strong></p>
+<ol>
+<li>以type code为参数的函数实际上，只是接受一个int类型的数据，大大的降低代码的可读性。</li>
+<li>常量无法进行类型检查，无法避免输入错误带来的影响。</li>
+</ol>
+<h2 id="Replace-Type-Code-with-Subclasses（以子类取代型别码）"><a href="#Replace-Type-Code-with-Subclasses（以子类取代型别码）" class="headerlink" title="Replace Type Code with Subclasses（以子类取代型别码）"></a>Replace Type Code with Subclasses（以子类取代型别码）</h2><p>problem:你有一个不可变的（immutable）type code,它会影响class的行为。<br>solution:以一个subclass 取代这个type code。</p>
+<p><img src="/2018/01/11/refactoring/08 数据重构/png8/8.gif" alt=""></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这是一个使用Replace Type Code with Class重构过的类，其实没有必要重构</span></span><br><span class="line"><span class="keyword">enum</span> EmployeeTypeEnum&#123;</span><br><span class="line">  ENGINEER(<span class="number">0</span>),SALESMAN(<span class="number">1</span>),MANAGER(<span class="number">2</span>);</span><br><span class="line">  <span class="keyword">private</span> _type;</span><br><span class="line">  EmployeeType (<span class="keyword">int</span> type) &#123;</span><br><span class="line">      _type = type;</span><br><span class="line">   &#125;</span><br><span class="line">  <span class="function"><span class="keyword">int</span> <span class="title">getType</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> _type;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Employee</span></span>&#123;</span><br><span class="line">  EmployeeTypeEnum employeeType;</span><br><span class="line">  Employee(EmployeeTypeEnum e)&#123;</span><br><span class="line">    employeeType = e;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function">EmployeeTypeEnum <span class="title">getType</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> employeeType;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">doSomething</span><span class="params">(EmployeeTypeEnum type)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">switch</span> (employeeType) &#123;</span><br><span class="line">           <span class="keyword">case</span> EmployeeTypeEnum.ENGINEER:</span><br><span class="line">              doSomething1();</span><br><span class="line">           <span class="keyword">case</span> EmployeeTypeEnum.SALESMAN:</span><br><span class="line">              doSomething2();</span><br><span class="line">           <span class="keyword">case</span> EmployeeTypeEnum.MANAGER:</span><br><span class="line">              doSomething3();</span><br><span class="line">           <span class="keyword">default</span>:</span><br><span class="line">              <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Incorrect type code value"</span>);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">//很多处会用到switch语句</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//======================after refactoring=========================</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Engineer</span> <span class="keyword">extends</span> <span class="title">Employee</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">int</span> <span class="title">doSomething</span><span class="params">()</span></span>&#123;</span><br><span class="line">       ...;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function">EmployeeTypeEnum <span class="title">getType</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> EmployeeType.ENGINEER;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">//..</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Salesman</span> <span class="keyword">extends</span> <span class="title">Employee</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">int</span> <span class="title">doSomething</span><span class="params">()</span></span>&#123;</span><br><span class="line">       ...;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function">EmployeeTypeEnum <span class="title">getType</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> EmployeeType.SALESMAN;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">//..</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Manager</span> <span class="keyword">extends</span> <span class="title">Employee</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">int</span> <span class="title">doSomething</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       ...;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function">EmployeeTypeEnum <span class="title">getType</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> EmployeeType.MANAGER;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">//..</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Employee</span></span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//静态工厂方法</span></span><br><span class="line">  <span class="function"><span class="keyword">static</span> Employee <span class="title">create</span><span class="params">(EmployeeTypeEnum type)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">switch</span> (type) &#123;</span><br><span class="line">           <span class="keyword">case</span> EmployeeTypeEnum.ENGINEER:</span><br><span class="line">              <span class="keyword">return</span> <span class="keyword">new</span> Engineer();</span><br><span class="line">           <span class="keyword">case</span> EmployeeTypeEnum.SALESMAN:</span><br><span class="line">              <span class="keyword">return</span> <span class="keyword">new</span> Salesman();</span><br><span class="line">           <span class="keyword">case</span> EmployeeTypeEnum.MANAGER:</span><br><span class="line">              <span class="keyword">return</span> <span class="keyword">new</span> Manager();</span><br><span class="line">           <span class="keyword">default</span>:</span><br><span class="line">              <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Incorrect type code value"</span>);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">abstract</span> <span class="title">doSomething</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里只有一处用到switch语句，并且只用于决定创建何种对象，这样的switch语句是可以接受的。</p>
+</blockquote>
+<p><strong>重构原因？</strong></p>
+<ol>
+<li>每一个方法，都需要根据类型来表现不同的行为，会导致代码中具有很多的switch语句</li>
+<li>不符合开闭原则，如果需要增加一个type code，就需要在每一个方法的switch中都增加响应的逻辑，这样的工作也是十分头疼的。</li>
+</ol>
+<h1 id="Replace-Type-Code-with-State-Strategy（以State-strategy-取代型别码）"><a href="#Replace-Type-Code-with-State-Strategy（以State-strategy-取代型别码）" class="headerlink" title="Replace Type Code with State/Strategy（以State/strategy 取代型别码）"></a>Replace Type Code with State/Strategy（以State/strategy 取代型别码）</h1><p>problem:你有一个type code，它会影响class的行为，但你无法使用subclassing。<br>solution:以state object（专门用来描述状态的对象）取代type code 。</p>
+<p><img src="/2018/01/11/refactoring/08 数据重构/png8/9.gif" alt=""></p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这是一个使用Replace Type Code with Class重构过的类，其实没有必要重构</span></span><br><span class="line"><span class="keyword">enum</span> EmployeeTypeEnum&#123;</span><br><span class="line">  ENGINEER(<span class="number">0</span>),SALESMAN(<span class="number">1</span>),MANAGER(<span class="number">2</span>);</span><br><span class="line">  <span class="keyword">private</span> _type;</span><br><span class="line">  EmployeeType (<span class="keyword">int</span> type) &#123;</span><br><span class="line">      _type = type;</span><br><span class="line">   &#125;</span><br><span class="line">  <span class="function"><span class="keyword">int</span> <span class="title">getType</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> _type;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Employee</span></span>&#123;</span><br><span class="line">  EmployeeTypeEnum employeeType;</span><br><span class="line">  Employee(EmployeeTypeEnum e)&#123;</span><br><span class="line">    employeeType = e;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function">EmployeeTypeEnum <span class="title">getType</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> employeeType;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">doSomething</span><span class="params">(EmployeeTypeEnum type)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">switch</span> (employeeType) &#123;</span><br><span class="line">           <span class="keyword">case</span> EmployeeTypeEnum.ENGINEER:</span><br><span class="line">              doSomething1();</span><br><span class="line">           <span class="keyword">case</span> EmployeeTypeEnum.SALESMAN:</span><br><span class="line">              doSomething2();</span><br><span class="line">           <span class="keyword">case</span> EmployeeTypeEnum.MANAGER:</span><br><span class="line">              doSomething3();</span><br><span class="line">           <span class="keyword">default</span>:</span><br><span class="line">              <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Incorrect type code value"</span>);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">//很多处会用到switch语句</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//======================after refactoring=========================</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">EmployeeType</span></span>&#123;</span><br><span class="line">   <span class="comment">//静态工厂方法</span></span><br><span class="line">   <span class="function"><span class="keyword">static</span> EmployeeType <span class="title">create</span><span class="params">(EmployeeTypeEnum type)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">switch</span> (type) &#123;</span><br><span class="line">           <span class="keyword">case</span> EmployeeTypeEnum.ENGINEER:</span><br><span class="line">              <span class="keyword">return</span> <span class="keyword">new</span> Engineer();</span><br><span class="line">           <span class="keyword">case</span> EmployeeTypeEnum.SALESMAN:</span><br><span class="line">              <span class="keyword">return</span> <span class="keyword">new</span> Salesman();</span><br><span class="line">           <span class="keyword">case</span> EmployeeTypeEnum.MANAGER:</span><br><span class="line">              <span class="keyword">return</span> <span class="keyword">new</span> Manager();</span><br><span class="line">           <span class="keyword">default</span>:</span><br><span class="line">              <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Incorrect type code value"</span>);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">abstract</span> <span class="keyword">int</span> <span class="title">doSomething</span><span class="params">()</span></span>&#123;</span><br><span class="line">       ...;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">abstract</span> <span class="keyword">int</span> <span class="title">getTypeCode</span><span class="params">()</span></span>;</span><br><span class="line">   <span class="comment">//..</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Engineer</span> <span class="keyword">extends</span> <span class="title">EmployeeType</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">int</span> <span class="title">doSomething</span><span class="params">()</span></span>&#123;</span><br><span class="line">       ...;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function">EmployeeTypeEnum <span class="title">getTypeCode</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> EmployeeTypeEnum.ENGINEER;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">//..</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Salesman</span> <span class="keyword">extends</span> <span class="title">EmployeeType</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">int</span> <span class="title">doSomething</span><span class="params">()</span></span>&#123;</span><br><span class="line">       ...;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function">EmployeeTypeEnum <span class="title">getTypeCode</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> EmployeeTypeEnum.MANAGER;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">//..</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Manager</span> <span class="keyword">extends</span> <span class="title">EmployeeType</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">int</span> <span class="title">doSomething</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       ...;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function">EmployeeTypeEnum <span class="title">getTypeCode</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> EmployeeTypeEnum.SALESMAN;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">//..</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Employee</span></span>&#123;</span><br><span class="line"></span><br><span class="line">  EmployeeType employee;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">setType</span><span class="params">(EmployeeTypeEnum e)</span> </span>&#123;</span><br><span class="line">       employee = EmployeeType.create(e);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">doSomething</span><span class="params">()</span></span>&#123;</span><br><span class="line">    employee.doSomething();</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Replace Type Code with Subclasses和Replace Type Code with State/Strategy重构后，很自然的会使用Replace Conditional with Polymorphism进行重构，上面都是使用Replace Conditional with Polymorphism重构后的结果</p>
+</blockquote>
+<p><strong>重构原因？</strong></p>
+<p>无法使用Replace Type Code with Subclasses：</p>
+<ol>
+<li>原类已经具有其他子类。</li>
+<li>type code可能在运行的过程中变化（一个不变对象所属类型发生变化），使用子类很难做到这一点。原因是使用Replace Type Code with Subclasses，每一个对象都是一个类型，两者是一体的关系，无法分离开。而Replace Type Code with State/Strategy，对象是对象，类型是类型，分离后就可以实时改变类型。</li>
+</ol>
+<h2 id="Replace-Subclass-with-Fields（以值域取代子类）"><a href="#Replace-Subclass-with-Fields（以值域取代子类）" class="headerlink" title="Replace Subclass with Fields（以值域取代子类）"></a>Replace Subclass with Fields（以值域取代子类）</h2><p>你的各个subclasses 的惟一差别只在「返回常量数据」的函数身上。<br>修改这些函数，使它们返回superclass 中的某个（新增）值域，然后销毁subclasses 。</p>
+<p><img src="/2018/01/11/refactoring/08 数据重构/png8/6.gif" alt=""></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">abstract</span> <span class="keyword">boolean</span> <span class="title">isMale</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">abstract</span> <span class="keyword">char</span> <span class="title">getCode</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Male</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isMale</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">char</span> <span class="title">getCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'M'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Female</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isMale</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">char</span> <span class="title">getCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'F'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//======================after refactoring=========================</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">boolean</span> _isMale;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">char</span> _code;</span><br><span class="line"></span><br><span class="line">    Person(<span class="keyword">boolean</span> isMale, <span class="keyword">char</span> code) &#123;</span><br><span class="line">        _isMale = isMale;</span><br><span class="line">        _code = code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> Person <span class="title">createMale</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Male(<span class="keyword">true</span>, <span class="string">'M'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> Person <span class="title">createFemale</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Female(<span class="keyword">false</span>, <span class="string">'F'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isMale</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> _isMale;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">char</span> <span class="title">getCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> _code;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>重构原因？</strong></p>
+<p>子类没有什么额外的新特性，也没有明显的变化行为。只有一个返回常量的变化行为，这个常量的用途是：不同的子类会返回不同的常量。<br>除此之外，子类实在没有足够的存在价值</p>
+
+      
+    </div>
+    
+    
+    
+
+	
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2018/01/11/refactoring/08 数据重构/">08 数据重构</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Sun 的个人博客">Sun</a></p>
+  <p><span>发布时间:</span>2018年01月11日 - 17:01</p>
+  <p><span>最后更新:</span>2019年01月15日 - 11:01</p>
+  <p><span>原始链接:</span><a href="/2018/01/11/refactoring/08 数据重构/" title="08 数据重构">https://sunyi720.github.io/2018/01/11/refactoring/08 数据重构/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2018/01/11/refactoring/08 数据重构/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Sun 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Sun 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/重构/" rel="tag"><i class="fa fa-tag"></i> 重构</a>
+          
+            <a href="/tags/数据重构/" rel="tag"><i class="fa fa-tag"></i> 数据重构</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/09/refactoring/07 责任重构/" rel="next" title="07 责任重构">
+                <i class="fa fa-chevron-left"></i> 07 责任重构
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/14/refactoring/09 条件表达式重构/" rel="prev" title="09 条件表达式重构">
+                09 条件表达式重构 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjMzMS8xMjg2Ng=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/head.png" alt="Sun">
+            
+              <p class="site-author-name" itemprop="name">Sun</p>
+              <p class="site-description motion-element" itemprop="description">Lv.0</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/sunyi720" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="codersun2018@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据重构"><span class="nav-number">1.</span> <span class="nav-text">数据重构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Self-Encapsulate-Field（自封装值域）"><span class="nav-number">1.1.</span> <span class="nav-text">Self Encapsulate Field（自封装值域）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Replace-Data-Value-with-Object（以对象取代数据值）"><span class="nav-number">1.2.</span> <span class="nav-text">Replace Data Value with Object（以对象取代数据值）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Change-Value-to-Reference（将实值对象改为引用对象）"><span class="nav-number">1.3.</span> <span class="nav-text">Change Value to Reference（将实值对象改为引用对象）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Change-Reference-to-Value（把引用对象变成值对象）"><span class="nav-number">1.4.</span> <span class="nav-text">Change Reference to Value（把引用对象变成值对象）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Replace-Array-with-Object（以对象取代数组）"><span class="nav-number">1.5.</span> <span class="nav-text">Replace Array with Object（以对象取代数组）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Change-Unidirectional-Association-to-Bidirectional（将单向关联改为双向）"><span class="nav-number">1.6.</span> <span class="nav-text">Change Unidirectional Association to Bidirectional（将单向关联改为双向）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Change-Bidirectional-Association-to-Unidirectional（将双向关联改为单向）"><span class="nav-number">1.7.</span> <span class="nav-text">Change Bidirectional Association to Unidirectional（将双向关联改为单向）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Replace-Magic-Number-with-Symbolic-Constant（以符号常量-字面常量取代魔法数）"><span class="nav-number">1.8.</span> <span class="nav-text">Replace Magic Number with Symbolic Constant（以符号常量/字面常量取代魔法数）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Encapsulate-Field（封装值域）"><span class="nav-number">1.9.</span> <span class="nav-text">Encapsulate Field（封装值域）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Encapsulate-Collection（封装群集）"><span class="nav-number">1.10.</span> <span class="nav-text">Encapsulate Collection（封装群集）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Replace-Type-Code-with-Class（以类取代型别码）"><span class="nav-number">1.11.</span> <span class="nav-text">Replace Type Code with Class（以类取代型别码）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Replace-Type-Code-with-Subclasses（以子类取代型别码）"><span class="nav-number">1.12.</span> <span class="nav-text">Replace Type Code with Subclasses（以子类取代型别码）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Replace-Type-Code-with-State-Strategy（以State-strategy-取代型别码）"><span class="nav-number">2.</span> <span class="nav-text">Replace Type Code with State/Strategy（以State/strategy 取代型别码）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Replace-Subclass-with-Fields（以值域取代子类）"><span class="nav-number">2.1.</span> <span class="nav-text">Replace Subclass with Fields（以值域取代子类）</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sun</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("iTVMQ8rz1NpV1RJ716VOA2rG-gzGzoHsz", "j0zy5JQ2bmQXtJ8PeP5gAiKM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

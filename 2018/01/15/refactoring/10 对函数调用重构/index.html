@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="重构,对函数调用重构,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="对函数调用重构Rename Method（函数改名）problem:函数的命名不能解释这个函数做什么solution:重命名 12345getsnm()&amp;#123;&amp;#125;//======================after refactoring=========================getSecondName()&amp;#123;&amp;#125; 重构原因？  第一次创建方法太匆忙以">
+<meta name="keywords" content="重构,对函数调用重构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10 对函数调用重构">
+<meta property="og:url" content="https://sunyi720.github.io/2018/01/15/refactoring/10 对函数调用重构/index.html">
+<meta property="og:site_name" content="Sun">
+<meta property="og:description" content="对函数调用重构Rename Method（函数改名）problem:函数的命名不能解释这个函数做什么solution:重命名 12345getsnm()&amp;#123;&amp;#125;//======================after refactoring=========================getSecondName()&amp;#123;&amp;#125; 重构原因？  第一次创建方法太匆忙以">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-01-15T12:15:48.060Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="10 对函数调用重构">
+<meta name="twitter:description" content="对函数调用重构Rename Method（函数改名）problem:函数的命名不能解释这个函数做什么solution:重命名 12345getsnm()&amp;#123;&amp;#125;//======================after refactoring=========================getSecondName()&amp;#123;&amp;#125; 重构原因？  第一次创建方法太匆忙以">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":20},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://sunyi720.github.io/2018/01/15/refactoring/10 对函数调用重构/">
+
+
+
+
+
+  <title>10 对函数调用重构 | Sun</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sun</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数字人生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2018/01/15/refactoring/10 对函数调用重构/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">10 对函数调用重构</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-15T11:05:00+08:00">
+                2018-01-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/重构-学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">重构 学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/01/15/refactoring/10 对函数调用重构/" class="leancloud_visitors" data-flag-title="10 对函数调用重构">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="对函数调用重构"><a href="#对函数调用重构" class="headerlink" title="对函数调用重构"></a>对函数调用重构</h1><h2 id="Rename-Method（函数改名）"><a href="#Rename-Method（函数改名）" class="headerlink" title="Rename Method（函数改名）"></a>Rename Method（函数改名）</h2><p>problem:函数的命名不能解释这个函数做什么<br>solution:重命名</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">getsnm()&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//======================after refactoring=========================</span></span><br><span class="line"></span><br><span class="line">getSecondName()&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>重构原因？</strong></p>
+<ol>
+<li>第一次创建方法太匆忙以至于没有很好地命名</li>
+<li>随着功能的增加，函数名不足以很好的描述。</li>
+</ol>
+<h2 id="Add-Parameter（增加参数）"><a href="#Add-Parameter（增加参数）" class="headerlink" title="Add Parameter（增加参数）"></a>Add Parameter（增加参数）</h2><p>problem:方法没有足够的数据来执行某些操作。<br>solution:创建一个新参数以传递必要的数据。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">getContact();</span><br><span class="line"></span><br><span class="line"><span class="comment">//======================after refactoring=========================</span></span><br><span class="line"></span><br><span class="line">getContact(Date);</span><br></pre></td></tr></table></figure>
+<p><strong>重构原因？</strong></p>
+<p>函数需要新的数据来工作，相比增加一个私有字段，使用参数来传递数据更加合适。</p>
+<h2 id="Remove-Parameter（移除参数）"><a href="#Remove-Parameter（移除参数）" class="headerlink" title="Remove Parameter（移除参数）"></a>Remove Parameter（移除参数）</h2><p>problem:参数未在方法体中使用。<br>solution:删除未使用的参数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">getContact(Date);</span><br><span class="line"></span><br><span class="line"><span class="comment">//======================after refactoring=========================</span></span><br><span class="line"></span><br><span class="line">getContact();</span><br></pre></td></tr></table></figure>
+<p><strong>重构原因？</strong></p>
+<p>删除没有被使用到的参数</p>
+<h2 id="Separate-Query-from-Modifier（分离查询和修改）"><a href="#Separate-Query-from-Modifier（分离查询和修改）" class="headerlink" title="Separate Query from Modifier（分离查询和修改）"></a>Separate Query from Modifier（分离查询和修改）</h2><p>problem:一个函数既查询又修改<br>solution:将查询和修改的函数拆开</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">getTotalOutstandingAndSetReadyForSummaries();</span><br><span class="line"></span><br><span class="line"><span class="comment">//======================after refactoring=========================</span></span><br><span class="line"></span><br><span class="line">getTotalOutstanding();</span><br><span class="line">setReadyForSummaries();</span><br></pre></td></tr></table></figure>
+<p><strong>重构原因？</strong></p>
+<p>让函数的功能更加明确</p>
+<h2 id="Preserve-Whole-Object（传递整个对象）"><a href="#Preserve-Whole-Object（传递整个对象）" class="headerlink" title="Preserve Whole Object（传递整个对象）"></a>Preserve Whole Object（传递整个对象）</h2><p>problem:从对象获取多个值，然后将它们作为参数传递给方法。<br>solution:相反，尝试传递整个对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> low = daysTempRange.getLow();</span><br><span class="line"><span class="keyword">int</span> high = daysTempRange.getHigh();</span><br><span class="line"><span class="keyword">boolean</span> withinPlan = plan.withinRange(low, high);</span><br><span class="line"></span><br><span class="line"><span class="comment">//======================after refactoring=========================</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">boolean</span> withinPlan = plan.withinRange(daysTempRange);</span><br></pre></td></tr></table></figure>
+<p><strong>重构原因？</strong></p>
+<p>当方法需要增加参数的时候，不需要修改每个调用它的地方。</p>
+<blockquote>
+<p>改重构会导致该函数变得不够灵活，二思而后行。</p>
+</blockquote>
+<h2 id="Replace-Parameter-with-Method-Call（用方法的调用来代替参数）"><a href="#Replace-Parameter-with-Method-Call（用方法的调用来代替参数）" class="headerlink" title="Replace Parameter with Method Call（用方法的调用来代替参数）"></a>Replace Parameter with Method Call（用方法的调用来代替参数）</h2><p>problem:调用查询方法并将其结果作为另一个方法的参数传递，而后者可以直接调用查询。<br>solution:不要通过参数传递值，而是尝试在方法体内放置查询调用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> basePrice = quantity * itemPrice;</span><br><span class="line"><span class="keyword">double</span> seasonDiscount = <span class="keyword">this</span>.getSeasonalDiscount();</span><br><span class="line"><span class="keyword">double</span> fees = <span class="keyword">this</span>.getFees();</span><br><span class="line"><span class="keyword">double</span> finalPrice = discountedPrice(basePrice, seasonDiscount, fees);</span><br><span class="line"></span><br><span class="line"><span class="comment">//======================after refactoring=========================</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> basePrice = quantity * itemPrice;</span><br><span class="line"><span class="keyword">double</span> finalPrice = discountedPrice(basePrice);</span><br></pre></td></tr></table></figure>
+<p><strong>重构原因？</strong></p>
+<p>简化函数调用</p>
+<blockquote>
+<p>这种重构更多是考虑当下，而不是着眼未来。符合设计原则——you are’t not need it</p>
+</blockquote>
+<h2 id="Introduce-Parameter-Object（引入参数对象）"><a href="#Introduce-Parameter-Object（引入参数对象）" class="headerlink" title="Introduce Parameter Object（引入参数对象）"></a>Introduce Parameter Object（引入参数对象）</h2><p>problem:方法包含重复的参数组。<br>solution:用对象替换这些参数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fun1(Date start,Date end);</span><br><span class="line">fun2(Date start,Date end);</span><br><span class="line">fun2(Date start,Date end);</span><br><span class="line"></span><br><span class="line"><span class="comment">//======================after refactoring=========================</span></span><br><span class="line"></span><br><span class="line">fun1(DateRange date);</span><br><span class="line">fun2(DateRange date);</span><br><span class="line">fun2(DateRange date);</span><br></pre></td></tr></table></figure>
+<p><strong>重构原因？</strong></p>
+<p>多次使用同一组参数列表<br>日后可能还可以对这个重构对象增加一些行为。</p>
+<h2 id="Remove-Setting-Method（移除setter方法）"><a href="#Remove-Setting-Method（移除setter方法）" class="headerlink" title="Remove Setting Method（移除setter方法）"></a>Remove Setting Method（移除setter方法）</h2><p>problem:字段的值只应在创建时设置，并且在此之后不能随时更改。<br>solution:删除设置字段值的方法。</p>
+<h2 id="Hide-Method（隐藏方法）"><a href="#Hide-Method（隐藏方法）" class="headerlink" title="Hide Method（隐藏方法）"></a>Hide Method（隐藏方法）</h2><p>problem:其他类不使用方法，或仅在其自己的类层次结构中使用该方法。<br>solution:使方法成为私有或受保护。</p>
+<p><strong>重构原因？</strong></p>
+<p>只让其它类看到具有完整功能的函数，至于如何实现这个函数的过程，不应该暴露出去。</p>
+<h2 id="Replace-Constructor-with-Factory-Method（使用简单工厂代替构造器）"><a href="#Replace-Constructor-with-Factory-Method（使用简单工厂代替构造器）" class="headerlink" title="Replace Constructor with Factory Method（使用简单工厂代替构造器）"></a>Replace Constructor with Factory Method（使用简单工厂代替构造器）</h2><p>problem:有一个复杂的构造函数，它不仅仅在对象字段中设置参数值。<br>solution:使用简单工厂来替换构造函数调用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Employee</span> </span>&#123;</span><br><span class="line">  Employee(<span class="keyword">int</span> type) &#123;</span><br><span class="line">    <span class="keyword">this</span>.type = type;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//======================after refactoring=========================</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Employee</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">static</span> Employee <span class="title">create</span><span class="params">(<span class="keyword">int</span> type)</span> </span>&#123;</span><br><span class="line">    employee = <span class="keyword">new</span> Employee(type);</span><br><span class="line">    <span class="comment">// do some heavy lifting.</span></span><br><span class="line">    <span class="keyword">return</span> employee;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>重构原因？</strong></p>
+<p>使用简单工厂可以再创建对象的同时做更多的事情：</p>
+<ol>
+<li>可以选择性的创建并返回子类对象</li>
+<li>可以返回一个已经存在的对象（单例）</li>
+<li>可以对解耦new关键字</li>
+</ol>
+<h2 id="Replace-Error-Code-with-Exception（用异常代替错误码）"><a href="#Replace-Error-Code-with-Exception（用异常代替错误码）" class="headerlink" title="Replace Error Code with Exception（用异常代替错误码）"></a>Replace Error Code with Exception（用异常代替错误码）</h2><p>problem:方法返回一个指示错误的特殊值<br>solution:应该抛出异常</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">withdraw</span><span class="params">(<span class="keyword">int</span> amount)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (amount &gt; _balance) &#123;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> &#123;</span><br><span class="line">    balance -= amount;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//======================after refactoring=========================</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">withdraw</span><span class="params">(<span class="keyword">int</span> amount)</span> <span class="keyword">throws</span> BalanceException </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (amount &gt; _balance) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> BalanceException();</span><br><span class="line">  &#125;</span><br><span class="line">  balance -= amount;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>重构原因？</strong></p>
+<p>异常的出现就是解决不断地校验错误码来辨认调用成功还是失败的繁琐工作</p>
+
+      
+    </div>
+    
+    
+    
+
+	
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2018/01/15/refactoring/10 对函数调用重构/">10 对函数调用重构</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Sun 的个人博客">Sun</a></p>
+  <p><span>发布时间:</span>2018年01月15日 - 11:01</p>
+  <p><span>最后更新:</span>2019年01月15日 - 20:01</p>
+  <p><span>原始链接:</span><a href="/2018/01/15/refactoring/10 对函数调用重构/" title="10 对函数调用重构">https://sunyi720.github.io/2018/01/15/refactoring/10 对函数调用重构/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2018/01/15/refactoring/10 对函数调用重构/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Sun 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Sun 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/重构/" rel="tag"><i class="fa fa-tag"></i> 重构</a>
+          
+            <a href="/tags/对函数调用重构/" rel="tag"><i class="fa fa-tag"></i> 对函数调用重构</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/14/refactoring/09 条件表达式重构/" rel="next" title="09 条件表达式重构">
+                <i class="fa fa-chevron-left"></i> 09 条件表达式重构
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/15/refactoring/11 处理泛化关系/" rel="prev" title="11 处理泛化关系">
+                11 处理泛化关系 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjMzMS8xMjg2Ng=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/head.png" alt="Sun">
+            
+              <p class="site-author-name" itemprop="name">Sun</p>
+              <p class="site-description motion-element" itemprop="description">Lv.0</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/sunyi720" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="codersun2018@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#对函数调用重构"><span class="nav-number">1.</span> <span class="nav-text">对函数调用重构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Rename-Method（函数改名）"><span class="nav-number">1.1.</span> <span class="nav-text">Rename Method（函数改名）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Add-Parameter（增加参数）"><span class="nav-number">1.2.</span> <span class="nav-text">Add Parameter（增加参数）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Remove-Parameter（移除参数）"><span class="nav-number">1.3.</span> <span class="nav-text">Remove Parameter（移除参数）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Separate-Query-from-Modifier（分离查询和修改）"><span class="nav-number">1.4.</span> <span class="nav-text">Separate Query from Modifier（分离查询和修改）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Preserve-Whole-Object（传递整个对象）"><span class="nav-number">1.5.</span> <span class="nav-text">Preserve Whole Object（传递整个对象）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Replace-Parameter-with-Method-Call（用方法的调用来代替参数）"><span class="nav-number">1.6.</span> <span class="nav-text">Replace Parameter with Method Call（用方法的调用来代替参数）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduce-Parameter-Object（引入参数对象）"><span class="nav-number">1.7.</span> <span class="nav-text">Introduce Parameter Object（引入参数对象）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Remove-Setting-Method（移除setter方法）"><span class="nav-number">1.8.</span> <span class="nav-text">Remove Setting Method（移除setter方法）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hide-Method（隐藏方法）"><span class="nav-number">1.9.</span> <span class="nav-text">Hide Method（隐藏方法）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Replace-Constructor-with-Factory-Method（使用简单工厂代替构造器）"><span class="nav-number">1.10.</span> <span class="nav-text">Replace Constructor with Factory Method（使用简单工厂代替构造器）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Replace-Error-Code-with-Exception（用异常代替错误码）"><span class="nav-number">1.11.</span> <span class="nav-text">Replace Error Code with Exception（用异常代替错误码）</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sun</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("iTVMQ8rz1NpV1RJ716VOA2rG-gzGzoHsz", "j0zy5JQ2bmQXtJ8PeP5gAiKM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

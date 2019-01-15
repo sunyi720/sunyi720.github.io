@@ -79,16 +79,17 @@
 
 
 
-<meta name="description" content="Lv.0">
-<meta property="og:type" content="website">
+<meta name="description" content="重构原则（P78-99）为何重构 使代码更容易理解和修改 优化性能，便于维护  利用重构技术开发时，应该把时间分配给两种截然不同的行为，添加新功能，以及重构。 何时重构三次法则：第一次只管去做。第二次会反感，但是可以这样做。第三次应该重构。 时机：  为了理解代码 为了弥补过去的不足，添加新特性 使用重构复审代码  重构是为了明天的工作更加轻松。 修改接口：修改已经发布的接口需要谨慎修改，尽量采用">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Sun">
-<meta property="og:url" content="https://sunyi720.github.io/archives/2018/12/index.html">
+<meta property="og:url" content="https://sunyi720.github.io/2019/01/15/refactoring/02 重构原则/index.html">
 <meta property="og:site_name" content="Sun">
-<meta property="og:description" content="Lv.0">
+<meta property="og:description" content="重构原则（P78-99）为何重构 使代码更容易理解和修改 优化性能，便于维护  利用重构技术开发时，应该把时间分配给两种截然不同的行为，添加新功能，以及重构。 何时重构三次法则：第一次只管去做。第二次会反感，但是可以这样做。第三次应该重构。 时机：  为了理解代码 为了弥补过去的不足，添加新特性 使用重构复审代码  重构是为了明天的工作更加轻松。 修改接口：修改已经发布的接口需要谨慎修改，尽量采用">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-01-15T03:27:59.036Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sun">
-<meta name="twitter:description" content="Lv.0">
+<meta name="twitter:description" content="重构原则（P78-99）为何重构 使代码更容易理解和修改 优化性能，便于维护  利用重构技术开发时，应该把时间分配给两种截然不同的行为，添加新功能，以及重构。 何时重构三次法则：第一次只管去做。第二次会反感，但是可以这样做。第三次应该重构。 时机：  为了理解代码 为了弥补过去的不足，添加新特性 使用重构复审代码  重构是为了明天的工作更加轻松。 修改接口：修改已经发布的接口需要谨慎修改，尽量采用">
 
 
 
@@ -118,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://sunyi720.github.io/archives/2018/12/">
+  <link rel="canonical" href="https://sunyi720.github.io/2019/01/15/refactoring/02 重构原则/">
 
 
 
 
 
-  <title>归档 | Sun</title>
+  <title> | Sun</title>
   
 
 
@@ -145,7 +146,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -239,142 +240,210 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2019/01/15/refactoring/02 重构原则/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sun">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline"></h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-15T20:23:20+08:00">
+                2019-01-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 27 篇日志。 继续努力。
-      </span>
 
-      
-
-        
-        
-        
-
-        
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2018">2018</h1>
-          </div>
-        
-        
+            
+          
 
-        
+          
+          
+             <span id="/2019/01/15/refactoring/02 重构原则/" class="leancloud_visitors" data-flag-title="">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/12/19/Design Patterns/UML/" itemprop="url">
-              
-                <span itemprop="name">UML类图和时序图</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-12-19T19:58:00+08:00" content="2018-12-19">
-          12-19
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+        </div>
+      </header>
+    
 
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/12/17/THING IN JAVA/15 泛型/" itemprop="url">
-              
-                <span itemprop="name">15 泛型</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-12-17T14:21:00+08:00" content="2018-12-17">
-          12-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/12/12/THING IN JAVA/21 并发/" itemprop="url">
-              
-                <span itemprop="name">21 并发</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-12-12T15:49:00+08:00" content="2018-12-12">
-          12-12
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
+      
+        <h1 id="重构原则（P78-99）"><a href="#重构原则（P78-99）" class="headerlink" title="重构原则（P78-99）"></a>重构原则（P78-99）</h1><h2 id="为何重构"><a href="#为何重构" class="headerlink" title="为何重构"></a>为何重构</h2><ol>
+<li>使代码更容易理解和修改</li>
+<li>优化性能，便于维护</li>
+</ol>
+<p>利用重构技术开发时，应该把时间分配给两种截然不同的行为，添加新功能，以及重构。</p>
+<h2 id="何时重构"><a href="#何时重构" class="headerlink" title="何时重构"></a>何时重构</h2><p>三次法则：第一次只管去做。第二次会反感，但是可以这样做。第三次应该重构。</p>
+<p>时机：</p>
+<ol>
+<li>为了理解代码</li>
+<li>为了弥补过去的不足，添加新特性</li>
+<li>使用重构复审代码</li>
+</ol>
+<p>重构是为了明天的工作更加轻松。</p>
+<p>修改接口：修改已经发布的接口需要谨慎修改，尽量采用<strong>在旧接口中调用新接口</strong>的方式来实现。</p>
+<p>重构的前提是代码的大部分功能都健全，并且不建议在最后关头做重构。</p>
+<h2 id="重构与设计"><a href="#重构与设计" class="headerlink" title="重构与设计"></a>重构与设计</h2><p>“预先设计”有必要，但是需要臆想到方方面面，难度大而且实施起来就不一定如意，因此可以<strong>使用重构来取代预先设计</strong>，只管按照最初的想法开始编码,让代码有效运作，然后再将它重构成型。这里并不是说预先设计就没有必要，最好还是有一个初步的设计，结合起来使用。</p>
+<h2 id="重构与性能"><a href="#重构与性能" class="headerlink" title="重构与性能"></a>重构与性能</h2><p>三种编写快速软件的方式：</p>
+<ol>
+<li>时间预算法：分解设计时对每一个组件分配定量的资源——包括时间和执行的轨迹，每个组件绝对不能超过自己的预算时间，这种方法高度重视性能，运用在少部分系统中。</li>
+<li>持续关注法：要求在任何时间做任何事都要保持系统的高性能，但是为了实现这种方法，开发的速度必然大大的降低，每一次都要思考最好的方式，性能改善分散在每一个角落，每一次修改都只是从程序的一个狭隘的角度出发。</li>
+<li>大半的时间都消耗在一小部分的代码上，90%的优化工作都是白费劲。第三种方式就是先，编写良好的程序，不对性能做过多的关注，进入代码优化阶段时再对10%的“热点”部分做思考。</li>
+</ol>
+<p>重构虽然可能使程序运行的教慢，但是它能使得我们比较快的开发出容易理解，容易添加新功能，细粒度更小的良好代码，在性能优化阶段可以针对“热点”进行优化，使得性能调整更容易：</p>
+
+      
     </div>
+    
+    
+    
+
+	
+	<div>
+      
+        
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Sun 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Sun 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/19/Design Patterns/UML/" rel="next" title="UML类图和时序图">
+                <i class="fa fa-chevron-left"></i> UML类图和时序图
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -382,6 +451,15 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjMzMS8xMjg2Ng=="></div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -402,8 +480,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -481,6 +568,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#重构原则（P78-99）"><span class="nav-number">1.</span> <span class="nav-text">重构原则（P78-99）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为何重构"><span class="nav-number">1.1.</span> <span class="nav-text">为何重构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#何时重构"><span class="nav-number">1.2.</span> <span class="nav-text">何时重构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重构与设计"><span class="nav-number">1.3.</span> <span class="nav-text">重构与设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重构与性能"><span class="nav-number">1.4.</span> <span class="nav-text">重构与性能</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -616,6 +719,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -644,6 +751,17 @@
 
 
 
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
   
 
 
