@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="UML,">
+  <meta name="keywords" content="重构,重构原则,">
 
 
 
@@ -79,25 +79,18 @@
 
 
 
-<meta name="description" content="UML类图和时序图UML类图表明类（对象）之前关系的一种方式。  泛型关系：  代码里就是继承关系。   实现关系：    依赖关系  只要两个类之间有关系，就可以叫做有依赖关系  依赖关系可以是成员变量，可以是参数。 作为参数存在的时候只有当方法被调用的时候才会用到另一个类。  关联关系   强依赖关系，体现为成员变量。 关联关系根据两个对象的生命周期又可以分成聚合关系和组合关系。  聚合关系：">
-<meta name="keywords" content="UML">
+<meta name="description" content="重构原则（P78-99）为何重构 使代码更容易理解和修改 优化性能，便于维护  利用重构技术开发时，应该把时间分配给两种截然不同的行为，添加新功能，以及重构。 何时重构三次法则：第一次只管去做。第二次会反感，但是可以这样做。第三次应该重构。 时机：  为了理解代码 为了弥补过去的不足，添加新特性 使用重构复审代码  重构是为了明天的工作更加轻松。 修改接口：修改已经发布的接口需要谨慎修改，尽量采用">
+<meta name="keywords" content="重构,重构原则">
 <meta property="og:type" content="article">
-<meta property="og:title" content="UML类图和时序图">
-<meta property="og:url" content="https://sunyi720.github.io/2018/12/19/Design Patterns/UML/index.html">
+<meta property="og:title" content="02 重构原则">
+<meta property="og:url" content="https://sunyi720.github.io/2019/01/07/refactoring/02 重构原则/index.html">
 <meta property="og:site_name" content="Sun">
-<meta property="og:description" content="UML类图和时序图UML类图表明类（对象）之前关系的一种方式。  泛型关系：  代码里就是继承关系。   实现关系：    依赖关系  只要两个类之间有关系，就可以叫做有依赖关系  依赖关系可以是成员变量，可以是参数。 作为参数存在的时候只有当方法被调用的时候才会用到另一个类。  关联关系   强依赖关系，体现为成员变量。 关联关系根据两个对象的生命周期又可以分成聚合关系和组合关系。  聚合关系：">
+<meta property="og:description" content="重构原则（P78-99）为何重构 使代码更容易理解和修改 优化性能，便于维护  利用重构技术开发时，应该把时间分配给两种截然不同的行为，添加新功能，以及重构。 何时重构三次法则：第一次只管去做。第二次会反感，但是可以这样做。第三次应该重构。 时机：  为了理解代码 为了弥补过去的不足，添加新特性 使用重构复审代码  重构是为了明天的工作更加轻松。 修改接口：修改已经发布的接口需要谨慎修改，尽量采用">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://sunyi720.github.io/2018/12/19/Design%20Patterns/UML/1.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/12/19/Design%20Patterns/UML/2.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/12/19/Design%20Patterns/UML/5.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/12/19/Design%20Patterns/UML/6.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/12/19/Design%20Patterns/UML/3.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/12/19/Design%20Patterns/UML/4.png">
-<meta property="og:updated_time" content="2018-12-19T12:16:23.767Z">
+<meta property="og:updated_time" content="2019-01-15T12:37:23.061Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="UML类图和时序图">
-<meta name="twitter:description" content="UML类图和时序图UML类图表明类（对象）之前关系的一种方式。  泛型关系：  代码里就是继承关系。   实现关系：    依赖关系  只要两个类之间有关系，就可以叫做有依赖关系  依赖关系可以是成员变量，可以是参数。 作为参数存在的时候只有当方法被调用的时候才会用到另一个类。  关联关系   强依赖关系，体现为成员变量。 关联关系根据两个对象的生命周期又可以分成聚合关系和组合关系。  聚合关系：">
-<meta name="twitter:image" content="https://sunyi720.github.io/2018/12/19/Design%20Patterns/UML/1.png">
+<meta name="twitter:title" content="02 重构原则">
+<meta name="twitter:description" content="重构原则（P78-99）为何重构 使代码更容易理解和修改 优化性能，便于维护  利用重构技术开发时，应该把时间分配给两种截然不同的行为，添加新功能，以及重构。 何时重构三次法则：第一次只管去做。第二次会反感，但是可以这样做。第三次应该重构。 时机：  为了理解代码 为了弥补过去的不足，添加新特性 使用重构复审代码  重构是为了明天的工作更加轻松。 修改接口：修改已经发布的接口需要谨慎修改，尽量采用">
 
 
 
@@ -127,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://sunyi720.github.io/2018/12/19/Design Patterns/UML/">
+  <link rel="canonical" href="https://sunyi720.github.io/2019/01/07/refactoring/02 重构原则/">
 
 
 
 
 
-  <title>UML类图和时序图 | Sun</title>
+  <title>02 重构原则 | Sun</title>
   
 
 
@@ -262,7 +255,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2018/12/19/Design Patterns/UML/">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2019/01/07/refactoring/02 重构原则/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sun">
@@ -279,7 +272,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">UML类图和时序图</h1>
+          <h1 class="post-title" itemprop="name headline">02 重构原则</h1>
         
 
         <div class="post-meta">
@@ -291,8 +284,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-19T19:58:00+08:00">
-                2018-12-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-07T12:00:00+08:00">
+                2019-01-07
               </time>
             
 
@@ -314,8 +307,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
+                  <a href="/categories/重构-学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">重构 学习笔记</span>
                   </a>
                 </span>
 
@@ -331,7 +324,7 @@
 
           
           
-             <span id="/2018/12/19/Design Patterns/UML/" class="leancloud_visitors" data-flag-title="UML类图和时序图">
+             <span id="/2019/01/07/refactoring/02 重构原则/" class="leancloud_visitors" data-flag-title="02 重构原则">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -362,44 +355,29 @@
       
 
       
-        <h1 id="UML类图和时序图"><a href="#UML类图和时序图" class="headerlink" title="UML类图和时序图"></a>UML类图和时序图</h1><h2 id="UML类图"><a href="#UML类图" class="headerlink" title="UML类图"></a>UML类图</h2><p>表明类（对象）之前关系的一种方式。</p>
+        <h1 id="重构原则（P78-99）"><a href="#重构原则（P78-99）" class="headerlink" title="重构原则（P78-99）"></a>重构原则（P78-99）</h1><h2 id="为何重构"><a href="#为何重构" class="headerlink" title="为何重构"></a>为何重构</h2><ol>
+<li>使代码更容易理解和修改</li>
+<li>优化性能，便于维护</li>
+</ol>
+<p>利用重构技术开发时，应该把时间分配给两种截然不同的行为，添加新功能，以及重构。</p>
+<h2 id="何时重构"><a href="#何时重构" class="headerlink" title="何时重构"></a>何时重构</h2><p>三次法则：第一次只管去做。第二次会反感，但是可以这样做。第三次应该重构。</p>
+<p>时机：</p>
 <ol>
-<li>泛型关系：</li>
+<li>为了理解代码</li>
+<li>为了弥补过去的不足，添加新特性</li>
+<li>使用重构复审代码</li>
 </ol>
-<p>代码里就是继承关系。</p>
-<p><img src="/2018/12/19/Design Patterns/UML/1.png" alt="泛型关系"></p>
-<ol start="2">
-<li>实现关系：</li>
+<p>重构是为了明天的工作更加轻松。</p>
+<p>修改接口：修改已经发布的接口需要谨慎修改，尽量采用<strong>在旧接口中调用新接口</strong>的方式来实现。</p>
+<p>重构的前提是代码的大部分功能都健全，并且不建议在最后关头做重构。</p>
+<h2 id="重构与设计"><a href="#重构与设计" class="headerlink" title="重构与设计"></a>重构与设计</h2><p>“预先设计”有必要，但是需要臆想到方方面面，难度大而且实施起来就不一定如意，因此可以<strong>使用重构来取代预先设计</strong>，只管按照最初的想法开始编码,让代码有效运作，然后再将它重构成型。这里并不是说预先设计就没有必要，最好还是有一个初步的设计，结合起来使用。</p>
+<h2 id="重构与性能"><a href="#重构与性能" class="headerlink" title="重构与性能"></a>重构与性能</h2><p>三种编写快速软件的方式：</p>
+<ol>
+<li>时间预算法：分解设计时对每一个组件分配定量的资源——包括时间和执行的轨迹，每个组件绝对不能超过自己的预算时间，这种方法高度重视性能，运用在少部分系统中。</li>
+<li>持续关注法：要求在任何时间做任何事都要保持系统的高性能，但是为了实现这种方法，开发的速度必然大大的降低，每一次都要思考最好的方式，性能改善分散在每一个角落，每一次修改都只是从程序的一个狭隘的角度出发。</li>
+<li>大半的时间都消耗在一小部分的代码上，90%的优化工作都是白费劲。第三种方式就是先，编写良好的程序，不对性能做过多的关注，进入代码优化阶段时再对10%的“热点”部分做思考。</li>
 </ol>
-<p><img src="/2018/12/19/Design Patterns/UML/2.png" alt="继承关系"></p>
-<ol start="3">
-<li>依赖关系</li>
-</ol>
-<p>只要两个类之间有关系，就可以叫做有依赖关系</p>
-<p><img src="/2018/12/19/Design Patterns/UML/5.png" alt="依赖关系"></p>
-<p>依赖关系可以是成员变量，可以是参数。</p>
-<p>作为参数存在的时候只有当方法被调用的时候才会用到另一个类。</p>
-<ol start="4">
-<li>关联关系</li>
-</ol>
-<p><img src="/2018/12/19/Design Patterns/UML/6.png" alt="关联关系"></p>
-<p>强依赖关系，体现为成员变量。</p>
-<p>关联关系根据两个对象的生命周期又可以分成聚合关系和组合关系。</p>
-<ol start="5">
-<li>聚合关系：</li>
-</ol>
-<p>B由A组成。<br>表示整体由部分构成的语义，与组合关系不同的是，整体和部分不是强依赖的，即使整体不存在了，部分仍然存在；</p>
-<p><img src="/2018/12/19/Design Patterns/UML/3.png" alt="聚合关系"></p>
-<ol start="6">
-<li>组合关系：</li>
-</ol>
-<p>同样表示整体由部分构成的语义，但组合关系是一种强依赖的特殊聚合关系，如果整体不存在了，则部分也不存在了；</p>
-<p><img src="/2018/12/19/Design Patterns/UML/4.png" alt="组合关系"></p>
-<p><strong>如何理解聚合和组合的区别？</strong></p>
-<p>生命周期:<br>聚合：A和B生命周期不同<br>组合：A和B生命周期相同。</p>
-<p>生活案例：<br>聚合：雁群有雁子<br>组合：雁子有翅膀</p>
-<p>代码区别：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//聚合:GooseGroup对象死亡了，其中的Goose还可以存在。</span></span><br><span class="line"><span class="keyword">public</span>  <span class="class"><span class="keyword">class</span> <span class="title">GooseGroup</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">      <span class="keyword">public</span> Goose goose;</span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="title">GooseGroup</span><span class="params">(Goose goose)</span></span></span><br><span class="line"><span class="function">      </span>&#123;</span><br><span class="line">          <span class="keyword">this</span>.goose = goose;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//组合:GooseGroup对象死亡了，其中的Wings也死亡。</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Goose</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> Wings wings;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Goose</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        wings=<span class="keyword">new</span> Wings();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="时序"><a href="#时序" class="headerlink" title="时序"></a>时序</h2><p>[时序图]<a href="https://www.cnblogs.com/ywqu/archive/2009/12/22/1629426.html" target="_blank" rel="noopener">https://www.cnblogs.com/ywqu/archive/2009/12/22/1629426.html</a></p>
+<p>重构虽然可能使程序运行的教慢，但是它能使得我们比较快的开发出容易理解，容易添加新功能，细粒度更小的良好代码，在性能优化阶段可以针对“热点”进行优化，使得性能调整更容易：</p>
 
       
     </div>
@@ -411,6 +389,35 @@
 	<div>
       
         
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2019/01/07/refactoring/02 重构原则/">02 重构原则</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Sun 的个人博客">Sun</a></p>
+  <p><span>发布时间:</span>2019年01月07日 - 12:01</p>
+  <p><span>最后更新:</span>2019年01月15日 - 20:01</p>
+  <p><span>原始链接:</span><a href="/2019/01/07/refactoring/02 重构原则/" title="02 重构原则">https://sunyi720.github.io/2019/01/07/refactoring/02 重构原则/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2019/01/07/refactoring/02 重构原则/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
       
     </div>
 
@@ -453,7 +460,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/UML/" rel="tag"><i class="fa fa-tag"></i> UML</a>
+            <a href="/tags/重构/" rel="tag"><i class="fa fa-tag"></i> 重构</a>
+          
+            <a href="/tags/重构原则/" rel="tag"><i class="fa fa-tag"></i> 重构原则</a>
           
         </div>
       
@@ -466,8 +475,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/17/THING IN JAVA/15 泛型/" rel="next" title="15 泛型">
-                <i class="fa fa-chevron-left"></i> 15 泛型
+              <a href="/2018/12/19/Design Patterns/UML/" rel="next" title="UML类图和时序图">
+                <i class="fa fa-chevron-left"></i> UML类图和时序图
               </a>
             
           </div>
@@ -476,8 +485,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/01/07/refactoring/02 重构原则/" rel="prev" title="02 重构原则">
-                02 重构原则 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/01/08/refactoring/06 函数重构/" rel="prev" title="06 函数重构">
+                06 函数重构 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -633,7 +642,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#UML类图和时序图"><span class="nav-number">1.</span> <span class="nav-text">UML类图和时序图</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#UML类图"><span class="nav-number">1.1.</span> <span class="nav-text">UML类图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时序"><span class="nav-number">1.2.</span> <span class="nav-text">时序</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#重构原则（P78-99）"><span class="nav-number">1.</span> <span class="nav-text">重构原则（P78-99）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为何重构"><span class="nav-number">1.1.</span> <span class="nav-text">为何重构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#何时重构"><span class="nav-number">1.2.</span> <span class="nav-text">何时重构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重构与设计"><span class="nav-number">1.3.</span> <span class="nav-text">重构与设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重构与性能"><span class="nav-number">1.4.</span> <span class="nav-text">重构与性能</span></a></li></ol></li></ol></div>
             
 
           </div>

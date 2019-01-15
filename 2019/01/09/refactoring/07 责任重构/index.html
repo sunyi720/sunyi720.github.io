@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="UML,">
+  <meta name="keywords" content="责任重构,重构,">
 
 
 
@@ -79,25 +79,26 @@
 
 
 
-<meta name="description" content="UML类图和时序图UML类图表明类（对象）之前关系的一种方式。  泛型关系：  代码里就是继承关系。   实现关系：    依赖关系  只要两个类之间有关系，就可以叫做有依赖关系  依赖关系可以是成员变量，可以是参数。 作为参数存在的时候只有当方法被调用的时候才会用到另一个类。  关联关系   强依赖关系，体现为成员变量。 关联关系根据两个对象的生命周期又可以分成聚合关系和组合关系。  聚合关系：">
-<meta name="keywords" content="UML">
+<meta name="description" content="责任重构让代码尽量符合单一职责原则，会大大的提高阅读和维护效率 Move Method（搬移函数）problem:有个函数与其所驻class之外的另一个class进行更多交流：调用后者，或被后者调用；可以认为这个函数更适合作为另一个class的特性。solution:在该函数最常引用的class中建立一个有着类似行为的新函数；之后将旧函数变成一个单纯的委托函数（delegating method）">
+<meta name="keywords" content="责任重构,重构">
 <meta property="og:type" content="article">
-<meta property="og:title" content="UML类图和时序图">
-<meta property="og:url" content="https://sunyi720.github.io/2018/12/19/Design Patterns/UML/index.html">
+<meta property="og:title" content="07 责任重构">
+<meta property="og:url" content="https://sunyi720.github.io/2019/01/09/refactoring/07 责任重构/index.html">
 <meta property="og:site_name" content="Sun">
-<meta property="og:description" content="UML类图和时序图UML类图表明类（对象）之前关系的一种方式。  泛型关系：  代码里就是继承关系。   实现关系：    依赖关系  只要两个类之间有关系，就可以叫做有依赖关系  依赖关系可以是成员变量，可以是参数。 作为参数存在的时候只有当方法被调用的时候才会用到另一个类。  关联关系   强依赖关系，体现为成员变量。 关联关系根据两个对象的生命周期又可以分成聚合关系和组合关系。  聚合关系：">
+<meta property="og:description" content="责任重构让代码尽量符合单一职责原则，会大大的提高阅读和维护效率 Move Method（搬移函数）problem:有个函数与其所驻class之外的另一个class进行更多交流：调用后者，或被后者调用；可以认为这个函数更适合作为另一个class的特性。solution:在该函数最常引用的class中建立一个有着类似行为的新函数；之后将旧函数变成一个单纯的委托函数（delegating method）">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://sunyi720.github.io/2018/12/19/Design%20Patterns/UML/1.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/12/19/Design%20Patterns/UML/2.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/12/19/Design%20Patterns/UML/5.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/12/19/Design%20Patterns/UML/6.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/12/19/Design%20Patterns/UML/3.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/12/19/Design%20Patterns/UML/4.png">
-<meta property="og:updated_time" content="2018-12-19T12:16:23.767Z">
+<meta property="og:image" content="https://sunyi720.github.io/2019/01/09/refactoring/07%20责任重构/png7/1.gif">
+<meta property="og:image" content="https://sunyi720.github.io/2019/01/09/refactoring/07%20责任重构/png7/2.gif">
+<meta property="og:image" content="https://sunyi720.github.io/2019/01/09/refactoring/07%20责任重构/png7/3.gif">
+<meta property="og:image" content="https://sunyi720.github.io/2019/01/09/refactoring/07%20责任重构/png7/4.gif">
+<meta property="og:image" content="https://sunyi720.github.io/2019/01/09/refactoring/07%20责任重构/png7/5.gif">
+<meta property="og:image" content="https://sunyi720.github.io/2019/01/09/refactoring/07%20责任重构/png7/6.gif">
+<meta property="og:image" content="https://sunyi720.github.io/2019/01/09/refactoring/07%20责任重构/png7/7.gif">
+<meta property="og:updated_time" content="2019-01-15T12:37:23.071Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="UML类图和时序图">
-<meta name="twitter:description" content="UML类图和时序图UML类图表明类（对象）之前关系的一种方式。  泛型关系：  代码里就是继承关系。   实现关系：    依赖关系  只要两个类之间有关系，就可以叫做有依赖关系  依赖关系可以是成员变量，可以是参数。 作为参数存在的时候只有当方法被调用的时候才会用到另一个类。  关联关系   强依赖关系，体现为成员变量。 关联关系根据两个对象的生命周期又可以分成聚合关系和组合关系。  聚合关系：">
-<meta name="twitter:image" content="https://sunyi720.github.io/2018/12/19/Design%20Patterns/UML/1.png">
+<meta name="twitter:title" content="07 责任重构">
+<meta name="twitter:description" content="责任重构让代码尽量符合单一职责原则，会大大的提高阅读和维护效率 Move Method（搬移函数）problem:有个函数与其所驻class之外的另一个class进行更多交流：调用后者，或被后者调用；可以认为这个函数更适合作为另一个class的特性。solution:在该函数最常引用的class中建立一个有着类似行为的新函数；之后将旧函数变成一个单纯的委托函数（delegating method）">
+<meta name="twitter:image" content="https://sunyi720.github.io/2019/01/09/refactoring/07%20责任重构/png7/1.gif">
 
 
 
@@ -127,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="https://sunyi720.github.io/2018/12/19/Design Patterns/UML/">
+  <link rel="canonical" href="https://sunyi720.github.io/2019/01/09/refactoring/07 责任重构/">
 
 
 
 
 
-  <title>UML类图和时序图 | Sun</title>
+  <title>07 责任重构 | Sun</title>
   
 
 
@@ -262,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2018/12/19/Design Patterns/UML/">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2019/01/09/refactoring/07 责任重构/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sun">
@@ -279,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">UML类图和时序图</h1>
+          <h1 class="post-title" itemprop="name headline">07 责任重构</h1>
         
 
         <div class="post-meta">
@@ -291,8 +292,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-19T19:58:00+08:00">
-                2018-12-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-09T10:23:00+08:00">
+                2019-01-09
               </time>
             
 
@@ -314,8 +315,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
+                  <a href="/categories/重构-学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">重构 学习笔记</span>
                   </a>
                 </span>
 
@@ -331,7 +332,7 @@
 
           
           
-             <span id="/2018/12/19/Design Patterns/UML/" class="leancloud_visitors" data-flag-title="UML类图和时序图">
+             <span id="/2019/01/09/refactoring/07 责任重构/" class="leancloud_visitors" data-flag-title="07 责任重构">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -362,44 +363,51 @@
       
 
       
-        <h1 id="UML类图和时序图"><a href="#UML类图和时序图" class="headerlink" title="UML类图和时序图"></a>UML类图和时序图</h1><h2 id="UML类图"><a href="#UML类图" class="headerlink" title="UML类图"></a>UML类图</h2><p>表明类（对象）之前关系的一种方式。</p>
+        <h1 id="责任重构"><a href="#责任重构" class="headerlink" title="责任重构"></a>责任重构</h1><p>让代码尽量符合单一职责原则，会大大的提高阅读和维护效率</p>
+<h2 id="Move-Method（搬移函数）"><a href="#Move-Method（搬移函数）" class="headerlink" title="Move Method（搬移函数）"></a>Move Method（搬移函数）</h2><p>problem:有个函数与其所驻class之外的另一个class进行更多交流：调用后者，或被后者调用；可以认为这个函数更适合作为另一个class的特性。<br>solution:在该函数最常引用的class中建立一个有着类似行为的新函数；之后将旧函数变成一个单纯的委托函数（delegating method），或是将旧函数完全移除。</p>
+<p><img src="/2019/01/09/refactoring/07 责任重构/png7/1.gif" alt=""></p>
+<p><strong>重构原因？</strong></p>
+<p>这个方法被另外的对象调用的更多，更适合作为另一个对象具有的功能。</p>
+<p><strong>什么时候需要被移动？</strong></p>
+<p>使用另一个对象的次数比使用自己所驻对象的次数还多。<br>如果真的很难做出决定，那么或许「移动这个函数与否」并不那么重要。可以先放着，以后总是可以修改的。</p>
+<h2 id="Move-Field（搬移值域）"><a href="#Move-Field（搬移值域）" class="headerlink" title="Move Field（搬移值域）"></a>Move Field（搬移值域）</h2><p>problem:某个field（值域〕被其所驻class之外的另一个class更多地用到。<br>solution:在target class 建立一个new field，修改source field的所有用户，令它们改用此new field。</p>
+<p><img src="/2019/01/09/refactoring/07 责任重构/png7/2.gif" alt=""></p>
+<p><strong>重构原因？</strong></p>
+<p>这个字段被另一个类使用的更多，更适合作为另一个类具有的属性。</p>
+<h2 id="Extract-Class（提炼类）"><a href="#Extract-Class（提炼类）" class="headerlink" title="Extract Class（提炼类）"></a>Extract Class（提炼类）</h2><p>problem:某个class做了应该由两个classes做的事。<br>solution:建立一个新class，将相关的值域和函数从旧class搬移到新class。</p>
+<p><img src="/2019/01/09/refactoring/07 责任重构/png7/3.gif" alt=""></p>
+<p><strong>重构原因？</strong></p>
+<p>别让一个类做太多的事情，必要的时候分离出一个新的class。</p>
+<h2 id="Inline-Class（将类内联化）"><a href="#Inline-Class（将类内联化）" class="headerlink" title="Inline Class（将类内联化）"></a>Inline Class（将类内联化）</h2><p>problem:某个class没有做太多事情（没有承担足够责任）。<br>solution:将class的所有特性搬移到另一个class中，然后移除原class。</p>
+<p><img src="/2019/01/09/refactoring/07 责任重构/png7/4.gif" alt=""></p>
+<h2 id="Hide-Delegate（隐藏「委托关系」）"><a href="#Hide-Delegate（隐藏「委托关系」）" class="headerlink" title="Hide Delegate（隐藏「委托关系」）"></a>Hide Delegate（隐藏「委托关系」）</h2><p>problem:客户端从对象A的字段或方法获取对象B.然后客户端调用对象B的方法。<br>solution:在类A中创建一个新方法，该方法将调用委托给对象B.现在客户端不知道或依赖于类B.</p>
+<p><img src="/2019/01/09/refactoring/07 责任重构/png7/5.gif" alt=""></p>
+<p><strong>什么是委托？</strong></p>
+<p>客户端调用的对象获取不到信息，只能委托给第三方类来获取，这个第三方对象就叫委托类。<br>这种通过其他类来获取信息的方式就叫委托。</p>
+<p><strong>重构原因？</strong></p>
+<p>「封装」即使不是对象的最关键特征，也是最关键特征之一。<br>「封装」意味每个对象都应该尽可能少了解系统的其他部分。<br>如此一来，一旦发生变化，需要了解这一变化的对象就会比较少——从而使得变化比较容易进行。</p>
+<h2 id="Remove-Middle-Man（移除中间人）"><a href="#Remove-Middle-Man（移除中间人）" class="headerlink" title="Remove Middle Man（移除中间人）"></a>Remove Middle Man（移除中间人）</h2><p>problem:类有太多方法，这些方法都是委托其它对象。<br>solution:删除这些方法并强制客户端直接调用委托类的方法。</p>
+<p><img src="/2019/01/09/refactoring/07 责任重构/png7/6.gif" alt=""></p>
+<p><strong>重构原因？</strong></p>
+<p>封装也是要付出代价的，它的代价就是：每当客户要使用 delegate（受托类）的新特性时，就必须在server端添加一个简单委托函数。随着delegate的特性（功能）愈来愈多，这一过程会让你痛苦不己。server 完全变成了一 个「中间人」，此时你就应该让客户直接调用delegate。</p>
+<blockquote>
+<p>合适的隐藏程序需要随着系统相应的变化，重构的意义就在于——代码的逻辑永远不会有问题，我们要做的只是不断的修补。</p>
+</blockquote>
+<h2 id="Introduce-Foreign-Method（引入外加函数）"><a href="#Introduce-Foreign-Method（引入外加函数）" class="headerlink" title="Introduce Foreign Method（引入外加函数）"></a>Introduce Foreign Method（引入外加函数）</h2><p>problem:在调用的库类中，想要增加一个函数，但是并没有代码的访问权。<br>solution:这时，只能再本类中新增一个函数，并把库类作为参数传入，然后实现新的功能。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Date newStart = <span class="keyword">new</span> Date (previousEnd.getYear(),previousEnd.getMonth(), previousEnd.getDate() + <span class="number">1</span>);<span class="comment">//被多次使用到</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//======================after refactoring=========================</span></span><br><span class="line"></span><br><span class="line">Date newStart = nextDay(previousEnd);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Date <span class="title">nextDay</span><span class="params">(Date arg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Date (arg.getYear(),arg.getMonth(), arg.getDate() + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>无法修改Date类，就在本类中新增新一个方法，使用Date辅助我们实现。</p>
+<p><strong>重构原因？</strong></p>
 <ol>
-<li>泛型关系：</li>
+<li>某个功能代码被多次使用到，这时候需要提取成方法来实现复用。</li>
+<li>无法直接修改源码<blockquote>
+<p>外加函数终归是权宜之计。如果有可能，你仍然应该将这些函数搬移到它们的理想家园。</p>
+</blockquote>
+</li>
 </ol>
-<p>代码里就是继承关系。</p>
-<p><img src="/2018/12/19/Design Patterns/UML/1.png" alt="泛型关系"></p>
-<ol start="2">
-<li>实现关系：</li>
-</ol>
-<p><img src="/2018/12/19/Design Patterns/UML/2.png" alt="继承关系"></p>
-<ol start="3">
-<li>依赖关系</li>
-</ol>
-<p>只要两个类之间有关系，就可以叫做有依赖关系</p>
-<p><img src="/2018/12/19/Design Patterns/UML/5.png" alt="依赖关系"></p>
-<p>依赖关系可以是成员变量，可以是参数。</p>
-<p>作为参数存在的时候只有当方法被调用的时候才会用到另一个类。</p>
-<ol start="4">
-<li>关联关系</li>
-</ol>
-<p><img src="/2018/12/19/Design Patterns/UML/6.png" alt="关联关系"></p>
-<p>强依赖关系，体现为成员变量。</p>
-<p>关联关系根据两个对象的生命周期又可以分成聚合关系和组合关系。</p>
-<ol start="5">
-<li>聚合关系：</li>
-</ol>
-<p>B由A组成。<br>表示整体由部分构成的语义，与组合关系不同的是，整体和部分不是强依赖的，即使整体不存在了，部分仍然存在；</p>
-<p><img src="/2018/12/19/Design Patterns/UML/3.png" alt="聚合关系"></p>
-<ol start="6">
-<li>组合关系：</li>
-</ol>
-<p>同样表示整体由部分构成的语义，但组合关系是一种强依赖的特殊聚合关系，如果整体不存在了，则部分也不存在了；</p>
-<p><img src="/2018/12/19/Design Patterns/UML/4.png" alt="组合关系"></p>
-<p><strong>如何理解聚合和组合的区别？</strong></p>
-<p>生命周期:<br>聚合：A和B生命周期不同<br>组合：A和B生命周期相同。</p>
-<p>生活案例：<br>聚合：雁群有雁子<br>组合：雁子有翅膀</p>
-<p>代码区别：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//聚合:GooseGroup对象死亡了，其中的Goose还可以存在。</span></span><br><span class="line"><span class="keyword">public</span>  <span class="class"><span class="keyword">class</span> <span class="title">GooseGroup</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">      <span class="keyword">public</span> Goose goose;</span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="title">GooseGroup</span><span class="params">(Goose goose)</span></span></span><br><span class="line"><span class="function">      </span>&#123;</span><br><span class="line">          <span class="keyword">this</span>.goose = goose;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//组合:GooseGroup对象死亡了，其中的Wings也死亡。</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Goose</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> Wings wings;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Goose</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        wings=<span class="keyword">new</span> Wings();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="时序"><a href="#时序" class="headerlink" title="时序"></a>时序</h2><p>[时序图]<a href="https://www.cnblogs.com/ywqu/archive/2009/12/22/1629426.html" target="_blank" rel="noopener">https://www.cnblogs.com/ywqu/archive/2009/12/22/1629426.html</a></p>
+<h2 id="Introduce-Local-Extension（引入本地扩展）"><a href="#Introduce-Local-Extension（引入本地扩展）" class="headerlink" title="Introduce Local Extension（引入本地扩展）"></a>Introduce Local Extension（引入本地扩展）</h2><p>当Introduce Foreign Method需要增加的函数过多，就需要建立一个新class，使它包含这些额外函数。<br>让这个扩展类成为source class的subclass（子类〕或wrapper（外覆类——使用组合引入source class）。</p>
+<p><img src="/2019/01/09/refactoring/07 责任重构/png7/7.gif" alt=""></p>
+<p><strong>重构原因？</strong></p>
+<p>如果只需要一两个函数，你可以使用Introduce Foreign Method。但如果你需要的额外函数超过两个，外加函数（foreign methods）就很难控制住它们了。所以，你需要将这些函数组织在一起，放到一个恰当地方去。要达到这一目的，标准对象技术subclassing和wrapping是显而易见的办法。这种情况下我把subclass或wrapper称为local extention（本地扩展〕。</p>
 
       
     </div>
@@ -411,6 +419,35 @@
 	<div>
       
         
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2019/01/09/refactoring/07 责任重构/">07 责任重构</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Sun 的个人博客">Sun</a></p>
+  <p><span>发布时间:</span>2019年01月09日 - 10:01</p>
+  <p><span>最后更新:</span>2019年01月15日 - 20:01</p>
+  <p><span>原始链接:</span><a href="/2019/01/09/refactoring/07 责任重构/" title="07 责任重构">https://sunyi720.github.io/2019/01/09/refactoring/07 责任重构/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2019/01/09/refactoring/07 责任重构/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
       
     </div>
 
@@ -453,7 +490,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/UML/" rel="tag"><i class="fa fa-tag"></i> UML</a>
+            <a href="/tags/责任重构/" rel="tag"><i class="fa fa-tag"></i> 责任重构</a>
+          
+            <a href="/tags/重构/" rel="tag"><i class="fa fa-tag"></i> 重构</a>
           
         </div>
       
@@ -466,8 +505,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/17/THING IN JAVA/15 泛型/" rel="next" title="15 泛型">
-                <i class="fa fa-chevron-left"></i> 15 泛型
+              <a href="/2019/01/08/refactoring/06 函数重构/" rel="next" title="06 函数重构">
+                <i class="fa fa-chevron-left"></i> 06 函数重构
               </a>
             
           </div>
@@ -476,8 +515,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/01/07/refactoring/02 重构原则/" rel="prev" title="02 重构原则">
-                02 重构原则 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/01/11/refactoring/08 数据重构/" rel="prev" title="08 数据重构">
+                08 数据重构 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -633,7 +672,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#UML类图和时序图"><span class="nav-number">1.</span> <span class="nav-text">UML类图和时序图</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#UML类图"><span class="nav-number">1.1.</span> <span class="nav-text">UML类图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时序"><span class="nav-number">1.2.</span> <span class="nav-text">时序</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#责任重构"><span class="nav-number">1.</span> <span class="nav-text">责任重构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Move-Method（搬移函数）"><span class="nav-number">1.1.</span> <span class="nav-text">Move Method（搬移函数）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Move-Field（搬移值域）"><span class="nav-number">1.2.</span> <span class="nav-text">Move Field（搬移值域）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Extract-Class（提炼类）"><span class="nav-number">1.3.</span> <span class="nav-text">Extract Class（提炼类）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Inline-Class（将类内联化）"><span class="nav-number">1.4.</span> <span class="nav-text">Inline Class（将类内联化）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hide-Delegate（隐藏「委托关系」）"><span class="nav-number">1.5.</span> <span class="nav-text">Hide Delegate（隐藏「委托关系」）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Remove-Middle-Man（移除中间人）"><span class="nav-number">1.6.</span> <span class="nav-text">Remove Middle Man（移除中间人）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduce-Foreign-Method（引入外加函数）"><span class="nav-number">1.7.</span> <span class="nav-text">Introduce Foreign Method（引入外加函数）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduce-Local-Extension（引入本地扩展）"><span class="nav-number">1.8.</span> <span class="nav-text">Introduce Local Extension（引入本地扩展）</span></a></li></ol></li></ol></div>
             
 
           </div>
