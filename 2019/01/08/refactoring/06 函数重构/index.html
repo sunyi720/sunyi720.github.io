@@ -45,6 +45,41 @@
 
 
 
+  
+  
+  
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.google.com//css?family=ZCOOL KuaiLe:300,300italic,400,400italic,700,700italicNoto Serif SC:300,300italic,400,400italic,700,700italicMoul:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
 
 
 
@@ -87,12 +122,12 @@
 <meta property="og:site_name" content="Sun">
 <meta property="og:description" content="函数重构Extract Method（提炼方法）problem:有一个可以组合在一起的代码片段。一大串代码，将想要注释的地方提炼成新的方法。solution:将想要注释的地方提炼成新的方法，并且给一个好的命名，这点很重要。 1234567891011121314151617void printOwing(double amount) &amp;#123;     printBanner();     //">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://sunyi720.github.io/2019/01/08/refactoring/06%20函数重构/png6/1.gif">
-<meta property="og:updated_time" content="2019-01-15T12:37:23.065Z">
+<meta property="og:image" content="https://sunyi720.github.io/2019/01/08/refactoring/06%20函数重构/1.gif">
+<meta property="og:updated_time" content="2019-01-17T12:56:36.365Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="06 函数重构">
 <meta name="twitter:description" content="函数重构Extract Method（提炼方法）problem:有一个可以组合在一起的代码片段。一大串代码，将想要注释的地方提炼成新的方法。solution:将想要注释的地方提炼成新的方法，并且给一个好的命名，这点很重要。 1234567891011121314151617void printOwing(double amount) &amp;#123;     printBanner();     //">
-<meta name="twitter:image" content="https://sunyi720.github.io/2019/01/08/refactoring/06%20函数重构/png6/1.gif">
+<meta name="twitter:image" content="https://sunyi720.github.io/2019/01/08/refactoring/06%20函数重构/1.gif">
 
 
 
@@ -102,7 +137,7 @@
     root: '/',
     scheme: 'Muse',
     version: '5.1.4',
-    sidebar: {"position":"left","display":"always","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
@@ -411,7 +446,7 @@
 <p>含义是使它引用（参考、指涉、指向）另一个对象。<br>改变对象参数的内容是没有什么问题的。</p>
 <h2 id="Replace-Method-with-Method-Object（以函数对象取代函数）"><a href="#Replace-Method-with-Method-Object（以函数对象取代函数）" class="headerlink" title="Replace Method with Method Object（以函数对象取代函数）"></a>Replace Method with Method Object（以函数对象取代函数）</h2><p>problem:你有一个很长的方法，局部变量是如此交织在一起，你不能应用Extract Method。<br>solution:将这个函数放进一个单独对象中，如此一来局部变量就成了对象内的值域（field） 然后你可以在同一个对象中将这个大型函数分解为数个小型函数。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Order</span> </span>&#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">price</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">double</span> primaryBasePrice;</span><br><span class="line">    <span class="keyword">double</span> secondaryBasePrice;</span><br><span class="line">    <span class="keyword">double</span> tertiaryBasePrice;</span><br><span class="line">    <span class="comment">// long computation.</span></span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//======================after refactoring=========================</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Order</span> </span>&#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">price</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> PriceCalculator(<span class="keyword">this</span>).compute();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PriceCalculator</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">double</span> primaryBasePrice;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">double</span> secondaryBasePrice;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">double</span> tertiaryBasePrice;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">PriceCalculator</span><span class="params">(Order order)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// copy relevant information from order object.</span></span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">compute</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// long computation.</span></span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="/2019/01/08/refactoring/06 函数重构/png6/1.gif" alt=""></p>
+<p><img src="/2019/01/08/refactoring/06 函数重构/1.gif" alt=""></p>
 <p><strong>为什么需要这么做？</strong></p>
 <p>如果一个函数之中局部变量泛滥成灾, 那么想分解这个函数是非常困难的。Replace Temp with Query 可以助你减轻这一负担，但有时候你会发现根本无法拆解一个需要拆解的函数。</p>
 <p><strong>如何操作？</strong></p>
@@ -446,7 +481,7 @@
   <p><span>本文标题:</span><a href="/2019/01/08/refactoring/06 函数重构/">06 函数重构</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Sun 的个人博客">Sun</a></p>
   <p><span>发布时间:</span>2019年01月08日 - 11:01</p>
-  <p><span>最后更新:</span>2019年01月15日 - 20:01</p>
+  <p><span>最后更新:</span>2019年01月17日 - 20:01</p>
   <p><span>原始链接:</span><a href="/2019/01/08/refactoring/06 函数重构/" title="06 函数重构">https://sunyi720.github.io/2019/01/08/refactoring/06 函数重构/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2019/01/08/refactoring/06 函数重构/" aria-label="复制成功！"></i></span>
   </p>
@@ -693,13 +728,6 @@
       
 
       
-        <div class="back-to-top">
-          <i class="fa fa-arrow-up"></i>
-          
-            <span id="scrollpercent"><span>0</span>%</span>
-          
-        </div>
-      
 
     </div>
   </aside>
@@ -746,6 +774,11 @@
       </div>
     </footer>
 
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
     
 
     

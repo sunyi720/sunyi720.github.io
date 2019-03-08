@@ -45,6 +45,41 @@
 
 
 
+  
+  
+  
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.google.com//css?family=ZCOOL KuaiLe:300,300italic,400,400italic,700,700italicNoto Serif SC:300,300italic,400,400italic,700,700italicMoul:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
 
 
 
@@ -87,13 +122,13 @@
 <meta property="og:site_name" content="Sun">
 <meta property="og:description" content="处理泛化关系Pull Up Field（字段上移）problem:两个类有相同的字段solution:从子类中删除该字段并将其移动到超类  重构原因？ 子类分别增长和开发，导致出现相同（或几乎相同）的字段和方法 Pull Up Method（方法上移）problem:子类具有执行类似工作的方法solution:使方法相同，然后将它们移动到相关的超类  重构原因？ 子类彼此独立地增长和发展，导致相同">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://sunyi720.github.io/2019/01/15/refactoring/11%20处理泛化关系/png11/1.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/01/15/refactoring/11%20处理泛化关系/png11/2.png">
-<meta property="og:updated_time" content="2019-01-15T12:37:23.074Z">
+<meta property="og:image" content="https://sunyi720.github.io/2019/01/15/refactoring/11%20处理泛化关系/1.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/01/15/refactoring/11%20处理泛化关系/2.png">
+<meta property="og:updated_time" content="2019-01-17T12:56:36.372Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="11 处理泛化关系">
 <meta name="twitter:description" content="处理泛化关系Pull Up Field（字段上移）problem:两个类有相同的字段solution:从子类中删除该字段并将其移动到超类  重构原因？ 子类分别增长和开发，导致出现相同（或几乎相同）的字段和方法 Pull Up Method（方法上移）problem:子类具有执行类似工作的方法solution:使方法相同，然后将它们移动到相关的超类  重构原因？ 子类彼此独立地增长和发展，导致相同">
-<meta name="twitter:image" content="https://sunyi720.github.io/2019/01/15/refactoring/11%20处理泛化关系/png11/1.png">
+<meta name="twitter:image" content="https://sunyi720.github.io/2019/01/15/refactoring/11%20处理泛化关系/1.png">
 
 
 
@@ -103,7 +138,7 @@
     root: '/',
     scheme: 'Muse',
     version: '5.1.4',
-    sidebar: {"position":"left","display":"always","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
@@ -359,11 +394,11 @@
 
       
         <h1 id="处理泛化关系"><a href="#处理泛化关系" class="headerlink" title="处理泛化关系"></a>处理泛化关系</h1><h2 id="Pull-Up-Field（字段上移）"><a href="#Pull-Up-Field（字段上移）" class="headerlink" title="Pull Up Field（字段上移）"></a>Pull Up Field（字段上移）</h2><p>problem:两个类有相同的字段<br>solution:从子类中删除该字段并将其移动到超类</p>
-<p><img src="/2019/01/15/refactoring/11 处理泛化关系/png11/1.png" alt=""></p>
+<p><img src="/2019/01/15/refactoring/11 处理泛化关系/1.png" alt=""></p>
 <p><strong>重构原因？</strong></p>
 <p>子类分别增长和开发，导致出现相同（或几乎相同）的字段和方法</p>
 <h2 id="Pull-Up-Method（方法上移）"><a href="#Pull-Up-Method（方法上移）" class="headerlink" title="Pull Up Method（方法上移）"></a>Pull Up Method（方法上移）</h2><p>problem:子类具有执行类似工作的方法<br>solution:使方法相同，然后将它们移动到相关的超类</p>
-<p><img src="/2019/01/15/refactoring/11 处理泛化关系/png11/2.png" alt=""></p>
+<p><img src="/2019/01/15/refactoring/11 处理泛化关系/2.png" alt=""></p>
 <p><strong>重构原因？</strong></p>
 <p>子类彼此独立地增长和发展，导致相同（或几乎相同）的字段和方法。</p>
 <h2 id="Pull-Up-Constructor-Body（构造函数本地上移）"><a href="#Pull-Up-Constructor-Body（构造函数本地上移）" class="headerlink" title="Pull Up Constructor Body（构造函数本地上移）"></a>Pull Up Constructor Body（构造函数本地上移）</h2><p>problem:所有子类具有的构造函数代码大部分相同。<br>solution:创建一个超类构造函数，并将子类中相同的代码移动到它。在子类构造函数中调用超类构造函数</p>
@@ -409,7 +444,7 @@
   <p><span>本文标题:</span><a href="/2019/01/15/refactoring/11 处理泛化关系/">11 处理泛化关系</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Sun 的个人博客">Sun</a></p>
   <p><span>发布时间:</span>2019年01月15日 - 20:01</p>
-  <p><span>最后更新:</span>2019年01月15日 - 20:01</p>
+  <p><span>最后更新:</span>2019年01月17日 - 20:01</p>
   <p><span>原始链接:</span><a href="/2019/01/15/refactoring/11 处理泛化关系/" title="11 处理泛化关系">https://sunyi720.github.io/2019/01/15/refactoring/11 处理泛化关系/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2019/01/15/refactoring/11 处理泛化关系/" aria-label="复制成功！"></i></span>
   </p>
@@ -656,13 +691,6 @@
       
 
       
-        <div class="back-to-top">
-          <i class="fa fa-arrow-up"></i>
-          
-            <span id="scrollpercent"><span>0</span>%</span>
-          
-        </div>
-      
 
     </div>
   </aside>
@@ -709,6 +737,11 @@
       </div>
     </footer>
 
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
     
 
     
