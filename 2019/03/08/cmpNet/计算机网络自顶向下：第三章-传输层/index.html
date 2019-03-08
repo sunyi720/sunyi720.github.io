@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机网络自顶向下,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="传输层传输层的介绍传输层提供应用进程间的逻辑通信 应用进程间的逻辑通信作何解？ 从应用进程的角度看，两台相隔两岸的计算机中的进程，通过传输层，就好似直接连接起来进行交流一般，对于底层的路由、链路都是透明不可见的。  传输层和网络层的联系和传输层相比，网络层提供主机之间的逻辑通信，区别是细微的，但十分重要。 传输层作为终端特殊的一部分，功能是收集整理应用层的消息(message)，加入传输头成为(s">
+<meta name="keywords" content="计算机网络自顶向下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络自顶向下：第三章-传输层">
+<meta property="og:url" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/index.html">
+<meta property="og:site_name" content="Sun">
+<meta property="og:description" content="传输层传输层的介绍传输层提供应用进程间的逻辑通信 应用进程间的逻辑通信作何解？ 从应用进程的角度看，两台相隔两岸的计算机中的进程，通过传输层，就好似直接连接起来进行交流一般，对于底层的路由、链路都是透明不可见的。  传输层和网络层的联系和传输层相比，网络层提供主机之间的逻辑通信，区别是细微的，但十分重要。 传输层作为终端特殊的一部分，功能是收集整理应用层的消息(message)，加入传输头成为(s">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/1.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/2.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/3.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/4.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/5.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/6.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/7.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/8.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/9.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/10.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/11.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/12.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/13.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/14.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/15.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/16.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/17.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/18.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/19.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/20.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/21.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/22.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/39.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/23.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/24.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/25.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/26.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/27.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/28.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/29.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/30.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/31.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/32.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/33.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/34.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/35.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/36.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/38.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/37.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/40.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/40.png">
+<meta property="og:updated_time" content="2019-03-08T03:49:14.003Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="计算机网络自顶向下：第三章-传输层">
+<meta name="twitter:description" content="传输层传输层的介绍传输层提供应用进程间的逻辑通信 应用进程间的逻辑通信作何解？ 从应用进程的角度看，两台相隔两岸的计算机中的进程，通过传输层，就好似直接连接起来进行交流一般，对于底层的路由、链路都是透明不可见的。  传输层和网络层的联系和传输层相比，网络层提供主机之间的逻辑通信，区别是细微的，但十分重要。 传输层作为终端特殊的一部分，功能是收集整理应用层的消息(message)，加入传输头成为(s">
+<meta name="twitter:image" content="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":20},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/">
+
+
+
+
+
+  <title>计算机网络自顶向下：第三章-传输层 | Sun</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sun</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数字人生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">计算机网络自顶向下：第三章-传输层</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-08T11:48:00+08:00">
+                2019-03-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/计算机网络自顶向下/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机网络自顶向下</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/" class="leancloud_visitors" data-flag-title="计算机网络自顶向下：第三章-传输层">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h1><h2 id="传输层的介绍"><a href="#传输层的介绍" class="headerlink" title="传输层的介绍"></a>传输层的介绍</h2><p>传输层提供应用进程间的逻辑通信</p>
+<p><strong>应用进程间的逻辑通信作何解？</strong></p>
+<p>从应用进程的角度看，两台相隔两岸的计算机中的进程，通过传输层，就好似直接连接起来进行交流一般，对于底层的路由、链路都是透明不可见的。</p>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/1.png" alt="传输层"></p>
+<h3 id="传输层和网络层的联系"><a href="#传输层和网络层的联系" class="headerlink" title="传输层和网络层的联系"></a>传输层和网络层的联系</h3><p>和传输层相比，网络层提供主机之间的逻辑通信，区别是细微的，但十分重要。</p>
+<p>传输层作为终端特殊的一部分，功能是收集整理应用层的消息(message)，加入传输头成为(segment)。<br>真正负责在网络中传输的是网络层的职责。</p>
+<p>举个例子：传输层好比一个村的村长，专门收集/发放村民们的邮箱，而网络层才是真正的邮递员。</p>
+<p>网络层的功能会影响传输层的功能，譬如带宽<br>传输层也可以提供网络层无法提供的额外的功能，譬如可靠传输、加密等。</p>
+<p>传输层协议的代表：TCP/UDP<br>网络层协议的代表：IP</p>
+<h3 id="传输层概况"><a href="#传输层概况" class="headerlink" title="传输层概况"></a>传输层概况</h3><p><strong>传输层的意义？</strong></p>
+<p>IP协议提供网络中每一个主机的逻辑通信，因而每一个主机都至少具有一个IP。<br>IP协议是一个尽力的服务，意味着提供最大可能的通信，尽管如此，它依然无法担保。如segment的顺序，segment的完整性。<br>因而传输层拓展了网络层的服务</p>
+<p><strong>拓展了哪些服务？</strong></p>
+<p>提供了完整性检查的功能<br>数据传输服务和完整性检查服务是最小的传输层服务，也是UDP仅仅提供的两个服务。因而UDP也是不可靠服务。<br>而TCP提供了可靠数据传输和阻塞控制的服务。</p>
+<p>另外，传输层协议将主机间的通信拓展为主机中进程间的通信，这种拓展称为传输层多路复用和多路分解。</p>
+<h2 id="多路复用和多路分解"><a href="#多路复用和多路分解" class="headerlink" title="多路复用和多路分解"></a>多路复用和多路分解</h2><p><strong>什么是多路复用和多路分解？作用是什么？</strong></p>
+<p>将主机间的通信拓展为主机中进程间的通信，关键就在于<em>如何定位计算机中的进程？</em><br>网络层协议(IP)定位计算机，因而传输层协议（TCP/UDP）需要做的就是去定位进程，为此计算机为每一个进程提供一个端口号(port)，而应用层和传输层之间通过一个抽象的门（套接字）进行数据的传输，所以传输层协议的作用就是定位套接字。</p>
+<ul>
+<li>多路分解：将传输层报文段中的数据定位到正确的套接字。</li>
+<li>多路复用：从不同的套接字收集源主机上的数据块，用头信息封装每个数据块(稍后将用于解复用)以创建段，并将这些段传递到网络工作层。<br>但是无连接（UDP）的多路复用和多路分解又和有连接(TCP)的不一样，举例说就是门牌号的定位方式不一样。</li>
+</ul>
+<p><strong>无连接（UDP）的多路复用和多路分解？</strong></p>
+<p>创建UDP套接字的java代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DatagramSocket mySocket = <span class="keyword">new</span> DatagramSocket();<span class="comment">//随机分配端口号</span></span><br><span class="line">DatagramSocket mySocket = <span class="keyword">new</span> DatagramSocket(xxxx);<span class="comment">//指定端口号</span></span><br></pre></td></tr></table></figure></p>
+<p>UDP套接字通过(目标IP,目标端口号)（二元）进行定位，因而两个不同来源的UDP报文可以定位到相同的目的进程。</p>
+<p><strong>有连接（TCP）的多路复用和多路分解？</strong></p>
+<p>创建TCP套接字的java代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Socket clientSocket = <span class="keyword">new</span> Socket(<span class="string">"hostname"</span>,portNumber);</span><br></pre></td></tr></table></figure></p>
+<p>TCP套接字通过(源IP,源端口号,目标IP,目标端口号)（四元）进行定位</p>
+<blockquote>
+<p>套接字有时候和线程是对应的</p>
+</blockquote>
+<h2 id="无连接传输——UDP"><a href="#无连接传输——UDP" class="headerlink" title="无连接传输——UDP"></a>无连接传输——UDP</h2><p>UDP所提供的服务是非常极简的，使用UDP进行传输，几乎就等于使用IP进行传输。<br>传输前也不需要做多余的准备工作，因而说UDP是无连接的。<br>使用UDP的案例——DNS</p>
+<p><strong>为什么还有使用UDP协议，而不是更好的TCP协议的应用？</strong></p>
+<ol>
+<li>提高实时性：由于TCP具有阻塞控制，因而使用TCP往往存在一定的延迟。如果希望提高实时性，并且可以容忍一些数据的丢失，可以使用UDP。</li>
+<li>减少时延：如果大量的数据都需要进行三次握手，必然会导致较高的时延。</li>
+<li>无连接状态：TCP需要维护连接状态（接受/发送缓存，阻塞控制参数，序列号和确认号参数，流量控制参数等）。然而，使用UDP能支持更多的活动。</li>
+<li>头信息开销小：每一个TCP报文头有20字节，而UDP只有8字节。</li>
+</ol>
+<h3 id="UDP报文结构"><a href="#UDP报文结构" class="headerlink" title="UDP报文结构"></a>UDP报文结构</h3><p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/2.png" alt="UDP报文结构"></p>
+<ul>
+<li>checksum：校验UDP报文的数据正确性</li>
+<li>length：报文长度（头+数据）</li>
+</ul>
+<p><strong>为什么数据的校验要放在传输层？</strong></p>
+<p>这是一个被人提倡的端到端原则（end-end princeple）——由于某些功能必须基于端到端来实现，因而在底层实现这些功能是冗余而无意义的。</p>
+<h2 id="可靠数据传输原理"><a href="#可靠数据传输原理" class="headerlink" title="可靠数据传输原理"></a>可靠数据传输原理</h2><p>在学习TCP协议前，先学习一些可靠数据传输原理。</p>
+<blockquote>
+<p>一般来说，传输层下面的协议都是不会实现可靠传输的，因为难度较大。所以这里讨论的可靠传输协议建立在底层不可靠的传输上。另外，便于分析，只讨论单向数据传输，双向数据传输实际上并不会增加过多的难度。</p>
+</blockquote>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/3.png" alt="可靠数据传输模型"></p>
+<h3 id="构造可靠数据传输协议"><a href="#构造可靠数据传输协议" class="headerlink" title="构造可靠数据传输协议"></a>构造可靠数据传输协议</h3><p>接下来将会循序渐进的开始学习：</p>
+<p><strong>如果底层是可靠传输？</strong></p>
+<p>rdt1.0：完全可靠信道上的可靠数据传输<br>最简单的情况，底层信道是可靠传输，传输层基本不需要做任何其余的处理。<br>用有穷状态机（FSM）表示请求端和接收端：<br>FSM中圆圈表示所处的状态，线段表示触发状态变化的动作。</p>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/4.png" alt="rdt1.0"></p>
+<p><strong>如果底层信道不可靠，如何确保消息准确无误的被接受到？</strong></p>
+<p>rdt2.0：接收方采取确认（ACK）和否认(NAK)的方式回复。</p>
+<p>实现确认和否认的功能需要三个额外的协议：</p>
+<ol>
+<li>差错检查：检查是否出错（使用校验和）</li>
+<li>接收方反馈：需要约定反馈信息（如0表示NAK，1表示ACK）。</li>
+<li>重传：什么情况下进行重传(如出错后进行重传)</li>
+</ol>
+<p>rdt2.0的FSM如下：</p>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/5.png" alt="rdt2.0"></p>
+<p>但是，问题来了，<strong>如果接收方回复的消息在回传的过程中损坏（仅仅是损坏，之后无法确认）了呢？</strong><br>有3中可能能够解决的方案：</p>
+<ol>
+<li>发送方收到损坏的回复，无法判断是ACK还是NAK，这时候定义一个新类型分组（相当于请重复一遍），当接收方收到这个特殊的分组，就会重发一次确认消息。但是这样下来，又需要确认这个特殊的分组会不会又损坏，子子孙孙麻烦不断。</li>
+<li>增加足够的校验和比特，使得发送发不仅可以检查出错误，还可以恢复错误。</li>
+<li>发送方把数据分组重新发送一次，但是这样问题是接收方需要判断这个数据分组是一个新的分组还是一个重复的分组（冗余分组）。                 了                                                                                                                                                                                                                                                                                                                                                                                                               </li>
+</ol>
+<p>一般是采用第3个方案，所以问题来到：<strong>如何判断这个数据分组是一个新的分组还是一个重复的分组（冗余分组）？</strong></p>
+<p>新增一个flag——sequence number（序号）字段：前后两个消息seq一样，表示是重复消息，seq不一样表示是新的消息。<br>对于等停协议（确认一个后再发送下一个），1bit的seq足矣。</p>
+<p>rdt2.1的FSM如下：</p>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/6.png" alt="rdt2.1sender"></p>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/7.png" alt="rdt2.1receiver"></p>
+<p>另外，当消息损坏，接收方发送NAK来告诉发送方。这一步也可以通过发送之前成功的ACK来告诉发送方最近一次的成功记录，间接操作。这就需要在ACK中加入消息的序号。如此一来，便有了rdt2.2：</p>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/8.png" alt="rdt2.2sender"></p>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/9.png" alt="rdt2.2receiver"></p>
+<p>接下来，<strong>如果消息不是损坏，而是在传输的过程中丢失了呢？（丢包现象）</strong></p>
+<p>rdt3.0：采用发送端超时重传机制</p>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/10.png" alt="rdt3.0sender"></p>
+<p>配合时间设定需要一个定时器：完成如下功能：</p>
+<ol>
+<li>发送消息时启用定时器</li>
+<li>响应定时器中断</li>
+<li>终止定时器</li>
+</ol>
+<p>另外，超时重传的时间长度是一个比较重要的设置因素，首先至少需要一个消息的往返时间+接收端处理消息的时间，而太长又会导致时延增加，之后的章节会进一步讨论。</p>
+<h3 id="流水线可靠传输协议"><a href="#流水线可靠传输协议" class="headerlink" title="流水线可靠传输协议"></a>流水线可靠传输协议</h3><p>之前提到的rdt3.0协议，从可靠性来说已经足够了，但是rdt是一个等停协议，意思就是要等一个分组确认了之后才发送下一个分组，那么确认一个分组可能需要10ms，但是发送一个分组可能只需要1us，那么这是信道的利用率是非常低的，一个完整的文件在这种协议下可能耗时就会比较久。</p>
+<p>改善的方式是采用流水线可靠传输协议</p>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/11.png" alt="流水线可靠传输协议"></p>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/12.png" alt="等停协议VS流水线协议"></p>
+<p>实现流水线协议需要拓展3个方面的技术：</p>
+<ol>
+<li>要增加seq序号的范围（比如增加seq的位数）：管道中的分组都得有一个唯一的标识。</li>
+<li>实现缓存：发送方需要缓存已发送但未确认的分组，接受方要缓存已经成功确认的分组。</li>
+<li>丢包，损坏，延时的处理方式，序号的范围和缓存的内容也取决于这个方式，两种常用的方式是：GBN（Go-Back-N）和选择重传（selective repeat）</li>
+</ol>
+<h4 id="GBN协议"><a href="#GBN协议" class="headerlink" title="GBN协议"></a>GBN协议</h4><p><strong>GBN协议和RDT有什么不同？</strong></p>
+<p>序号范围增加后，在序号范围内，发送方可以同时发送N个分组</p>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/13.png" alt="GBN发送方视角"></p>
+<p>N是窗口的长度<br>base表示最早的未被确认的序号<br>nextseqnum表示最小的可以使用序号<br>window size是可以使用的序号范围,也叫做窗口</p>
+<p>随着协议的运行，窗口在序号空间内移动，因此GBN协议也叫做滑动的窗口协议</p>
+<p><strong>为什么N不能是无限呢？</strong></p>
+<p>受流量控制和拥塞控制的限制，之后会具体学习。</p>
+<p><strong>GBN协议的工作原理？</strong></p>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/14.png" alt="GBN协议发送方FSM"></p>
+<p>sender FSM响应动作分析：</p>
+<ol>
+<li>响应上层调用：当窗口未满时，才创建新的分组并发送。</li>
+<li>响应确认消息：接收方<em>累积确认</em>的作用——接受序号n的ACK后，确认n之前所有的分组，更新窗口。</li>
+<li>响应超时：如果出现超时，发送base后所有的分组。计时器是窗口共享的，收到ACK，重启计时。如果没有未确认的分组，终止计时。</li>
+<li>对于错误的分组不作任何处理，等待超时。</li>
+</ol>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/15.png" alt="GBN协议接受方FSM"></p>
+<p>recevier FSM响应动作分析：</p>
+<ol>
+<li>响应接受：累积确认——如果接受的分组序号是希望的序号n，则回复序号n的ACK。</li>
+<li>其余情况：重传上一次(n-1)的ACK。</li>
+</ol>
+<p>GBN协议问题在于：</p>
+<ol>
+<li>出现超时，发送base后所有的分组。单个分组的差错会引起大量分组的重传，导致信道中出现大量重复的分组。</li>
+<li>丢弃所有失序的正确分组很蠢和浪费。</li>
+</ol>
+<p>因此有SR协议。</p>
+<h4 id="selective-repeat协议"><a href="#selective-repeat协议" class="headerlink" title="selective repeat协议"></a>selective repeat协议</h4><p><strong>SR协议和GBN有什么不同？</strong></p>
+<p>发送方选择发送错误或者丢失的分组，接受方选择确认正确接受的分组。<br>对于发送方和接收方，都会维护各自的窗口。</p>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/16.png" alt="SR协议发送方和接收方序号视角"></p>
+<p>base确认后移动到下一个未确认的分组处，窗口的移动看起来是跳跃的。</p>
+<p><strong>SR协议的工作原理？</strong></p>
+<p>sender响应动作分析：</p>
+<ol>
+<li>响应上层调用：和GBN一致。</li>
+<li>响应ACK消息：接收方<em>选择确认</em>的作用——ACK分组如果在窗口内，标记为已确认。base确认后窗口移动到下一个未确认的分组处。</li>
+<li>响应超时：<em>选择重发</em>——计时器是分组独享的。超时重传一个分组。</li>
+<li>对于错误的分组，和GBN一致。</li>
+</ol>
+<p>recevier FSM响应动作分析：</p>
+<ol>
+<li>响应接受窗口内的分组：<em>选择确认</em>——正确接受的分组序号在窗口内，回复序号n的ACK，并且标记为已确认，并且缓存起来。等base分组被确认后，将base之后所有分组一并交付给上层。</li>
+<li>响应接受窗口前的分组：如果序号在base分组的前N个，依然需要产生一个当前序号的ACK。</li>
+<li>其余情况：忽略。</li>
+</ol>
+<p><strong>接收方第二步的意义何在？</strong></p>
+<p>产生这一步的原因是<em>发送方的窗口和接收方的窗口不同步</em>。<br>比如发送方的窗口是3,4,5,6；接收方的窗口是7,8,9,10.这种情况是可能的。</p>
+<p>除此，还有一种情况是，序号的范围只有0,1,2,3，因而发送方的窗口是0,1,2；接收方的窗口是3,0,1。这种情况下第二步就无法确认重发的序号为0的分组是重复的还是新发的了。</p>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/17.png" alt="窗口太大的问题：重发还是新发"></p>
+<p>经计算，窗口的长度必须小于、等于序列号的一半</p>
+<h2 id="TCP可靠传输协议"><a href="#TCP可靠传输协议" class="headerlink" title="TCP可靠传输协议"></a>TCP可靠传输协议</h2><h3 id="TCP的相关概念"><a href="#TCP的相关概念" class="headerlink" title="TCP的相关概念"></a>TCP的相关概念</h3><ol>
+<li>TCP是面向连接的，<strong>如何理解“连接”是什么意思？</strong>：意味着在TCP数据传输前，先发送某些预备报文，以建立确保数据传输所需的参数。这个连接是抽象的，只存在传输层。</li>
+<li>TCP从其它层接受到的报文并不会立即处理，而是先缓存起来，在合适的时间处理。</li>
+<li>MTU（maximum transmission unit）:链路层最大帧长度。受MTU影响，TCP报文也有最大的传输报文长度(maximum segment size(MSS)，不包括头)</li>
+</ol>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/18.png" alt="TCP缓存机制"></p>
+<h3 id="TCP报文段结构"><a href="#TCP报文段结构" class="headerlink" title="TCP报文段结构"></a>TCP报文段结构</h3><p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/19.png" alt="TCP报文结构"></p>
+<ul>
+<li>源端口号和目的端口号：多路复用和多路分解。</li>
+<li>检验和：检查错误</li>
+<li>4字节的seq和4字节的ack：可靠传输</li>
+<li>2字节接受窗口：流量控制</li>
+<li>4位的头长度：指示头的长度（以2字节的字为单位）</li>
+<li>选项字段：协商MSS和调节窗口</li>
+<li>6Bit的标志字段：具体在后文根据功能讨论</li>
+</ul>
+<h3 id="可靠传输实现"><a href="#可靠传输实现" class="headerlink" title="可靠传输实现"></a>可靠传输实现</h3><p>和之前的传输协议一样，TCP也具有seq,ack,超时重传等原理。但是采取的方式又有不同：</p>
+<p><strong>seq和ack的工作方式？</strong></p>
+<ul>
+<li>seq：seq是无结构还是有序的，选用报文中数据的第一个字节作为seq。</li>
+<li>ack：接收端返回ack是<em>下一个期望从发送端接受到的下一个字节，即下一个报文的seq</em></li>
+</ul>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/20.png" alt="TCP报文段字节"></p>
+<p><strong>如何确定超时间隔？</strong></p>
+<p>超时时间不能太长，也不能太短，至少要大于一个TCP消息的往返时间(RTT，报文段发出到确认的时间)</p>
+<p><strong>如何估计往返时间？</strong></p>
+<p>在某个任意时刻，记录一个报文发送到接受的样本RTT时间(SampleRTT),然后取指数加权移动平均：<br>EstimatedRTT = (1 – a) • EstimatedRTT + a • SampleRTT<br>a的参考值是0.125</p>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/21.png" alt="RTT往返时间"></p>
+<p>除此，还会计算SampleRTT偏离EstimatedRTT的程度：<br>DevRTT = (1 –b) • DevRTT + b •| SampleRTT – EstimatedRTT |<br>b的参考值是0.25</p>
+<p><strong>如何设置超时间隔？</strong></p>
+<p>要求超时时间设置为EstimatedRTT加上一定余量：当SampleRTT波动较大，这个余量较大，当SampleRTT波动较小，这个余量较小。因此DevRTT起作用了：<br>TimeoutInterval = EstimatedRTT + 4 • DevRTT</p>
+<p><strong>TCP响应事件？</strong></p>
+<p>TCP传输协议和之前学到的几个协议有着大致相同的原理：</p>
+<ol>
+<li>从应用层接受数据：封装层报文，并发送，启动计时器。</li>
+<li>超时：重发，重启计时器。</li>
+<li>接受ACK：累积确认。</li>
+</ol>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/22.png" alt="TCP协议简化的发送方"></p>
+<p><strong>和之前的传输原理相比，TCP长期使用以来积累的微妙改动？</strong></p>
+<ol>
+<li>虽然是类似GBN的累积确认，但是TCP在超时后，只会重发未确认的最小序号的报文，而不会这之后的报文，大大减少了重发报文的数量。</li>
+<li>当发生超时的时候，下一次的超时时间会被设置为两倍，而不是之前的结论。这种改动提供了一个简单的 拥塞控制，超时很有可能是因为网络拥塞，而该机制会减少重发的频率来缓解拥塞。</li>
+<li>快速重传：之前的重传都是建立在超时的基础上的，但是有可能就是超时的间隔时间相对较长。TCP一个巧妙的解决方案是，当接受到三次重复确认的ACK时（冗余ACK），就立即重发，不再等待超时。</li>
+</ol>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/39.png" alt="快速重传"></p>
+<p><strong>TCP是一个GBN还是SR？</strong></p>
+<p>从累积确认的方式来看，更像是一个GBN协议，但是像上面提到的一样，也是有区别的。<br>对TCP提议的一种修改是选择确认，这时候就更像是一个SR协议。</p>
+<h3 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h3><p><strong>流量控制的作用是什么？</strong></p>
+<p>接受段的缓存是有限的，为了不让消息溢出，应该控制发送端发送数据的速度，这就是流量控制。</p>
+<p><strong>如何进行流量</strong></p>
+<p>TCP报文头中有一个RcvWindow变量来记录剩余缓存空间：</p>
+<ul>
+<li>LastByteRead：已读的最后一个字节</li>
+<li>LastByteRcvd：接受到的最后一个字节<br>rwnd = RcvBuffer – [LastByteRcvd – LastByteRead]</li>
+</ul>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/23.png" alt="RcvWindow"></p>
+<p>当rwnd为0时，发送端依然会持续发送一个只有一个字节的报文来刷新缓存空间。</p>
+<blockquote>
+<p>UDP并不提供流量控制，因此很容易出现溢出的情况。</p>
+</blockquote>
+<h3 id="TCP连接建立"><a href="#TCP连接建立" class="headerlink" title="TCP连接建立"></a>TCP连接建立</h3><p>“握手”过程：</p>
+<ol>
+<li>发送一个特殊的报文（SYN报文）——不含数据，SYN标记位被置为1，随机初始化一个起始序号（client_isn）。</li>
+<li>SYN报文到达接受方，开始分配缓存和变量，之后回复一个特殊的报文（SYNACK报文）——不含数据，SYN标记位被置为1，随机初始化一个起始序号（server_isn），ack为client_isn+1。</li>
+<li>接收到SYNACK报文，分配缓存和变量。之后发送另外一个报文段——可以含数据，SYN被置为0，ack为server_isn+1。<br>握手的过程就是初始化变量的过程。</li>
+</ol>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/24.png" alt="握手"></p>
+<p>挥手过程：</p>
+<ol>
+<li>任意一方A发送特殊报文（FIN报文）——FIN标志位置为1 。</li>
+<li>另一方B接收到FIN报文，回复ACK报文。A接收到ACK后清理缓存和变量。</li>
+<li>B一段时间后发送FIN报文</li>
+<li>A接受到FIN报文，回复ACK报文。B接收到ACK后清理缓存和变量。</li>
+<li>A等待一段时间，确认ACK报文被接收到后关闭。</li>
+</ol>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/25.png" alt="挥手"></p>
+<p>客户端连接状态：</p>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/26.png" alt="客户端状态"></p>
+<p>服务端连接状态：</p>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/27.png" alt="服务端状态"></p>
+<p><strong>为什么挥手需要四次？</strong></p>
+<p>因为可以同时开始，但是不能同时结束，因为要等一方的所有报文发送完。</p>
+<p><strong>为什么是三次握手而不是两次握手？</strong></p>
+<p>为了使初始seq达成一致，需要一方发送，一方确认并发送，一方确认。</p>
+<p><strong>为什么需要初始化序列？</strong></p>
+<p>为了尽量减少在网络中出现重复的序列号</p>
+<h2 id="拥塞控制原理"><a href="#拥塞控制原理" class="headerlink" title="拥塞控制原理"></a>拥塞控制原理</h2><p>在实际中，分组的丢失往往是因为网络拥塞，重传只是一种丢失后的补救措施。但是无法从根本上解决网络拥塞的问题。<br>之前说到的TCP中减少重传的频率是一个简单的减缓网络拥塞的方法。</p>
+<h3 id="拥塞原因和开销"><a href="#拥塞原因和开销" class="headerlink" title="拥塞原因和开销"></a>拥塞原因和开销</h3><p><strong>为什么会出现网络拥塞呢？</strong></p>
+<p>往往是因为信道上的消息太多，就和高速公路上的车太多了一样，用专业术语描述就是：<br>当吞吐量达到链路容量（也就是带宽）的时候，就会发生网络拥塞。</p>
+<p><strong>网络拥塞会有怎样的影响？</strong></p>
+<p>场景1：路由器的缓存无限大</p>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/28.png" alt="场景1"></p>
+<p>最直接的影响就是堵车，也就是所谓的<em>排队时延增加</em>。</p>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/29.png" alt="场景1结论"></p>
+<p>场景2：路由器的缓存有限</p>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/30.png" alt="场景2"></p>
+<ol>
+<li>多余的车被丢弃，也就是所谓的<em>丢包</em>。</li>
+<li>由于超时重传机制，导致传输的分组<em>部分是原始数据，部分是重传数据（传过去不会被丢弃）。</em></li>
+<li>再进一步，由于时延过大，有些数据并不是丢弃了，而是往返时间大于超时间隔，这时候导致的<em>重传数据是无用重传数据，传过去也会被丢弃。</em></li>
+</ol>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/31.png" alt="场景2结论"></p>
+<p>场景3：路过多个路由器</p>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/32.png" alt="场景3"></p>
+<p>路由器好比一个阀，同样的发车速率的情况下，已经路过阀的车流量相比没有路过阀的车流量占比肯定要小。<br>随着发车速率的增加，已经路过阀的车流量路过第二个阀后将会趋于0，同理，这一部分占比较大的车流量在路过下一个阀之后也会被压榨至0。<br>这样，所有被第一个路由器处理的占比较大的数据报文，在之后都会被丢弃，因而只是做无用功。</p>
+<p>当一个分组沿一条路径被丢弃时，每个上游路由器由于转发改分组而后被丢弃的传输容量就被浪费了。<br>建议是：优先处理经过了一定数量上游路由器的分组</p>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/33.png" alt="场景3结论"></p>
+<h2 id="拥塞控制方法"><a href="#拥塞控制方法" class="headerlink" title="拥塞控制方法"></a>拥塞控制方法</h2><p>根据网络层是否为运输层拥塞控制提供显示的帮助来区分控制方法：</p>
+<ol>
+<li>端到端拥塞控制：网络层不提供支持，端系统对网络行为的观察来推断。</li>
+<li>网络辅助的拥塞控制：路由器会向端发送拥塞状态的反馈信息。</li>
+</ol>
+<p>网络辅助拥塞控制又有两种方式：</p>
+<ol>
+<li>反馈信息可以由路由器直接发给发送方，采用阻塞分组的形式。</li>
+<li>路由器标记分组中的某字段来指示拥塞现象，一旦接收方收到这个有拥塞标记的分组，就通知发送方网络发生了拥塞。<br>后一种形式至少经过一个完整的往返时间。</li>
+</ol>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/34.png" alt="网络辅助拥塞控制的两种方式"></p>
+<h3 id="TCP拥塞控制"><a href="#TCP拥塞控制" class="headerlink" title="TCP拥塞控制"></a>TCP拥塞控制</h3><p><strong>TCP如何进行发送速率的控制？</strong></p>
+<p>和流量控制中的RcvWindow类似，拥塞控制也有一个控制窗口CongWin，发送方根据这个窗口控制发送的数据量。<br>所以理论上有：LastByteSent – LastByteAcked &lt; min{cwnd, rwnd}<br>所以发送方的发送速率大概是()：min{cwnd, rwnd}/RTT</p>
+<p><strong>TCP如何感知网络拥塞？</strong></p>
+<p>通过超时或者3次冗余ACK</p>
+<p><strong>TCP改变速率的算法是什么？</strong></p>
+<p>TCP拥塞控制算法：特性是</p>
+<ul>
+<li>馒启动阶段：当接受一个确认ACK时，就增加一个MSS，结果是一个RTT事件内CongWin增加一倍。该阶段的特性是指数增。</li>
+</ul>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/35.png" alt="慢启动"></p>
+<ul>
+<li>避免拥塞阶段：当接受一个确认ACK时，CongWin增加一点，期望是在一个RTT时间内增加一个MSS。该阶段的特性是，线性增，乘性减。</li>
+</ul>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/36.png" alt="避免拥塞阶段"></p>
+<ul>
+<li>快速恢复阶段：进入一个中间状态，重发第一个未确认报文，同时CongWin减半。重传后如果接受到新的ACK，就恢复到避免拥塞状态，否则进入慢启动阶段。</li>
+</ul>
+<p>三个状态之间的转换关系如下：<br>超时进入慢启动。<br>达到阀值进入避免拥塞阶段。<br>接受3次冗余ACK进入快速恢复。</p>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/38.png" alt="拥塞控制FSM "></p>
+<p><strong>为什么区别对待超时和冗余ACK?</strong></p>
+<p>快速恢复机制是新版TCP Reno协议中开始执行的，为了适应快速重发的机制，之前的老版本TCP Tahoe协议并不具有这个中间阶段，对待超时和3次冗余ACK都会进入慢启动状态。<br>原因是因为能受到冗余ACK，至少说明网络还是有一定的传输能力的，因此只减少一半。这种方式叫快速恢复，结果是增加了吞吐量。</p>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/37.png" alt="TCP Tahoe协议和TCP Reno协议"></p>
+<h4 id="吞吐量"><a href="#吞吐量" class="headerlink" title="吞吐量"></a>吞吐量</h4><p>W是最高窗口长度，当达到W时就会减半，所以平均吞吐量平均是0.75W/RTT。</p>
+<p>也可以通过计算得到：</p>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/40.png" alt="TCP吞吐量"></p>
+<p>达到10G吞吐量需要满足5,000,000,00个组一个丢包，要求是极高的。</p>
+<h4 id="公平性"><a href="#公平性" class="headerlink" title="公平性"></a>公平性</h4><ol>
+<li>两个同样的TCP连接</li>
+</ol>
+<p>虽然是竞争，但是在TCP拥塞算法下，最终会处于一个平衡状态。</p>
+<p><img src="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/40.png" alt="TCP之间的公平性"></p>
+<ol start="2">
+<li>TCP和UDP</li>
+</ol>
+<p>由于UDP不具有拥塞控制，所以必然会压榨TCP的传输速率。</p>
+<ol start="3">
+<li>采用多连接TCP</li>
+</ol>
+<p>虽然TCP之间是公平的，但是采用一条TCP的数据传输和采用两条TCP连接的数据传输必然是不公平的。</p>
+<h4 id="未来"><a href="#未来" class="headerlink" title="未来"></a>未来</h4><p>更多完美的TCP拥塞算法在被逐步研究使用。</p>
+
+      
+    </div>
+    
+    
+    
+
+	
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/">计算机网络自顶向下：第三章-传输层</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Sun 的个人博客">Sun</a></p>
+  <p><span>发布时间:</span>2019年03月08日 - 11:03</p>
+  <p><span>最后更新:</span>2019年03月08日 - 11:03</p>
+  <p><span>原始链接:</span><a href="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/" title="计算机网络自顶向下：第三章-传输层">https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Sun 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Sun 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机网络自顶向下/" rel="tag"><i class="fa fa-tag"></i> 计算机网络自顶向下</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/15/cmpNet/计算机网络自顶向下：第二章-应用层/" rel="next" title="计算机网络自顶向下：第二章-应用层">
+                <i class="fa fa-chevron-left"></i> 计算机网络自顶向下：第二章-应用层
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjMzMS8xMjg2Ng=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/head.png" alt="Sun">
+            
+              <p class="site-author-name" itemprop="name">Sun</p>
+              <p class="site-description motion-element" itemprop="description">Lv.0</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/sunyi720" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#传输层"><span class="nav-number">1.</span> <span class="nav-text">传输层</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#传输层的介绍"><span class="nav-number">1.1.</span> <span class="nav-text">传输层的介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#传输层和网络层的联系"><span class="nav-number">1.1.1.</span> <span class="nav-text">传输层和网络层的联系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#传输层概况"><span class="nav-number">1.1.2.</span> <span class="nav-text">传输层概况</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多路复用和多路分解"><span class="nav-number">1.2.</span> <span class="nav-text">多路复用和多路分解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无连接传输——UDP"><span class="nav-number">1.3.</span> <span class="nav-text">无连接传输——UDP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UDP报文结构"><span class="nav-number">1.3.1.</span> <span class="nav-text">UDP报文结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可靠数据传输原理"><span class="nav-number">1.4.</span> <span class="nav-text">可靠数据传输原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#构造可靠数据传输协议"><span class="nav-number">1.4.1.</span> <span class="nav-text">构造可靠数据传输协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流水线可靠传输协议"><span class="nav-number">1.4.2.</span> <span class="nav-text">流水线可靠传输协议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#GBN协议"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">GBN协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#selective-repeat协议"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">selective repeat协议</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP可靠传输协议"><span class="nav-number">1.5.</span> <span class="nav-text">TCP可靠传输协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP的相关概念"><span class="nav-number">1.5.1.</span> <span class="nav-text">TCP的相关概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP报文段结构"><span class="nav-number">1.5.2.</span> <span class="nav-text">TCP报文段结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可靠传输实现"><span class="nav-number">1.5.3.</span> <span class="nav-text">可靠传输实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流量控制"><span class="nav-number">1.5.4.</span> <span class="nav-text">流量控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP连接建立"><span class="nav-number">1.5.5.</span> <span class="nav-text">TCP连接建立</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拥塞控制原理"><span class="nav-number">1.6.</span> <span class="nav-text">拥塞控制原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#拥塞原因和开销"><span class="nav-number">1.6.1.</span> <span class="nav-text">拥塞原因和开销</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拥塞控制方法"><span class="nav-number">1.7.</span> <span class="nav-text">拥塞控制方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP拥塞控制"><span class="nav-number">1.7.1.</span> <span class="nav-text">TCP拥塞控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#吞吐量"><span class="nav-number">1.7.1.1.</span> <span class="nav-text">吞吐量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#公平性"><span class="nav-number">1.7.1.2.</span> <span class="nav-text">公平性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#未来"><span class="nav-number">1.7.1.3.</span> <span class="nav-text">未来</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sun</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("iTVMQ8rz1NpV1RJ716VOA2rG-gzGzoHsz", "j0zy5JQ2bmQXtJ8PeP5gAiKM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>
