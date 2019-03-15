@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.google.com//css?family=ZCOOL KuaiLe:300,300italic,400,400italic,700,700italicNoto Serif SC:300,300italic,400,400italic,700,700italicMoul:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机网络自顶向下,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="应用层两个终端应用如何交流？ 本章就是为了解决这个问题 网络应用原则什么是终端应用体系结构？ 网络上终端之间的不同的交流方式  什么是CS应用体系？特征是什么？ 网络终端上的主机分为服务器和客服端，客户端上的应用一般是人为交互操作，向服务端发送请求。服务器上有固定，已知的IP，一直在线，服务器上的应用接受来自客服端的请求并处理响应。两个客户端之间不会沟通。 一个服务器主机够用吗？ 一个服务器处理所">
+<meta name="keywords" content="计算机网络自顶向下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络自顶向下：第二章-应用层">
+<meta property="og:url" content="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/index.html">
+<meta property="og:site_name" content="Sun">
+<meta property="og:description" content="应用层两个终端应用如何交流？ 本章就是为了解决这个问题 网络应用原则什么是终端应用体系结构？ 网络上终端之间的不同的交流方式  什么是CS应用体系？特征是什么？ 网络终端上的主机分为服务器和客服端，客户端上的应用一般是人为交互操作，向服务端发送请求。服务器上有固定，已知的IP，一直在线，服务器上的应用接受来自客服端的请求并处理响应。两个客户端之间不会沟通。 一个服务器主机够用吗？ 一个服务器处理所">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/1.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/2.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/3.jpg">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/4.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/9.jpg">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/10.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/5.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/6.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/7.jpg">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/8.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/11.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/12.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/13.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/14.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/15.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/16.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/18.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/19.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/17.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/20.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/21.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/21.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/22.png">
+<meta property="og:updated_time" content="2019-02-15T06:04:50.376Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="计算机网络自顶向下：第二章-应用层">
+<meta name="twitter:description" content="应用层两个终端应用如何交流？ 本章就是为了解决这个问题 网络应用原则什么是终端应用体系结构？ 网络上终端之间的不同的交流方式  什么是CS应用体系？特征是什么？ 网络终端上的主机分为服务器和客服端，客户端上的应用一般是人为交互操作，向服务端发送请求。服务器上有固定，已知的IP，一直在线，服务器上的应用接受来自客服端的请求并处理响应。两个客户端之间不会沟通。 一个服务器主机够用吗？ 一个服务器处理所">
+<meta name="twitter:image" content="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":20},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/">
+
+
+
+
+
+  <title>计算机网络自顶向下：第二章-应用层 | Sun</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sun</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数字人生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">计算机网络自顶向下：第二章-应用层</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-13T09:59:09+08:00">
+                2019-03-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/计算机网络自顶向下/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机网络自顶向下</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/" class="leancloud_visitors" data-flag-title="计算机网络自顶向下：第二章-应用层">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h1><p><strong>两个终端应用如何交流？</strong></p>
+<p>本章就是为了解决这个问题</p>
+<h2 id="网络应用原则"><a href="#网络应用原则" class="headerlink" title="网络应用原则"></a>网络应用原则</h2><p><strong>什么是终端应用体系结构？</strong></p>
+<p>网络上终端之间的不同的交流方式</p>
+<p><img src="/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/1.png" alt="两种应用体系结构"></p>
+<p><strong>什么是CS应用体系？特征是什么？</strong></p>
+<p>网络终端上的主机分为服务器和客服端，<br>客户端上的应用一般是人为交互操作，向服务端发送请求。<br>服务器上有固定，已知的IP，一直在线，服务器上的应用接受来自客服端的请求并处理响应。<br>两个客户端之间不会沟通。</p>
+<p><strong>一个服务器主机够用吗？</strong></p>
+<p>一个服务器处理所有请求是不够用的，所以需要一个能容纳很多服务器的“数据中心”。<br>更多的时候需要更多个数据中心。<br>需要服务器的成本和宽带成本。</p>
+<p><strong>什么是P2P应用体系结构？特征是什么？</strong></p>
+<p>两个终端应用直接交互数据的体系，没有服务器。<br>成本比较低。</p>
+<p><strong>两个不同主机上的程序如何交流？</strong></p>
+<p>对于操作系统而言，实际上是进程在交流。<br>我们把两个终端上的进程分为客户进程和服务进程。<br>无论是哪种体系结构：我们定义，发起会话的进程是客户进程，等待联系开始会话的进程是服务进程。</p>
+<p><strong>进程如何从到网络发送/接受数据？</strong></p>
+<p>通过“套接字(socket)”。</p>
+<p><strong>什么是套接字？</strong></p>
+<p>进程好比房子，套接字好比一个门。门之间存在消息传输的设备。<br>套接字是应用层和传输层之间的接口。应用程序的开发者拥有套接字应有层的所有控制和传输层的少数控制。<br>套接字中开发者仅有的传输层控制（以后会详细讨论）是：</p>
+<ol>
+<li>传输层协议选择（比如TCP）</li>
+<li>能设定几个传输层协议的参数<br>以后会具体讨论套接字。</li>
+</ol>
+<p><img src="/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/2.png" alt="套接字"></p>
+<p><strong>出了门的消息该去往何处？</strong></p>
+<p>为了确定消息的地址，需要两个数据：</p>
+<ol>
+<li>IP：确定哪个主机。</li>
+<li>PORT：确定主机上的哪个进程。<br>以后会具体讨论端口号。</li>
+</ol>
+<p><strong>套接字如何选择传输层协议？</strong></p>
+<p>套接字的另一边是传输层，因此传输层有责任将消息传递出去，传输层有多个不同的协议可供选择，这就和选择坐放飞机还是火车一样。每种协议都有各自的特性。</p>
+<p><strong>那么传输层协议具有哪些不同的服务？</strong></p>
+<ol>
+<li>可靠的数据传输：确保数据成功的从网络上的一端到达另一端，没有出现丢包的现象。依然存在可承受不可靠传输的网络应用，比如视频聊天/语音聊天等多媒体应用可以承受。</li>
+<li>稳定的吞吐量：确保应用之间的数据传输吞吐量不受其他问题的影响。上诉的多媒体应用（带宽敏感应用）就对稳定的吞吐量有一定的需求。</li>
+<li>时效性：控制数据传输的时效性，这才交互式的实时应用中比较重要，比如游戏等，必然要求延迟不能太高。</li>
+<li>安全性：加密和解密。</li>
+</ol>
+<p><img src="/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/3.jpg" alt="传输层特性"></p>
+<p>TCP/IP网络能提供的传输层服务：TCP和UDP</p>
+<p><strong>TCP协议具有哪些特性？</strong></p>
+<ol>
+<li>面向连接：为了实现网络通信的可靠性，使用了复杂的拥塞控制算法，建立了繁琐的握手过程以及重传策略。</li>
+<li>可靠传输：不会丢失数据，也不会出现数据乱序。</li>
+</ol>
+<blockquote>
+<p>TCP和UDP都不具有加密的功能，应用层的SSL服务是TCP的一种增强，可以实现安全传输。如今的网络并没有提供可以保证吞吐量和时效性的协议，虽然可以从其他的手段去提供令人满意的服务。</p>
+</blockquote>
+<p><strong>TCP协议具有哪些特性？</strong></p>
+<ol>
+<li>能够对握手过程进行精简，减少网络通信往返次数；</li>
+<li>能够对TLS加解密过程进行优化；</li>
+<li>收发快速，无阻塞。</li>
+</ol>
+<p><img src="/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/4.png" alt="常见的网络应用和所采用的实现协议"></p>
+<p><strong>应用层协议处理哪些问题？</strong></p>
+<p>“消息”的结构是怎样的？什么时候发送消息？如何建立连接？等等。<br>应用层主要定义了：</p>
+<ol>
+<li>消息的类型：请求消息还是响应消息</li>
+<li>不同类型消息的语法：定义消息中的字段</li>
+<li>字段的语法：字段信息的含义</li>
+<li>进程何时以及如何处理消息</li>
+</ol>
+<p>以下主要讨论5种应用和相关协议：Web(HTTP)、file transfer(FTP)、electronic mail(SMTP)、directory service、P2P application</p>
+<h2 id="Web和HTTP（超文本传输协议）"><a href="#Web和HTTP（超文本传输协议）" class="headerlink" title="Web和HTTP（超文本传输协议）"></a>Web和HTTP（超文本传输协议）</h2><p><strong>什么是web和http？</strong></p>
+<p>Web：一种近代的网络应用，可以解析HTTP文本，以此实现全网交流。<br>HTTP：Web的核心协议，定义了两个网络终端程序交流的消息的结构。</p>
+<p>HTTP底层使用TCP作为传输层协议，无需关心数据的丢失。<br>HTPP属于无状态协议，服务端不会保存客户端的状态信息。</p>
+<p>http对象：可以理解为一个文件，如html文件，jpg文件，video文件等等，一个文件可以被一个url来定址。</p>
+<p><strong>HTTP请求的格式？</strong></p>
+<p><img src="/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/9.jpg" alt="HTTP请求的格式"></p>
+<p>HTTP请求行有3个字段：请求类型+URL+HTTP版本</p>
+<ul>
+<li>GET：用来获取http对象，URL指明对象的地址。</li>
+<li>POST：依然是获取http对象，往往用来需要填写表单的位置，表单作为请求体的参数，根据参数来具体返回相应的对象。</li>
+<li>HEAD：和GET一样，但是不会再返回中包含请求的http对象。</li>
+<li>PUT：通常用于上传http对象</li>
+<li>DELETE：通常用于删除http对象</li>
+</ul>
+<p><strong>HTTP响应的格式？</strong></p>
+<p><img src="/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/10.png" alt="HTTP响应的格式"></p>
+<ul>
+<li>200 OK:Request succeeded and the information is returned in the response.</li>
+<li>301 Moved Permanently:Requested object has been permanently moved;the new URL is specified inLocation:header of the response message. Theclient software will automatically retrieve the new URL.</li>
+<li>400 Bad Request:This is a generic error code indicating that the requestcould not be understood by the server.</li>
+<li>404 Not Found:The requested document does not exist on this server.</li>
+<li>505 HTTP Version Not Supported:The requested HTTP protocolversion is not supported by the server.</li>
+</ul>
+<p><strong>什么是持续连接和非持续连接？</strong></p>
+<ul>
+<li><p>非持久连接：一个请求使用一个tcp连接<br>缺点：1.每次建立tcp连接都需要消耗额外的cpu消耗和内存消耗。2.获取一个http对象就需要2个RTT时间</p>
+<blockquote>
+<p>RRT时间：一个小的包分组在客户端和服务端往返的时间</p>
+</blockquote>
+</li>
+<li><p>持久连接：多个请求同一个tcp连接<br>缺点：一直占用一个通道，一旦空闲、就会无端占用资源。</p>
+</li>
+</ul>
+<p><strong>如何理解有状态和无状态？</strong></p>
+<ul>
+<li>【无状态】：假设用户A向服务B发了一个请求1，再次发送一个请求2。 服务端本身完全不知道两个请求来自同一个用户，这在协议层次就是【无状态】的。</li>
+</ul>
+<p>更通俗一点：</p>
+<ul>
+<li>【有状态】：消息不需要附带额外的认证消息</li>
+<li>【无状态】：每一个消息都需要附带额外的认证消息</li>
+</ul>
+<p><strong>无状态的影响？</strong></p>
+<p>无状态意味着，客户端不会记得每个请求的客户端和用户，比如购物网站，就需要记录每次请求用户的信息，那就意味着每个请求都需要携带重复的用户数据，这样处理的好处是减轻了服务器的负担，尽管请求会变得复杂，但是服务器也只是处理这些复杂的参数，而无需额外的消耗来维护各种状态。</p>
+<p>优化请求信息的方式还有很多，最多的就是cookie和session</p>
+<p><strong>cookie的工作方式？</strong></p>
+<p>cookie：保存在客户端的数据<br>session：保存在服务器里的数据（表）</p>
+<p><img src="/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/5.png" alt="cookie"></p>
+<p><strong>web缓存的工作方式和作用？</strong></p>
+<p><img src="/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/6.png" alt="web缓存"></p>
+<p>Web缓存(也称为代理服务器)是代表原始Web服务器满足HTTP请求的网络实体。<br>最重要的是可以将请求的结果保存在代理服务器中，好处：</p>
+<ol>
+<li>减少客户端的响应时间</li>
+<li>减少访问internet的流量。</li>
+</ol>
+<p><strong>如何更新缓存？</strong></p>
+<p>conditional Get Request：一种特殊的请求，有两个特性：</p>
+<ol>
+<li>使用get</li>
+<li>在请求头中包含If-Modified-Since或If-None-Match字段</li>
+</ol>
+<p>首次请求服务器，服务器返回的Response Headers中，指定过期时间，未指定默认为7天</p>
+<p>除此之外包含Last-Modified字段或者ETag字段。Last-Modified 表示被请求资源在服务器端的上次修改时间，而ETag则是一个唯一文件标识符，每次文件修改后都会生成一个新的ETag。服务器通过向浏览器发送这两个字段，来告知浏览器其获得的资源的版本。</p>
+<p>下次会在请求头中包含If-Modified-Since或If-None-Match字段。未更新则返回304状态吗。</p>
+<p><img src="/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/7.jpg" alt="conditional Get Request"></p>
+<h2 id="FTP"><a href="#FTP" class="headerlink" title="FTP"></a>FTP</h2><p><strong>什么是FTP</strong></p>
+<p><img src="/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/8.png" alt="FTP"></p>
+<p>文件传输协议：</p>
+<p><strong>FTP和HTTP的区别</strong></p>
+<p>和HTTP大部分一样，底层使用TCP实现，区别在于FTP使用两个平行的TCP连接来传输一个文件：一个控制连接，一个数据连接。</p>
+<p><strong>FTP的消息结构</strong></p>
+<p>客服端建立控制连接，输入身份认证的命令和文件操作指令，服务端建立数据连接进行数据的传输。</p>
+<p>使用下面的命令建立连接：<br>TELNET 127.0.0.1 21</p>
+<p>FTP Commands：</p>
+<ul>
+<li>USER username:Used to send the user identification to the server.</li>
+<li>PASS password:Used to send the user password to the server.</li>
+<li>LIST:Used to ask the server to send back a list of all the files in the currentremote directory. The list of files is sent over a (new and non-persistent) dataconnection rather than the control TCP connection.</li>
+<li>RETR filename:Used to retrieve (that is, get) a file from the current direc-tory of the remote host.</li>
+</ul>
+<p>replies：</p>
+<ul>
+<li>331 Username OK, password required</li>
+<li>125 Data connection already open; transfer starting</li>
+<li>425 Can’t open data connection</li>
+<li>452 Error writing file</li>
+</ul>
+<h2 id="SMTP"><a href="#SMTP" class="headerlink" title="SMTP"></a>SMTP</h2><p><strong>什么是SMTP？</strong></p>
+<p><img src="/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/11.png" alt="SMTP"></p>
+<p>简单邮件传输协议</p>
+<p><strong>和HTTP的区别？</strong></p>
+<p>底层同样是采用TCP协议</p>
+<ol>
+<li>HTTP是“拉”协议，SMTP是“推”协议</li>
+<li>SMTP要求消息的必须是7位ASCII格式的，因此二进制文件必须比如转换成7位ASCII进行传输，比较麻烦。</li>
+<li>一个HTTP响应包含一个消息对象，一个SMTP消息包含所有的消息对象。</li>
+</ol>
+<p><strong>SMPT消息格式：</strong></p>
+<p><img src="/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/12.png" alt="SMTP消息"></p>
+<p><strong>从服务器获取消息的方式？</strong></p>
+<p>STMP是“推”协议，因此无法用来读取邮件消息的操作。<br>常用的读取消息的协议：POP3(Post Office Protocol—Version 3),IMAP(Internet Mail Access Protocol),HTTP</p>
+<p><img src="/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/13.png" alt="获取消息"></p>
+<p><strong>POP3协议：</strong></p>
+<p>简单的读取协议，采用TCP协议。</p>
+<p>telnet mailServer 110<br>+OK POP3 server ready<br>user bob<br>+OK<br>pass hungry<br>+OK user successfully logged on</p>
+<p>C: list<br>S: 1 498<br>S: 2 912<br>S: .<br>C: retr 1<br>S: (blah blah …<br>S: ……………..<br>S: ……….blah)<br>S: .<br>C: dele 1<br>C: retr 2<br>S: (blah blah …<br>S: ……………..<br>S: ……….blah)<br>S: .<br>C: dele 2<br>C: quit<br>S: +OK POP3 server signing off</p>
+<p><strong>IMAP协议：</strong></p>
+<p>优势：</p>
+<ol>
+<li>维护可从任何计算机访问的远程服务器上的文件夹层次结构。每一个消息都和一个文件夹绑定。</li>
+<li>可以获取消息的部分（可以通过邮件的标题，时间等等来决定是否下载附件）</li>
+</ol>
+<p><strong>基于HTTP：</strong></p>
+<p>交互更加友好</p>
+<h2 id="DNS-Domain-Name-System"><a href="#DNS-Domain-Name-System" class="headerlink" title="DNS(Domain Name System)"></a>DNS(Domain Name System)</h2><p><strong>DNS协议有什么作用？</strong></p>
+<p>和人一样，每台主机都有唯一的主机名和别名<br>但是这个名字并不好被路由处理，因此使用IP作为唯一<br>DNS协议用UPD实现，占用53端口<br>功能：</p>
+<ol>
+<li>将主机名转换成IP</li>
+<li>给主机名(canonical hostname)起比较好记的别名,DNS可以通过别名获取主机名和IP。</li>
+<li>负载均衡，可以为不同的IP和canonical hostname的主机取同一个别名，当访问的时候以某些策略分配负载。</li>
+</ol>
+<p><strong>DNS简单工作原理：</strong></p>
+<p>最简单的设计师只有一个DNS服务器处理所有的映射，问题是：</p>
+<ol>
+<li>单点故障</li>
+<li>流量太大</li>
+<li>无妨满足全球范围</li>
+<li>难以维护更新</li>
+</ol>
+<p><strong>如何解决一个DNS服务器的问题？</strong></p>
+<p>分布式继承结构：</p>
+<ul>
+<li>root DNS服务器：根据域名最后一节com/edu/io等等获取TLD服务器IP地址</li>
+<li>TLD DNS服务器：根据域名倒数第二节获取权威DNS服务器IP地址</li>
+<li>authoritative DNS服务器：获取目标IP地址</li>
+</ul>
+<p>一般而言是这三层，除此之外还有比较重要的两层是：</p>
+<ul>
+<li>中间服务器：因为TLD DNS服务器可能并不能直接获取authoritative DNS服务器IP</li>
+<li>local DNS服务器：给其它的服务器发送请求</li>
+</ul>
+<p><img src="/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/14.png" alt="分布式多层DNS"></p>
+<p><img src="/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/15.png" alt="递归DNS"></p>
+<p>每台DNS服务器都有缓存功能</p>
+<p><strong>这些映射关系是如何记录的？</strong></p>
+<p>存储在每一个DNS服务器数据库中，记录的格式是一个四元组：(Name, Value, Type, TTL)<br>TTL表示缓存的时间<br>Type表示记录的类型，有如下几种类型：</p>
+<ol>
+<li>Type=A：标准的映射记录，Name是主机名，Value是IP值。如(relay1.bar.foo.com, 145.37.93.126, A)</li>
+<li>Type=NS，Name是域名，Value是DNS服务器的主机名。如(foo.com, dns.foo.com, NS)</li>
+<li>Type=CNAME，Name是别名，Value是权威名。如(foo.com, relay1.bar.foo.com, CNAME)</li>
+<li>Type=MX,Name是权威名，Value是邮箱服务器的主机名。</li>
+</ol>
+<p><strong>DNS协议的消息格式？</strong></p>
+<p><img src="/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/16.png" alt="DNS消息"></p>
+<p><strong>记录如何插入到数据库中？</strong></p>
+<p>不考虑缓存的话：<br>直接获取目标IP的A类型的记录被存在authoritative DNS服务器中。其余的记录在被保存的同时会附带一条A类型的数据，记录Value中服务器主机名的IP。</p>
+<h2 id="P2P（Peer-to-Peer-Application）"><a href="#P2P（Peer-to-Peer-Application）" class="headerlink" title="P2P（Peer-to-Peer Application）"></a>P2P（Peer-to-Peer Application）</h2><p>之前的协议都是基于CS设施，而P2P可以不需要服务器，每一个计算机都可以充当服务器。</p>
+<p><img src="/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/18.png" alt="CS"></p>
+<p><img src="/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/19.png" alt="P2P"></p>
+<h3 id="P2P文件分享"><a href="#P2P文件分享" class="headerlink" title="P2P文件分享"></a>P2P文件分享</h3><p>一个最大的应用是文件的分享</p>
+<p><strong>优势是什么？</strong></p>
+<p>可以极大的提升文件分享的时间</p>
+<p>CS系统：分享时间和文件的分享数呈线性关系<br>P2P系统：分享时间和文件的分享数呈现抛物线关系</p>
+<p><img src="/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/17.png" alt="DNS消息"></p>
+<p><strong>基于BitTorrent简单的工作方式：</strong></p>
+<p>一个完整的文件被分成很多个片段（chunks）存放在不同的Peer中<br>存在一个tracker服务器记录所有peer<br>当一个新用户请求下载的时候，请求tracker获取拥有资源块的peer列表<br>与peer建立tcp连接，称为neighbor，之后进行文件的传输<br>存在的两个问题：</p>
+<ol>
+<li>哪个片段应该优先从neighbor中获取</li>
+<li>请求后的块应该发送给哪些neighbor</li>
+</ol>
+<p><strong>哪个片段应该优先从neighbor中获取？</strong></p>
+<p>最稀罕优先<br>优先获取在洪流(torrent)中出现较小的块<br>平衡块在洪流中的数量</p>
+<p><strong>请求后的块(chunks)应该发送给哪些neighbor？</strong></p>
+<p>对换算法<br>确定neighbor的优先级，从中选取4个最高速率的neighbor发送块(chunks)。<br>10s刷新这个速率<br>30s随机的向一个其他的neighbor发送块，从而防止“死锁”</p>
+<p>对换算法解决了P2P中“搭免费车”（只下载，不上传）的问题。</p>
+<h3 id="DHT协议（Distributed-Hash-Table）"><a href="#DHT协议（Distributed-Hash-Table）" class="headerlink" title="DHT协议（Distributed Hash Table）"></a>DHT协议（Distributed Hash Table）</h3><p><strong>如何减少对于tracker服务器的依赖？</strong></p>
+<p>使用DHT协议(Distributed Hash Table)</p>
+<p><strong>简单的工作原理介绍</strong></p>
+<ol>
+<li>首先对每个Peer进行标记，其中每个标识符都是某个固定n的范围[0，2^n-1]中的整数。</li>
+<li>对资源片段进行hash计算，hash值作为数据库键值对的key,value是拥有该资源片段的的计算机IP</li>
+<li>根据key值定位最近(closest)的peer，何为最近？第一个大于key的peer。</li>
+<li>请求该peer</li>
+</ol>
+<p>上面第3步，需要每一个peer都知道其他所有的peer才能正确的判断，这是不实际的。</p>
+<p><strong>如何改进？</strong></p>
+<p>采用循环DHT——每一个peer都知道自己的前驱节点和后继节点<br>可是即便如此，平均也需要遍历N/2次<br>因此可以适当的调整每一个peer记录的节点数（称为shortcut）达到记录数和遍历数的一个平衡。</p>
+<p><img src="/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/20.png" alt="DHT"></p>
+<h2 id="套接字编程：创建网络应用"><a href="#套接字编程：创建网络应用" class="headerlink" title="套接字编程：创建网络应用"></a>套接字编程：创建网络应用</h2><p><strong>UDP套接字编程：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">//client</span><br><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line">serverName = ‘hostname’</span><br><span class="line">serverPort = <span class="number">12000</span></span><br><span class="line">clientSocket = socket(socket.AF_INET, socket.SOCK_DGRAM)</span><br><span class="line">message = raw_input(’Input lowercase sentence:’)</span><br><span class="line">clientSocket.sendto(message,(serverName, serverPort))</span><br><span class="line">modifiedMessage, serverAddress = clientSocket.recvfrom(<span class="number">2048</span>)</span><br><span class="line"><span class="keyword">print</span> modifiedMessageclientSocket.close()</span><br><span class="line"></span><br><span class="line">//server</span><br><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line">serverPort = <span class="number">12000</span></span><br><span class="line">serverSocket = socket(AF_INET, SOCK_DGRAM)</span><br><span class="line">serverSocket.bind((’’, serverPort))</span><br><span class="line"><span class="keyword">print</span>”The server <span class="keyword">is</span> ready to receive”</span><br><span class="line"><span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">  message, clientAddress = serverSocket.recvfrom(<span class="number">2048</span>)</span><br><span class="line">  modifiedMessage = message.upper()</span><br><span class="line">  serverSocket.sendto(modifiedMessage, clientAddress)</span><br></pre></td></tr></table></figure>
+<p><img src="/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/21.png" alt="UDP"></p>
+<p><strong>TCP套接字编程：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">//client</span><br><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line">serverName = ’servername’</span><br><span class="line">serverPort = <span class="number">12000</span></span><br><span class="line">clientSocket = socket(AF_INET, SOCK_STREAM)</span><br><span class="line">clientSocket.connect((serverName,serverPort))</span><br><span class="line">sentence = raw_input(‘Input lowercase sentence:’)</span><br><span class="line">clientSocket.send(sentence)</span><br><span class="line">modifiedSentence = clientSocket.recv(<span class="number">1024</span>)</span><br><span class="line"><span class="keyword">print</span> ‘From Server:’, modifiedSentence</span><br><span class="line">clientSocket.close()</span><br><span class="line"></span><br><span class="line">//client</span><br><span class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> *</span><br><span class="line">serverPort = <span class="number">12000</span></span><br><span class="line">serverSocket = socket(AF_INET,SOCK_STREAM)</span><br><span class="line">serverSocket.bind((‘’,serverPort))</span><br><span class="line">serverSocket.listen(<span class="number">1</span>)</span><br><span class="line"><span class="keyword">print</span> ‘The server <span class="keyword">is</span> ready to receive’</span><br><span class="line"><span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">  connectionSocket, addr = serverSocket.accept()</span><br><span class="line">  sentence = connectionSocket.recv(<span class="number">1024</span>)</span><br><span class="line">  capitalizedSentence = sentence.upper()</span><br><span class="line">  connectionSocket.send(capitalizedSentence)</span><br><span class="line">  connectionSocket.close()</span><br></pre></td></tr></table></figure>
+<p><img src="/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/21.png" alt="TCP"></p>
+<p><img src="/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/22.png" alt="TCP"></p>
+
+      
+    </div>
+    
+    
+    
+
+	
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/">计算机网络自顶向下：第二章-应用层</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Sun 的个人博客">Sun</a></p>
+  <p><span>发布时间:</span>2019年03月13日 - 09:03</p>
+  <p><span>最后更新:</span>2019年02月15日 - 14:02</p>
+  <p><span>原始链接:</span><a href="/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/" title="计算机网络自顶向下：第二章-应用层">https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2019/03/13/cmpNet/计算机网络自顶向下：第二章-应用层/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Sun 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Sun 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机网络自顶向下/" rel="tag"><i class="fa fa-tag"></i> 计算机网络自顶向下</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/" rel="next" title="计算机网络自顶向下：第三章-传输层">
+                <i class="fa fa-chevron-left"></i> 计算机网络自顶向下：第三章-传输层
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/15/Design Patterns/命令模式/" rel="prev" title="命令模式">
+                命令模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjMzMS8xMjg2Ng=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/head.png" alt="Sun">
+            
+              <p class="site-author-name" itemprop="name">Sun</p>
+              <p class="site-description motion-element" itemprop="description">Lv.0</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/sunyi720" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#应用层"><span class="nav-number">1.</span> <span class="nav-text">应用层</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#网络应用原则"><span class="nav-number">1.1.</span> <span class="nav-text">网络应用原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web和HTTP（超文本传输协议）"><span class="nav-number">1.2.</span> <span class="nav-text">Web和HTTP（超文本传输协议）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FTP"><span class="nav-number">1.3.</span> <span class="nav-text">FTP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SMTP"><span class="nav-number">1.4.</span> <span class="nav-text">SMTP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS-Domain-Name-System"><span class="nav-number">1.5.</span> <span class="nav-text">DNS(Domain Name System)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#P2P（Peer-to-Peer-Application）"><span class="nav-number">1.6.</span> <span class="nav-text">P2P（Peer-to-Peer Application）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#P2P文件分享"><span class="nav-number">1.6.1.</span> <span class="nav-text">P2P文件分享</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DHT协议（Distributed-Hash-Table）"><span class="nav-number">1.6.2.</span> <span class="nav-text">DHT协议（Distributed Hash Table）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#套接字编程：创建网络应用"><span class="nav-number">1.7.</span> <span class="nav-text">套接字编程：创建网络应用</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sun</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("iTVMQ8rz1NpV1RJ716VOA2rG-gzGzoHsz", "j0zy5JQ2bmQXtJ8PeP5gAiKM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>
