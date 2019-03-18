@@ -114,19 +114,19 @@
 
 
 
-<meta name="description" content="命令模式命令模式解决什么问题？ 命令模式是一个行为模式所谓行为，就是某个对象实现了某个功能的一个过程，比如灯开了，音乐响了，厨师开始炒肉了….从对象语言的角度看，就是一个对象执行了一个方法。 命令模式解决的两个问题：  将行为的定义和行为的执行解耦  解耦的意义？ 命令执行者不需要关心行为的定义是什么，只需要在某个条件触发时去执行；行为的定义只需要满足一定的格式就可以得到拓展。符合开闭的原则。">
+<meta name="description" content="命令模式命令模式解决什么问题？ 命令模式是一个行为模式所谓行为，就是某个对象实现了某个功能的一个过程，比如灯开了，音乐响了，厨师开始炒肉了….从对象语言的角度看，就是一个对象执行了一个方法。 命令模式解决的两个问题：  将行为的定义和行为的执行解耦 解耦的意义？ 命令执行者不需要关心行为的定义是什么，只需要在某个条件触发时去执行；行为的定义只需要满足一定的格式就可以得到拓展。符合开闭的原则。  将">
 <meta name="keywords" content="HeadFirst设计模式,命令模式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="命令模式">
 <meta property="og:url" content="https://sunyi720.github.io/2019/03/15/Design Patterns/命令模式/index.html">
 <meta property="og:site_name" content="Sun">
-<meta property="og:description" content="命令模式命令模式解决什么问题？ 命令模式是一个行为模式所谓行为，就是某个对象实现了某个功能的一个过程，比如灯开了，音乐响了，厨师开始炒肉了….从对象语言的角度看，就是一个对象执行了一个方法。 命令模式解决的两个问题：  将行为的定义和行为的执行解耦  解耦的意义？ 命令执行者不需要关心行为的定义是什么，只需要在某个条件触发时去执行；行为的定义只需要满足一定的格式就可以得到拓展。符合开闭的原则。">
+<meta property="og:description" content="命令模式命令模式解决什么问题？ 命令模式是一个行为模式所谓行为，就是某个对象实现了某个功能的一个过程，比如灯开了，音乐响了，厨师开始炒肉了….从对象语言的角度看，就是一个对象执行了一个方法。 命令模式解决的两个问题：  将行为的定义和行为的执行解耦 解耦的意义？ 命令执行者不需要关心行为的定义是什么，只需要在某个条件触发时去执行；行为的定义只需要满足一定的格式就可以得到拓展。符合开闭的原则。  将">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://sunyi720.github.io/2019/03/15/Design%20Patterns/命令模式/1.png">
-<meta property="og:updated_time" content="2019-03-15T08:58:38.470Z">
+<meta property="og:updated_time" content="2019-03-18T02:22:02.423Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="命令模式">
-<meta name="twitter:description" content="命令模式命令模式解决什么问题？ 命令模式是一个行为模式所谓行为，就是某个对象实现了某个功能的一个过程，比如灯开了，音乐响了，厨师开始炒肉了….从对象语言的角度看，就是一个对象执行了一个方法。 命令模式解决的两个问题：  将行为的定义和行为的执行解耦  解耦的意义？ 命令执行者不需要关心行为的定义是什么，只需要在某个条件触发时去执行；行为的定义只需要满足一定的格式就可以得到拓展。符合开闭的原则。">
+<meta name="twitter:description" content="命令模式命令模式解决什么问题？ 命令模式是一个行为模式所谓行为，就是某个对象实现了某个功能的一个过程，比如灯开了，音乐响了，厨师开始炒肉了….从对象语言的角度看，就是一个对象执行了一个方法。 命令模式解决的两个问题：  将行为的定义和行为的执行解耦 解耦的意义？ 命令执行者不需要关心行为的定义是什么，只需要在某个条件触发时去执行；行为的定义只需要满足一定的格式就可以得到拓展。符合开闭的原则。  将">
 <meta name="twitter:image" content="https://sunyi720.github.io/2019/03/15/Design%20Patterns/命令模式/1.png">
 
 
@@ -396,16 +396,16 @@
 <p>命令模式是一个行为模式<br>所谓行为，就是某个对象实现了某个功能的一个过程，比如灯开了，音乐响了，厨师开始炒肉了….<br>从对象语言的角度看，就是一个对象执行了一个方法。</p>
 <p>命令模式解决的两个问题：</p>
 <ol>
-<li>将行为的定义和行为的执行解耦</li>
-</ol>
+<li><p>将行为的定义和行为的执行解耦</p>
 <p><strong>解耦的意义？</strong></p>
 <p>命令执行者不需要关心行为的定义是什么，只需要在某个条件触发时去执行；<br>行为的定义只需要满足一定的格式就可以得到拓展。符合开闭的原则。</p>
-<ol start="2">
-<li>将行为抽象成命令，进行统一的管理控制</li>
-</ol>
+</li>
+<li><p>将行为抽象成命令，进行统一的管理控制</p>
 <p><strong>抽象成命令的意义？</strong></p>
 <p>可以采用各种数据结构各种算法来操作这些命令，实现更多的功能，譬如撤销，队列，池等等。</p>
-<h2 id="工作模式"><a href="#工作模式" class="headerlink" title="工作模式"></a>工作模式</h2><p>最核心的概念肯定是命令的抽象：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Command</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</li>
+</ol>
+<h2 id="工作模式"><a href="#工作模式" class="headerlink" title="工作模式"></a>工作模式</h2><p>最核心的肯定是命令的抽象：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Command</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p><img src="/2019/03/15/Design Patterns/命令模式/1.png" alt="UML"></p>
 <p>现在可以分两个层面来分析命令模式的工作：</p>
 <ol>
@@ -446,7 +446,7 @@
   <p><span>本文标题:</span><a href="/2019/03/15/Design Patterns/命令模式/">命令模式</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Sun 的个人博客">Sun</a></p>
   <p><span>发布时间:</span>2019年03月15日 - 16:03</p>
-  <p><span>最后更新:</span>2019年03月15日 - 16:03</p>
+  <p><span>最后更新:</span>2019年03月18日 - 10:03</p>
   <p><span>原始链接:</span><a href="/2019/03/15/Design Patterns/命令模式/" title="命令模式">https://sunyi720.github.io/2019/03/15/Design Patterns/命令模式/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2019/03/15/Design Patterns/命令模式/" aria-label="复制成功！"></i></span>
   </p>
