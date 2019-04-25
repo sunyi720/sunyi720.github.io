@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.google.com//css?family=ZCOOL KuaiLe:300,300italic,400,400italic,700,700italicNoto Serif SC:300,300italic,400,400italic,700,700italicMoul:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机网络自顶向下,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="网络层概述转发和选路网络层的主要功能是什么？  转发：当分组到达路由器时，如何将分组转发出去。 路由：计算分组从发送端到接口端最合适的路径。   选路算法决定了转发表中的表项 转发分组的设备叫做分组交换机，分为两种：  链路层分组交换机：从输入链路接口道输出链路接口 网络层分组交换机（路由）  除了转发和路由，网络层也有建立连接的功能。 网络服务模型网络层可以提供的服务有哪些？  确保交付：确保分">
+<meta name="keywords" content="计算机网络自顶向下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络自顶向下：第四章-网络层">
+<meta property="og:url" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/index.html">
+<meta property="og:site_name" content="Sun">
+<meta property="og:description" content="网络层概述转发和选路网络层的主要功能是什么？  转发：当分组到达路由器时，如何将分组转发出去。 路由：计算分组从发送端到接口端最合适的路径。   选路算法决定了转发表中的表项 转发分组的设备叫做分组交换机，分为两种：  链路层分组交换机：从输入链路接口道输出链路接口 网络层分组交换机（路由）  除了转发和路由，网络层也有建立连接的功能。 网络服务模型网络层可以提供的服务有哪些？  确保交付：确保分">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/1.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/2.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/3.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/4.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/5.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/6.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/7.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/8.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/9.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/10.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/11.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/12.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/13.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/14.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/15.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/16.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/17.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/18.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/19.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/20.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/21.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/22.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/23.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/24.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/25.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/26.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/27.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/28.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/29.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/30.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/31.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/32.png">
+<meta property="og:updated_time" content="2019-04-25T09:38:37.953Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="计算机网络自顶向下：第四章-网络层">
+<meta name="twitter:description" content="网络层概述转发和选路网络层的主要功能是什么？  转发：当分组到达路由器时，如何将分组转发出去。 路由：计算分组从发送端到接口端最合适的路径。   选路算法决定了转发表中的表项 转发分组的设备叫做分组交换机，分为两种：  链路层分组交换机：从输入链路接口道输出链路接口 网络层分组交换机（路由）  除了转发和路由，网络层也有建立连接的功能。 网络服务模型网络层可以提供的服务有哪些？  确保交付：确保分">
+<meta name="twitter:image" content="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":20},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/">
+
+
+
+
+
+  <title>计算机网络自顶向下：第四章-网络层 | Sun</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sun</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数字人生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">计算机网络自顶向下：第四章-网络层</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-25T17:38:00+08:00">
+                2019-04-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/计算机网络自顶向下/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机网络自顶向下</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/" class="leancloud_visitors" data-flag-title="计算机网络自顶向下：第四章-网络层">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><h3 id="转发和选路"><a href="#转发和选路" class="headerlink" title="转发和选路"></a>转发和选路</h3><p><strong>网络层的主要功能是什么？</strong></p>
+<ul>
+<li>转发：当分组到达路由器时，如何将分组转发出去。</li>
+<li>路由：计算分组从发送端到接口端最合适的路径。</li>
+</ul>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/1.png" alt="选路/转发"></p>
+<p>选路算法决定了转发表中的表项</p>
+<p>转发分组的设备叫做分组交换机，分为两种：</p>
+<ol>
+<li>链路层分组交换机：从输入链路接口道输出链路接口</li>
+<li>网络层分组交换机（路由）</li>
+</ol>
+<p>除了转发和路由，网络层也有建立连接的功能。</p>
+<h3 id="网络服务模型"><a href="#网络服务模型" class="headerlink" title="网络服务模型"></a>网络服务模型</h3><p><strong>网络层可以提供的服务有哪些？</strong></p>
+<ul>
+<li>确保交付：确保分组到达目的地</li>
+<li>具有时延上界的确保交付：确保分组的到达将在一定的时间内</li>
+<li>有序：确保按发送的顺序到达目的地</li>
+<li>最小带宽：确保分组的传输在一定的带宽内</li>
+<li>最大时延抖动：确保发送两个连续分组的间隔和接受两个连续分组的间隔在一定的变化范围内</li>
+<li>安全性：使用只有源和主机知道的密钥</li>
+</ul>
+<p><strong>不同的网络体系会提供不同的网络服务：</strong></p>
+<p>Intelnet的网络提供最小服务（也叫做尽力而为的服务），也有其他网络：</p>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/2.png" alt="不同的网络体系"></p>
+<h2 id="虚电路和数据报电路"><a href="#虚电路和数据报电路" class="headerlink" title="虚电路和数据报电路"></a>虚电路和数据报电路</h2><p>和传输层一样，网络层也提供有连接服务（虚电路）和无连接服务（数据报）<br>Intelnet是数据报网络</p>
+<p><strong>和传输层的连接有什么区别？</strong></p>
+<ol>
+<li>传输层是向应用层提供进程到进程的服务，网络层是向传输层提供主机到主机的服务。</li>
+<li>网络层除了在端系统中实现，也再网络核心的路由器中实现。</li>
+</ol>
+<h3 id="虚电路网络"><a href="#虚电路网络" class="headerlink" title="虚电路网络"></a>虚电路网络</h3><p><strong>虚电路的组成:</strong></p>
+<ol>
+<li>源和目的之间的路径</li>
+<li>VC号：路径上的每段链路的一个标识，在每次虚电路建立连接的时候分配。</li>
+<li>路由器中的转发表，在每次虚电路建立连接的时候生成。分组的首部会携带VC号，每次进过一个路由器，就会去查表并且更新为下一个链路的VC号。</li>
+</ol>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/3.png" alt="虚电路转发表"></p>
+<p><strong>为什么同一个连接路径上的每个链路维护不同的VC号？维护同一个不行么？</strong></p>
+<p>如果是同一个VC号，必然要求所有路由之间的信息交换更频繁，以避免出现重复的VC号，这样加大的维护的成本，并且必然使得VC号的长度大大增加。</p>
+<p><strong>虚电路工作过程：</strong></p>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/4.png" alt="虚电路建立"></p>
+<ol>
+<li>虚电路建立阶段：计算分组转发的路径，确定链路VC号，增加路由表项，预留虚电路上的资源。</li>
+<li>数据传输阶段</li>
+<li>虚电路拆除阶段</li>
+</ol>
+<blockquote>
+<p>虚电路中传递的报文称为信令报文，用来交换这些报文的协议称为信令协议。</p>
+</blockquote>
+<h3 id="数据报网络"><a href="#数据报网络" class="headerlink" title="数据报网络"></a>数据报网络</h3><p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/5.png" alt="数据报网络"></p>
+<p>数据报网络在报文发出前给报文加上目的的IP地址，之后就再也不维护任何的状态信息。<br>每个路由器都有一个将分组输出的路由表，确定从哪一个链路发出。</p>
+<p>在理想的情况下，所有的路由器都有一份所有精确IP地址的转发表，可能是万亿级别的，显然这是不可能的。</p>
+<p><strong>如何缩小转发表存储IP的量？</strong></p>
+<p>考虑到IP地址的位数是有限的（32,64,128），因此可以采用前缀风格（范围）的转发方式，逐层定位到精确IP。</p>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/6.png" alt="前缀风格"></p>
+<p>当有一个IP匹配到转发表中的两个前缀时，采用最长前缀匹配规则。</p>
+<p>虚电路的转发表在建立连接的时候（连接建立阶段会计算转发路径）生成，那对于无连接的数据报网络，<strong>转发表如何生成？</strong></p>
+<p>根据网络层的选路协议和选路算法，后面会讲到。<br>数据报网络的转发表可以在任意时间变化，所有分组很难以有序到达。</p>
+<h3 id="虚电路和数据报电路的由来"><a href="#虚电路和数据报电路的由来" class="headerlink" title="虚电路和数据报电路的由来"></a>虚电路和数据报电路的由来</h3><p>虚电路来源于电话<br>数据网来源于终端</p>
+<h2 id="路由器工作原理"><a href="#路由器工作原理" class="headerlink" title="路由器工作原理"></a>路由器工作原理</h2><p>路由器实现了网络层的转发功能</p>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/7.png" alt="路由器的体系结构"></p>
+<p>路由器的体系结构：</p>
+<ul>
+<li>输入端口：执行物理层功能，链路层功能，和查表转发到正确的输出端口的功能。</li>
+<li>交换结构：路由器中的网络，将分组从输出端口转发到输出端口。</li>
+<li>输出端口：执行输入端口相反的操作。</li>
+<li>选路处理器：执行选路协议，维护选路信息和转发表。</li>
+</ul>
+<h3 id="输入端口"><a href="#输入端口" class="headerlink" title="输入端口"></a>输入端口</h3><p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/8.png" alt="输入端口"></p>
+<p><strong>在哪儿查表？</strong></p>
+<ul>
+<li>转发表由选路处理器计算出，但通常转发表都会拷贝一份存放到输出端口中，这样就无须每次都转发到选路处理器，避免了单点瓶颈。</li>
+<li>在一些特殊的情况下（比如工作站/服务器作为路由器），这时候由于输入端口处理能力有限，无法保存路由表，这时候输入端口就会把分组转发给选路处理器</li>
+</ul>
+<p><strong>查表的效率？</strong></p>
+<p><em>希望输入端口的处理性能达到线路速度，即执行一次查找的时间应少于从输入端口接口一个分组的时间</em></p>
+<ul>
+<li>线性查找是不可能的</li>
+<li>二分查找可以在32步之内完成，可这依然不够快</li>
+<li>内容可寻址内存和高速缓存等等更多的技术</li>
+</ul>
+<p>得到输出端口的分组将会进入交换结构。</p>
+<h3 id="交换结构"><a href="#交换结构" class="headerlink" title="交换结构"></a>交换结构</h3><p>功能是把分组从输入端口转发到输出端口</p>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/9.png" alt="交换结构"></p>
+<p>三种交换的技术是：经内存交换，经一根总线交换，经一个互联网交换（2n条总线）。</p>
+<h3 id="输出端口"><a href="#输出端口" class="headerlink" title="输出端口"></a>输出端口</h3><p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/10.png" alt="输出端口"></p>
+<h3 id="何时出现排队"><a href="#何时出现排队" class="headerlink" title="何时出现排队"></a>何时出现排队</h3><p>排队的影响是可能会出现丢包</p>
+<p><strong>何时会出现排队现象？</strong></p>
+<p>考虑一般情况：假设N个输入端，N个输出端，交换结构的速率是输入线路速度的N倍。<br>这种情况下，输入端口是不会出现排队现象的，但是在输出端口，当N个分组都到达同一个输出端口，就会有排队现象：如下图：</p>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/11.png" alt="输出端口排队"></p>
+<p><strong>合适的处理排队方式？</strong></p>
+<ol>
+<li>足够的缓存：经验表明，缓存长度B = RTT * C（链路容量）</li>
+<li>适当的分组调度程序：先来先到、加权公平排队（WFQ）</li>
+<li>适当丢包策略：主動隊列管理，随机早期检查</li>
+</ol>
+<blockquote>
+<p>如果交换结构不是足够快，则在输入端口也会出现分组排队</p>
+</blockquote>
+<h2 id="网络协议：Inetrnet中的转发和编址"><a href="#网络协议：Inetrnet中的转发和编址" class="headerlink" title="网络协议：Inetrnet中的转发和编址"></a>网络协议：Inetrnet中的转发和编址</h2><p>Inetrnet分为三个部分：</p>
+<ol>
+<li>IP协议：约定了数据报格式，编址的规则，分组转发规则。</li>
+<li>选路组件：选路算法，决定转发表</li>
+<li>ICMP数据报错误和信息报告协议</li>
+</ol>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/12.png" alt="Intelnet组成"></p>
+<p>本节讨论IP协议：Inetrnet数据交流的格式net是如何进行数据交流、编址以及转发的。</p>
+<p><strong>Inetrnet数据交流的格式？</strong></p>
+<p>也成为数据报格式，如图：</p>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/13.png" alt="IP数据报格式"></p>
+<ul>
+<li>版本号：决定如何解析剩余部分</li>
+<li>首部长度：决定实际的数据部分从哪里开始</li>
+<li>服务类型TOS：好像没什么用</li>
+<li>数据报长度：首部+数据长度</li>
+<li>标识号，标志，偏移量：和IP分片相关（稍后会讨论）</li>
+<li>寿命TTL(Time To Life)：每经过一个路由器-1,TTL=0就会被丢弃。</li>
+<li>协议：指明封装了哪一种传输层协议，是和传输层进行交流的一个方式。</li>
+<li>首部校验和：用于校验IP数据报中的比特错误。</li>
+<li>源和目的IP地址：指明发送端和接收端</li>
+<li>选项：扩展</li>
+<li>有效数据</li>
+</ul>
+<p><strong>IP分片是什么东西?</strong></p>
+<p>受<em>不同的链路层协议上链路的数据帧最大数据量不同</em>（最大传输单元）的影响，一个较大的IP数据报，必不可完整的经多个不同的链路进行传输，为了解决这个问题，就有了IP分片的技术。<br>IP分片可以理解为将一个较大的数据报，分成多个较小的数据报片进行传输。</p>
+<p><strong>如何分片？又如何整合？</strong></p>
+<p>网络层的每个路由都有分片功能<br>但是重组的功能被放到端系统中，因为重组是一个稍复杂的功能，这样做是为了保持网络内核内核简单的原则。</p>
+<p>这就是IP报中标识号，标志和偏移量的作用<br>标识号：结合IP地址确定唯一的数据报<br>标志：最后一个片被置为0，其余置为1，作用是用来判断是否有片丢失<br>偏移量：指定片应放在IP数据报的哪个位置</p>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/14.png" alt="IP分片和重组"></p>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/15.png" alt="IP分片表"></p>
+<h3 id="IPV4编址"><a href="#IPV4编址" class="headerlink" title="IPV4编址"></a>IPV4编址</h3><p><strong>一个IP的映射是主机或者路由吗？</strong></p>
+<p>不是，一个IP对应的是一个接口。<br>所谓接口就是主机/路由器和物理链路的一个接入点<br>因此，一个路由器可以拥有多个接口，也就是说可以拥有多个IP地址。<br>而主机往往一般只有一个接口接入到网络中</p>
+<p><strong>什么是子网和子网掩码？</strong></p>
+<p>子网是描述接口的集合：处于同一个网中，不经过任何路由器或主机而相连的接口集合，叫做子网<br>子网所具有的共通的前缀，称为子网掩码</p>
+<p><strong>子网掩码的意义是什么？</strong></p>
+<p>之前说过，为了减少路由器转发表的负担，转发表中都会使用前缀风格的形式。<br>越靠近网络核心部分的路由器，前缀所表示的范围就越大。<br>而相同子网掩码往往意味着同一个组织<br>当组织之外的路由器转发到组织内的数据报，仅需要考虑子网掩码即可<br>这样处理的意义也是为了减少转发表的负担</p>
+<p><strong>这些IP地址是如何被网络分配的？</strong></p>
+<ol>
+<li>获取子网网段：向IP管理单位申请获得IP子网网段，入组织可以向ISP（电信，联通）申请获取子网网段，而ISP则是向全球性的权威机构ICANN申请获取IP地网段。</li>
+<li>在子网中获取主机IP地址——动态主机配置协议（DHCP）：自动的给接入分配IP</li>
+</ol>
+<p><strong>DHCP如何实现自动分配？</strong></p>
+<p>DHCP是一个客户端/服务器协议<br>一般情况下，每个子网都拥有一个DHCP服务器，如果没有，则需要一个DHCP中继代理（通常是一台路由器）</p>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/16.png" alt="DHCP"></p>
+<p>DHCP使用UDP报文<br>DCHP的4步：</p>
+<ol>
+<li>DHCP服务发现：发送DHCP发现报文，使用广播的方式试图请求到附近的DHCP服务器，</li>
+<li>DHCP服务提供：DHCP接受到发现报文，回复提供报文，同样使用广播的方式向客户机提供IP地址。</li>
+<li>DHCP请求：客户端从来自多个DCHP服务器的提供报文中选择一个IP地址，并使用DHCP请求报文对选中的服务器进行相应。</li>
+<li>DHCP ACK：服务器使用DHCP ACK报文进行回应</li>
+</ol>
+<p>DHCP的问题是：每到一个新的子网，就会获得一个新的IP，因此也就无法维持连接。</p>
+<blockquote>
+<p>移动IP是一种解决方案</p>
+</blockquote>
+<p><strong>子网拓展的问题？</strong></p>
+<p>如果组织已向ISP申请了一个子网网段，随着组织规模的增大，很有可能子网网段不够用，怎么办？<br>继续向ISP申请总有一天会迎来IPV4地址的枯竭<br>这时候就使用网络地址转换（Nerwork Address Translation, NAT）</p>
+<p><strong>NAT具体的工作原理？</strong></p>
+<p>本质上就是组织内多个主机共享同一个IP，而主机之间采用独立的IP来区分。<br>这些IP可以使用私有地址:<br>如192.168.0.0 到192.168.255.255;<br>172.16.0.0到172.31.255.255;<br>10.0.0.0到10.255.255.255</p>
+<p>NAT路由器作为连接内网和外网的一个节点，一端接口连接外网，一端接口连接内网。<br>数据分组在NAT中会被替换IP和端口，也就是说，NAT路由器会处理传输层的数据。<br>NAT路由器从ISP的DHCP服务器获取地址，然后它本身再运行一个DHCP服务，为NAT-DHCP路由器控制的组织网络分配地址</p>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/17.png" alt="DHCP"></p>
+<p><strong>外网数据报文如何定位内网主机？</strong></p>
+<p>NAT维护一张转发表：<br>NAT路由器的端口号—映射—内网主机IP+端口号</p>
+<blockquote>
+<p>传统的NAT映射只包括内网IP，不包括内网端口，这样会导致连接是单向的，也就是说<em>只能从内网向外网发起连接，无法从外网向内网发起连接</em></p>
+</blockquote>
+<p>NAT技术招到各界反对，原因是：</p>
+<ol>
+<li>端口号应该面对进程，而不是面对主机</li>
+<li>路由器应当只处理第三层的分组（比如不应该修改端口号）</li>
+<li>应该使用IPV6来解决IP地址短缺的问题</li>
+</ol>
+<p>NAT根据外网访问内网的权限又分成几种类型，可自行百度</p>
+<h3 id="ICMP-互联网控制报文协议"><a href="#ICMP-互联网控制报文协议" class="headerlink" title="ICMP:互联网控制报文协议"></a>ICMP:互联网控制报文协议</h3><p>本节的主题是Internet的第二个主要组件</p>
+<p><strong>ICMP是什么？有什么用？</strong></p>
+<p>之前说过，IP数据报是网络层中主机和路由器、路由器和路由器之间交流的一种方式。<br>但是，IP数据报携带的有效数据一定是UDP、TCP段吗？显然不是<br>网络层中还有一种特殊的交流数据报，不携带来自传输层的数据，称为ICMP报文。<br>ICMP协议作为网络层协议，具有传输层无关的交流方式。<br>常用的ICMP功能是错误反馈，除此之外也具有很多其他的功能。比如ping，Traceroute（路由跟踪）。</p>
+<p><strong>ICMP交流的语言定义是什么？</strong></p>
+<p>ICMP中有类型和编码两个字段，可以表明这个ICMP报文说的是什么东西：</p>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/18.png" alt="ICMP协议类型"></p>
+<p>案例：</p>
+<ul>
+<li>ping程序：发送一个类型8编码0的ICMP报文到指定主机，主机接受到该<em>回显请求</em>报文，回复类型0编码0的<em>回显回答</em>ICMP报文</li>
+<li>traceroute程序：源主机不断发送的IP数据报，每个数据报都携带了不可达的UDP数据段，这些IP数据报配置的TTL依次递增，比如第一个数据报TTL为1，第二个数据报TTL为2…当路由器接受到一个TTL为0的数据报，会丢弃该数据报兵发送一个ICMP报警报文给源主机（类型11编码0）。当目的主机接收到不可达的UDP报文，会返回一个端口不可达的ICMP报文。源主机接收到这个报文就会停止发送数据报。</li>
+</ul>
+<h3 id="IPV6"><a href="#IPV6" class="headerlink" title="IPV6"></a>IPV6</h3><p>IPV4地址面临枯竭<br>IP设计者设计IPV6，对IPV4进行空间和功能的扩展。</p>
+<p><strong>数据报格式：</strong></p>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/19.png" alt="IPV6报文格式"></p>
+<ul>
+<li>版本号： 同IPV4一样，表示如何解析数据报</li>
+<li>流量类型（traffic class）：和IPV4中的TOS一样</li>
+<li>流标签：给需要特殊服务的报文进行标签</li>
+<li>有效负载长度：有效数据的长度</li>
+<li>下一个首部：作用和IPV4中的协议字段相同。标识数据中的内容采用哪种协议。</li>
+<li>跳限制：类型TTL</li>
+<li>源和目的地址</li>
+<li>有效数据</li>
+</ul>
+<p><strong>和V4相比，有哪些变化？</strong></p>
+<ol>
+<li>更大的地址容量：由32位变为128位</li>
+<li>简单高效的40字节首部：去掉了IPV4中可变的选项字段，实现40字节定长。选项采取更灵活的方式实现</li>
+<li>流标签和优先级（flow label）：给需要特殊服务的报文进行标签</li>
+</ol>
+<p><strong>V4中不存在的字段在V6中如何实现？</strong></p>
+<ol>
+<li>标识号，标志，偏移量：不在进行分片操作，若“分组太大”，通过ICMP错误报文来让发送方重发长度更小的IP数据报。</li>
+<li>首部校验和：校验在链路层和传输层都有，因此去掉进一步精简网络层服务</li>
+<li>选项：“选项”可以也可以由下一个首部字段指出。<blockquote>
+<p>ICMPV6针对IPV6增加了新的类型和编码：如“分组太大”和“未识别的IPV6选项”</p>
+</blockquote>
+</li>
+</ol>
+<p>有一个问题：配置IPV6的系统既可以处理IPV6，也可以处理IPV4。但是只配置了IPV4的系统，如何处理IPV6呢？</p>
+<p><strong>如何从IPV4迁移到IPV6？</strong></p>
+<ol>
+<li><p>宣布一个标志日，将所有机器都关机，从IPV4升级到IPV6，显然，这不现实。</p>
+</li>
+<li><p>双栈：配置了IPV6的系统在与IPV4交流的时候只发送IPV4，通过DNS来判断另一个节点是否支持IPV6。双栈的方式会把IPV6中的有效数据放到IPV4中进行发送，但是这样会丢失IPV6中的额外信息，如流标签和优先级，并且再无法找回。</p>
+</li>
+</ol>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/20.png" alt="双栈"></p>
+<ol start="3">
+<li>另一种双栈——建隧道：建隧道的方式会把整个IPV6中的数据放到IPV4中进行发送，这样信息就不会丢失了。</li>
+</ol>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/21.png" alt="建隧道"></p>
+<h3 id="IP安全性概述"><a href="#IP安全性概述" class="headerlink" title="IP安全性概述"></a>IP安全性概述</h3><p>IPsec协议防止IP报文被截取、修改或者被伪装，提供了如下的服务：</p>
+<ol>
+<li>密码技术协约：让两台主机加密算法和密钥一致</li>
+<li>对IP数据报有效数据进行加密</li>
+<li>保证数据是完整的，没有被修改</li>
+<li>确保IP数据报的发送源未被伪装</li>
+</ol>
+<blockquote>
+<p>关于实现的原理，在之后的学习中，有需要再去了解。</p>
+</blockquote>
+<h2 id="选路算法"><a href="#选路算法" class="headerlink" title="选路算法"></a>选路算法</h2><p>前面已学Internet的两个主要部分：IP协议和ICMP协议<br>接下来学习第三个主要部分：选路协议<br>先学习一些选路算法</p>
+<p>于主机相连的第一个路由器称为默认路由器或者第一跳路由器<br>选路算法解决的问题是：数据报从源路由器到目的路由器之间的最“好”的一条路径</p>
+<p>理想情况：网络可以抽象成图</p>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/22.png" alt="网络抽象图"></p>
+<p><strong>算法的分类：</strong></p>
+<p>按全局性还是分布式来分类:</p>
+<ol>
+<li>全局选路算法：需要每个节点了解所有的节点连通性和链路的费用</li>
+<li>分布式选路算发：只需要每个节点了解相邻的节点连通性和链路费用</li>
+</ol>
+<p>按静态还是动态来分类：</p>
+<ol>
+<li>静态：变化缓慢，通常需要人为的干预</li>
+<li>动态：在网络流量负载或者拓扑发生变化是改变选路路径</li>
+</ol>
+<p>按链路负载敏感度来分类：</p>
+<ol>
+<li>负载敏感：链路的费用反映链路当前的拥塞水平</li>
+<li>负载迟钝：链路的费用不反映链路当前的拥塞水平</li>
+</ol>
+<h3 id="链路状态选路算法（Link-State-LS）"><a href="#链路状态选路算法（Link-State-LS）" class="headerlink" title="链路状态选路算法（Link-State,LS）"></a>链路状态选路算法（Link-State,LS）</h3><p>属于全局选路算法，通过每个节点向网络中的所有其它路由器广播链路状态来实现。<br>下面讲的链路状态选路算法使用dijkstra算法实现</p>
+<p>计算从源节点u到网络中其它每个节点的最短路径：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Initialization:</span><br><span class="line">  N’ = &#123;u&#125;    </span><br><span class="line">  for all nodes v      </span><br><span class="line">    if v is a neighbor of u         </span><br><span class="line">      then D(v) = c(u,v)     </span><br><span class="line">    else D(v) = ∞</span><br><span class="line">Loop    </span><br><span class="line">  find w not in N’ such that D(w) is a minimum   </span><br><span class="line">  add w to N’  </span><br><span class="line">  update D(v) for each neighbor v of w and not in N’:</span><br><span class="line">      D(v) = min( D(v), D(w) + c(w,v) )</span><br><span class="line">   /* new cost to v is either old cost to v or known    </span><br><span class="line">   least path cost to w plus cost from w to v */</span><br><span class="line">until N’= N</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>N’：路径已确定的节点集合</li>
+<li>D(v)：每次迭代，从源节点到目标节点v的最低费用</li>
+<li>p(v)：最好路径的前一个节点<blockquote>
+<p>算法时间复杂度O（n^2）</p>
+</blockquote>
+</li>
+</ul>
+<p>从p(v)我们可以确认转发表中的下一条链路</p>
+<p>选路算法会周期性的执行<br>当有一条链路的费用发生变化，会通告给其他的路由器</p>
+<p>考虑到这样一个现象：有两个排队通道，如果同一时间所有人从较长的队列移动到较短的队列，那么这并不会带来任何实质性的改善。<br>选路算法也存在这样的问题，叫做选路震荡</p>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/23.png" alt="选路震荡"></p>
+<p><strong>符合防止选路震荡？</strong></p>
+<ol>
+<li>强制链路费用不依赖于负载。这是一种不可接受的方案，因为选路的目标之一就是要避开高拥塞。</li>
+<li>防止同时执行。即便是不同时开始，周期执行，由于网络的“自同步”性质，最终也会成一起执行的结果。因此最好的避免方式是随机执行。</li>
+</ol>
+<h3 id="距离向量选路算法（Distance-Vector-DV）"><a href="#距离向量选路算法（Distance-Vector-DV）" class="headerlink" title="距离向量选路算法（Distance-Vector,DV）"></a>距离向量选路算法（Distance-Vector,DV）</h3><p>DV算法是异步的，分布式的算法。</p>
+<p>DV算法的核心是一个方程式：dx(y)=minv{c(x,v)+ dv(y)}<br>v是一个变量，表示节点x所有的邻居<br>dx(y)表示x到y的最短距离</p>
+<p>DV算法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Initialization:</span><br><span class="line"></span><br><span class="line">  for all destinations y in N:</span><br><span class="line">    Dx(y) = c(x,y)   /* if y is not a neighbor then c(x,y) = ∞*/</span><br><span class="line">  for each neighbor w</span><br><span class="line">    Dw(y) = ? for all destinations y in N</span><br><span class="line">  for each neighbor w</span><br><span class="line">    send distance vector Dx= [Dx(y): y inN] to w</span><br><span class="line"></span><br><span class="line">loop</span><br><span class="line">  wait(until I see a link cost change to some neighbor w or</span><br><span class="line">        until I receive a distance vector from some neighbor w)</span><br><span class="line"></span><br><span class="line">  for each y in N:</span><br><span class="line">    Dx(y) = minv&#123;c(x,v) + Dv(y)&#125;</span><br><span class="line"></span><br><span class="line">  if Dx(y) changed for any destination y</span><br><span class="line">  send distance vector Dx= [Dx(y): y in N] to all neighbors</span><br><span class="line">forever</span><br></pre></td></tr></table></figure></p>
+<p>每次会把有更新的行发给邻居，邻居再根据接受到的数据来更新自己<br><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/24.png" alt="DV算法"></p>
+<p>从算法中可以看到，两个循环触发的因素：</p>
+<ol>
+<li>有链路费用发生变化</li>
+<li>从邻居接收到距离向量变化的消息</li>
+</ol>
+<p>接下来分析两种链路费用变化的案例：</p>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/25.png" alt="链路费用变化"></p>
+<p>如图：</p>
+<ol>
+<li>a图中链路(x,y)费用减少，y检测到费用变化，触发更新，一系列迭代后，新的转发表生成</li>
+<li>b图中链路(x,y)费用减少，并通知x，x更新距离向量，同时通知y，y又更新后通知x…..出现选路环路，更新会在两个节点之间来回反复</li>
+</ol>
+<p><strong>如何处理选路环路？</strong></p>
+<p>增加毒性逆转：如果z 通过y 到x，那么z通告y，它（z）到x的距离是无穷大。<br>这样的操作显然可以防止环路的产生</p>
+<p><strong>LV算法和DV算法孰好孰坏？</strong></p>
+<ol>
+<li>DV算法复杂度较小，获取费用的消耗较小，但是收敛速度受影响较多。</li>
+<li>LS算法的健壮性较好，所有节点都独立计算自己的转发表，而DV算法的一个错误会导致整个网络的错误。</li>
+</ol>
+<h2 id="层次选路"><a href="#层次选路" class="headerlink" title="层次选路"></a>层次选路</h2><p>已经了解了相关的基础算法，但只是理论上可行的。<br>很显然，运用于实践中就会有诸多问题：</p>
+<ol>
+<li>规模：现实中有上亿的计算机，LS算法要求存储惊人的链路信息，DV算法可能永不收敛。</li>
+<li>企业化：总有组织不愿意加入这种公开性的全球性的算法计算中，而是愿意隐藏内部网络，控制自己的路由信息。</li>
+</ol>
+<p>这些问题由Autonomous System（自治系统）来解决，每个AS系统由一组相同管理控制下的路由器（ISP或者公司），运行同一种选路算发（DV或者LS，但是为了区别，我们叫做自治系统内部选路算法）。<br>负责AS系统之间的路由器叫做网关。</p>
+<p><strong>如何处理AS系统之间的选路问题呢？</strong></p>
+<p>也就是说，某个要出去的分组应该经哪个网关路由器，发送到哪个外部AS系统呢？</p>
+<p>较简单的方案是：通过AS间选路算法，计算所有外部AS系统的可达信息，把这些可达信息放到AS内所有路由器的转发表中<br>使用前缀风格的转发表，可大大减小转发表的量。</p>
+<p>如果有多条可达路径，还可以根据约定的“策略”来选择。<br>常见的策略如热土豆选路（选择最低费用）</p>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/26.png" alt="AS系统之间的选路"></p>
+<h2 id="Internet网中的选路"><a href="#Internet网中的选路" class="headerlink" title="Internet网中的选路"></a>Internet网中的选路</h2><p>上一节中我们学习了相关的原理，这一节就来了解这些理论在当今因特网中发挥了怎样的作用。</p>
+<h3 id="Internet网AS内部选路：RIP"><a href="#Internet网AS内部选路：RIP" class="headerlink" title="Internet网AS内部选路：RIP"></a>Internet网AS内部选路：RIP</h3><p>数据距离向量协议，类似DV算法<br>使用跳数作为链路费用，每条链路的费用为1，如图：</p>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/27.png" alt="跳数的定义"></p>
+<p>路径的最大费用为15，这也意味着，RIP协议适用的AS系统规模不会很大。<br>RIP每30秒发送一个RIP更新通告，通知邻居它到每个子网的最短距离。<br>180秒若没有收到邻居的通告，则可认为与该邻居的链路已中断。<br>邻居接受到转发表，更新转发表，通告给邻居，邻居再重新计算最短路径，更新转发表再通知，直至收敛。</p>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/28.png" alt="RIP转发表"></p>
+<h3 id="Internet网AS内部选路：OSPF"><a href="#Internet网AS内部选路：OSPF" class="headerlink" title="Internet网AS内部选路：OSPF"></a>Internet网AS内部选路：OSPF</h3><p>类似LS算法<br>链路费用可由管理员配置<br>每30分钟广播一次链路状态（无论是否有更新，这种设计增加了健壮性）<br>OSPF通告使用OSPF报文，和ICMP一样承载在IP分组中，协议值为89。<br>OSPF协议自身实现了可靠报文传输，链路状态广播等功能<br>更多优点：</p>
+<ol>
+<li>安全：仅信任的路由器能参与一个AS内的OSPF协议。报文加入了鉴别的功能。</li>
+<li>多条相同费用的路径：OSPF允许多条相同费用的路径同时传输</li>
+<li>支持多路选路算法</li>
+<li>支持在单个选路域内的层次结构</li>
+</ol>
+<h3 id="Internet网AS间选路：BGP"><a href="#Internet网AS间选路：BGP" class="headerlink" title="Internet网AS间选路：BGP"></a>Internet网AS间选路：BGP</h3><ul>
+<li><p>BGP处理的问题：</p>
+<ol>
+<li>从相邻AS处获得子网可达性信息</li>
+<li>向AS内部传达这些可达性信息</li>
+<li>根据可达信息和AS策略决定路径</li>
+</ol>
+</li>
+<li><p>BGP如何传达消息？</p>
+<ol>
+<li>建立半永久TCP连接，称为<em>BGP会话</em>，之间交流使用<em>BGP报文</em></li>
+<li>连接的两端路由器叫<em>BGP对等方</em></li>
+<li><em>AS间的BGP会话称为</em>eBGP（external BGP session）*</li>
+<li><em>AS内的BGP会话称为</em>iBGP（internal BGP session）*</li>
+<li>在BGP中，可达信息都是以前缀风格的IP来传达的，在BGP中也叫做<em>路由</em></li>
+</ol>
+</li>
+</ul>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/29.png" alt="BGP会话"></p>
+<ul>
+<li><p>在BGP会话中，增加额外的属性以控制可达信息的传输：</p>
+<ol>
+<li>AS自治号：每一个AS都有一个AS自治号（除了边缘AS，也就是只作为源AS或者目标AS，称为桩（stub）AS）</li>
+<li>AS-PATH：记录一个路由都经过了哪些AS，可防止环路，也可以作为选路策略。</li>
+<li>NEXT-HOP：记录路由从哪一个接口进入AS内部，用于在向AS内部传达这些可达性信息时，通过内部选路协议确定到NEXT-HOP的路径，从而确定到目的前缀的路径。</li>
+</ol>
+</li>
+<li><p>路由选择：<strong>多条路由的情况下，选择那一条？</strong></p>
+<ol>
+<li>增加<em>本地偏好值</em>的属性，较高的本地偏好值会被选择</li>
+<li>最短的AS-PATH被选择</li>
+<li>NEXT-HOP中指定的接口，最近的会被选择</li>
+<li>等等</li>
+</ol>
+</li>
+<li><p>通告策略：<strong>路由是否如何通告？</strong></p>
+<ol>
+<li>桩AS不应该通告给其他AS</li>
+<li>不同的ISP之间往往由于利益问题具有不同的通告策略</li>
+</ol>
+</li>
+</ul>
+<h2 id="广播和多播选路"><a href="#广播和多播选路" class="headerlink" title="广播和多播选路"></a>广播和多播选路</h2><ul>
+<li>广播：一个源节点向网络中的其它所有节点发送分组</li>
+<li>多播：一个源节点有选择的向网络中的其它节点发送分组</li>
+</ul>
+<p>之前都只有研究过单播的选路算法，这一节主要是学习广播和多选的选路算法</p>
+<h3 id="广播"><a href="#广播" class="headerlink" title="广播"></a>广播</h3><p>广播分组的IP地址分为两种</p>
+<ol>
+<li>受限广播：只在子网内传输，IP为255.255.255.255</li>
+<li>直接广播：发送到专门网络上的每台主机了，主机字段（子网掩码意外的部分）通常全为1，如 192.168.10.255</li>
+</ol>
+<p>假设需要广播到N个目的主机</p>
+<h4 id="最简单的广播选路算法"><a href="#最简单的广播选路算法" class="headerlink" title="最简单的广播选路算法"></a>最简单的广播选路算法</h4><p>使用N次单播<br>缺陷：</p>
+<ol>
+<li>相同的分组会在相同的路径上传播多次</li>
+<li>单播方式要求知道知道每一个广播成员IP，需要额外的协议来维护广播成员</li>
+</ol>
+<h4 id="无控制洪泛"><a href="#无控制洪泛" class="headerlink" title="无控制洪泛"></a>无控制洪泛</h4><p>所有的节点都复制该分组并转发给所有的邻居（除来源）<br>缺陷：</p>
+<ol>
+<li>会出现环，导致广播风暴</li>
+</ol>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/30.png" alt="N次单播"></p>
+<p><strong>如何防止广播风暴？</strong></p>
+<h4 id="受控洪泛"><a href="#受控洪泛" class="headerlink" title="受控洪泛"></a>受控洪泛</h4><ol>
+<li>序列控制洪泛：每个节点都维护已接收的分组源地址（或其他唯一标识）和广播序号的列表，防止重复接受。</li>
+<li>反向路径转发（RPF）：只有当分组到达的链路正好是在到源的最短路径上（转发表中有记录），才转发给所有的邻居（除来源）。<blockquote>
+<p>之所叫反转，是因为由源到目的的路径和由目的到源的路径可能是不一样的，这里使用的是后面一种。<br><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/31.png" alt="反向路径转发"></p>
+</blockquote>
+</li>
+</ol>
+<p>上面的两种方案虽然都处理了重复的分组被丢弃，但是没有从根本上无法避免冗余分组的传输。</p>
+<ol start="3">
+<li>生成树广播：最小树能使路径不重复的到达所有节点，在所有广播成员内计算出最小生成树，然后把分组沿着这棵树的邻居广播（方向无所谓）。<br>生成树算法的主要复杂点在于树的生成和节点维护：<br>最简单的是基于中心方法，选择合适的中心节点，其他路由器向中心路由器发送加入树（tree-join）报文，加入树报文路过的路径也会加入到生成树中，做生成树。<blockquote>
+<p>最小生成树虽然理论上很棒，但是在网络中实现起来却不简单</p>
+</blockquote>
+</li>
+</ol>
+<p><img src="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/32.png" alt="生成树广播"></p>
+<ol start="4">
+<li>实践中的而广播算法：<ul>
+<li>Gnutella：使用序列控制洪泛，并使用TTL来控制洪泛的跳数，也称为范围受限洪泛</li>
+<li>OSPF：也使用序列控制洪泛</li>
+</ul>
+</li>
+</ol>
+<h3 id="多播"><a href="#多播" class="headerlink" title="多播"></a>多播</h3><p>和广播最大的不同在于，多播需要维护多播成员信息</p>
+<p><strong>如何给多播分组编址？</strong></p>
+<p>多播地址也叫做组地址，采用D类IP地址（224.0.0.0~239.255.255.255）<br>首4位总是2进制1110开头</p>
+<p>组如何形成？如何终结？<br>新主机如何加入组？如何退出组？<br>任何主机都可以自由加入吗？<br>多播分组如何交付给组成员？<br>以上这些问题终归于<em>因特网组管理协议（IGMP3）</em></p>
+<h4 id="IGMP3"><a href="#IGMP3" class="headerlink" title="IGMP3"></a>IGMP3</h4><p>和ICMP协议类似，承载在IP数据报上，IP协议号为2<br>作用在第一跳路由器和主机之间<br>具有3种类型的报文：</p>
+<ol>
+<li>membership_query报文：路由器向主机发出，确认哪些主机加入了多播组</li>
+<li>membership_reprot报文：主机向路由器报告组信息</li>
+<li>level_group报文：主机向路由器报告离组，可选，可以通过不响应membership_reprot报文来实现。</li>
+</ol>
+<p><strong>如何确定多播分组的目的路由器？</strong></p>
+<p>由IGMP确认的组信息分离在不同的路由上，我们可以把这些多播路由器连接起来，使得重播分组只在这些路由上进行传播。</p>
+<h4 id="多播选路算法"><a href="#多播选路算法" class="headerlink" title="多播选路算法"></a>多播选路算法</h4><p>多播选路算法的主要功能是让多播地址注册到路由器的转发表中。</p>
+<ol>
+<li>基于共享树：在相同组的路由器中形成最小生成树（可能包含少数非组内路由器），生成的方法和之前说的一样，关键在于中心节点的选择。分组沿着树进行传播。</li>
+<li>基于源的树：使用RPF对每一个源构建一棵多播选路树。RFP是广播算法，因此需要配合剪枝算法进：若第一跳路由器无加入组的主机，就向上游路由器发送剪枝报文。若一个路由器从它的所有下游路由器收到剪枝报文，就向上游路由器发送剪枝报文。</li>
+<li>实践中的多播选路算法是<em>距离向量多播选路协议（DVMRP）</em>，采用基于源的树算法那。</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+	
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/">计算机网络自顶向下：第四章-网络层</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Sun 的个人博客">Sun</a></p>
+  <p><span>发布时间:</span>2019年04月25日 - 17:04</p>
+  <p><span>最后更新:</span>2019年04月25日 - 17:04</p>
+  <p><span>原始链接:</span><a href="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/" title="计算机网络自顶向下：第四章-网络层">https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Sun 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Sun 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机网络自顶向下/" rel="tag"><i class="fa fa-tag"></i> 计算机网络自顶向下</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/15/Design Patterns/命令模式/" rel="next" title="命令模式">
+                <i class="fa fa-chevron-left"></i> 命令模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjMzMS8xMjg2Ng=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/head.png" alt="Sun">
+            
+              <p class="site-author-name" itemprop="name">Sun</p>
+              <p class="site-description motion-element" itemprop="description">Lv.0</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/sunyi720" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#网络层"><span class="nav-number">1.</span> <span class="nav-text">网络层</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.1.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#转发和选路"><span class="nav-number">1.1.1.</span> <span class="nav-text">转发和选路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网络服务模型"><span class="nav-number">1.1.2.</span> <span class="nav-text">网络服务模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚电路和数据报电路"><span class="nav-number">1.2.</span> <span class="nav-text">虚电路和数据报电路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#虚电路网络"><span class="nav-number">1.2.1.</span> <span class="nav-text">虚电路网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据报网络"><span class="nav-number">1.2.2.</span> <span class="nav-text">数据报网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚电路和数据报电路的由来"><span class="nav-number">1.2.3.</span> <span class="nav-text">虚电路和数据报电路的由来</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#路由器工作原理"><span class="nav-number">1.3.</span> <span class="nav-text">路由器工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#输入端口"><span class="nav-number">1.3.1.</span> <span class="nav-text">输入端口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交换结构"><span class="nav-number">1.3.2.</span> <span class="nav-text">交换结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输出端口"><span class="nav-number">1.3.3.</span> <span class="nav-text">输出端口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#何时出现排队"><span class="nav-number">1.3.4.</span> <span class="nav-text">何时出现排队</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络协议：Inetrnet中的转发和编址"><span class="nav-number">1.4.</span> <span class="nav-text">网络协议：Inetrnet中的转发和编址</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IPV4编址"><span class="nav-number">1.4.1.</span> <span class="nav-text">IPV4编址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ICMP-互联网控制报文协议"><span class="nav-number">1.4.2.</span> <span class="nav-text">ICMP:互联网控制报文协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IPV6"><span class="nav-number">1.4.3.</span> <span class="nav-text">IPV6</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IP安全性概述"><span class="nav-number">1.4.4.</span> <span class="nav-text">IP安全性概述</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选路算法"><span class="nav-number">1.5.</span> <span class="nav-text">选路算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#链路状态选路算法（Link-State-LS）"><span class="nav-number">1.5.1.</span> <span class="nav-text">链路状态选路算法（Link-State,LS）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#距离向量选路算法（Distance-Vector-DV）"><span class="nav-number">1.5.2.</span> <span class="nav-text">距离向量选路算法（Distance-Vector,DV）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#层次选路"><span class="nav-number">1.6.</span> <span class="nav-text">层次选路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Internet网中的选路"><span class="nav-number">1.7.</span> <span class="nav-text">Internet网中的选路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Internet网AS内部选路：RIP"><span class="nav-number">1.7.1.</span> <span class="nav-text">Internet网AS内部选路：RIP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Internet网AS内部选路：OSPF"><span class="nav-number">1.7.2.</span> <span class="nav-text">Internet网AS内部选路：OSPF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Internet网AS间选路：BGP"><span class="nav-number">1.7.3.</span> <span class="nav-text">Internet网AS间选路：BGP</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#广播和多播选路"><span class="nav-number">1.8.</span> <span class="nav-text">广播和多播选路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#广播"><span class="nav-number">1.8.1.</span> <span class="nav-text">广播</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#最简单的广播选路算法"><span class="nav-number">1.8.1.1.</span> <span class="nav-text">最简单的广播选路算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#无控制洪泛"><span class="nav-number">1.8.1.2.</span> <span class="nav-text">无控制洪泛</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#受控洪泛"><span class="nav-number">1.8.1.3.</span> <span class="nav-text">受控洪泛</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多播"><span class="nav-number">1.8.2.</span> <span class="nav-text">多播</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#IGMP3"><span class="nav-number">1.8.2.1.</span> <span class="nav-text">IGMP3</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多播选路算法"><span class="nav-number">1.8.2.2.</span> <span class="nav-text">多播选路算法</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sun</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("iTVMQ8rz1NpV1RJ716VOA2rG-gzGzoHsz", "j0zy5JQ2bmQXtJ8PeP5gAiKM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>
