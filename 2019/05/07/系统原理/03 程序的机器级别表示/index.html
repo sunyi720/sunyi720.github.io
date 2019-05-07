@@ -114,13 +114,13 @@
 
 
 
-<meta name="description" content="03 机器级别的表示1 程序编码 第一步：C预处理器扩展源代码，插入所有用#include引入的文件，并扩展所有用#define声明的宏。 第二步：编译器 产生源文件的汇编代码，以.s结尾。 第三步：汇编器 将汇编代码转成二进制目标代码文件，以.o结尾，此时还没填入全局值的地址。 第四步：链接器 将目标代码文件与库文件函数的代码合并，最终产生可执行文件，以.p结尾。  1.1 机器级代码对于机器级">
+<meta name="description" content="03 机器级别的表示程序编码 第一步：C预处理器扩展源代码，插入所有用#include引入的文件，并扩展所有用#define声明的宏。 第二步：编译器 产生源文件的汇编代码，以.s结尾。 第三步：汇编器 将汇编代码转成二进制目标代码文件，以.o结尾，此时还没填入全局值的地址。 第四步：链接器 将目标代码文件与库文件函数的代码合并，最终产生可执行文件，以.p结尾。  机器级代码对于机器级编程，有两种">
 <meta name="keywords" content="计算机系统原理,信息的表示和处理">
 <meta property="og:type" content="article">
 <meta property="og:title" content="03 机器级别的表示">
 <meta property="og:url" content="https://sunyi720.github.io/2019/05/07/系统原理/03 程序的机器级别表示/index.html">
 <meta property="og:site_name" content="Sun">
-<meta property="og:description" content="03 机器级别的表示1 程序编码 第一步：C预处理器扩展源代码，插入所有用#include引入的文件，并扩展所有用#define声明的宏。 第二步：编译器 产生源文件的汇编代码，以.s结尾。 第三步：汇编器 将汇编代码转成二进制目标代码文件，以.o结尾，此时还没填入全局值的地址。 第四步：链接器 将目标代码文件与库文件函数的代码合并，最终产生可执行文件，以.p结尾。  1.1 机器级代码对于机器级">
+<meta property="og:description" content="03 机器级别的表示程序编码 第一步：C预处理器扩展源代码，插入所有用#include引入的文件，并扩展所有用#define声明的宏。 第二步：编译器 产生源文件的汇编代码，以.s结尾。 第三步：汇编器 将汇编代码转成二进制目标代码文件，以.o结尾，此时还没填入全局值的地址。 第四步：链接器 将目标代码文件与库文件函数的代码合并，最终产生可执行文件，以.p结尾。  机器级代码对于机器级编程，有两种">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/C语言数据类型在intel中的大小.png">
 <meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/整数寄存器.png">
@@ -160,10 +160,10 @@
 <meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/31.png">
 <meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/32.png">
 <meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/33.png">
-<meta property="og:updated_time" content="2019-05-07T12:02:22.506Z">
+<meta property="og:updated_time" content="2019-05-07T12:09:25.937Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="03 机器级别的表示">
-<meta name="twitter:description" content="03 机器级别的表示1 程序编码 第一步：C预处理器扩展源代码，插入所有用#include引入的文件，并扩展所有用#define声明的宏。 第二步：编译器 产生源文件的汇编代码，以.s结尾。 第三步：汇编器 将汇编代码转成二进制目标代码文件，以.o结尾，此时还没填入全局值的地址。 第四步：链接器 将目标代码文件与库文件函数的代码合并，最终产生可执行文件，以.p结尾。  1.1 机器级代码对于机器级">
+<meta name="twitter:description" content="03 机器级别的表示程序编码 第一步：C预处理器扩展源代码，插入所有用#include引入的文件，并扩展所有用#define声明的宏。 第二步：编译器 产生源文件的汇编代码，以.s结尾。 第三步：汇编器 将汇编代码转成二进制目标代码文件，以.o结尾，此时还没填入全局值的地址。 第四步：链接器 将目标代码文件与库文件函数的代码合并，最终产生可执行文件，以.p结尾。  机器级代码对于机器级编程，有两种">
 <meta name="twitter:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/C语言数据类型在intel中的大小.png">
 
 
@@ -429,13 +429,13 @@
       
 
       
-        <h1 id="03-机器级别的表示"><a href="#03-机器级别的表示" class="headerlink" title="03 机器级别的表示"></a>03 机器级别的表示</h1><h2 id="1-程序编码"><a href="#1-程序编码" class="headerlink" title="1 程序编码"></a>1 程序编码</h2><ul>
+        <h1 id="03-机器级别的表示"><a href="#03-机器级别的表示" class="headerlink" title="03 机器级别的表示"></a>03 机器级别的表示</h1><h2 id="程序编码"><a href="#程序编码" class="headerlink" title="程序编码"></a>程序编码</h2><ul>
 <li>第一步：C<strong>预处理器</strong>扩展源代码，插入所有用#include引入的文件，并扩展所有用#define声明的宏。</li>
 <li>第二步：<strong>编译器</strong> 产生源文件的汇编代码，以.s结尾。</li>
 <li>第三步：<strong>汇编器</strong> 将汇编代码转成二进制目标代码文件，以.o结尾，此时还没填入全局值的地址。</li>
 <li>第四步：<strong>链接器</strong> 将目标代码文件与库文件函数的代码合并，最终产生可执行文件，以.p结尾。</li>
 </ul>
-<h3 id="1-1-机器级代码"><a href="#1-1-机器级代码" class="headerlink" title="1.1 机器级代码"></a>1.1 机器级代码</h3><p>对于机器级编程，有两种抽象：</p>
+<h3 id="机器级代码"><a href="#机器级代码" class="headerlink" title="机器级代码"></a>机器级代码</h3><p>对于机器级编程，有两种抽象：</p>
 <ol>
 <li><strong>指令集体系结构或指令集架构(ISA)</strong>：定义了处理器状态，指令的格式，以及每条指令对状态的影响。指令宏观上按顺序执行，微观上并发的执行。</li>
 <li>内存地址使用虚拟地址</li>
@@ -448,7 +448,7 @@
 <li><strong>向量寄存器</strong>：存放一个或者多个整数或者浮点数。</li>
 </ul>
 <p>程序的执行都离不开这些寄存器的使用，后面会了解其作用。</p>
-<h3 id="1-2-代码示例"><a href="#1-2-代码示例" class="headerlink" title="1.2 代码示例"></a>1.2 代码示例</h3><p>C语言代码文件mstore.c如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">long mult2(long,long);</span><br><span class="line">void multstore(long x,long y,long *dest)&#123;</span><br><span class="line">  long t = mult2(x,y);</span><br><span class="line">  * dest = t;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h3><p>C语言代码文件mstore.c如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">long mult2(long,long);</span><br><span class="line">void multstore(long x,long y,long *dest)&#123;</span><br><span class="line">  long t = mult2(x,y);</span><br><span class="line">  * dest = t;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>命令行运行：linux&gt; gcc -Og -S mstore.c 生成.s文件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">multstore:</span><br><span class="line">pushq %rbx</span><br><span class="line">movq %rdx,%rbx</span><br><span class="line">call mult2</span><br><span class="line">movq %rax,(%rbx)</span><br><span class="line">popq %rbx</span><br><span class="line">ret</span><br></pre></td></tr></table></figure></p>
 <p>命令行运行：linux&gt; gcc -Og -c mstore.c 生成.o文件。他是二进制的，无法阅读。1368字节的文件mstore.o中有一段14字节的文件，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">53 48 89 d3 e8 00 00 00 00 48 89 03 5b c3</span><br></pre></td></tr></table></figure></p>
 <p>机器对产生指令的源代码一无所知。</p>
@@ -456,10 +456,10 @@
 <p>-Og 是一种符合C代码整体结构的代码优化级别，采用更高的代码优化级别会使机器代码和源码之间的关系非常难以理解，因此我们采用-Og来进行学习。</p>
 </blockquote>
 <p>反编译时，命令行运行linux&gt; objdumo -d mstore.o即可生成对应的汇编文件。</p>
-<h3 id="1-3-关于格式的注解"><a href="#1-3-关于格式的注解" class="headerlink" title="1.3 关于格式的注解"></a>1.3 关于格式的注解</h3><p>执行该 linux&gt; gcc -Og -S mstore.c 命令行时，会包含很多其他的无关信息，我们省略掉这些信息，并给我们需要的信息加上固定格式的注解。</p>
-<h2 id="2-数据格式"><a href="#2-数据格式" class="headerlink" title="2 数据格式"></a>2 数据格式</h2><p>8位是一个字节，16位称为 <strong>字</strong> .因此，32位数称为“双字”，64位数称为“四字”，下入给出了C语言对应的x86-64表示。</p>
+<h3 id="关于格式的注解"><a href="#关于格式的注解" class="headerlink" title="关于格式的注解"></a>关于格式的注解</h3><p>执行该 linux&gt; gcc -Og -S mstore.c 命令行时，会包含很多其他的无关信息，我们省略掉这些信息，并给我们需要的信息加上固定格式的注解。</p>
+<h2 id="数据格式"><a href="#数据格式" class="headerlink" title="数据格式"></a>数据格式</h2><p>8位是一个字节，16位称为 <strong>字</strong> .因此，32位数称为“双字”，64位数称为“四字”，下入给出了C语言对应的x86-64表示。</p>
 <p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/C语言数据类型在intel中的大小.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
-<h2 id="3-访问信息"><a href="#3-访问信息" class="headerlink" title="3 访问信息"></a>3 访问信息</h2><p>CPU中包含16个存储64位值的通用目的寄存器。</p>
+<h2 id="访问信息"><a href="#访问信息" class="headerlink" title="访问信息"></a>访问信息</h2><p>CPU中包含16个存储64位值的通用目的寄存器。</p>
 <p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/整数寄存器.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
 <blockquote>
 <p>指令可以对每个寄存器的低位部分中存放的不同大小的数据进行操作。对于生成小于8字节的指令，寄存器中剩下的字节会有两条处理规则：</p>
@@ -468,7 +468,7 @@
 <li>生成4字节时，高位的4个字节被设置为0。</li>
 </ol>
 </blockquote>
-<h3 id="3-1-操作数指示符"><a href="#3-1-操作数指示符" class="headerlink" title="3.1 操作数指示符"></a>3.1 操作数指示符</h3><p>大多数指令有一个或者多个<strong>操作数</strong>，指示出一个操作中要用到的源数据值，以及放置结果的目的位置。有如下三种类型。</p>
+<h3 id="操作数指示符"><a href="#操作数指示符" class="headerlink" title="操作数指示符"></a>操作数指示符</h3><p>大多数指令有一个或者多个<strong>操作数</strong>，指示出一个操作中要用到的源数据值，以及放置结果的目的位置。有如下三种类型。</p>
 <ol>
 <li><strong>立即数（inmediate）</strong>：表示常数值。书写方式是”$”后面跟一个值，只作为源操作数。</li>
 <li><strong>寄存器(register)</strong>：表示某个寄存器的内容。书写方式是r_a表示任意寄存器a。用R[r_a]表示寄存器里的值。</li>
@@ -486,7 +486,7 @@
 <p>上述操作数值M后都省略了下标b，表示对开始地址后的b个字节值的引用。还要注意地址是64位的。</p>
 </blockquote>
 <p>M表示数据必然是在内存中</p>
-<h3 id="3-2-数据传送指令"><a href="#3-2-数据传送指令" class="headerlink" title="3.2 数据传送指令"></a>3.2 数据传送指令</h3><p>指令是将源操作数的值，存放到目的操作数中。<br>这里的值可以是数据，也可以是地址。<br>具体是什么根据指令来判断。<br>一般都是地址对应数据，也有些奇葩存在，比如leap，由此也导致leap和指针有着密切的联系。</p>
+<h3 id="数据传送指令"><a href="#数据传送指令" class="headerlink" title="数据传送指令"></a>数据传送指令</h3><p>指令是将源操作数的值，存放到目的操作数中。<br>这里的值可以是数据，也可以是地址。<br>具体是什么根据指令来判断。<br>一般都是地址对应数据，也有些奇葩存在，比如leap，由此也导致leap和指针有着密切的联系。</p>
 <p>最简单形式的数据传送指令——MOV类，这些指令把源数据复制到目标位置，不做任何变化。</p>
 <p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/简单的数据传送指令.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
 <p>x86-64中规定，源操作数和目的操作数不能同时为一个内存地址。因此内存到内存需要两个指令。</p>
@@ -498,37 +498,37 @@
 <p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/零扩展数据传送指令.png" alt="计算机系统原理：第三章-程序的机器级别表示"><br><img src="/2019/05/07/系统原理/03 程序的机器级别表示/符号扩展数据传送指令.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
 <p>不一样的是，MOVZ在高位作零扩展，MOVS作符号扩展，案例如下：</p>
 <p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/1.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
-<h3 id="3-3-数据传送示例"><a href="#3-3-数据传送示例" class="headerlink" title="3.3 数据传送示例"></a>3.3 数据传送示例</h3><p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/数据传送示例.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
+<h3 id="数据传送示例"><a href="#数据传送示例" class="headerlink" title="数据传送示例"></a>数据传送示例</h3><p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/数据传送示例.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
 <p>我们可以看到：</p>
 <ol>
 <li>所谓指针，其实就是地址。</li>
 <li>局部变量通常保存在寄存器中，而不是内存中。访问寄存器比访问内存要快很多。</li>
 </ol>
-<h3 id="3-4-圧入和弹出栈数据"><a href="#3-4-圧入和弹出栈数据" class="headerlink" title="3.4 圧入和弹出栈数据"></a>3.4 圧入和弹出栈数据</h3><p><strong>什么是内存栈？</strong></p>
+<h3 id="圧入和弹出栈数据"><a href="#圧入和弹出栈数据" class="headerlink" title="圧入和弹出栈数据"></a>圧入和弹出栈数据</h3><p><strong>什么是内存栈？</strong></p>
 <p>内存栈是一种存储结构<br>栈指针是一个寄存器(%rsp)，保存着指向栈顶的地址。</p>
 <p>入栈和出栈的指令如下：</p>
 <p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/3.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
 <p>在内存的操作对应如下：</p>
 <p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/2.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
 <p>pushq的指令也可以使用subq+movq来代替，区别是前者只需要1个字节，后者需要8个字节。</p>
-<h2 id="4-算术和逻辑指令"><a href="#4-算术和逻辑指令" class="headerlink" title="4.算术和逻辑指令"></a>4.算术和逻辑指令</h2><p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/4.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
+<h2 id="算术和逻辑指令"><a href="#算术和逻辑指令" class="headerlink" title="算术和逻辑指令"></a>算术和逻辑指令</h2><p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/4.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
 <p>除了leaq之外，每个指令类都有4种不同大小的指令（1,2,4,8位）</p>
-<h3 id="4-1-加载有效地址指令leaq"><a href="#4-1-加载有效地址指令leaq" class="headerlink" title="4.1 加载有效地址指令leaq"></a>4.1 加载有效地址指令leaq</h3><p>leaq是movq的变种，与movq不同的是，leaq不是存储源操作数的值，而是存储它的地址。</p>
+<h3 id="加载有效地址指令leaq"><a href="#加载有效地址指令leaq" class="headerlink" title="加载有效地址指令leaq"></a>加载有效地址指令leaq</h3><p>leaq是movq的变种，与movq不同的是，leaq不是存储源操作数的值，而是存储它的地址。</p>
 <ul>
 <li>movq (%rdi),%rax 值将%rdi寄存器中的地址的值存放到%rax寄存器中</li>
 <li>leaq (%rdi),%rax 是将%rdi寄存器中的地址存放到%rax寄存器中</li>
 </ul>
 <p>leaq指令就类似c中的指针</p>
-<h3 id="4-4-讨论"><a href="#4-4-讨论" class="headerlink" title="4.4 讨论"></a>4.4 讨论</h3><p>从图中可以看到，除了位移指令，大部分的指令既可用于无符号运算，也可用于补码运算。这个特性也导致使用补码作为有符号整数参与运算.<br>区分有符号无符号是通过指令来判断的，指令值针对有符号的操作就表示数据有符号，指令值针对无符号的操作就表示数据有无符号。</p>
-<h3 id="4-5-特殊的算术操作"><a href="#4-5-特殊的算术操作" class="headerlink" title="4.5 特殊的算术操作"></a>4.5 特殊的算术操作</h3><p>下面的这些指令支持两个64位的指令相乘得到128位的结果</p>
+<h3 id="讨论"><a href="#讨论" class="headerlink" title="讨论"></a>讨论</h3><p>从图中可以看到，除了位移指令，大部分的指令既可用于无符号运算，也可用于补码运算。这个特性也导致使用补码作为有符号整数参与运算.<br>区分有符号无符号是通过指令来判断的，指令值针对有符号的操作就表示数据有符号，指令值针对无符号的操作就表示数据有无符号。</p>
+<h3 id="特殊的算术操作"><a href="#特殊的算术操作" class="headerlink" title="特殊的算术操作"></a>特殊的算术操作</h3><p>下面的这些指令支持两个64位的指令相乘得到128位的结果</p>
 <p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/5.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
 <p>要求%rax寄存器（这其实就是一个累加器）中存在一个值<br>imulq这个指令可以用于两个不同的操作，汇编器能够通过计算操作数的数目来分辨。</p>
 <p>案例：</p>
 <p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/6.png" alt="特殊算术操作案例"><br><img src="/2019/05/07/系统原理/03 程序的机器级别表示/7.png" alt="特殊算术操作案例"></p>
 <p>高位字节存储在大地址</p>
 <p><strong>如果我们不想按照指令顺序一步一步执行？</strong></p>
-<h2 id="5-控制"><a href="#5-控制" class="headerlink" title="5 控制"></a>5 控制</h2><p>使用jump指令可以改变指令的执行顺序<br>条件，循环，分支。</p>
-<h3 id="5-1-条件码"><a href="#5-1-条件码" class="headerlink" title="5.1 条件码"></a>5.1 条件码</h3><p>除了整数寄存器，CPU还维护着一组<strong>单个位</strong>条件码寄存器，描述了最近的算术或逻辑操作属性。<br>常用的条件码有：</p>
+<h2 id="控制"><a href="#控制" class="headerlink" title="控制"></a>控制</h2><p>使用jump指令可以改变指令的执行顺序<br>条件，循环，分支。</p>
+<h3 id="条件码"><a href="#条件码" class="headerlink" title="条件码"></a>条件码</h3><p>除了整数寄存器，CPU还维护着一组<strong>单个位</strong>条件码寄存器，描述了最近的算术或逻辑操作属性。<br>常用的条件码有：</p>
 <ul>
 <li>CF：进位标志，最近的操作是否使最高位产生进位，可用来检查无符号操作的溢出。</li>
 <li>ZF：零标志，最近的操作计算的结果为零</li>
@@ -547,7 +547,7 @@
 </ul>
 <p>有些指令不会改变寄存器的值，而是简单的改变条件码寄存器。<br>cmp类似sub，test类似and</p>
 <p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/10.png" alt="只改变条件码寄存器的指令"></p>
-<h3 id="5-2-访问条件码"><a href="#5-2-访问条件码" class="headerlink" title="5.2 访问条件码"></a>5.2 访问条件码</h3><p><strong>条件码有什么用呢？</strong></p>
+<h3 id="访问条件码"><a href="#访问条件码" class="headerlink" title="访问条件码"></a>访问条件码</h3><p><strong>条件码有什么用呢？</strong></p>
 <p>用作<em>条件</em></p>
 <p><strong>条件码如何使用呢？</strong></p>
 <p>一般并不直接访问单个条件码寄存器</p>
@@ -558,20 +558,20 @@
 </ol>
 <p>常用的指令组合（大于小于等于）有：</p>
 <p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/11.png" alt="常用的SET指令"></p>
-<h3 id="5-3-跳转"><a href="#5-3-跳转" class="headerlink" title="5.3 跳转"></a>5.3 跳转</h3><p>jump是直接跳转，其它的是结合条件码的组合来跳转。</p>
+<h3 id="跳转"><a href="#跳转" class="headerlink" title="跳转"></a>跳转</h3><p>jump是直接跳转，其它的是结合条件码的组合来跳转。</p>
 <p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/12.png" alt="跳转指令"></p>
 <p>jump也有分为两种：</p>
 <ul>
 <li>直接跳转：目的地是指令编码中指定的地点，如jmp .L1</li>
 <li>间接跳转：目的地是寄存器或内存地址，如jmp *%rax，*(%rax)</li>
 </ul>
-<h3 id="5-4-跳转指令的编码"><a href="#5-4-跳转指令的编码" class="headerlink" title="5.4 跳转指令的编码"></a>5.4 跳转指令的编码</h3><p><strong>对于“目的地”如何机器编码？</strong></p>
+<h3 id="跳转指令的编码"><a href="#跳转指令的编码" class="headerlink" title="跳转指令的编码"></a>跳转指令的编码</h3><p><strong>对于“目的地”如何机器编码？</strong></p>
 <ol>
 <li>PV相对寻址：以下一地址的偏移量（负表示到之前）所得作为目的地</li>
 <li>绝对寻址：直接给出跳转的目的地址</li>
 </ol>
 <p>案例：<br><img src="/2019/05/07/系统原理/03 程序的机器级别表示/13.png" alt="跳转目标的机器表示"></p>
-<h3 id="5-5-实现条件分支"><a href="#5-5-实现条件分支" class="headerlink" title="5.5 实现条件分支"></a>5.5 实现条件分支</h3><p><strong>如何实现条件分支？</strong></p>
+<h3 id="实现条件分支"><a href="#实现条件分支" class="headerlink" title="实现条件分支"></a>实现条件分支</h3><p><strong>如何实现条件分支？</strong></p>
 <ol>
 <li>条件跳转</li>
 </ol>
@@ -998,7 +998,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#03-机器级别的表示"><span class="nav-number">1.</span> <span class="nav-text">03 机器级别的表示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-程序编码"><span class="nav-number">1.1.</span> <span class="nav-text">1 程序编码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-机器级代码"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 机器级代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-代码示例"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 代码示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-关于格式的注解"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 关于格式的注解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-数据格式"><span class="nav-number">1.2.</span> <span class="nav-text">2 数据格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-访问信息"><span class="nav-number">1.3.</span> <span class="nav-text">3 访问信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-操作数指示符"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 操作数指示符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-数据传送指令"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 数据传送指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-数据传送示例"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 数据传送示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-圧入和弹出栈数据"><span class="nav-number">1.3.4.</span> <span class="nav-text">3.4 圧入和弹出栈数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-算术和逻辑指令"><span class="nav-number">1.4.</span> <span class="nav-text">4.算术和逻辑指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-加载有效地址指令leaq"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 加载有效地址指令leaq</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-讨论"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.4 讨论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-特殊的算术操作"><span class="nav-number">1.4.3.</span> <span class="nav-text">4.5 特殊的算术操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-控制"><span class="nav-number">1.5.</span> <span class="nav-text">5 控制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-条件码"><span class="nav-number">1.5.1.</span> <span class="nav-text">5.1 条件码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-访问条件码"><span class="nav-number">1.5.2.</span> <span class="nav-text">5.2 访问条件码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-跳转"><span class="nav-number">1.5.3.</span> <span class="nav-text">5.3 跳转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-跳转指令的编码"><span class="nav-number">1.5.4.</span> <span class="nav-text">5.4 跳转指令的编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-5-实现条件分支"><span class="nav-number">1.5.5.</span> <span class="nav-text">5.5 实现条件分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现循环"><span class="nav-number">1.5.6.</span> <span class="nav-text">实现循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#switch语句"><span class="nav-number">1.5.7.</span> <span class="nav-text">switch语句</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#过程"><span class="nav-number">1.6.</span> <span class="nav-text">过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时栈"><span class="nav-number">1.6.1.</span> <span class="nav-text">运行时栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#传递控制"><span class="nav-number">1.6.2.</span> <span class="nav-text">传递控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#传递数据"><span class="nav-number">1.6.3.</span> <span class="nav-text">传递数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分配和释放栈帧内存"><span class="nav-number">1.6.4.</span> <span class="nav-text">分配和释放栈帧内存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#寄存器中的局部数据"><span class="nav-number">1.6.5.</span> <span class="nav-text">寄存器中的局部数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#递归过程"><span class="nav-number">1.6.6.</span> <span class="nav-text">递归过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组分配和访问"><span class="nav-number">1.7.</span> <span class="nav-text">数组分配和访问</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#指针运算"><span class="nav-number">1.7.1.</span> <span class="nav-text">指针运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组嵌套"><span class="nav-number">1.7.2.</span> <span class="nav-text">数组嵌套</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定长数组和变长数组"><span class="nav-number">1.7.3.</span> <span class="nav-text">定长数组和变长数组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异质的数据结构"><span class="nav-number">1.8.</span> <span class="nav-text">异质的数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#结构体"><span class="nav-number">1.8.1.</span> <span class="nav-text">结构体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据对齐"><span class="nav-number">1.8.2.</span> <span class="nav-text">数据对齐</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#机器级程序中控制和数据的互动"><span class="nav-number">1.9.</span> <span class="nav-text">机器级程序中控制和数据的互动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#理解指针"><span class="nav-number">1.9.1.</span> <span class="nav-text">理解指针</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存越界和缓存区溢出"><span class="nav-number">1.9.2.</span> <span class="nav-text">内存越界和缓存区溢出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#支持变长的帧栈"><span class="nav-number">1.9.3.</span> <span class="nav-text">支持变长的帧栈</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浮点代码"><span class="nav-number">1.10.</span> <span class="nav-text">浮点代码</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#03-机器级别的表示"><span class="nav-number">1.</span> <span class="nav-text">03 机器级别的表示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#程序编码"><span class="nav-number">1.1.</span> <span class="nav-text">程序编码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#机器级代码"><span class="nav-number">1.1.1.</span> <span class="nav-text">机器级代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码示例"><span class="nav-number">1.1.2.</span> <span class="nav-text">代码示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于格式的注解"><span class="nav-number">1.1.3.</span> <span class="nav-text">关于格式的注解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据格式"><span class="nav-number">1.2.</span> <span class="nav-text">数据格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#访问信息"><span class="nav-number">1.3.</span> <span class="nav-text">访问信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#操作数指示符"><span class="nav-number">1.3.1.</span> <span class="nav-text">操作数指示符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据传送指令"><span class="nav-number">1.3.2.</span> <span class="nav-text">数据传送指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据传送示例"><span class="nav-number">1.3.3.</span> <span class="nav-text">数据传送示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#圧入和弹出栈数据"><span class="nav-number">1.3.4.</span> <span class="nav-text">圧入和弹出栈数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算术和逻辑指令"><span class="nav-number">1.4.</span> <span class="nav-text">算术和逻辑指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#加载有效地址指令leaq"><span class="nav-number">1.4.1.</span> <span class="nav-text">加载有效地址指令leaq</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#讨论"><span class="nav-number">1.4.2.</span> <span class="nav-text">讨论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特殊的算术操作"><span class="nav-number">1.4.3.</span> <span class="nav-text">特殊的算术操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#控制"><span class="nav-number">1.5.</span> <span class="nav-text">控制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#条件码"><span class="nav-number">1.5.1.</span> <span class="nav-text">条件码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问条件码"><span class="nav-number">1.5.2.</span> <span class="nav-text">访问条件码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#跳转"><span class="nav-number">1.5.3.</span> <span class="nav-text">跳转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#跳转指令的编码"><span class="nav-number">1.5.4.</span> <span class="nav-text">跳转指令的编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现条件分支"><span class="nav-number">1.5.5.</span> <span class="nav-text">实现条件分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现循环"><span class="nav-number">1.5.6.</span> <span class="nav-text">实现循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#switch语句"><span class="nav-number">1.5.7.</span> <span class="nav-text">switch语句</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#过程"><span class="nav-number">1.6.</span> <span class="nav-text">过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时栈"><span class="nav-number">1.6.1.</span> <span class="nav-text">运行时栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#传递控制"><span class="nav-number">1.6.2.</span> <span class="nav-text">传递控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#传递数据"><span class="nav-number">1.6.3.</span> <span class="nav-text">传递数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分配和释放栈帧内存"><span class="nav-number">1.6.4.</span> <span class="nav-text">分配和释放栈帧内存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#寄存器中的局部数据"><span class="nav-number">1.6.5.</span> <span class="nav-text">寄存器中的局部数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#递归过程"><span class="nav-number">1.6.6.</span> <span class="nav-text">递归过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组分配和访问"><span class="nav-number">1.7.</span> <span class="nav-text">数组分配和访问</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#指针运算"><span class="nav-number">1.7.1.</span> <span class="nav-text">指针运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组嵌套"><span class="nav-number">1.7.2.</span> <span class="nav-text">数组嵌套</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定长数组和变长数组"><span class="nav-number">1.7.3.</span> <span class="nav-text">定长数组和变长数组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异质的数据结构"><span class="nav-number">1.8.</span> <span class="nav-text">异质的数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#结构体"><span class="nav-number">1.8.1.</span> <span class="nav-text">结构体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据对齐"><span class="nav-number">1.8.2.</span> <span class="nav-text">数据对齐</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#机器级程序中控制和数据的互动"><span class="nav-number">1.9.</span> <span class="nav-text">机器级程序中控制和数据的互动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#理解指针"><span class="nav-number">1.9.1.</span> <span class="nav-text">理解指针</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存越界和缓存区溢出"><span class="nav-number">1.9.2.</span> <span class="nav-text">内存越界和缓存区溢出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#支持变长的帧栈"><span class="nav-number">1.9.3.</span> <span class="nav-text">支持变长的帧栈</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浮点代码"><span class="nav-number">1.10.</span> <span class="nav-text">浮点代码</span></a></li></ol></li></ol></div>
             
 
           </div>
