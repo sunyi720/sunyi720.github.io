@@ -122,49 +122,49 @@
 <meta property="og:site_name" content="Sun">
 <meta property="og:description" content="03 机器级别的表示1 程序编码 第一步：C预处理器扩展源代码，插入所有用#include引入的文件，并扩展所有用#define声明的宏。 第二步：编译器 产生源文件的汇编代码，以.s结尾。 第三步：汇编器 将汇编代码转成二进制目标代码文件，以.o结尾，此时还没填入全局值的地址。 第四步：链接器 将目标代码文件与库文件函数的代码合并，最终产生可执行文件，以.p结尾。  1.1 机器级代码对于机器级">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/C语言数据类型在intel中的大小.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/整数寄存器.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/操作数格式.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/简单的数据传送指令.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/零扩展数据传送指令.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/符号扩展数据传送指令.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/1.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/数据传送示例.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/3.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/2.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/4.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/5.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/6.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/7.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/10.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/11.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/12.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/13.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/14.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/15.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/16.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/17.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/18.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/19.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/20.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/21.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/22.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/23.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/24.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/25.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/26.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/27.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/28.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/29.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/30.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/31.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/32.png">
-<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/33.png">
-<meta property="og:updated_time" content="2019-05-07T11:55:06.362Z">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/C语言数据类型在intel中的大小.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/整数寄存器.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/操作数格式.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/简单的数据传送指令.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/零扩展数据传送指令.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/符号扩展数据传送指令.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/1.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/数据传送示例.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/3.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/2.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/4.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/5.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/6.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/7.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/10.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/11.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/12.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/13.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/14.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/15.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/16.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/17.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/18.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/19.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/20.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/21.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/22.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/23.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/24.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/25.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/26.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/27.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/28.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/29.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/30.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/31.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/32.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/33.png">
+<meta property="og:updated_time" content="2019-05-07T12:02:22.506Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="03 机器级别的表示">
 <meta name="twitter:description" content="03 机器级别的表示1 程序编码 第一步：C预处理器扩展源代码，插入所有用#include引入的文件，并扩展所有用#define声明的宏。 第二步：编译器 产生源文件的汇编代码，以.s结尾。 第三步：汇编器 将汇编代码转成二进制目标代码文件，以.o结尾，此时还没填入全局值的地址。 第四步：链接器 将目标代码文件与库文件函数的代码合并，最终产生可执行文件，以.p结尾。  1.1 机器级代码对于机器级">
-<meta name="twitter:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/03%20机器级别的表示/C语言数据类型在intel中的大小.png">
+<meta name="twitter:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/C语言数据类型在intel中的大小.png">
 
 
 
@@ -458,9 +458,9 @@
 <p>反编译时，命令行运行linux&gt; objdumo -d mstore.o即可生成对应的汇编文件。</p>
 <h3 id="1-3-关于格式的注解"><a href="#1-3-关于格式的注解" class="headerlink" title="1.3 关于格式的注解"></a>1.3 关于格式的注解</h3><p>执行该 linux&gt; gcc -Og -S mstore.c 命令行时，会包含很多其他的无关信息，我们省略掉这些信息，并给我们需要的信息加上固定格式的注解。</p>
 <h2 id="2-数据格式"><a href="#2-数据格式" class="headerlink" title="2 数据格式"></a>2 数据格式</h2><p>8位是一个字节，16位称为 <strong>字</strong> .因此，32位数称为“双字”，64位数称为“四字”，下入给出了C语言对应的x86-64表示。</p>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/C语言数据类型在intel中的大小.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/C语言数据类型在intel中的大小.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
 <h2 id="3-访问信息"><a href="#3-访问信息" class="headerlink" title="3 访问信息"></a>3 访问信息</h2><p>CPU中包含16个存储64位值的通用目的寄存器。</p>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/整数寄存器.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/整数寄存器.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
 <blockquote>
 <p>指令可以对每个寄存器的低位部分中存放的不同大小的数据进行操作。对于生成小于8字节的指令，寄存器中剩下的字节会有两条处理规则：</p>
 <ol>
@@ -481,24 +481,24 @@
 <li>r_i：变址寄存器</li>
 <li>s：比例<br>计算公式：imm+R[r_a]+R[r_i]*s</li>
 </ul>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/操作数格式.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/操作数格式.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
 <blockquote>
 <p>上述操作数值M后都省略了下标b，表示对开始地址后的b个字节值的引用。还要注意地址是64位的。</p>
 </blockquote>
 <p>M表示数据必然是在内存中</p>
 <h3 id="3-2-数据传送指令"><a href="#3-2-数据传送指令" class="headerlink" title="3.2 数据传送指令"></a>3.2 数据传送指令</h3><p>指令是将源操作数的值，存放到目的操作数中。<br>这里的值可以是数据，也可以是地址。<br>具体是什么根据指令来判断。<br>一般都是地址对应数据，也有些奇葩存在，比如leap，由此也导致leap和指针有着密切的联系。</p>
 <p>最简单形式的数据传送指令——MOV类，这些指令把源数据复制到目标位置，不做任何变化。</p>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/简单的数据传送指令.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/简单的数据传送指令.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
 <p>x86-64中规定，源操作数和目的操作数不能同时为一个内存地址。因此内存到内存需要两个指令。</p>
 <blockquote>
 <p>movq和movabsq的区别是：movq的源数据是32位补码，然后扩展得到的64位值。movabsq的数据是任意的64位立即数。</p>
 </blockquote>
 <p>根据之前提过的寄存器剩下字节处理规则，对于movl指令，会把高4位字节设置为0:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">movabsq $0011223344556677 %rax %rax=0011223344556677</span><br><span class="line">movb -1,%rax %rax=00112233445566FF</span><br><span class="line">movw -1,%rax %rax=001122334455FFFF</span><br><span class="line">movl -1,%rax %rax=00000000FFFFFFFF</span><br><span class="line">movq -1,%rax %rax=FFFFFFFFFFFFFFFF</span><br></pre></td></tr></table></figure></p>
 <p>当把较小的数值复制到较大的目的时，使用MOVZ和MOVS指令：</p>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/零扩展数据传送指令.png" alt="计算机系统原理：第三章-程序的机器级别表示"><br><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/符号扩展数据传送指令.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/零扩展数据传送指令.png" alt="计算机系统原理：第三章-程序的机器级别表示"><br><img src="/2019/05/07/系统原理/03 程序的机器级别表示/符号扩展数据传送指令.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
 <p>不一样的是，MOVZ在高位作零扩展，MOVS作符号扩展，案例如下：</p>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/1.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
-<h3 id="3-3-数据传送示例"><a href="#3-3-数据传送示例" class="headerlink" title="3.3 数据传送示例"></a>3.3 数据传送示例</h3><p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/数据传送示例.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/1.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
+<h3 id="3-3-数据传送示例"><a href="#3-3-数据传送示例" class="headerlink" title="3.3 数据传送示例"></a>3.3 数据传送示例</h3><p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/数据传送示例.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
 <p>我们可以看到：</p>
 <ol>
 <li>所谓指针，其实就是地址。</li>
@@ -507,11 +507,11 @@
 <h3 id="3-4-圧入和弹出栈数据"><a href="#3-4-圧入和弹出栈数据" class="headerlink" title="3.4 圧入和弹出栈数据"></a>3.4 圧入和弹出栈数据</h3><p><strong>什么是内存栈？</strong></p>
 <p>内存栈是一种存储结构<br>栈指针是一个寄存器(%rsp)，保存着指向栈顶的地址。</p>
 <p>入栈和出栈的指令如下：</p>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/3.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/3.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
 <p>在内存的操作对应如下：</p>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/2.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/2.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
 <p>pushq的指令也可以使用subq+movq来代替，区别是前者只需要1个字节，后者需要8个字节。</p>
-<h2 id="4-算术和逻辑指令"><a href="#4-算术和逻辑指令" class="headerlink" title="4.算术和逻辑指令"></a>4.算术和逻辑指令</h2><p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/4.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
+<h2 id="4-算术和逻辑指令"><a href="#4-算术和逻辑指令" class="headerlink" title="4.算术和逻辑指令"></a>4.算术和逻辑指令</h2><p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/4.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
 <p>除了leaq之外，每个指令类都有4种不同大小的指令（1,2,4,8位）</p>
 <h3 id="4-1-加载有效地址指令leaq"><a href="#4-1-加载有效地址指令leaq" class="headerlink" title="4.1 加载有效地址指令leaq"></a>4.1 加载有效地址指令leaq</h3><p>leaq是movq的变种，与movq不同的是，leaq不是存储源操作数的值，而是存储它的地址。</p>
 <ul>
@@ -521,10 +521,10 @@
 <p>leaq指令就类似c中的指针</p>
 <h3 id="4-4-讨论"><a href="#4-4-讨论" class="headerlink" title="4.4 讨论"></a>4.4 讨论</h3><p>从图中可以看到，除了位移指令，大部分的指令既可用于无符号运算，也可用于补码运算。这个特性也导致使用补码作为有符号整数参与运算.<br>区分有符号无符号是通过指令来判断的，指令值针对有符号的操作就表示数据有符号，指令值针对无符号的操作就表示数据有无符号。</p>
 <h3 id="4-5-特殊的算术操作"><a href="#4-5-特殊的算术操作" class="headerlink" title="4.5 特殊的算术操作"></a>4.5 特殊的算术操作</h3><p>下面的这些指令支持两个64位的指令相乘得到128位的结果</p>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/5.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/5.png" alt="计算机系统原理：第三章-程序的机器级别表示"></p>
 <p>要求%rax寄存器（这其实就是一个累加器）中存在一个值<br>imulq这个指令可以用于两个不同的操作，汇编器能够通过计算操作数的数目来分辨。</p>
 <p>案例：</p>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/6.png" alt="特殊算术操作案例"><br><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/7.png" alt="特殊算术操作案例"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/6.png" alt="特殊算术操作案例"><br><img src="/2019/05/07/系统原理/03 程序的机器级别表示/7.png" alt="特殊算术操作案例"></p>
 <p>高位字节存储在大地址</p>
 <p><strong>如果我们不想按照指令顺序一步一步执行？</strong></p>
 <h2 id="5-控制"><a href="#5-控制" class="headerlink" title="5 控制"></a>5 控制</h2><p>使用jump指令可以改变指令的执行顺序<br>条件，循环，分支。</p>
@@ -546,7 +546,7 @@
 </li>
 </ul>
 <p>有些指令不会改变寄存器的值，而是简单的改变条件码寄存器。<br>cmp类似sub，test类似and</p>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/10.png" alt="只改变条件码寄存器的指令"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/10.png" alt="只改变条件码寄存器的指令"></p>
 <h3 id="5-2-访问条件码"><a href="#5-2-访问条件码" class="headerlink" title="5.2 访问条件码"></a>5.2 访问条件码</h3><p><strong>条件码有什么用呢？</strong></p>
 <p>用作<em>条件</em></p>
 <p><strong>条件码如何使用呢？</strong></p>
@@ -557,9 +557,9 @@
 <li>可以通过条件码寄存器的组合结果来传输数据</li>
 </ol>
 <p>常用的指令组合（大于小于等于）有：</p>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/11.png" alt="常用的SET指令"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/11.png" alt="常用的SET指令"></p>
 <h3 id="5-3-跳转"><a href="#5-3-跳转" class="headerlink" title="5.3 跳转"></a>5.3 跳转</h3><p>jump是直接跳转，其它的是结合条件码的组合来跳转。</p>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/12.png" alt="跳转指令"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/12.png" alt="跳转指令"></p>
 <p>jump也有分为两种：</p>
 <ul>
 <li>直接跳转：目的地是指令编码中指定的地点，如jmp .L1</li>
@@ -570,21 +570,21 @@
 <li>PV相对寻址：以下一地址的偏移量（负表示到之前）所得作为目的地</li>
 <li>绝对寻址：直接给出跳转的目的地址</li>
 </ol>
-<p>案例：<br><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/13.png" alt="跳转目标的机器表示"></p>
+<p>案例：<br><img src="/2019/05/07/系统原理/03 程序的机器级别表示/13.png" alt="跳转目标的机器表示"></p>
 <h3 id="5-5-实现条件分支"><a href="#5-5-实现条件分支" class="headerlink" title="5.5 实现条件分支"></a>5.5 实现条件分支</h3><p><strong>如何实现条件分支？</strong></p>
 <ol>
 <li>条件跳转</li>
 </ol>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/14.png" alt="条件跳转实现条件分支"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/14.png" alt="条件跳转实现条件分支"></p>
 <ol start="2">
 <li>条件传送（条件赋值）</li>
 </ol>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/15.png" alt="条件赋值实现条件分支"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/15.png" alt="条件赋值实现条件分支"></p>
 <p><strong>两种方式有何区别？</strong></p>
 <ul>
 <li><p>在分支比较简单时，使用条件赋值较好：<br>一条指令的处理要经过一系列阶段（从内存取指令、确定指令类型、从内存取数据、执行算术运算、从内存写数据、更新程序计数器）<br>处理器通过使用 <em>流水线（pipelining）</em> 来提高性能<br>大概就是通过同时执行指令的不同阶段<br>这要求指令是顺序的，因此当遇到分支（条件跳转）时，要么选择等待，要么采用非常精密的分支预测逻辑来预测执行<br>这就意味着要承担错误预测的风险（消耗）</p>
 <p>x84_64可用的条件赋值指令有：</p>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/16.png" alt="条件赋值指令"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/16.png" alt="条件赋值指令"></p>
 </li>
 <li><p>在分支比较复杂时，使用条件跳转较好：<br>在条件赋值的处理下，无论最后走哪一条分支，两条分支的逻辑都会被执行<br>这就会出现：</p>
 <ol>
@@ -597,17 +597,17 @@
 <p>使用条件码（比较、测试）和条件跳转可以实现循环，如下：</p>
 <ol>
 <li><p>do-while</p>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/17.png" alt="do-while"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/17.png" alt="do-while"></p>
 </li>
 <li><p>while<br>有两种</p>
 <ol>
 <li>jump to middle</li>
 </ol>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/18.png" alt="jump to middle"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/18.png" alt="jump to middle"></p>
 <ol start="2">
 <li>jguarded-do</li>
 </ol>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/19.png" alt="guarded-do"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/19.png" alt="guarded-do"></p>
 </li>
 <li><p>for<br>for语句可以转换为while语句来实现</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">for(init-expr;test-expr;update-expr)</span><br><span class="line">  body-statement</span><br><span class="line">===========================</span><br><span class="line">init-expr;</span><br><span class="line">while(test-expr)&#123;</span><br><span class="line">    body-statement</span><br><span class="line">    update-expr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -615,12 +615,12 @@
 </ol>
 <h3 id="switch语句"><a href="#switch语句" class="headerlink" title="switch语句"></a>switch语句</h3><p><strong>如何实现switch分支？</strong></p>
 <p>同样是使用条件（无条件）跳转来实现的<br>跳转的地址用一个数组保存（&amp;表示指向数据值的地址，&amp;&amp;表示指向标记代码位置的地址）<br>数组索引是分支的开关，通过计算得到</p>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/20.png" alt="switch"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/20.png" alt="switch"></p>
 <p>对应的汇编代码如下：</p>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/21.png" alt="switch汇编"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/21.png" alt="switch汇编"></p>
 <p>jmp *.L4(,%rsi,8)<br>表示一个间接跳转，地址为 8 * R[%rsi] + .L4</p>
 <p>跳转表数组对应的内存：</p>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/22.png" alt="跳转表"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/22.png" alt="跳转表"></p>
 <h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><p><strong>什么是过程？</strong></p>
 <p>指令集合<br>可被调用<br>函数、方法、子例程、处理函数等等</p>
 <p><strong>一个过程涉及到哪些步骤？</strong></p>
@@ -632,26 +632,26 @@
 </ol>
 <p>接来下一一说明这些机制如何实现;</p>
 <h3 id="运行时栈"><a href="#运行时栈" class="headerlink" title="运行时栈"></a>运行时栈</h3><p>大多数语言都使用一种内存结构——栈帧——来控制过程</p>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/23.png" alt="栈帧"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/23.png" alt="栈帧"></p>
 <h3 id="传递控制"><a href="#传递控制" class="headerlink" title="传递控制"></a>传递控制</h3><p><strong>传递控制如何实现？</strong></p>
 <p>使用call和ret指令实现传递控制<br>call Q调用过程Q，同时把返回地址A压入栈</p>
 <blockquote>
 <p>callq和retq表明是x86-64版本</p>
 </blockquote>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/24.png" alt="call和ret"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/24.png" alt="call和ret"></p>
 <p><strong>具体是如何退出？</strong></p>
 <p>当过程需要退出时，会释放当前的内存<br>这时候栈帧会指向返回地址A<br>ret会取出该地址，并将程序计数器（%rpi）修改为该地址</p>
 <p>案例：</p>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/25.png" alt="过程案例"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/25.png" alt="过程案例"></p>
 <p>下图是这个案例中call和ret对栈的操作栈过程：</p>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/26.png" alt="call和ret的操作栈过程"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/26.png" alt="call和ret的操作栈过程"></p>
 <p>%rip：程序计数器（寄存器）<br>%rsp：栈顶指针（寄存器）</p>
 <h3 id="传递数据"><a href="#传递数据" class="headerlink" title="传递数据"></a>传递数据</h3><p><strong>传递数据如何实现？</strong></p>
 <p>大部分过程间数据传递都是通过寄存器实现的<br>有6个寄存器被用来参数传递，寄存器使用的按照参数的顺序，寄存器的名字取决于要传递的数据类型的大小<br>用%rax来返回结果值</p>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/27.png" alt="用来传参的寄存器"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/27.png" alt="用来传参的寄存器"></p>
 <p><strong>多于6个参数怎么办？</strong></p>
 <p>多于6个的参数会被放到栈帧中，通过帧指针（存放在%rbp中）调用来使用<br>每个参数都占用8个字节</p>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/28.png" alt="用来传参的栈帧"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/28.png" alt="用来传参的栈帧"></p>
 <p><strong>这些参数在被调用的过程中如何使用？</strong></p>
 <ol>
 <li>寄存器中的参数：直接使用寄存器</li>
@@ -671,7 +671,7 @@
 <li>局部意味着只在当前过程中有效，因此离开的时候需要释放这部分空间</li>
 </ol>
 <p>案例：</p>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/29.png" alt="分配和释放栈帧内存"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/29.png" alt="分配和释放栈帧内存"></p>
 <h3 id="寄存器中的局部数据"><a href="#寄存器中的局部数据" class="headerlink" title="寄存器中的局部数据"></a>寄存器中的局部数据</h3><p>存放在过程栈帧中的局部数据是当前过程一直有效的</p>
 <p>但是寄存器是所有过程共享的，这意味着在过程调用中，寄存器中的值可能会被改变，那么，<strong>如何确保存当前过程寄存器中的局部数据是一致的？</strong></p>
 <ol>
@@ -681,17 +681,17 @@
 </ol>
 <p><strong>如何保存这些寄存器？</strong></p>
 <p>x86-64采用了一组统一的寄存器使用惯例（%rbx、%rbp、%r12~%r15）：<br><em>被调用者保存寄存器</em>：被调用者在开始前必须保存这些寄存器（会发生变化的）中的数据，以返回时恢复这些数据<br>把之前谈到的变化数据存放到<em>被调用者保存寄存器</em>中即可<br>保存的方式是在分配栈空间就先把这些数据压入栈中，释放空间后再弹出。</p>
-<p>案例：<br><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/30.png" alt="被调用者保存寄存器"></p>
+<p>案例：<br><img src="/2019/05/07/系统原理/03 程序的机器级别表示/30.png" alt="被调用者保存寄存器"></p>
 <p><strong>当被调用者保存寄存器不够用了怎么办？</strong></p>
 <h3 id="递归过程"><a href="#递归过程" class="headerlink" title="递归过程"></a>递归过程</h3><p>栈规则提供了一种机制，每次函数调用都有它自己私有的状态信息。<br>调用本身和调用其他函数是一样的</p>
-<p>案例：<br><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/31.png" alt="递归过程"></p>
+<p>案例：<br><img src="/2019/05/07/系统原理/03 程序的机器级别表示/31.png" alt="递归过程"></p>
 <h2 id="数组分配和访问"><a href="#数组分配和访问" class="headerlink" title="数组分配和访问"></a>数组分配和访问</h2><p><strong>数组是如何存储的？</strong></p>
 <p>C语言：<br>数组是内存上的连续空间<br>标志符作为指向数组的开头指针</p>
 <p><strong>如何使用指令来访问数组？</strong></p>
 <p>假设是int型数组(4字节)<br>将开头指针存放在寄存器%rdx中<br>索引存放在寄存器%rcx中<br>可以使用<movl (%rdx,%rcx,4),%eax="">来访问</movl></p>
 <h3 id="指针运算"><a href="#指针运算" class="headerlink" title="指针运算"></a>指针运算</h3><p>C语言允许指针运算：<br>p+i = p的地址 + i * p的数据类型大小</p>
 <h3 id="数组嵌套"><a href="#数组嵌套" class="headerlink" title="数组嵌套"></a>数组嵌套</h3><p><strong>二维数组、三维数组如何表示？</strong></p>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/32.png" alt="数组嵌套"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/32.png" alt="数组嵌套"></p>
 <p>T D[R][C];<br>计算公式：&amp;D[i][j] = D + L(C * i + j);</p>
 <p>L是数据类型的大小(字节)</p>
 <h3 id="定长数组和变长数组"><a href="#定长数组和变长数组" class="headerlink" title="定长数组和变长数组"></a>定长数组和变长数组</h3><p><strong>什么是定长和变长？</strong></p>
@@ -708,7 +708,7 @@
 </blockquote>
 <h3 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h3><p>和数组一样，结构体是内存上一段连续的空间。</p>
 <p>案例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">struct rec&#123;</span><br><span class="line">  int i;</span><br><span class="line">  int j;</span><br><span class="line">  int a[2];</span><br><span class="line">  int *p;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/03 机器级别的表示/33.png" alt="结构体"></p>
+<p><img src="/2019/05/07/系统原理/03 程序的机器级别表示/33.png" alt="结构体"></p>
 <h3 id="数据对齐"><a href="#数据对齐" class="headerlink" title="数据对齐"></a>数据对齐</h3><p><strong>为什么需要数据对齐？</strong></p>
 <p>CPU为了提高读写效率，一般都是一次读写多个字节，如8字节<br>如果能确保一个数据能在一次内存读写中获取，是提高性能的一个方式</p>
 <p><strong>如何保证？</strong></p>
@@ -764,7 +764,7 @@
   <p><span>本文标题:</span><a href="/2019/05/07/系统原理/03 程序的机器级别表示/">03 机器级别的表示</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Sun 的个人博客">Sun</a></p>
   <p><span>发布时间:</span>2019年05月07日 - 19:05</p>
-  <p><span>最后更新:</span>2019年05月07日 - 19:05</p>
+  <p><span>最后更新:</span>2019年05月07日 - 20:05</p>
   <p><span>原始链接:</span><a href="/2019/05/07/系统原理/03 程序的机器级别表示/" title="03 机器级别的表示">https://sunyi720.github.io/2019/05/07/系统原理/03 程序的机器级别表示/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2019/05/07/系统原理/03 程序的机器级别表示/" aria-label="复制成功！"></i></span>
   </p>
