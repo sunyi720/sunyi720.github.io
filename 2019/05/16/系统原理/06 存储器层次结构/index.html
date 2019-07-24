@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.google.com//css?family=ZCOOL KuaiLe:300,300italic,400,400italic,700,700italicNoto Serif SC:300,300italic,400,400italic,700,700italicMoul:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机系统原理,存储器层次结构,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="存储器层次结构本章的核心是：  一些常见的存储技术 存储器的层次结构 高速缓存的工作原理 结合高速缓存，提高程序的局部性  存储技术有哪些与时俱进的存储技术？  SRAM：六晶体管电路，只要有电，就永远保持它的值。受干扰影响小。 DRAM：电容，易受干扰。   传统的DRAM  每个超单元都有w个DRAM单元   内存模块   增强的DRAM：对传统的DRAM进行优化，提高访问速度  非易失性存储">
+<meta name="keywords" content="计算机系统原理,存储器层次结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="06 存储器层次结构">
+<meta property="og:url" content="https://sunyi720.github.io/2019/05/16/系统原理/06 存储器层次结构/index.html">
+<meta property="og:site_name" content="Sun">
+<meta property="og:description" content="存储器层次结构本章的核心是：  一些常见的存储技术 存储器的层次结构 高速缓存的工作原理 结合高速缓存，提高程序的局部性  存储技术有哪些与时俱进的存储技术？  SRAM：六晶体管电路，只要有电，就永远保持它的值。受干扰影响小。 DRAM：电容，易受干扰。   传统的DRAM  每个超单元都有w个DRAM单元   内存模块   增强的DRAM：对传统的DRAM进行优化，提高访问速度  非易失性存储">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/16/系统原理/06%20存储器层次结构/02.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/16/系统原理/06%20存储器层次结构/03.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/16/系统原理/06%20存储器层次结构/04.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/16/系统原理/06%20存储器层次结构/05.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/16/系统原理/06%20存储器层次结构/06.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/16/系统原理/06%20存储器层次结构/07.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/16/系统原理/06%20存储器层次结构/08.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/16/系统原理/06%20存储器层次结构/09.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/16/系统原理/06%20存储器层次结构/10.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/16/系统原理/06%20存储器层次结构/11.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/16/系统原理/06%20存储器层次结构/12.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/16/系统原理/06%20存储器层次结构/13.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/16/系统原理/06%20存储器层次结构/14.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/16/系统原理/06%20存储器层次结构/01.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/16/系统原理/06%20存储器层次结构/15.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/16/系统原理/06%20存储器层次结构/16.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/16/系统原理/06%20存储器层次结构/17.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/16/系统原理/06%20存储器层次结构/18.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/16/系统原理/06%20存储器层次结构/19.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/16/系统原理/06%20存储器层次结构/20.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/16/系统原理/06%20存储器层次结构/21.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/05/16/系统原理/06%20存储器层次结构/22.png">
+<meta property="og:updated_time" content="2019-06-12T06:14:09.482Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="06 存储器层次结构">
+<meta name="twitter:description" content="存储器层次结构本章的核心是：  一些常见的存储技术 存储器的层次结构 高速缓存的工作原理 结合高速缓存，提高程序的局部性  存储技术有哪些与时俱进的存储技术？  SRAM：六晶体管电路，只要有电，就永远保持它的值。受干扰影响小。 DRAM：电容，易受干扰。   传统的DRAM  每个超单元都有w个DRAM单元   内存模块   增强的DRAM：对传统的DRAM进行优化，提高访问速度  非易失性存储">
+<meta name="twitter:image" content="https://sunyi720.github.io/2019/05/16/系统原理/06%20存储器层次结构/02.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":20},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://sunyi720.github.io/2019/05/16/系统原理/06 存储器层次结构/">
+
+
+
+
+
+  <title>06 存储器层次结构 | Sun</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sun</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数字人生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2019/05/16/系统原理/06 存储器层次结构/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">06 存储器层次结构</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-16T18:00:00+08:00">
+                2019-05-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/计算机系统原理/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机系统原理</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/05/16/系统原理/06 存储器层次结构/" class="leancloud_visitors" data-flag-title="06 存储器层次结构">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="存储器层次结构"><a href="#存储器层次结构" class="headerlink" title="存储器层次结构"></a>存储器层次结构</h1><p>本章的核心是：</p>
+<ol>
+<li>一些常见的存储技术</li>
+<li>存储器的层次结构</li>
+<li>高速缓存的工作原理</li>
+<li>结合高速缓存，提高程序的<code>局部性</code></li>
+</ol>
+<h2 id="存储技术"><a href="#存储技术" class="headerlink" title="存储技术"></a>存储技术</h2><p><strong>有哪些与时俱进的存储技术？</strong></p>
+<ol>
+<li>SRAM：六晶体管电路，只要有电，就永远保持它的值。受干扰影响小。</li>
+<li><p>DRAM：电容，易受干扰。</p>
+<p><img src="/2019/05/16/系统原理/06 存储器层次结构/02.png" alt="SRAM和DRAM对比"></p>
+</li>
+<li><p>传统的DRAM</p>
+<p><img src="/2019/05/16/系统原理/06 存储器层次结构/03.png" alt="传统的DRAM"></p>
+<p>每个超单元都有w个DRAM单元</p>
+<p><img src="/2019/05/16/系统原理/06 存储器层次结构/04.png" alt="传统的DRAM"></p>
+</li>
+<li><p>内存模块</p>
+<p><img src="/2019/05/16/系统原理/06 存储器层次结构/05.png" alt="传统的DRAM"></p>
+</li>
+<li><p>增强的DRAM：对传统的DRAM进行优化，提高访问速度</p>
+</li>
+<li>非易失性存储器（历史原因，也叫ROM）:断电依然保存信息<ul>
+<li>PROM（可编程ROM）：高电流熔断，只可编程一次</li>
+<li>EPROM（可擦可编程ROM）：紫外光编程，可编程1000次</li>
+<li>EEPROM（电子可擦除ROM）：无需要独立的特殊设备，可编程100000次</li>
+<li>闪存：基于EEPROM</li>
+</ul>
+</li>
+</ol>
+<p><strong>ROM有什么用？</strong></p>
+<p>存放在ROM中的程序被称为<code>固件</code>，比如PC的BIOS程序<br>当计算机通电以后，它会运行ROM中的固件</p>
+<p><strong>如何访问主存？</strong></p>
+<p>通过总线</p>
+<p><img src="/2019/05/16/系统原理/06 存储器层次结构/06.png" alt="总线结构"></p>
+<p>I/O桥把系统总线的电子信号翻译成内存总线的电子信号</p>
+<p><img src="/2019/05/16/系统原理/06 存储器层次结构/07.png" alt="读内存"></p>
+<p><strong>磁盘的构造？磁盘的容量？</strong></p>
+<p>使用磁性记录材料来记录信息</p>
+<p><img src="/2019/05/16/系统原理/06 存储器层次结构/08.png" alt="磁盘构造"></p>
+<p><img src="/2019/05/16/系统原理/06 存储器层次结构/09.png" alt="磁盘容量"></p>
+<p><strong>如何操作磁盘？如何连接磁盘？如何访问磁盘？</strong></p>
+<p><img src="/2019/05/16/系统原理/06 存储器层次结构/10.png" alt="操作磁盘"></p>
+<p>为了对操作系统隐藏这样的复杂性，根据扇区定义<code>逻辑块</code><br>磁盘控制器维护逻辑块号和实际磁盘扇区之间的映射关系</p>
+<p>通过I/O总线连接磁盘：</p>
+<p><img src="/2019/05/16/系统原理/06 存储器层次结构/11.png" alt="连接磁盘"></p>
+<p><img src="/2019/05/16/系统原理/06 存储器层次结构/12.png" alt="访问磁盘"></p>
+<p><strong>什么是<code>直接内存访问（DMA）</code>？</strong></p>
+<p>设备自己执行读和写总线事务，不需要CPU干涉，称为直接内存访问</p>
+<p><strong>固态硬盘的结构？</strong></p>
+<p><img src="/2019/05/16/系统原理/06 存储器层次结构/13.png" alt="固态硬盘"></p>
+<p>存储技术的趋势？</p>
+<p><img src="/2019/05/16/系统原理/06 存储器层次结构/14.png" alt="存储技术的趋势"></p>
+<p>现代计算机频繁使用高速缓存来弥补处理器-内存之间的差距<br>程序的局部性能使高速缓存的作用发挥到极致</p>
+<h2 id="局部性"><a href="#局部性" class="headerlink" title="局部性"></a>局部性</h2><p><strong>什么是局部性？</strong></p>
+<ul>
+<li>时间局部性：被引用过一次的内存地址，在不久之后多次被引用</li>
+<li>空间局部性：被引用过一次的内存地址，在不久之后其附近的位置多次被引用</li>
+</ul>
+<p><strong>如何简单的运用局部性？</strong></p>
+<ul>
+<li>重复引用相同的变量具有良好的时间局部性</li>
+<li>迭代数组的步长越小，空间局部性越好</li>
+<li>循环体具有良好的时间和空间局部性</li>
+</ul>
+<h2 id="存储器层次结构-1"><a href="#存储器层次结构-1" class="headerlink" title="存储器层次结构"></a>存储器层次结构</h2><p><img src="/2019/05/16/系统原理/06 存储器层次结构/01.png" alt="存储器层次结构"></p>
+<p><strong>缓存的基本原理？</strong></p>
+<p><img src="/2019/05/16/系统原理/06 存储器层次结构/15.png" alt="存储器层次结构"></p>
+<p>层与层之间以相同大小的数据块进行传输<br>不同层之间的块的大小是不一样的</p>
+<p><strong>缓存的命中和不命中？</strong></p>
+<p>找到了就是命中，没找到就是不命中<br>不命中的情况下需要决定替换块的<code>替换策略</code></p>
+<p><strong>不命中的类型？</strong></p>
+<ul>
+<li>冷缓存：初始状态，什么缓存都没</li>
+<li>冲突不命中：请求的缓存交替的发生在相同位置的块上</li>
+<li>容量不命中：缓存太小了</li>
+</ul>
+<p><strong>缓存的管理？</strong></p>
+<p>块的划分、块的传送、命中判定、替换策略等等</p>
+<p><img src="/2019/05/16/系统原理/06 存储器层次结构/16.png" alt="缓存"></p>
+<p>逐步从直接访问变为间接访问</p>
+<h2 id="高速缓存存储器"><a href="#高速缓存存储器" class="headerlink" title="高速缓存存储器"></a>高速缓存存储器</h2><p><img src="/2019/05/16/系统原理/06 存储器层次结构/17.png" alt="高速缓存存储器"></p>
+<p><strong>如何缓存（如何映射）？</strong></p>
+<p>缓存的位置都是根据地址计算得到</p>
+<p><img src="/2019/05/16/系统原理/06 存储器层次结构/18.png" alt="缓存的通用原理"></p>
+<p>高速缓存的结构可以用元祖（S，E，B，m）描述</p>
+<p><strong>缓存类别有？</strong></p>
+<ol>
+<li><p>直接映射高速缓存</p>
+<p>每组只有一行，替换策略简单，冲突不命中易发生</p>
+<p><img src="/2019/05/16/系统原理/06 存储器层次结构/19.png" alt="直接映射高速缓存"></p>
+</li>
+<li><p>组相联高速缓存</p>
+<p>每组有多行，最简单的替换策略是随机替换</p>
+<p><img src="/2019/05/16/系统原理/06 存储器层次结构/20.png" alt="组相联高速缓存"></p>
+</li>
+<li><p>全组高速缓存</p>
+</li>
+</ol>
+<p>  <img src="/2019/05/16/系统原理/06 存储器层次结构/21.png" alt="全组高速缓存"></p>
+<p><strong>命中如何更新缓存？</strong></p>
+<ol>
+<li>直写：立即向低层更新数据</li>
+<li>写回：等待缓存被替换时才 向低层更新数据</li>
+</ol>
+<p><strong>不命中如何更新缓存？</strong></p>
+<ol>
+<li>写分配：先加载到高速缓存中</li>
+<li>非写分配：直接更新，避开高速缓存</li>
+</ol>
+<p><strong>真实的缓存层次结构？</strong></p>
+<p><img src="/2019/05/16/系统原理/06 存储器层次结构/22.png" alt="真实的缓存层次结构？"></p>
+<p><strong>如何衡量缓存性能？</strong></p>
+<ol>
+<li>不命中率：不命中数量/引用数量</li>
+<li>命中率：</li>
+<li>命中时间：命中需要的时间</li>
+<li>不命中处罚：不命中需要的额外时间</li>
+</ol>
+<h2 id="编写高速缓存友好的代码"><a href="#编写高速缓存友好的代码" class="headerlink" title="编写高速缓存友好的代码"></a>编写高速缓存友好的代码</h2><p><strong>确保代码高速缓存友好的方式是？</strong></p>
+<ol>
+<li>把时间花在核心函数中</li>
+<li>尽量减少每个循环内部的缓存不命中率</li>
+</ol>
+<p>空间局部性和缓存大小有直接关系</p>
+<p><strong>对<code>存储器山</code>如何分析？</strong></p>
+<p><a href="https://zh.wikipedia.org/wiki/%E5%AD%98%E5%82%A8%E5%99%A8%E5%B1%B1" target="_blank" rel="noopener">维基百科：存储器山</a></p>
+
+      
+    </div>
+    
+    
+    
+
+	
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2019/05/16/系统原理/06 存储器层次结构/">06 存储器层次结构</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Sun 的个人博客">Sun</a></p>
+  <p><span>发布时间:</span>2019年05月16日 - 18:05</p>
+  <p><span>最后更新:</span>2019年06月12日 - 14:06</p>
+  <p><span>原始链接:</span><a href="/2019/05/16/系统原理/06 存储器层次结构/" title="06 存储器层次结构">https://sunyi720.github.io/2019/05/16/系统原理/06 存储器层次结构/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2019/05/16/系统原理/06 存储器层次结构/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Sun 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Sun 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机系统原理/" rel="tag"><i class="fa fa-tag"></i> 计算机系统原理</a>
+          
+            <a href="/tags/存储器层次结构/" rel="tag"><i class="fa fa-tag"></i> 存储器层次结构</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/14/系统原理/05 优化程序性能/" rel="next" title="05 优化程序性能">
+                <i class="fa fa-chevron-left"></i> 05 优化程序性能
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/18/系统原理/08 异常控制流/" rel="prev" title="08 异常控制流">
+                08 异常控制流 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjMzMS8xMjg2Ng=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/head.png" alt="Sun">
+            
+              <p class="site-author-name" itemprop="name">Sun</p>
+              <p class="site-description motion-element" itemprop="description">Lv.0</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/sunyi720" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#存储器层次结构"><span class="nav-number">1.</span> <span class="nav-text">存储器层次结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#存储技术"><span class="nav-number">1.1.</span> <span class="nav-text">存储技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#局部性"><span class="nav-number">1.2.</span> <span class="nav-text">局部性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存储器层次结构-1"><span class="nav-number">1.3.</span> <span class="nav-text">存储器层次结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高速缓存存储器"><span class="nav-number">1.4.</span> <span class="nav-text">高速缓存存储器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写高速缓存友好的代码"><span class="nav-number">1.5.</span> <span class="nav-text">编写高速缓存友好的代码</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sun</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("iTVMQ8rz1NpV1RJ716VOA2rG-gzGzoHsz", "j0zy5JQ2bmQXtJ8PeP5gAiKM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

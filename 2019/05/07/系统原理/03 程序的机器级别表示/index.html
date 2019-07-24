@@ -103,7 +103,7 @@
 
 
 
-  <meta name="keywords" content="计算机系统原理,信息的表示和处理,">
+  <meta name="keywords" content="计算机系统原理,机器级别的表示,">
 
 
 
@@ -114,13 +114,13 @@
 
 
 
-<meta name="description" content="03 机器级别的表示程序编码 第一步：C预处理器扩展源代码，插入所有用#include引入的文件，并扩展所有用#define声明的宏。 第二步：编译器 产生源文件的汇编代码，以.s结尾。 第三步：汇编器 将汇编代码转成二进制目标代码文件，以.o结尾，此时还没填入全局值的地址。 第四步：链接器 将目标代码文件与库文件函数的代码合并，最终产生可执行文件，以.p结尾。  机器级代码对于机器级编程，有两种">
-<meta name="keywords" content="计算机系统原理,信息的表示和处理">
+<meta name="description" content="机器级别的表示程序编码 第一步：C预处理器扩展源代码，插入所有用#include引入的文件，并扩展所有用#define声明的宏。 第二步：编译器 产生源文件的汇编代码，以.s结尾。 第三步：汇编器 将汇编代码转成二进制目标代码文件，以.o结尾，此时还没填入全局值的地址。 第四步：链接器 将目标代码文件与库文件函数的代码合并，最终产生可执行文件，以.p结尾。  机器级代码对于机器级编程，有两种抽象：">
+<meta name="keywords" content="计算机系统原理,机器级别的表示">
 <meta property="og:type" content="article">
 <meta property="og:title" content="03 机器级别的表示">
 <meta property="og:url" content="https://sunyi720.github.io/2019/05/07/系统原理/03 程序的机器级别表示/index.html">
 <meta property="og:site_name" content="Sun">
-<meta property="og:description" content="03 机器级别的表示程序编码 第一步：C预处理器扩展源代码，插入所有用#include引入的文件，并扩展所有用#define声明的宏。 第二步：编译器 产生源文件的汇编代码，以.s结尾。 第三步：汇编器 将汇编代码转成二进制目标代码文件，以.o结尾，此时还没填入全局值的地址。 第四步：链接器 将目标代码文件与库文件函数的代码合并，最终产生可执行文件，以.p结尾。  机器级代码对于机器级编程，有两种">
+<meta property="og:description" content="机器级别的表示程序编码 第一步：C预处理器扩展源代码，插入所有用#include引入的文件，并扩展所有用#define声明的宏。 第二步：编译器 产生源文件的汇编代码，以.s结尾。 第三步：汇编器 将汇编代码转成二进制目标代码文件，以.o结尾，此时还没填入全局值的地址。 第四步：链接器 将目标代码文件与库文件函数的代码合并，最终产生可执行文件，以.p结尾。  机器级代码对于机器级编程，有两种抽象：">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/C语言数据类型在intel中的大小.png">
 <meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/整数寄存器.png">
@@ -160,10 +160,10 @@
 <meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/31.png">
 <meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/32.png">
 <meta property="og:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/33.png">
-<meta property="og:updated_time" content="2019-05-07T12:09:25.937Z">
+<meta property="og:updated_time" content="2019-05-16T10:01:03.914Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="03 机器级别的表示">
-<meta name="twitter:description" content="03 机器级别的表示程序编码 第一步：C预处理器扩展源代码，插入所有用#include引入的文件，并扩展所有用#define声明的宏。 第二步：编译器 产生源文件的汇编代码，以.s结尾。 第三步：汇编器 将汇编代码转成二进制目标代码文件，以.o结尾，此时还没填入全局值的地址。 第四步：链接器 将目标代码文件与库文件函数的代码合并，最终产生可执行文件，以.p结尾。  机器级代码对于机器级编程，有两种">
+<meta name="twitter:description" content="机器级别的表示程序编码 第一步：C预处理器扩展源代码，插入所有用#include引入的文件，并扩展所有用#define声明的宏。 第二步：编译器 产生源文件的汇编代码，以.s结尾。 第三步：汇编器 将汇编代码转成二进制目标代码文件，以.o结尾，此时还没填入全局值的地址。 第四步：链接器 将目标代码文件与库文件函数的代码合并，最终产生可执行文件，以.p结尾。  机器级代码对于机器级编程，有两种抽象：">
 <meta name="twitter:image" content="https://sunyi720.github.io/2019/05/07/系统原理/03%20程序的机器级别表示/C语言数据类型在intel中的大小.png">
 
 
@@ -429,7 +429,7 @@
       
 
       
-        <h1 id="03-机器级别的表示"><a href="#03-机器级别的表示" class="headerlink" title="03 机器级别的表示"></a>03 机器级别的表示</h1><h2 id="程序编码"><a href="#程序编码" class="headerlink" title="程序编码"></a>程序编码</h2><ul>
+        <h1 id="机器级别的表示"><a href="#机器级别的表示" class="headerlink" title="机器级别的表示"></a>机器级别的表示</h1><h2 id="程序编码"><a href="#程序编码" class="headerlink" title="程序编码"></a>程序编码</h2><ul>
 <li>第一步：C<strong>预处理器</strong>扩展源代码，插入所有用#include引入的文件，并扩展所有用#define声明的宏。</li>
 <li>第二步：<strong>编译器</strong> 产生源文件的汇编代码，以.s结尾。</li>
 <li>第三步：<strong>汇编器</strong> 将汇编代码转成二进制目标代码文件，以.o结尾，此时还没填入全局值的地址。</li>
@@ -764,7 +764,7 @@
   <p><span>本文标题:</span><a href="/2019/05/07/系统原理/03 程序的机器级别表示/">03 机器级别的表示</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Sun 的个人博客">Sun</a></p>
   <p><span>发布时间:</span>2019年05月07日 - 19:05</p>
-  <p><span>最后更新:</span>2019年05月07日 - 20:05</p>
+  <p><span>最后更新:</span>2019年05月16日 - 18:05</p>
   <p><span>原始链接:</span><a href="/2019/05/07/系统原理/03 程序的机器级别表示/" title="03 机器级别的表示">https://sunyi720.github.io/2019/05/07/系统原理/03 程序的机器级别表示/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2019/05/07/系统原理/03 程序的机器级别表示/" aria-label="复制成功！"></i></span>
   </p>
@@ -828,7 +828,7 @@
           
             <a href="/tags/计算机系统原理/" rel="tag"><i class="fa fa-tag"></i> 计算机系统原理</a>
           
-            <a href="/tags/信息的表示和处理/" rel="tag"><i class="fa fa-tag"></i> 信息的表示和处理</a>
+            <a href="/tags/机器级别的表示/" rel="tag"><i class="fa fa-tag"></i> 机器级别的表示</a>
           
         </div>
       
@@ -850,6 +850,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/13/系统原理/04 处理器体系结构/" rel="prev" title="04 处理器体系结构">
+                04 处理器体系结构 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -933,7 +937,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -955,7 +959,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -998,7 +1002,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#03-机器级别的表示"><span class="nav-number">1.</span> <span class="nav-text">03 机器级别的表示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#程序编码"><span class="nav-number">1.1.</span> <span class="nav-text">程序编码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#机器级代码"><span class="nav-number">1.1.1.</span> <span class="nav-text">机器级代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码示例"><span class="nav-number">1.1.2.</span> <span class="nav-text">代码示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于格式的注解"><span class="nav-number">1.1.3.</span> <span class="nav-text">关于格式的注解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据格式"><span class="nav-number">1.2.</span> <span class="nav-text">数据格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#访问信息"><span class="nav-number">1.3.</span> <span class="nav-text">访问信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#操作数指示符"><span class="nav-number">1.3.1.</span> <span class="nav-text">操作数指示符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据传送指令"><span class="nav-number">1.3.2.</span> <span class="nav-text">数据传送指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据传送示例"><span class="nav-number">1.3.3.</span> <span class="nav-text">数据传送示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#圧入和弹出栈数据"><span class="nav-number">1.3.4.</span> <span class="nav-text">圧入和弹出栈数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算术和逻辑指令"><span class="nav-number">1.4.</span> <span class="nav-text">算术和逻辑指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#加载有效地址指令leaq"><span class="nav-number">1.4.1.</span> <span class="nav-text">加载有效地址指令leaq</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#讨论"><span class="nav-number">1.4.2.</span> <span class="nav-text">讨论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特殊的算术操作"><span class="nav-number">1.4.3.</span> <span class="nav-text">特殊的算术操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#控制"><span class="nav-number">1.5.</span> <span class="nav-text">控制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#条件码"><span class="nav-number">1.5.1.</span> <span class="nav-text">条件码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问条件码"><span class="nav-number">1.5.2.</span> <span class="nav-text">访问条件码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#跳转"><span class="nav-number">1.5.3.</span> <span class="nav-text">跳转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#跳转指令的编码"><span class="nav-number">1.5.4.</span> <span class="nav-text">跳转指令的编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现条件分支"><span class="nav-number">1.5.5.</span> <span class="nav-text">实现条件分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现循环"><span class="nav-number">1.5.6.</span> <span class="nav-text">实现循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#switch语句"><span class="nav-number">1.5.7.</span> <span class="nav-text">switch语句</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#过程"><span class="nav-number">1.6.</span> <span class="nav-text">过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时栈"><span class="nav-number">1.6.1.</span> <span class="nav-text">运行时栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#传递控制"><span class="nav-number">1.6.2.</span> <span class="nav-text">传递控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#传递数据"><span class="nav-number">1.6.3.</span> <span class="nav-text">传递数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分配和释放栈帧内存"><span class="nav-number">1.6.4.</span> <span class="nav-text">分配和释放栈帧内存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#寄存器中的局部数据"><span class="nav-number">1.6.5.</span> <span class="nav-text">寄存器中的局部数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#递归过程"><span class="nav-number">1.6.6.</span> <span class="nav-text">递归过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组分配和访问"><span class="nav-number">1.7.</span> <span class="nav-text">数组分配和访问</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#指针运算"><span class="nav-number">1.7.1.</span> <span class="nav-text">指针运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组嵌套"><span class="nav-number">1.7.2.</span> <span class="nav-text">数组嵌套</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定长数组和变长数组"><span class="nav-number">1.7.3.</span> <span class="nav-text">定长数组和变长数组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异质的数据结构"><span class="nav-number">1.8.</span> <span class="nav-text">异质的数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#结构体"><span class="nav-number">1.8.1.</span> <span class="nav-text">结构体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据对齐"><span class="nav-number">1.8.2.</span> <span class="nav-text">数据对齐</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#机器级程序中控制和数据的互动"><span class="nav-number">1.9.</span> <span class="nav-text">机器级程序中控制和数据的互动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#理解指针"><span class="nav-number">1.9.1.</span> <span class="nav-text">理解指针</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存越界和缓存区溢出"><span class="nav-number">1.9.2.</span> <span class="nav-text">内存越界和缓存区溢出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#支持变长的帧栈"><span class="nav-number">1.9.3.</span> <span class="nav-text">支持变长的帧栈</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浮点代码"><span class="nav-number">1.10.</span> <span class="nav-text">浮点代码</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#机器级别的表示"><span class="nav-number">1.</span> <span class="nav-text">机器级别的表示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#程序编码"><span class="nav-number">1.1.</span> <span class="nav-text">程序编码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#机器级代码"><span class="nav-number">1.1.1.</span> <span class="nav-text">机器级代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码示例"><span class="nav-number">1.1.2.</span> <span class="nav-text">代码示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于格式的注解"><span class="nav-number">1.1.3.</span> <span class="nav-text">关于格式的注解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据格式"><span class="nav-number">1.2.</span> <span class="nav-text">数据格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#访问信息"><span class="nav-number">1.3.</span> <span class="nav-text">访问信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#操作数指示符"><span class="nav-number">1.3.1.</span> <span class="nav-text">操作数指示符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据传送指令"><span class="nav-number">1.3.2.</span> <span class="nav-text">数据传送指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据传送示例"><span class="nav-number">1.3.3.</span> <span class="nav-text">数据传送示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#圧入和弹出栈数据"><span class="nav-number">1.3.4.</span> <span class="nav-text">圧入和弹出栈数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算术和逻辑指令"><span class="nav-number">1.4.</span> <span class="nav-text">算术和逻辑指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#加载有效地址指令leaq"><span class="nav-number">1.4.1.</span> <span class="nav-text">加载有效地址指令leaq</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#讨论"><span class="nav-number">1.4.2.</span> <span class="nav-text">讨论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特殊的算术操作"><span class="nav-number">1.4.3.</span> <span class="nav-text">特殊的算术操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#控制"><span class="nav-number">1.5.</span> <span class="nav-text">控制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#条件码"><span class="nav-number">1.5.1.</span> <span class="nav-text">条件码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问条件码"><span class="nav-number">1.5.2.</span> <span class="nav-text">访问条件码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#跳转"><span class="nav-number">1.5.3.</span> <span class="nav-text">跳转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#跳转指令的编码"><span class="nav-number">1.5.4.</span> <span class="nav-text">跳转指令的编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现条件分支"><span class="nav-number">1.5.5.</span> <span class="nav-text">实现条件分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现循环"><span class="nav-number">1.5.6.</span> <span class="nav-text">实现循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#switch语句"><span class="nav-number">1.5.7.</span> <span class="nav-text">switch语句</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#过程"><span class="nav-number">1.6.</span> <span class="nav-text">过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时栈"><span class="nav-number">1.6.1.</span> <span class="nav-text">运行时栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#传递控制"><span class="nav-number">1.6.2.</span> <span class="nav-text">传递控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#传递数据"><span class="nav-number">1.6.3.</span> <span class="nav-text">传递数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分配和释放栈帧内存"><span class="nav-number">1.6.4.</span> <span class="nav-text">分配和释放栈帧内存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#寄存器中的局部数据"><span class="nav-number">1.6.5.</span> <span class="nav-text">寄存器中的局部数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#递归过程"><span class="nav-number">1.6.6.</span> <span class="nav-text">递归过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组分配和访问"><span class="nav-number">1.7.</span> <span class="nav-text">数组分配和访问</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#指针运算"><span class="nav-number">1.7.1.</span> <span class="nav-text">指针运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组嵌套"><span class="nav-number">1.7.2.</span> <span class="nav-text">数组嵌套</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定长数组和变长数组"><span class="nav-number">1.7.3.</span> <span class="nav-text">定长数组和变长数组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异质的数据结构"><span class="nav-number">1.8.</span> <span class="nav-text">异质的数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#结构体"><span class="nav-number">1.8.1.</span> <span class="nav-text">结构体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据对齐"><span class="nav-number">1.8.2.</span> <span class="nav-text">数据对齐</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#机器级程序中控制和数据的互动"><span class="nav-number">1.9.</span> <span class="nav-text">机器级程序中控制和数据的互动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#理解指针"><span class="nav-number">1.9.1.</span> <span class="nav-text">理解指针</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存越界和缓存区溢出"><span class="nav-number">1.9.2.</span> <span class="nav-text">内存越界和缓存区溢出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#支持变长的帧栈"><span class="nav-number">1.9.3.</span> <span class="nav-text">支持变长的帧栈</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浮点代码"><span class="nav-number">1.10.</span> <span class="nav-text">浮点代码</span></a></li></ol></li></ol></div>
             
 
           </div>
