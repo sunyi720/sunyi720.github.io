@@ -135,7 +135,7 @@
 <meta property="og:image" content="https://sunyi720.github.io/2019/07/18/系统原理/08%20异常控制流/11.png">
 <meta property="og:image" content="https://sunyi720.github.io/2019/07/18/系统原理/08%20异常控制流/12.png">
 <meta property="og:image" content="https://sunyi720.github.io/2019/07/18/系统原理/08%20异常控制流/13.png">
-<meta property="og:updated_time" content="2019-07-18T14:18:00.212Z">
+<meta property="og:updated_time" content="2019-07-25T06:29:31.048Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="08 异常控制流">
 <meta name="twitter:description" content="异常控制流本章的核心内容：  了解什么是异常控制流（ECF） 了解系统中哪些功能是基于ECF实现的  什么是控制流？ 程序计数器中指令的序列叫控制流 什么是突变？ 指令是相邻的，我们说是“平滑的”如果不相邻，就叫突变引起突变的可能有跳转、调用、返回等指令，这些都是必要的突变也有一些突变是系统状态的变化导致的 什么是异常控制流(ECF)？ 这些指令的突变叫做异常控制流 异常控制流会发生在计算机系统的">
@@ -463,7 +463,10 @@
 <p><code>进程</code>就是执行中的一个程序实例</p>
 <p><strong>什么是上下文？</strong></p>
 <p><code>上下文</code>是一个进程运行所需要的各种状态<br>譬如：内存中的代码和数据、栈、寄存器、程序计数器、环境变量、打开文件描述符集合</p>
-<p>进程提供给应用程序的两个抽象是？</p>
+<blockquote>
+<p>一个进程的上下文可以分为三个部分:用户级上下文、寄存器上下文以及系统级上下文。<br>用户级上下文: 正文、数据、用户堆栈以及共享存储区；<br>寄存器上下文: 通用寄存器、程序寄存器(IP)、处理器状态寄存器(EFLAGS)、栈指针(ESP)；<br>系统级上下文: 进程控制块task_struct、内存管理信息(mm_struct、vm_area_struct、pgd、pte)、内核栈。</p>
+</blockquote>
+<p><strong>进程提供给应用程序的两个抽象是？</strong></p>
 <ol>
 <li>一个独立的<code>逻辑控制流</code></li>
 <li>一个私用的<code>虚拟地址空间</code></li>
@@ -654,7 +657,7 @@
   <p><span>本文标题:</span><a href="/2019/07/18/系统原理/08 异常控制流/">08 异常控制流</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Sun 的个人博客">Sun</a></p>
   <p><span>发布时间:</span>2019年07月18日 - 21:07</p>
-  <p><span>最后更新:</span>2019年07月18日 - 22:07</p>
+  <p><span>最后更新:</span>2019年07月25日 - 14:07</p>
   <p><span>原始链接:</span><a href="/2019/07/18/系统原理/08 异常控制流/" title="08 异常控制流">https://sunyi720.github.io/2019/07/18/系统原理/08 异常控制流/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2019/07/18/系统原理/08 异常控制流/" aria-label="复制成功！"></i></span>
   </p>
@@ -827,7 +830,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">40</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -849,7 +852,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">41</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

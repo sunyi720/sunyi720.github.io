@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.google.com//css?family=ZCOOL KuaiLe:300,300italic,400,400italic,700,700italicNoto Serif SC:300,300italic,400,400italic,700,700italicMoul:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机系统原理,并发编程,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="并发编程本章的核心内容：  实现并发的三种方式（进程、IO复用、线程），以及他们的优缺点 如何使用信号量来处理资源互斥、共享问题 认识不安全和死锁的概念  并发在哪些情况下有用？  访问慢速I/O设备。 与人交互。 通过推迟工作以降低延迟。 服务多个网络客户端。 在多核机器上进行并行计算。  实现并发有哪些方式？  进程。用这种方法，每个逻辑控制流都是一个进程，由内核来调度和维护。因为进程有独立的">
+<meta name="keywords" content="计算机系统原理,并发编程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="12并发编程">
+<meta property="og:url" content="https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/index.html">
+<meta property="og:site_name" content="Sun">
+<meta property="og:description" content="并发编程本章的核心内容：  实现并发的三种方式（进程、IO复用、线程），以及他们的优缺点 如何使用信号量来处理资源互斥、共享问题 认识不安全和死锁的概念  并发在哪些情况下有用？  访问慢速I/O设备。 与人交互。 通过推迟工作以降低延迟。 服务多个网络客户端。 在多核机器上进行并行计算。  实现并发有哪些方式？  进程。用这种方法，每个逻辑控制流都是一个进程，由内核来调度和维护。因为进程有独立的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/01.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/02.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/03.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/04.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/05.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/06.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/07.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/08.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/09.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/10.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/11.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/12.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/13.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/14.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/15.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/16.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/17.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/18.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/19.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/20.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/21.png">
+<meta property="og:updated_time" content="2019-09-16T03:14:26.972Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="12并发编程">
+<meta name="twitter:description" content="并发编程本章的核心内容：  实现并发的三种方式（进程、IO复用、线程），以及他们的优缺点 如何使用信号量来处理资源互斥、共享问题 认识不安全和死锁的概念  并发在哪些情况下有用？  访问慢速I/O设备。 与人交互。 通过推迟工作以降低延迟。 服务多个网络客户端。 在多核机器上进行并行计算。  实现并发有哪些方式？  进程。用这种方法，每个逻辑控制流都是一个进程，由内核来调度和维护。因为进程有独立的">
+<meta name="twitter:image" content="https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":20},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/">
+
+
+
+
+
+  <title>12并发编程 | Sun</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sun</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数字人生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">12并发编程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-16T11:14:00+08:00">
+                2019-09-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/计算机系统原理/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机系统原理</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/09/16/系统原理/12并发编程/" class="leancloud_visitors" data-flag-title="12并发编程">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="并发编程"><a href="#并发编程" class="headerlink" title="并发编程"></a>并发编程</h1><p>本章的核心内容：</p>
+<ol>
+<li>实现并发的三种方式（进程、IO复用、线程），以及他们的优缺点</li>
+<li>如何使用信号量来处理资源互斥、共享问题</li>
+<li>认识不安全和死锁的概念</li>
+</ol>
+<p><strong>并发在哪些情况下有用？</strong></p>
+<ul>
+<li>访问慢速I/O设备。</li>
+<li>与人交互。</li>
+<li>通过推迟工作以降低延迟。</li>
+<li>服务多个网络客户端。</li>
+<li>在多核机器上进行并行计算。</li>
+</ul>
+<p><strong>实现并发有哪些方式？</strong></p>
+<ul>
+<li>进程。用这种方法，每个逻辑控制流都是一个进程，由内核来调度和维护。因为进程有独立的虚拟地址空间，想要和其他流通信，控制流必须使用某种显式的进程间通信机制。</li>
+<li>I/O多路复用。在这种形式的并发编程中，应用程序在一个进程的上下文中显式地调度它们自己的逻辑流。逻辑流被模型化为状态机，数据到达文件描述符后，主程序显式地从一个状态转换到另一个状态。因为程序是一个单进程，所以所有的流都共享同一地址空间。</li>
+<li>线程。线程是运行在一个单一进程上下文中的逻辑流，由内核进行调度。你可以把线程看成是其他两种方式的混合体，像进程流一样由内核进行调度，而像I/O多路复用流一样共享同一虚拟地址空间。</li>
+</ul>
+<h2 id="基于进程的并发编程"><a href="#基于进程的并发编程" class="headerlink" title="基于进程的并发编程"></a>基于进程的并发编程</h2><p><strong>如何工作？</strong></p>
+<p>构造并发编程最简单的方法就是用进程，使用那些大家都很熟悉的函数，像fork、exec和waitpid。</p>
+<p>步骤：</p>
+<ol>
+<li>服务器监听一个监听描述符上的连接请求。</li>
+<li>服务器接受了客户端1的连接请求，并返回一个已连接描述符。</li>
+<li>在接受了连接请求之后，服务器派生一个子进程，这个子进程获得服务器描述符表的完整拷贝。子进程关闭它的拷贝中的监听描述符3，而父进程关闭它的已连接描述符4的拷贝，因为不再需要这些描述符了。</li>
+<li>子进程正忙于为客户端提供服务，父进程继续监听新的请求。</li>
+</ol>
+<p><img src="/2019/09/16/系统原理/12并发编程/01.png" alt="基于进程的并发编程"></p>
+<p><img src="/2019/09/16/系统原理/12并发编程/02.png" alt="基于进程的并发编程"></p>
+<p>注意点：</p>
+<ol>
+<li>首先，通常服务器会运行很长的时间，所以我们必须要包括一个SIGCHLD处理程序，来回收僵死子进程的资源。因为当SIGCHLD处理程序执行时，SIGCHLD信号时阻塞的，而Unix信号时不排队的，所以SIGCHLD处理程序必须准备好回收多个僵死子进程的资源。</li>
+<li>其次，子进程必须关闭它们各自的connfd拷贝。就像我们已经提到过的，这对父进程而言尤为重要，它必须关闭它的已连接描述符，以避免存储器泄漏。</li>
+<li>最后，因为套接字的文件表表项中的引用计数，直到父子进程的connfd都关闭了，到客户端的连接才会终止。</li>
+</ol>
+<p><strong>优缺点？</strong></p>
+<p>共享文件表，但是不共享用户地址空间。</p>
+<ul>
+<li>优点：不会出现“一个进程不可能不小心覆盖另一个进程的虚拟存储器”的问题</li>
+<li>缺点：独立的地址空间使得进程共享状态信息变得更加困难。为了共享信息，它们必须使用显式的IPC（进程间通信）机制。基于进程的设计的另一个缺点是，它们往往比较慢，因为进程控制和IPC的开销很高。</li>
+</ul>
+<p>案例：<br><img src="/2019/09/16/系统原理/12并发编程/03.png" alt="基于进程的并发编程"></p>
+<h2 id="基于I-O多路复用的并发编程"><a href="#基于I-O多路复用的并发编程" class="headerlink" title="基于I/O多路复用的并发编程"></a>基于I/O多路复用的并发编程</h2><p><strong>什么是I/O多路复用？</strong></p>
+<p>Unix网络编程给IO分了5种IO模型，其中包含阻塞IO、非阻塞IO、IO多路复用：</p>
+<ul>
+<li>阻塞IO:进程发起IO系统调用后，进程被阻塞，转到内核空间处理，整个IO处理完毕后返回进程。操作成功则进程获取到数据。</li>
+<li>非阻塞IO:进程发起IO系统调用后，如果内核缓冲区没有数据，需要到IO设备中读取，进程返回一个错误而不会被阻塞；进程发起IO系统调用后，如果内核缓冲区有数据，内核就会把数据返回进程。</li>
+<li>IO多路复用: 多个的进程的IO可以注册到一个复用器（select）上，然后用一个进程调用该select， select会监听所有注册进来的IO；</li>
+</ul>
+<blockquote>
+<p>更多详细参见：<a href="https://blog.csdn.net/tjiyu/article/details/52959418" target="_blank" rel="noopener">IO模型</a></p>
+</blockquote>
+<p><strong>什么是事件驱动程序？</strong></p>
+<p>事件推动逻辑的执行，一般可以模型化状态机。</p>
+<p><strong>工作方式？</strong></p>
+<p>使用select</p>
+<p><img src="/2019/09/16/系统原理/12并发编程/04.png" alt="O多路复用的并发编程"></p>
+<p>优点：</p>
+<ol>
+<li>使用事件驱动编程，这样比基于进程的设计给了程序更多的对程序行为的控制。</li>
+<li>一个基于I/O多路复用的事件驱动服务器是运行在单一进程上下文中的，因此每个逻辑流都访问该进程的全部地址空间。这使得在流之间共享数据变得很容易</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>事件驱动设计的一个明星的缺点就是编码复杂。我们的事件驱动的并发服务器需要比基于进程的多三倍。</li>
+<li>不能充分利用多核处理器。</li>
+</ol>
+<h2 id="基于线程的并发编程"><a href="#基于线程的并发编程" class="headerlink" title="基于线程的并发编程"></a>基于线程的并发编程</h2><p><strong>使用线程的好处？</strong></p>
+<ol>
+<li>因为一个线程的上下文要比一个进程的上下文小很多，线程的上下文切换要比进程的上下文切换快得多。</li>
+<li>每个对等线程都能读写相同的共享数据</li>
+</ol>
+<p><img src="/2019/09/16/系统原理/12并发编程/05.png" alt="线程并发执行"></p>
+<p>api：</p>
+<ul>
+<li>pthread_create()：创建一个线程</li>
+<li>pthread_exit()：终止当前线程</li>
+<li>pthread_cancel()：请求中断另外一个线程的运行。</li>
+<li>pthread_join()：阻塞当前的线程，直到另外一个线程运行结束</li>
+<li>pthread_detach()：分离线程，分离后不需要被其他线程回收，终止时自行回收</li>
+</ul>
+<p>案例：</p>
+<p><img src="/2019/09/16/系统原理/12并发编程/06.png" alt="线程并发执行"></p>
+<h2 id="多线程程序中的共享变量"><a href="#多线程程序中的共享变量" class="headerlink" title="多线程程序中的共享变量"></a>多线程程序中的共享变量</h2><p><strong>线程的基础内存内存模型是什么？</strong></p>
+<p>一组并发线程运行在一个进程的上下文中。  每个线程都有它自己独自的线程上下文，包括线程ID、栈、栈指针、程序计数器、条件码和通用目的寄存器值。每个线程和其他线程一起共享进程上下文的剩余部分。这包括整个用户虚拟地址空间，它是由只读文本（代码）、读/写数据、堆以及所有的共享库代码和数据区域组成的。线程也共享同样的打开文件的集合。</p>
+<p>各自独立的线程栈的存储器模型不是那么整齐清楚的。这些栈被保存在虚拟地址空间的栈区域中，并且通常是被相应的线程独立地访问的。我们说通常而不是总是，是因为不同的线程栈是不对其他线程设防的。所以，如果一个线程以某种方式得到一个指向其他线程栈的指针，那么它就可以读写这个栈的任何部分。</p>
+<p><strong>根据这个模型，变量实例是如何映射到内存的？</strong></p>
+<ul>
+<li>全局变量：定义在函数之外的变量。在运行时，虚拟存储器的读/写区域只包含每个全局变量的一个实例，任何线程都可以引用。</li>
+<li>本地自动变量：定义在函数内部但是没有static属性的变量。在运行时，每个线程的栈都包含它自己的所有本地自动变量的实例。即使当多个线程执行同一个线程例程时也是如此。</li>
+<li>本地静态变量：定义在函数内部并有static属性的变量。和全局变量一样，虚拟存储器的读/写区域只包含在程序中声明的每个本地静态变量的一个实例。</li>
+</ul>
+<p><strong>有多少线程引用这些实例？</strong></p>
+<p>一个变量是共享的，当且仅当它的一个实例被一个以上的线程引用。</p>
+<h2 id="用信号量同步线程"><a href="#用信号量同步线程" class="headerlink" title="用信号量同步线程"></a>用信号量同步线程</h2><p><strong>共享变量带来的问题？</strong></p>
+<p>共享变量引入了同步错误。</p>
+<p>譬如下面一段代码：i++（注意这不是一个原子操作）</p>
+<p><img src="/2019/09/16/系统原理/12并发编程/07.png" alt="同步问题代码"></p>
+<p><img src="/2019/09/16/系统原理/12并发编程/08.png" alt="同步问题"></p>
+<p><strong>如何分析同步错误的问题？</strong></p>
+<p>可以使用线程进度图来分析，如下：</p>
+<p><img src="/2019/09/16/系统原理/12并发编程/09.png" alt="进度图"></p>
+<p>对每个线程而言，操作共享变量的指令区间叫做<code>临界区</code><br>两个临界区的交集称作<code>不安全区</code></p>
+<p><img src="/2019/09/16/系统原理/12并发编程/10.png" alt="不安全区"></p>
+<p><strong>什么是信号量？</strong></p>
+<p>信号量是一个非负整数，关键在于对信号量的操作（增减）是原子的</p>
+<p><strong>如何使用信号量解决同步问题？</strong></p>
+<p>只用0和1两种值的信号量叫二元信号量，也叫互斥锁<br>用互斥锁把临界区代码包起来</p>
+<p><img src="/2019/09/16/系统原理/12并发编程/11.png" alt="信号量"></p>
+<p>上面的代码使得线程的轨迹无法进入不安全区</p>
+<p><img src="/2019/09/16/系统原理/12并发编程/12.png" alt="禁止区"></p>
+<p><strong>如何使用信号量来处理共享资源的访问问题？</strong></p>
+<p>信号量&gt;1</p>
+<p><strong>生产者——消费者问题？</strong></p>
+<p><img src="/2019/09/16/系统原理/12并发编程/13.png" alt="生产者——消费者问题"></p>
+<p>有限缓存抽象如下：<br><img src="/2019/09/16/系统原理/12并发编程/14.png" alt="有限缓存"></p>
+<p>生产和消费方式如下：<br><img src="/2019/09/16/系统原理/12并发编程/15.png" alt="生产——消费"></p>
+<p><strong>读者——写者问题？</strong></p>
+<p>修改对象的线程叫做写者；只读对象的线程叫做读者。<br>写着必须拥有对对象的独占访问，而读者可以和无限多个其他读者共享对象。</p>
+<p>分两类：</p>
+<ul>
+<li>读者优先，要求不要让读者等待，除非已经把使用对象的权限赋予了一个写者。</li>
+<li>写者优先，要求一定能写者准备好可以写，它就会尽可能地完成它的写操作。</li>
+</ul>
+<p>第一类解决方案如下：</p>
+<p><img src="/2019/09/16/系统原理/12并发编程/16.png" alt="读者优先"></p>
+<p><strong>什么是饥饿？</strong></p>
+<p>线程无限制阻塞，无法进展。比如上面的写者就有可能永远拿不到锁</p>
+<h2 id="综合：基于预线程化的并发服务器"><a href="#综合：基于预线程化的并发服务器" class="headerlink" title="综合：基于预线程化的并发服务器"></a>综合：基于预线程化的并发服务器</h2><p><strong>什么是预线程化？</strong></p>
+<p><img src="/2019/09/16/系统原理/12并发编程/17.png" alt="预线程化"></p>
+<p>案例：</p>
+<h2 id="使用线程提高并行性"><a href="#使用线程提高并行性" class="headerlink" title="使用线程提高并行性"></a>使用线程提高并行性</h2><p><strong>顺序、并发、并行之间是什么关系？</strong></p>
+<p><img src="/2019/09/16/系统原理/12并发编程/18.png" alt="顺序、并发、并行"></p>
+<p><strong>多线程在多核下的性能一定更好吗？</strong></p>
+<p>多核下同步操作的性能消耗更大，因此要尽可能避免</p>
+<p><strong>线程越多性能越好吗？</strong></p>
+<p><img src="/2019/09/16/系统原理/12并发编程/19.png" alt="刻画并行程序的性能"></p>
+<p>时间上升，是因为没有阻塞的环境下，一个核的多线程上下文切换导致<br>所以，并行程序常常是每个核一个线程</p>
+<h2 id="其他并发问题"><a href="#其他并发问题" class="headerlink" title="其他并发问题"></a>其他并发问题</h2><p><strong>什么是线程不安全的？</strong></p>
+<p>一个函数被称为线程安全的，当且仅当被多个并发线程反复地调用时，它会一直产生正确的结果。如果一个函数不是线程安全的，我们就说它是线程不安全的。</p>
+<p><strong>线程不安全的函数类有哪些？**</strong></p>
+<ol>
+<li>不保护共享变量的函数。</li>
+<li>保持跨越多个调用的状态的函数。如伪随机数生成器</li>
+<li>返回指向静态变量的指针的函数。</li>
+<li>调用线程不安全函数的函数。</li>
+</ol>
+<p>解决方案：除了第二种必须修改源码外：其余的都可以采用“加锁-拷贝技术”：线程不安全函数与互斥锁联系起来，在每一个调用位置，对互斥锁加锁，调用线程不安全函数，将函数返回的结果拷贝到一个私有的存储器位置，然后对互斥锁解锁。</p>
+<p><strong>什么是可重入函数？和线程安全函数有啥区别？</strong></p>
+<p>当它们被多个线程调用时，不会引用共享数据。</p>
+<p><img src="/2019/09/16/系统原理/12并发编程/20.png" alt="可重入函数"></p>
+<p><strong>如何通过线程进程图来判断死锁？</strong></p>
+<p><img src="/2019/09/16/系统原理/12并发编程/21.png" alt="死锁进度图"></p>
+<p><strong>避免死锁的加锁规则？</strong></p>
+<p>每个线程都是以相同的顺序获得互斥锁</p>
+<blockquote>
+<p>上面结论有证实</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+	
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2019/09/16/系统原理/12并发编程/">12并发编程</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Sun 的个人博客">Sun</a></p>
+  <p><span>发布时间:</span>2019年09月16日 - 11:09</p>
+  <p><span>最后更新:</span>2019年09月16日 - 11:09</p>
+  <p><span>原始链接:</span><a href="/2019/09/16/系统原理/12并发编程/" title="12并发编程">https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2019/09/16/系统原理/12并发编程/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Sun 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Sun 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机系统原理/" rel="tag"><i class="fa fa-tag"></i> 计算机系统原理</a>
+          
+            <a href="/tags/并发编程/" rel="tag"><i class="fa fa-tag"></i> 并发编程</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/12/系统原理/11网络编程/" rel="next" title="11网络编程">
+                <i class="fa fa-chevron-left"></i> 11网络编程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjMzMS8xMjg2Ng=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/head.png" alt="Sun">
+            
+              <p class="site-author-name" itemprop="name">Sun</p>
+              <p class="site-description motion-element" itemprop="description">Lv.0</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/sunyi720" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#并发编程"><span class="nav-number">1.</span> <span class="nav-text">并发编程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基于进程的并发编程"><span class="nav-number">1.1.</span> <span class="nav-text">基于进程的并发编程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于I-O多路复用的并发编程"><span class="nav-number">1.2.</span> <span class="nav-text">基于I/O多路复用的并发编程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于线程的并发编程"><span class="nav-number">1.3.</span> <span class="nav-text">基于线程的并发编程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多线程程序中的共享变量"><span class="nav-number">1.4.</span> <span class="nav-text">多线程程序中的共享变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用信号量同步线程"><span class="nav-number">1.5.</span> <span class="nav-text">用信号量同步线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#综合：基于预线程化的并发服务器"><span class="nav-number">1.6.</span> <span class="nav-text">综合：基于预线程化的并发服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用线程提高并行性"><span class="nav-number">1.7.</span> <span class="nav-text">使用线程提高并行性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他并发问题"><span class="nav-number">1.8.</span> <span class="nav-text">其他并发问题</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sun</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("iTVMQ8rz1NpV1RJ716VOA2rG-gzGzoHsz", "j0zy5JQ2bmQXtJ8PeP5gAiKM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

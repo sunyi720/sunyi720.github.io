@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.google.com//css?family=ZCOOL KuaiLe:300,300italic,400,400italic,700,700italicNoto Serif SC:300,300italic,400,400italic,700,700italicMoul:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机系统原理,虚拟内存,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="虚拟内存本章的核心内容：  虚拟内存是如何工作的 应用程序如何使用和管理虚拟内存  物理和虚拟寻址虚拟寻址的简单过程？ CPU中的内存管理单元（MMU）利用存放在主存中的查询表来动态翻译虚拟地址  地址空间如何理解虚拟地址和物理地址的区别？ 物理地址是实际的物理内存空间地址虚拟地址是利用磁盘生成的逻辑内存空间 为什么需要引入虚拟内存的机制？ 没有虚拟内存，程序员需要自己去管理物理地址，因此每次都需">
+<meta name="keywords" content="计算机系统原理,虚拟内存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="09 虚拟内存">
+<meta property="og:url" content="https://sunyi720.github.io/2019/08/27/系统原理/09 虚拟内存/index.html">
+<meta property="og:site_name" content="Sun">
+<meta property="og:description" content="虚拟内存本章的核心内容：  虚拟内存是如何工作的 应用程序如何使用和管理虚拟内存  物理和虚拟寻址虚拟寻址的简单过程？ CPU中的内存管理单元（MMU）利用存放在主存中的查询表来动态翻译虚拟地址  地址空间如何理解虚拟地址和物理地址的区别？ 物理地址是实际的物理内存空间地址虚拟地址是利用磁盘生成的逻辑内存空间 为什么需要引入虚拟内存的机制？ 没有虚拟内存，程序员需要自己去管理物理地址，因此每次都需">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/01.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/02.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/03.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/04.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/05.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/06.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/07.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/08.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/09.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/10.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/11.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/12.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/13.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/14.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/15.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/16.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/17.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/18.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/19.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/20.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/21.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/22.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/23.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/24.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/25.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/26.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/27.png">
+<meta property="og:updated_time" content="2019-08-27T10:13:36.777Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="09 虚拟内存">
+<meta name="twitter:description" content="虚拟内存本章的核心内容：  虚拟内存是如何工作的 应用程序如何使用和管理虚拟内存  物理和虚拟寻址虚拟寻址的简单过程？ CPU中的内存管理单元（MMU）利用存放在主存中的查询表来动态翻译虚拟地址  地址空间如何理解虚拟地址和物理地址的区别？ 物理地址是实际的物理内存空间地址虚拟地址是利用磁盘生成的逻辑内存空间 为什么需要引入虚拟内存的机制？ 没有虚拟内存，程序员需要自己去管理物理地址，因此每次都需">
+<meta name="twitter:image" content="https://sunyi720.github.io/2019/08/27/系统原理/09%20虚拟内存/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":20},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://sunyi720.github.io/2019/08/27/系统原理/09 虚拟内存/">
+
+
+
+
+
+  <title>09 虚拟内存 | Sun</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sun</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数字人生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2019/08/27/系统原理/09 虚拟内存/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">09 虚拟内存</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-27T18:10:00+08:00">
+                2019-08-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/计算机系统原理/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机系统原理</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/08/27/系统原理/09 虚拟内存/" class="leancloud_visitors" data-flag-title="09 虚拟内存">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h1><p>本章的核心内容：</p>
+<ol>
+<li>虚拟内存是如何工作的</li>
+<li>应用程序如何使用和管理虚拟内存</li>
+</ol>
+<h2 id="物理和虚拟寻址"><a href="#物理和虚拟寻址" class="headerlink" title="物理和虚拟寻址"></a>物理和虚拟寻址</h2><p><strong>虚拟寻址的简单过程？</strong></p>
+<p>CPU中的内存管理单元（MMU）利用存放在主存中的查询表来动态翻译虚拟地址</p>
+<p><img src="/2019/08/27/系统原理/09 虚拟内存/01.png" alt="简单的虚拟寻址系统"></p>
+<h2 id="地址空间"><a href="#地址空间" class="headerlink" title="地址空间"></a>地址空间</h2><p><strong>如何理解虚拟地址和物理地址的区别？</strong></p>
+<p>物理地址是实际的物理内存空间地址<br>虚拟地址是利用磁盘生成的逻辑内存空间</p>
+<p><strong>为什么需要引入虚拟内存的机制？</strong></p>
+<p>没有虚拟内存，程序员需要自己去管理物理地址，因此每次都需要人为地去计算和分配地址，这是一项复杂而且繁琐的工作。<br>虚拟内存的好处有：</p>
+<ol>
+<li>让主存作为虚拟内存的缓存，更好的发挥稀缺的主存空间的作用</li>
+<li>虚拟内存把内存的管理交给操作系统，不需要程序员去分配内存，提高了工作的效率和内存的安全。</li>
+<li>固定的虚拟内存空间简化了程序的编译、链接、加载等等</li>
+</ol>
+<h2 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h2><p><strong>什么是虚拟内存？</strong></p>
+<p>概念上来说，虚拟内存是一个存放在磁盘上N个连续字节大小的数组。<br>这个数组的内容被缓存在主存中</p>
+<p><strong>如何理解虚拟页的存在？</strong></p>
+<p>和其他缓存一样，数据被分割为块来作为传输单元<br>虚拟页中的块也被称为虚拟页(VP)<br>与之在主存上对应的叫物理页(PP)</p>
+<blockquote>
+<p>虚拟内存的出现比缓存要早，所以这里延续传统，并没有使用虚拟块</p>
+</blockquote>
+<p><strong>虚拟页的三种不相交状态是？</strong></p>
+<ul>
+<li>未分配：虚拟内存中未分配（未使用，没有任何数据关联）的页</li>
+<li>未缓存：虚拟内存中已分配的页</li>
+<li>已缓存：缓存在主存的已分配虚拟空间</li>
+</ul>
+<p><strong>如何区分SRAM和DRAM？</strong></p>
+<p>为了区分不同的缓存</p>
+<ul>
+<li>SRAM：L1,L2,L3高速缓存</li>
+<li>DRAM：虚拟内存的缓存——主存</li>
+</ul>
+<p><strong>DRAM为什么不命中处罚很大？</strong></p>
+<p>DRAM比SRAM慢10倍<br>读写磁盘要比DRAM慢大约100000多倍</p>
+<p><strong>DRAM为了减少不命中处罚的手段？</strong></p>
+<ol>
+<li>采用较大的块（虚拟页）</li>
+<li>DRAM采用全相联的方式（没有组之间的区别）</li>
+<li>采用更复杂精密的替换算法</li>
+<li>DRAM总是采用写回的方式</li>
+</ol>
+<p><strong>如何管理虚拟内存在DRAM中的缓存（是否命中，地址转换，替换策略）？</strong></p>
+<p>使用<code>页表</code>进行管理<br>页表是虚拟页和物理页的一个映射关系，除此还可以维护页的其他属性。<br>虚拟页的每一页都对应页表中的一个条目（PTE）</p>
+<p><strong>条目与虚拟页三种状态的对应？</strong></p>
+<ol>
+<li>有效位为1：已缓存</li>
+<li>有效位为0，空地址：表示未分配页</li>
+<li>有效位为0，有数据：表示未缓存</li>
+</ol>
+<p><img src="/2019/08/27/系统原理/09 虚拟内存/02.png" alt="页表"></p>
+<p><strong>如何处理命中、缺页？</strong></p>
+<p><img src="/2019/08/27/系统原理/09 虚拟内存/03.png" alt="页命中"></p>
+<p>命中未缓存的表条目叫做<code>缺页</code></p>
+<p><img src="/2019/08/27/系统原理/09 虚拟内存/04.png" alt="缺页"></p>
+<p><img src="/2019/08/27/系统原理/09 虚拟内存/05.png" alt="缺页异常处理"></p>
+<p><strong>为什么虚拟内存需要读写磁盘，性能反而更好？</strong></p>
+<p>良好的局部性是缓存良好工作的唯一保证</p>
+<h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><p><strong>虚拟页如何简化了内存的管理？</strong></p>
+<ol>
+<li>简化链接：独立的内存空间简化了链接器的设计和实现，固定的内存格式（如代码段总是从虚拟地址0x400000开始），把实际物理地址的分配问题交给底层，专注于链接的算法。链接完成时即可确定部分静态的内存地址</li>
+<li>简化加载：更容易加载可执行文件和共享对象文件，只需要分配目标文件中固定的节即可</li>
+<li>简化内存分配： 用户不需要通过实际的物理内存去计算空闲内存，让这些都交给操作系统去实现</li>
+</ol>
+<h2 id="内存保护"><a href="#内存保护" class="headerlink" title="内存保护"></a>内存保护</h2><p><strong>如何进行内存的保护？</strong></p>
+<p>PTE中有3个权限字段，控制读、写和访问</p>
+<p><img src="/2019/08/27/系统原理/09 虚拟内存/06.png" alt="内存保护"></p>
+<h2 id="地址翻译"><a href="#地址翻译" class="headerlink" title="地址翻译"></a>地址翻译</h2><p><strong>如何从虚拟地址转换成物理地址？</strong></p>
+<p><img src="/2019/08/27/系统原理/09 虚拟内存/07.png" alt="地址翻译"></p>
+<p><strong>页面命中时如何转换？</strong></p>
+<p><img src="/2019/08/27/系统原理/09 虚拟内存/08.png" alt="页面命中"></p>
+<p><strong>缺页时如何转换？</strong></p>
+<p><img src="/2019/08/27/系统原理/09 虚拟内存/09.png" alt="缺页"></p>
+<p><strong>地址转换如何和高速缓存结合？</strong></p>
+<p><img src="/2019/08/27/系统原理/09 虚拟内存/10.png" alt="VM与高速缓存的结合"></p>
+<p><strong>如何进一步减小地址转换的开销？</strong></p>
+<p>在MMU中建立一个PTE的缓存，称为<code>翻译后备缓存器（TLB）</code><br>和一般的缓存一样，采用组相联的方式<br>使用VPN进行索引</p>
+<p><img src="/2019/08/27/系统原理/09 虚拟内存/11.png" alt="TLB"></p>
+<p><img src="/2019/08/27/系统原理/09 虚拟内存/12.png" alt="TLB命中和不命中"></p>
+<p><strong>如何減少页表占用的内存空间？</strong></p>
+<p>一个32位的虚拟空间，4KB的页大小，4字节的PTE<br>那么每个进程都需要一个4MB的页表<br>这样下去内存还是吃不消</p>
+<p>常见的压缩方式是采用层次结构的页表</p>
+<p><img src="/2019/08/27/系统原理/09 虚拟内存/13.png" alt="多级页表"></p>
+<ol>
+<li>如果上级页表中的PTE是空的，那么相应的二级页表就不存在</li>
+<li>只有一级页表才总需要在主存中，其他级页表按需调入调出</li>
+</ol>
+<p><strong>多级页表如何寻址？</strong></p>
+<p>MMU必须访问多个PTE</p>
+<p><img src="/2019/08/27/系统原理/09 虚拟内存/14.png" alt="多级页表的寻址"></p>
+<p><strong>这种空间的压缩导致了更多次的内存访问，需要付出多少的时间代价？</strong></p>
+<p>由于不同层次的PTE都可以在TLB中缓存<br>所以多级页表的地址翻译并不会比单级页表慢很多</p>
+<p>综合：案例分析</p>
+<h2 id="实际案例研究——运行linux的intel-core-i7"><a href="#实际案例研究——运行linux的intel-core-i7" class="headerlink" title="实际案例研究——运行linux的intel core i7"></a>实际案例研究——运行linux的intel core i7</h2><p><strong>core i7的地址翻译？</strong></p>
+<p><strong>Linux的虚拟内存结构？</strong></p>
+<p><img src="/2019/08/27/系统原理/09 虚拟内存/15.png" alt="一个Linux进程的虚拟内存"></p>
+<p><strong>Linux如何组织虚拟内存？</strong></p>
+<p>Linux使用区域（段）来组织虚拟内存<br>Linux为每个进程都维护这一个任务结构（task_struct源码）</p>
+<p><img src="/2019/08/27/系统原理/09 虚拟内存/16.png" alt="Linux使用区域（段）来组织虚拟内存"></p>
+<p>Linux在进程的上下文中维护</p>
+<p><strong>Linux中使用区域组织虚拟内存的意义？</strong></p>
+<ol>
+<li>将功能相同的虚拟页组织起来</li>
+<li>允许虚拟地址空间有空隙，不需要去记录不存在数据的虚拟页</li>
+<li>记录了每个区域的权限</li>
+</ol>
+<p><strong>Linux中如何处理缺页？</strong></p>
+<p><img src="/2019/08/27/系统原理/09 虚拟内存/17.png" alt="Linux缺页"></p>
+<h2 id="内存映射"><a href="#内存映射" class="headerlink" title="内存映射"></a>内存映射</h2><p><strong>什么是内存映射？</strong></p>
+<p>将一个虚拟内存区域和磁盘上的对象关联起来，以初始化虚拟内存区域的内容，这个过程就叫<code>内存映射</code><br>可以简单的理解为初始化虚拟内存</p>
+<p><strong>哪些硬盘对象可以进行内存映射？</strong></p>
+<ol>
+<li>普通文件对象（包括之前说的可执行文件），按需调度（发生缺页时才放到物理内存中）</li>
+<li>匿名文件：由内核创建，当引用到匿名文件的虚拟页时，只会用二进制零覆盖牺牲页（如果牺牲页有修改，则换出），然后更新页表，不会有实际的数据传输，所以也叫请求二进制零的页。</li>
+</ol>
+<p><strong>如何管理共享对象的虚拟内存？</strong></p>
+<p><img src="/2019/08/27/系统原理/09 虚拟内存/18.png" alt="共享对象"></p>
+<p><strong>如何管理私有对象的虚拟内存？</strong></p>
+<p><img src="/2019/08/27/系统原理/09 虚拟内存/19.png" alt="私有对象"></p>
+<p><strong>fork函数如何管理虚拟内存？</strong></p>
+<p>fork之后，拷贝原进程的虚拟空间，并将两个进程的虚拟页都设置为只读，写时复制</p>
+<p><strong>execve函数如何管理虚拟内存？</strong></p>
+<ol>
+<li>删除已经在的用户区域</li>
+<li>映射私有区域（新程序的代码、数据、bss和栈区域）</li>
+<li>映射共享区域</li>
+<li>设置程序计数器（PC）:指向代码区域的入口点</li>
+</ol>
+<p><img src="/2019/08/27/系统原理/09 虚拟内存/20.png" alt="加载器内存映射"></p>
+<p>用户级内存映射：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">* start:内存中的建议起始位置</span><br><span class="line">* length:分配长度</span><br><span class="line">* prot:内存权限</span><br><span class="line">* flags:对象类型（匿名？私有？写时复制？）</span><br><span class="line">* fd:文件（0表示匿名对象文件）</span><br><span class="line">* offset:文件偏移</span><br><span class="line">*/</span><br><span class="line">void mmap(void *start,  size_t length, int prot, int flags, int fd, off_t offset);</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">* start:内存中的开始位置</span><br><span class="line">* length:长度</span><br><span class="line">*/</span><br><span class="line">int munmap(voit *start, size_t length);</span><br></pre></td></tr></table></figure>
+<h2 id="动态内存分配"><a href="#动态内存分配" class="headerlink" title="动态内存分配"></a>动态内存分配</h2><p><strong>什么是动态内存分配器？</strong></p>
+<p>动态内存分配器维护一个进程的虚拟内存区域，称为堆<br>堆中分为不同大小的块来进行管理<br>有已分配和空闲两种状态</p>
+<p><strong>为什么要使用动态分配？</strong></p>
+<p>使用动态内存分配管理堆更方便，也有更好的可移植性。</p>
+<p>分配器有两种风格：</p>
+<ul>
+<li>显式分配器：要求应用显式的释放已分配块</li>
+<li>隐式分配器：分配器检查无用块并释放</li>
+</ul>
+<p>相关细节：</p>
+<ol>
+<li>mallco要求的内存过大，返回null并设置errno</li>
+<li>mallco不初始化，初始化调用calloc</li>
+<li>重新分配调用realloc</li>
+</ol>
+<p><strong>动态内存分配的要求和目标？</strong></p>
+<p>要求：</p>
+<ol>
+<li>分配请求必须有相应的释放请求</li>
+<li>分配请求需要立即执行，不允许重新排列或者缓存</li>
+<li>只操作堆空间</li>
+<li>对齐块</li>
+<li>不允许修改已分配块</li>
+</ol>
+<p>目标：</p>
+<ol>
+<li>单位时间内完成的请求数尽可能多</li>
+<li>堆的利用率尽可能大（已分配块的有效负载占比尽可能多）</li>
+</ol>
+<p>什么是外部碎片和内部碎片？</p>
+<ul>
+<li>内部碎片：已分配块大小和有效负载大小之差</li>
+<li>外部碎片：分散的空闲块</li>
+</ul>
+<p><strong>实现动态分配器需要考虑哪些问题？</strong></p>
+<ol>
+<li>空闲块组织：我们如何记录空闲块？</li>
+<li>放置：我们如何选择一个合适的空闲块来放置一个新分配的块？</li>
+<li>分割：在我们将一个新分配的块放置到某个空闲块之后，我们如何处理这个空闲块中的剩余部分？</li>
+<li>合并：我们如何处理一个刚刚被释放的块？</li>
+</ol>
+<p><strong>如何记录空闲块？</strong></p>
+<p><img src="/2019/08/27/系统原理/09 虚拟内存/21.png" alt="一个简单的堆块的结构"></p>
+<ol>
+<li>一个块由字的头部、有效载荷以及可能的额外的填充组成。</li>
+<li>头部编码了这个块的大小（包括头部和所有的填充）以及该块的状态（已分配或者空闲的）。</li>
+<li>上图显示的是该块强加了一个双子的对齐约束条件（一个字为2B），该块的大小就总是8的倍数，则块大小的最低3位总是0。</li>
+<li>这里的填充有两个原因：<ul>
+<li>分配器的策略，用于对抗外部碎片。</li>
+<li>满足对齐要求。</li>
+</ul>
+</li>
+</ol>
+<p><img src="/2019/08/27/系统原理/09 虚拟内存/22.png" alt="隐式空闲链表"></p>
+<ol>
+<li>空闲块是通过头部中的大小字段隐含地连接着的。</li>
+<li>后面的已分配但是大小为0的头部做为隐式链表的结尾标志。</li>
+</ol>
+<p><img src="/2019/08/27/系统原理/09 虚拟内存/23.png" alt="显式式空闲链表"></p>
+<p>每个空闲块中，都包含一个前驱和后继指针</p>
+<p><strong>如何放置新的请求块？</strong></p>
+<p>放置策略：</p>
+<ol>
+<li>首次适配：从头开始搜索空间链表，选择第一个合适的空闲块。</li>
+<li>下一次适配：和首次适配很相识，只不过不是链表开始出开始每次搜索，而是从上一次查询结束的地方开始。</li>
+<li>最佳适配：搜索每一个空闲块，选择合适所需请求大小的最小空闲块。</li>
+</ol>
+<p>优点：</p>
+<ol>
+<li>首次优点：将大的空间块保留在列表的后面，缺点：靠近列表起始处留下空闲块的碎片，增加了对较大块的搜索时间。</li>
+<li>下次：knuth提出，比首次运行快一些，尤其是列表前面布满许多小的碎片时，然而下次比首次利用率要低得多。</li>
+<li>最佳：利用率最高，但由于对堆的彻底的搜索，时间复杂度高；</li>
+</ol>
+<p><strong>如何分割空闲块？</strong></p>
+<p>一旦分割器找到一个匹配的空闲块，他就必须做另一个决定，那就是分配这个 空闲块中多少空间，一个是选择整个空间，简单快捷，但缺点是内部碎片，如果放置策略趋于产生好的匹配，额外的内部碎片可以接受；</p>
+<p>然而，如果匹配的不太好，那么分配器通常会选择讲这个空间块分割为两个部分，一个部分为分配块，另外变成一个空的空闲块。</p>
+<p><strong>如果分配器不能为请求找到合适的空闲块将发生什么？</strong></p>
+<p>为了解决假碎片的问题，任何实际的分配器都必须合并相邻的空闲块，这个过程叫做合并，这就出现一个重要策略决定，也就是在每次一个块释放时，就合并所有的空闲块？还是推迟合并，知道某个请求分配失败，然后再去扫描整个堆，合并所有空闲块。</p>
+<p><strong>合并后的内存块也不够用怎么办？</strong></p>
+<p>然而这样还是不能得到足够大的块，分配器就会想内核请求额外的堆空间。</p>
+<h2 id="垃圾收集"><a href="#垃圾收集" class="headerlink" title="垃圾收集"></a>垃圾收集</h2><p><img src="/2019/08/27/系统原理/09 虚拟内存/24.png" alt="可达图"></p>
+<ul>
+<li>堆节点：已分配块</li>
+<li>根节点：寄存器中的变量、栈中的变量、虚拟内存读写区域的全局变量</li>
+</ul>
+<p><strong>分配的内存未回收会有什么影响？</strong></p>
+<p>内存将不够</p>
+<p><strong>简要描述标记&amp;清理回收算法？</strong></p>
+<p><img src="/2019/08/27/系统原理/09 虚拟内存/25.png" alt="算法函数"><br><img src="/2019/08/27/系统原理/09 虚拟内存/26.png" alt="伪代码"><br><img src="/2019/08/27/系统原理/09 虚拟内存/27.png" alt="示例"></p>
+<p><strong>C中的标记&amp;回收算法有什么难题？</strong></p>
+<p>C无法区别是指针还是一个常量</p>
+<h2 id="C中常见的与内存相关的问题"><a href="#C中常见的与内存相关的问题" class="headerlink" title="C中常见的与内存相关的问题"></a>C中常见的与内存相关的问题</h2>
+      
+    </div>
+    
+    
+    
+
+	
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2019/08/27/系统原理/09 虚拟内存/">09 虚拟内存</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Sun 的个人博客">Sun</a></p>
+  <p><span>发布时间:</span>2019年08月27日 - 18:08</p>
+  <p><span>最后更新:</span>2019年08月27日 - 18:08</p>
+  <p><span>原始链接:</span><a href="/2019/08/27/系统原理/09 虚拟内存/" title="09 虚拟内存">https://sunyi720.github.io/2019/08/27/系统原理/09 虚拟内存/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2019/08/27/系统原理/09 虚拟内存/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Sun 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Sun 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机系统原理/" rel="tag"><i class="fa fa-tag"></i> 计算机系统原理</a>
+          
+            <a href="/tags/虚拟内存/" rel="tag"><i class="fa fa-tag"></i> 虚拟内存</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/24/系统原理/07 链接/" rel="next" title="07 链接">
+                <i class="fa fa-chevron-left"></i> 07 链接
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/03/系统原理/10系统级IO/" rel="prev" title="10系统级IO">
+                10系统级IO <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjMzMS8xMjg2Ng=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/head.png" alt="Sun">
+            
+              <p class="site-author-name" itemprop="name">Sun</p>
+              <p class="site-description motion-element" itemprop="description">Lv.0</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/sunyi720" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#虚拟内存"><span class="nav-number">1.</span> <span class="nav-text">虚拟内存</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#物理和虚拟寻址"><span class="nav-number">1.1.</span> <span class="nav-text">物理和虚拟寻址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#地址空间"><span class="nav-number">1.2.</span> <span class="nav-text">地址空间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存"><span class="nav-number">1.3.</span> <span class="nav-text">缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存管理"><span class="nav-number">1.4.</span> <span class="nav-text">内存管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存保护"><span class="nav-number">1.5.</span> <span class="nav-text">内存保护</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#地址翻译"><span class="nav-number">1.6.</span> <span class="nav-text">地址翻译</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实际案例研究——运行linux的intel-core-i7"><span class="nav-number">1.7.</span> <span class="nav-text">实际案例研究——运行linux的intel core i7</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存映射"><span class="nav-number">1.8.</span> <span class="nav-text">内存映射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动态内存分配"><span class="nav-number">1.9.</span> <span class="nav-text">动态内存分配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#垃圾收集"><span class="nav-number">1.10.</span> <span class="nav-text">垃圾收集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C中常见的与内存相关的问题"><span class="nav-number">1.11.</span> <span class="nav-text">C中常见的与内存相关的问题</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sun</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("iTVMQ8rz1NpV1RJ716VOA2rG-gzGzoHsz", "j0zy5JQ2bmQXtJ8PeP5gAiKM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>
