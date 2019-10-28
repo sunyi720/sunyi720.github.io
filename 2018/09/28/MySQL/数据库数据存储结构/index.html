@@ -117,37 +117,37 @@
 <meta name="description" content="InnoDB记录存储结构InnoDB页将数据划分为若干个页，以页作为磁盘和内存之间交互的基本单位，InnoDB中页的大小一般为 16KB 行格式数据在磁盘上存储的格式也叫做行格式InnoDB的设计者设计了多种行格式，主要的有下面4种。 两个问题：  行格式中计算机如何区别每个部分？ 列中名字如何和数据对应起来？  COMPACT行格式 额外信息：服务器为了描述这条记录而不得不额外添加的一些信息。">
 <meta name="keywords" content="MySQL索引,InnoDB记录存储结构,InnoDB数据页结构">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数据库InnoDB数据存储、页结构以及MySQL索引">
-<meta property="og:url" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/index.html">
+<meta property="og:title" content="数据库数据存储结构">
+<meta property="og:url" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库数据存储结构/index.html">
 <meta property="og:site_name" content="Sun">
 <meta property="og:description" content="InnoDB记录存储结构InnoDB页将数据划分为若干个页，以页作为磁盘和内存之间交互的基本单位，InnoDB中页的大小一般为 16KB 行格式数据在磁盘上存储的格式也叫做行格式InnoDB的设计者设计了多种行格式，主要的有下面4种。 两个问题：  行格式中计算机如何区别每个部分？ 列中名字如何和数据对应起来？  COMPACT行格式 额外信息：服务器为了描述这条记录而不得不额外添加的一些信息。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/1.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/2.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/3.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/4.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/5.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/6.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/7.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/8.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/9.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/10.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/11.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/12.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/13.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/14.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/15.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/16.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/17.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/18.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/19.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/20.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/21.png">
-<meta property="og:updated_time" content="2018-09-29T07:44:17.238Z">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库数据存储结构/1.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库数据存储结构/2.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库数据存储结构/3.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库数据存储结构/4.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库数据存储结构/5.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库数据存储结构/6.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库数据存储结构/7.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库数据存储结构/8.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库数据存储结构/9.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库数据存储结构/10.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库数据存储结构/11.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库数据存储结构/12.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库数据存储结构/13.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库数据存储结构/14.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库数据存储结构/15.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库数据存储结构/16.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库数据存储结构/17.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库数据存储结构/18.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库数据存储结构/19.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库数据存储结构/20.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库数据存储结构/21.png">
+<meta property="og:updated_time" content="2019-10-28T06:13:05.175Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数据库InnoDB数据存储、页结构以及MySQL索引">
+<meta name="twitter:title" content="数据库数据存储结构">
 <meta name="twitter:description" content="InnoDB记录存储结构InnoDB页将数据划分为若干个页，以页作为磁盘和内存之间交互的基本单位，InnoDB中页的大小一般为 16KB 行格式数据在磁盘上存储的格式也叫做行格式InnoDB的设计者设计了多种行格式，主要的有下面4种。 两个问题：  行格式中计算机如何区别每个部分？ 列中名字如何和数据对应起来？  COMPACT行格式 额外信息：服务器为了描述这条记录而不得不额外添加的一些信息。">
-<meta name="twitter:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/1.png">
+<meta name="twitter:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库数据存储结构/1.png">
 
 
 
@@ -177,13 +177,13 @@
 
 
 
-  <link rel="canonical" href="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/">
+  <link rel="canonical" href="https://sunyi720.github.io/2018/09/28/MySQL/数据库数据存储结构/">
 
 
 
 
 
-  <title>数据库InnoDB数据存储、页结构以及MySQL索引 | Sun</title>
+  <title>数据库数据存储结构 | Sun</title>
   
 
 
@@ -312,7 +312,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2018/09/28/MySQL/数据库数据存储结构/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sun">
@@ -329,7 +329,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">数据库InnoDB数据存储、页结构以及MySQL索引</h1>
+          <h1 class="post-title" itemprop="name headline">数据库数据存储结构</h1>
         
 
         <div class="post-meta">
@@ -381,7 +381,7 @@
 
           
           
-             <span id="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/" class="leancloud_visitors" data-flag-title="数据库InnoDB数据存储、页结构以及MySQL索引">
+             <span id="/2018/09/28/MySQL/数据库数据存储结构/" class="leancloud_visitors" data-flag-title="数据库数据存储结构">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -419,7 +419,7 @@
 <li>行格式中计算机如何区别每个部分？</li>
 <li>列中名字如何和数据对应起来？</li>
 </ol>
-<h3 id="COMPACT行格式"><a href="#COMPACT行格式" class="headerlink" title="COMPACT行格式"></a>COMPACT行格式</h3><p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/1.png" alt="compact行格式"></p>
+<h3 id="COMPACT行格式"><a href="#COMPACT行格式" class="headerlink" title="COMPACT行格式"></a>COMPACT行格式</h3><p><img src="/2018/09/28/MySQL/数据库数据存储结构/1.png" alt="compact行格式"></p>
 <p>额外信息：服务器为了描述这条记录而不得不额外添加的一些信息。</p>
 <ul>
 <li><p>变长字段长度列表：把所有变长类型实际长度都存放在记录的开头部位形成一个列表，按照列的顺序逆序存放。</p>
@@ -429,7 +429,7 @@
 </blockquote>
 </li>
 <li><p>NULL值列表：记录数据为NULL的列</p>
-<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/2.png" alt="NULL列表"></p>
+<p><img src="/2018/09/28/MySQL/数据库数据存储结构/2.png" alt="NULL列表"></p>
 <ol>
 <li>先统计允许存储NULL的列，如果表中没有允许存储 NULL 的列，则 NULL值列表 也不存在了。</li>
 <li>将每个允许存储NULL的列对应一个二进制位，二进制位按照列的顺序逆序排列。</li>
@@ -437,7 +437,7 @@
 </ol>
 </li>
 <li><p>记录头信息：</p>
-<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/3.png" alt="记录头信息"></p>
+<p><img src="/2018/09/28/MySQL/数据库数据存储结构/3.png" alt="记录头信息"></p>
 </li>
 </ul>
 <table>
@@ -527,24 +527,24 @@
 <blockquote>
 <p>  注意：<br>  CHAR(10)类型，除真实数据以外的8个字节的统统都用空格字符填充<br>  如果主键已经指定了，那么row_id的列就不会自动添加</p>
 </blockquote>
-<h3 id="Redundant行格式"><a href="#Redundant行格式" class="headerlink" title="Redundant行格式"></a>Redundant行格式</h3><p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/4.png" alt="Redundant行格式"></p>
+<h3 id="Redundant行格式"><a href="#Redundant行格式" class="headerlink" title="Redundant行格式"></a>Redundant行格式</h3><p><img src="/2018/09/28/MySQL/数据库数据存储结构/4.png" alt="Redundant行格式"></p>
 <p>有些区别，不过大致相同。<br>采用了偏移量来实现，头信息中略有区别，NULL值也会存储。</p>
 <h2 id="行溢出数据"><a href="#行溢出数据" class="headerlink" title="行溢出数据"></a>行溢出数据</h2><h3 id="VARCHAR-M-最多能存储的数据"><a href="#VARCHAR-M-最多能存储的数据" class="headerlink" title="VARCHAR(M)最多能存储的数据"></a>VARCHAR(M)最多能存储的数据</h3><p>COMPACT行格式中，可变长的长度记录最多可以达到2个字节，也就是内容65535个字节，其中包括可变字符长度列表中长度的记录需要2个字节，NULL列表中的1个字节（非NULL则无），于是真实的内容占65532(或者65533),在不同的编码下对应的不同数量的字符长度。</p>
 <h3 id="记录中的数据太多产生的溢出"><a href="#记录中的数据太多产生的溢出" class="headerlink" title="记录中的数据太多产生的溢出"></a>记录中的数据太多产生的溢出</h3><ul>
 <li>而一个页的大小一般是16KB，也就是16384字节，而一个VARCHAR(M)类型的列就最多可以存储65532个字节，这样就可能造成一个页存放不了一条记录的尴尬情况。</li>
 <li>在Compact和Reduntant行格式中，对于占用存储空间非常大的列，在记录的真实数据处只会存储该列的一部分（768个字节）数据，把剩余的数据分散存储在几个连续的页中，只在记录的真实数据处用20个字节存储指向这些页的地址，从而可以找到剩余数据所在的页。</li>
 </ul>
-<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/5.png" alt="行溢出"></p>
+<p><img src="/2018/09/28/MySQL/数据库数据存储结构/5.png" alt="行溢出"></p>
 <p>除了varchar,text和blob类型都会有这个现象。</p>
 <h2 id="Dynamic和Compressed行格式"><a href="#Dynamic和Compressed行格式" class="headerlink" title="Dynamic和Compressed行格式"></a>Dynamic和Compressed行格式</h2><ul>
 <li>基本和COMPACT格式一样</li>
 <li>Dynamic和Compressed行格式，它们不会在记录的真实数据处存储字符串的前768个字节，而是把所有的字节都存储到其他页面中，只在记录的真实数据处存储其他页面的地址。</li>
 <li>Compressed行格式和Dynamic不同的一点是，Compressed行格式会把存储到其他页面的数据采用压缩算法进行压缩，以节省空间。</li>
 </ul>
-<h1 id="InnoDB数据页结构"><a href="#InnoDB数据页结构" class="headerlink" title="InnoDB数据页结构"></a>InnoDB数据页结构</h1><h2 id="数据页结构"><a href="#数据页结构" class="headerlink" title="数据页结构"></a>数据页结构</h2><p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/6.png" alt="数据页结构"></p>
-<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/7.png" alt="数据页结构"></p>
+<h1 id="InnoDB数据页结构"><a href="#InnoDB数据页结构" class="headerlink" title="InnoDB数据页结构"></a>InnoDB数据页结构</h1><h2 id="数据页结构"><a href="#数据页结构" class="headerlink" title="数据页结构"></a>数据页结构</h2><p><img src="/2018/09/28/MySQL/数据库数据存储结构/6.png" alt="数据页结构"></p>
+<p><img src="/2018/09/28/MySQL/数据库数据存储结构/7.png" alt="数据页结构"></p>
 <h2 id="记录行在页中的存储"><a href="#记录行在页中的存储" class="headerlink" title="记录行在页中的存储"></a>记录行在页中的存储</h2><p>用户的数据会按照指定的行格式存储到UserRecords中，这个部分一开始是不存在的，而是从Free Space这个部分中一点点的划分出。</p>
-<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/8.png" alt="记录在页中的存储"><br>那么记录行在页中是如何存储的呢？</p>
+<p><img src="/2018/09/28/MySQL/数据库数据存储结构/8.png" alt="记录在页中的存储"><br>那么记录行在页中是如何存储的呢？</p>
 <h2 id="记录头信息解析"><a href="#记录头信息解析" class="headerlink" title="记录头信息解析"></a>记录头信息解析</h2><p>再次回顾头信息里的字节含义：</p>
 <table>
 <thead>
@@ -605,13 +605,13 @@
 <li>record_type：0表示普通记录，1表示B+树非叶节点记录，2表示最小记录，3表示最大记录。</li>
 <li>next_record：记录在页中存储的数据结构类似于单链表，因此这个数据表示类似链表中的指针，大小表示从当前真实数据到下一个真实数据的距离。</li>
 </ul>
-<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/9.png" alt="记录存储结构"></p>
+<p><img src="/2018/09/28/MySQL/数据库数据存储结构/9.png" alt="记录存储结构"></p>
 <p>当记录被删除，并不会从页中立刻消失，而是地址的指向发生变化。</p>
-<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/10.png" alt="记录被删除后的变化"></p>
+<p><img src="/2018/09/28/MySQL/数据库数据存储结构/10.png" alt="记录被删除后的变化"></p>
 <p>如果我们想找某条数据，当然也可以遍历这条链表进行查找，但是这样效率不高。</p>
 <p>一个好的灵感来自书的目录，按章节区分，先确定所属的章，再从章中去找节。</p>
 <p>这个“章”在InnoDB中以偏移量来表示，称为“槽”。<br>槽中存放着所有正常记录（包括最小、最大不包括删除的记录）<br>每个槽的偏移量以最后一条记录的地址的偏移量来赋值。<br>最后一条记录中的n_owned表示在当前槽中有多少个记录。</p>
-<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/11.png" alt="优化记录搜索"></p>
+<p><img src="/2018/09/28/MySQL/数据库数据存储结构/11.png" alt="优化记录搜索"></p>
 <p>规定：对于最小记录所在的分组只能有 1 条记录，最大记录所在的分组拥有的记录条数只能在 1~8 条之间，剩下的分组中记录的条数范围只能在是 4~8 条之间。</p>
 <p>这样处理之后：查询的过程可以简化为下面两个步骤：</p>
 <ol>
@@ -704,12 +704,12 @@
 <li>PAGE_N_DIRECTION：假设连续几次插入新记录的方向都是一致的，InnoDB会把沿着同一个方向插入记录的条数记下来。</li>
 </ul>
 <h2 id="File-Header"><a href="#File-Header" class="headerlink" title="File Header"></a>File Header</h2><p>Page Header：记录页内的相关信息<br>File Header：记录页外的相关信息</p>
-<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/12.png" alt="文件头中的字节含义"></p>
+<p><img src="/2018/09/28/MySQL/数据库数据存储结构/12.png" alt="文件头中的字节含义"></p>
 <ul>
 <li>FIL_PAGE_SPACE_OR_CHKSUM：表示当前页面的校验和，对于一个很长很长的字节串来说，我们会通过某种算法来计算一个比较短的值来代表这个很长的字节串，这个比较短的值就称为校验和。比较页之前可以先比较校验和，如果校验和都不一致，那么页面一定不一样，可以大大的节省时间。</li>
 <li>FIL_PAGE_OFFSET：页号。唯一标识。</li>
 <li><p>FIL_PAGE_TYPE：一般存放记录的数据页的类型其实是FIL_PAGE_INDEX，也就是所谓的B+树叶子节点</p>
-<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/13.png" alt="页类型"></p>
+<p><img src="/2018/09/28/MySQL/数据库数据存储结构/13.png" alt="页类型"></p>
 </li>
 <li><p>FIL_PAGE_PREV和FIL_PAGE_NEXT：一张表中可以有成千上万条记录，一个页只有16KB，所以可能需要好多页来存放数据，FIL_PAGE_PREV和FIL_PAGE_NEXT就分别代表本页的上一个和下一个页的页号。需要注意的是，并不是所有类型的页都有上一个和下一个页的属性。</p>
 </li>
@@ -725,14 +725,14 @@
 </ul>
 <p>显然，这种查找的效率实在是太低了。</p>
 <h2 id="一个简单的索引"><a href="#一个简单的索引" class="headerlink" title="一个简单的索引"></a>一个简单的索引</h2><p>先来看一下页中记录的简化图：</p>
-<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/14.png" alt="页中记录的简化"></p>
+<p><img src="/2018/09/28/MySQL/数据库数据存储结构/14.png" alt="页中记录的简化"></p>
 <p>当一个页装不下之后会装到多个页中，并且这些页可能都是不连续的，但是满足<strong>下一个数据页中用户记录的主键值必须大于上一个页中用户记录的主键值</strong>这样的一个规律。效果如下：</p>
-<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/15.png" alt="分页记录效果"></p>
+<p><img src="/2018/09/28/MySQL/数据库数据存储结构/15.png" alt="分页记录效果"></p>
 <p>现在建立一个目录，目录中的每一项包含页数和最小主键值两项数据：</p>
-<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/16.png" alt="目录项"></p>
+<p><img src="/2018/09/28/MySQL/数据库数据存储结构/16.png" alt="目录项"></p>
 <p>这个目录就叫索引。</p>
 <h2 id="InnoDB中的索引方案"><a href="#InnoDB中的索引方案" class="headerlink" title="InnoDB中的索引方案"></a>InnoDB中的索引方案</h2><p>为了更灵活的管理目录项，采取页的方式同样的去存储目录的信息：</p>
-<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/17.png" alt="目录页"></p>
+<p><img src="/2018/09/28/MySQL/数据库数据存储结构/17.png" alt="目录页"></p>
 <p>如何区别页中的数据是用户数据还是目录数据？</p>
 <ul>
 <li>目录项记录行格式中的record_type为1。</li>
@@ -746,7 +746,7 @@
 <li>在页中做之前提到的单页查询。</li>
 </ol>
 <p>虽然说目录项记录中只存储主键值和对应的页号，比用户记录需要的存储空间小多了，但是不论怎么说一个页只有16KB大小，能存放的目录项记录也是有限的，如果目录项太多，一个页面放不下，就需要多个页面，这时候就需要采取同样的方式对多个目录页再建立一个目录页。</p>
-<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/18.png" alt="B+树"></p>
+<p><img src="/2018/09/28/MySQL/数据库数据存储结构/18.png" alt="B+树"></p>
 <p>实际用户记录其实都存放在B+树的最底层的节点上，这些节点也被称为叶子节点或叶节点。</p>
 <h3 id="聚簇索引"><a href="#聚簇索引" class="headerlink" title="聚簇索引"></a>聚簇索引</h3><ol>
 <li>按主键大小记录行和页。<ul>
@@ -758,7 +758,7 @@
 </ol>
 <p>这种聚簇索引并不需要我们在MySQL语句中显式的去创建，InnoDB存储引擎会自动的为我们创建聚簇索引。另外有趣的一点是，在InnoDB存储引擎中，聚簇索引就是数据的存储方式（所有的用户记录都存储在了叶子节点），也就是所谓的索引即数据。</p>
 <h3 id="二级索引"><a href="#二级索引" class="headerlink" title="二级索引"></a>二级索引</h3><p>聚簇索引通过主键大小顺序来记录，但是如果我们的查询条件不是主键，就不起作用了。<br>因此需要建立新的索引树，称为二级索引：</p>
-<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/19.png" alt="二级索引"></p>
+<p><img src="/2018/09/28/MySQL/数据库数据存储结构/19.png" alt="二级索引"></p>
 <p>与聚簇索引的区别：</p>
 <ol>
 <li>真实内容中只有主键和对应的索引列。</li>
@@ -766,9 +766,9 @@
 </ol>
 <p>因为二级索引的页节点中只有主键和对应的索引列，所以想要查询完整的数据，必须再根据主键值去聚簇索引中再查找一遍完整的用户记录。</p>
 <h3 id="联合索引"><a href="#联合索引" class="headerlink" title="联合索引"></a>联合索引</h3><p>使用多个列建立的二级索引就是联合索引。<br>联合索引先通过第一个字段顺序记录，在第一个记录大小一致的时候通过第二个字段顺序记录。</p>
-<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/20.png" alt="联合索引"></p>
+<p><img src="/2018/09/28/MySQL/数据库数据存储结构/20.png" alt="联合索引"></p>
 <h2 id="MyISAM中的索引方案"><a href="#MyISAM中的索引方案" class="headerlink" title="MyISAM中的索引方案"></a>MyISAM中的索引方案</h2><p>InnoDB中索引的叶节点中存储了所有的数据，因此索引即数据。<br>而MyISAM中索引和数据分开了。将表中的记录按照插入时间顺序的存储在一块存储空间上，可以通过行号来访问（定长的情况）。</p>
-<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/21.png" alt="MyISAM数据存储"></p>
+<p><img src="/2018/09/28/MySQL/数据库数据存储结构/21.png" alt="MyISAM数据存储"></p>
 <p>MyISAM一开始会为主键创建一个B+树索引，只是这个索引的数据只有主键和行号。中建立的索引全部都是二级索引</p>
 <h2 id="MySQL中创建和删除索引的语句"><a href="#MySQL中创建和删除索引的语句" class="headerlink" title="MySQL中创建和删除索引的语句"></a>MySQL中创建和删除索引的语句</h2><p>MySql会自动的为主键和UNIQUE字段建立聚簇索引。</p>
 <p>手动创建：</p>
@@ -857,7 +857,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/09/29/MySQL/MySQL存储程序/存储程序/" rel="prev" title="存储程序">
+              <a href="/2018/09/29/MySQL/存储程序/" rel="prev" title="存储程序">
                 存储程序 <i class="fa fa-chevron-right"></i>
               </a>
             

@@ -118,17 +118,17 @@
 <meta name="keywords" content="MySQL存储程序">
 <meta property="og:type" content="article">
 <meta property="og:title" content="存储程序">
-<meta property="og:url" content="https://sunyi720.github.io/2018/09/29/MySQL/MySQL存储程序/存储程序/index.html">
+<meta property="og:url" content="https://sunyi720.github.io/2018/09/29/MySQL/存储程序/index.html">
 <meta property="og:site_name" content="Sun">
 <meta property="og:description" content="存储程序结构：  自定义变量MySQL中有变量吗？ MySQL中的变量关键词是@  常量赋值：SET @a = 1 or SET @a=”abc” 变量赋值：SET @a = @b sql语句赋值：SET @a = (SELECT..) (要求sql语句的返回结果只有一个) sql语句赋值除了使用SET 和 “=”，还可以使用INTO,如(SELECT..) INTO @a,使用INTO可以一次赋">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://sunyi720.github.io/2018/09/29/MySQL/MySQL存储程序/存储程序/png1/1.png">
-<meta property="og:image" content="https://sunyi720.github.io/2018/09/29/MySQL/MySQL存储程序/存储程序/png1/2.png">
-<meta property="og:updated_time" content="2018-10-12T06:34:08.370Z">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/29/MySQL/存储程序/1.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/29/MySQL/存储程序/2.png">
+<meta property="og:updated_time" content="2019-10-28T06:13:05.173Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="存储程序">
 <meta name="twitter:description" content="存储程序结构：  自定义变量MySQL中有变量吗？ MySQL中的变量关键词是@  常量赋值：SET @a = 1 or SET @a=”abc” 变量赋值：SET @a = @b sql语句赋值：SET @a = (SELECT..) (要求sql语句的返回结果只有一个) sql语句赋值除了使用SET 和 “=”，还可以使用INTO,如(SELECT..) INTO @a,使用INTO可以一次赋">
-<meta name="twitter:image" content="https://sunyi720.github.io/2018/09/29/MySQL/MySQL存储程序/存储程序/png1/1.png">
+<meta name="twitter:image" content="https://sunyi720.github.io/2018/09/29/MySQL/存储程序/1.png">
 
 
 
@@ -158,7 +158,7 @@
 
 
 
-  <link rel="canonical" href="https://sunyi720.github.io/2018/09/29/MySQL/MySQL存储程序/存储程序/">
+  <link rel="canonical" href="https://sunyi720.github.io/2018/09/29/MySQL/存储程序/">
 
 
 
@@ -293,7 +293,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2018/09/29/MySQL/MySQL存储程序/存储程序/">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2018/09/29/MySQL/存储程序/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sun">
@@ -362,7 +362,7 @@
 
           
           
-             <span id="/2018/09/29/MySQL/MySQL存储程序/存储程序/" class="leancloud_visitors" data-flag-title="存储程序">
+             <span id="/2018/09/29/MySQL/存储程序/" class="leancloud_visitors" data-flag-title="存储程序">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -394,7 +394,7 @@
 
       
         <h1 id="存储程序"><a href="#存储程序" class="headerlink" title="存储程序"></a>存储程序</h1><p>结构：</p>
-<p><img src="/2018/09/29/MySQL/MySQL存储程序/存储程序/png1/1.png" alt="存储程序结构"></p>
+<p><img src="/2018/09/29/MySQL/存储程序/1.png" alt="存储程序结构"></p>
 <h2 id="自定义变量"><a href="#自定义变量" class="headerlink" title="自定义变量"></a>自定义变量</h2><p><strong>MySQL中有变量吗？</strong></p>
 <p>MySQL中的变量关键词是<strong>@</strong></p>
 <ul>
@@ -503,7 +503,7 @@
 <p>有下面两种语法：<br>DECLARE CONTINUE HANDLER FOR NOT FOUND 可执行语句;<br>DECLARE EXIT HANDLER FOR NOT FOUND 可执行语句;<br>这个语句的含义是使用“FETCH”时，如果检查到当前游标指向是null，则执行后面的语句。<br>上面两个的区别类似JAVA中的continue和break</p>
 <p>案例1：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">CREATE PROCEDURE cursor_demo()</span><br><span class="line">BEGIN</span><br><span class="line">    -- 声明变量</span><br><span class="line">    DECLARE m_value INT;</span><br><span class="line">    DECLARE n_value CHAR(1);</span><br><span class="line">    DECLARE not_done INT DEFAULT 1;</span><br><span class="line"></span><br><span class="line">    -- 声明游标</span><br><span class="line">    DECLARE t1_record_cursor CURSOR FOR SELECT m1, n1 FROM t1;</span><br><span class="line"></span><br><span class="line">    -- 在游标遍历完记录的时候将变量 not_done 的值设置为 0，并且继续执行后边的语句</span><br><span class="line">    DECLARE CONTINUE HANDLER FOR NOT FOUND SET not_done = 0;  </span><br><span class="line"></span><br><span class="line">    -- 使用游标遍历</span><br><span class="line">    OPEN t1_record_cursor;</span><br><span class="line"></span><br><span class="line">    WHILE not_done = 1 DO</span><br><span class="line">        FETCH t1_record_cursor INTO m_value, n_value;</span><br><span class="line">        SELECT m_value, n_value, not_done;</span><br><span class="line">    END WHILE;</span><br><span class="line"></span><br><span class="line">    CLOSE t1_record_cursor;</span><br><span class="line">END</span><br></pre></td></tr></table></figure></p>
 <p>结果：</p>
-<p><img src="/2018/09/29/MySQL/MySQL存储程序/存储程序/png1/2.png" alt="案例1"></p>
+<p><img src="/2018/09/29/MySQL/存储程序/2.png" alt="案例1"></p>
 <p>分析一下：使用CONTINUE的方式，最后一行会执行两次，为什么？</p>
 <p>案例2：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">CREATE PROCEDURE cursor_demo()</span><br><span class="line">BEGIN</span><br><span class="line">    -- 声明变量</span><br><span class="line">    DECLARE m_value INT;</span><br><span class="line">    DECLARE n_value CHAR(1);</span><br><span class="line">    DECLARE not_done INT DEFAULT 1;</span><br><span class="line"></span><br><span class="line">    -- 声明游标</span><br><span class="line">    DECLARE t1_record_cursor CURSOR FOR SELECT m1, n1 FROM t1;</span><br><span class="line"></span><br><span class="line">    -- 在游标遍历完记录的时候将变量 not_done 的值设置为 0，并且不再执行后边的语句</span><br><span class="line">    DECLARE EXIT HANDLER FOR NOT FOUND SET not_done = 0;</span><br><span class="line"></span><br><span class="line">    -- 使用游标遍历</span><br><span class="line">    OPEN t1_record_cursor;</span><br><span class="line"></span><br><span class="line">    WHILE not_done = 1 DO</span><br><span class="line">        FETCH t1_record_cursor INTO m_value, n_value;</span><br><span class="line">        SELECT m_value, n_value, not_done;</span><br><span class="line">    END WHILE;</span><br><span class="line"></span><br><span class="line">    CLOSE t1_record_cursor;</span><br><span class="line">END</span><br></pre></td></tr></table></figure>
@@ -615,8 +615,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/" rel="next" title="数据库InnoDB数据存储、页结构以及MySQL索引">
-                <i class="fa fa-chevron-left"></i> 数据库InnoDB数据存储、页结构以及MySQL索引
+              <a href="/2018/09/28/MySQL/数据库数据存储结构/" rel="next" title="数据库数据存储结构">
+                <i class="fa fa-chevron-left"></i> 数据库数据存储结构
               </a>
             
           </div>
