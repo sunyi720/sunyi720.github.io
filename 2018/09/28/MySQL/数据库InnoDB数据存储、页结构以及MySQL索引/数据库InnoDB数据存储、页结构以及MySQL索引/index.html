@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.google.com//css?family=ZCOOL KuaiLe:300,300italic,400,400italic,700,700italicNoto Serif SC:300,300italic,400,400italic,700,700italicMoul:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="MySQL索引,InnoDB记录存储结构,InnoDB数据页结构,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="InnoDB记录存储结构InnoDB页将数据划分为若干个页，以页作为磁盘和内存之间交互的基本单位，InnoDB中页的大小一般为 16KB 行格式数据在磁盘上存储的格式也叫做行格式InnoDB的设计者设计了多种行格式，主要的有下面4种。 两个问题：  行格式中计算机如何区别每个部分？ 列中名字如何和数据对应起来？  COMPACT行格式 额外信息：服务器为了描述这条记录而不得不额外添加的一些信息。">
+<meta name="keywords" content="MySQL索引,InnoDB记录存储结构,InnoDB数据页结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库InnoDB数据存储、页结构以及MySQL索引">
+<meta property="og:url" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/index.html">
+<meta property="og:site_name" content="Sun">
+<meta property="og:description" content="InnoDB记录存储结构InnoDB页将数据划分为若干个页，以页作为磁盘和内存之间交互的基本单位，InnoDB中页的大小一般为 16KB 行格式数据在磁盘上存储的格式也叫做行格式InnoDB的设计者设计了多种行格式，主要的有下面4种。 两个问题：  行格式中计算机如何区别每个部分？ 列中名字如何和数据对应起来？  COMPACT行格式 额外信息：服务器为了描述这条记录而不得不额外添加的一些信息。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/1.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/2.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/3.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/4.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/5.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/6.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/7.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/8.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/9.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/10.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/11.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/12.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/13.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/14.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/15.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/16.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/17.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/18.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/19.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/20.png">
+<meta property="og:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/21.png">
+<meta property="og:updated_time" content="2018-09-29T07:44:17.238Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据库InnoDB数据存储、页结构以及MySQL索引">
+<meta name="twitter:description" content="InnoDB记录存储结构InnoDB页将数据划分为若干个页，以页作为磁盘和内存之间交互的基本单位，InnoDB中页的大小一般为 16KB 行格式数据在磁盘上存储的格式也叫做行格式InnoDB的设计者设计了多种行格式，主要的有下面4种。 两个问题：  行格式中计算机如何区别每个部分？ 列中名字如何和数据对应起来？  COMPACT行格式 额外信息：服务器为了描述这条记录而不得不额外添加的一些信息。">
+<meta name="twitter:image" content="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":20},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/">
+
+
+
+
+
+  <title>数据库InnoDB数据存储、页结构以及MySQL索引 | Sun</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sun</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数字人生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数据库InnoDB数据存储、页结构以及MySQL索引</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-28T00:00:00+08:00">
+                2018-09-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/" class="leancloud_visitors" data-flag-title="数据库InnoDB数据存储、页结构以及MySQL索引">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="InnoDB记录存储结构"><a href="#InnoDB记录存储结构" class="headerlink" title="InnoDB记录存储结构"></a>InnoDB记录存储结构</h1><h2 id="InnoDB页"><a href="#InnoDB页" class="headerlink" title="InnoDB页"></a>InnoDB页</h2><p>将数据划分为若干个页，以页作为磁盘和内存之间交互的基本单位，InnoDB中页的大小一般为 16KB</p>
+<h2 id="行格式"><a href="#行格式" class="headerlink" title="行格式"></a>行格式</h2><p>数据在磁盘上存储的格式也叫做行格式<br>InnoDB的设计者设计了多种行格式，主要的有下面4种。</p>
+<p>两个问题：</p>
+<ol>
+<li>行格式中计算机如何区别每个部分？</li>
+<li>列中名字如何和数据对应起来？</li>
+</ol>
+<h3 id="COMPACT行格式"><a href="#COMPACT行格式" class="headerlink" title="COMPACT行格式"></a>COMPACT行格式</h3><p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/1.png" alt="compact行格式"></p>
+<p>额外信息：服务器为了描述这条记录而不得不额外添加的一些信息。</p>
+<ul>
+<li><p>变长字段长度列表：把所有变长类型实际长度都存放在记录的开头部位形成一个列表，按照列的顺序逆序存放。</p>
+<blockquote>
+<p>实际长度大于1个字节会用两个字节，具体是使用一个字节还是两个字节取决内容的实际长度。判断规则：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//W=表示编码格式，ASCII-1，GBK-2,UTF8-3,</span><br><span class="line">//M=表示变长的最大字符</span><br><span class="line">//L=表示实际字节数</span><br><span class="line">if W_M&amp;lt;256:1个字节</span><br><span class="line">if W_M&gt;=256</span><br><span class="line">&#123;</span><br><span class="line">  L&amp;lt;128:1个字节</span><br><span class="line">  L&gt;=128:2个字节</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><p>NULL值列表：记录数据为NULL的列</p>
+<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/2.png" alt="NULL列表"></p>
+<ol>
+<li>先统计允许存储NULL的列，如果表中没有允许存储 NULL 的列，则 NULL值列表 也不存在了。</li>
+<li>将每个允许存储NULL的列对应一个二进制位，二进制位按照列的顺序逆序排列。</li>
+<li>MySQL规定NULL值列表必须用整数个字节的位表示，如果使用的二进制位个数不是整数个字节，则在字节的高位补0。</li>
+</ol>
+</li>
+<li><p>记录头信息：</p>
+<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/3.png" alt="记录头信息"></p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>大小（单位：bit）</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Retention 1</td>
+<td>1</td>
+<td>没有使用</td>
+</tr>
+<tr>
+<td>Retention 2</td>
+<td>1</td>
+<td>没有使用</td>
+</tr>
+<tr>
+<td>delete_mask</td>
+<td>1</td>
+<td>标记该记录是否被删除</td>
+</tr>
+<tr>
+<td>min_rec_mask</td>
+<td>1</td>
+<td>标记该记录是否为B+树的非叶子节点中的最小记录</td>
+</tr>
+<tr>
+<td>n_owned</td>
+<td>4</td>
+<td>表示当前槽管理的记录数</td>
+</tr>
+<tr>
+<td>heap_no</td>
+<td>13</td>
+<td>表示当前记录在记录堆的位置信息</td>
+</tr>
+<tr>
+<td>record_type</td>
+<td>3</td>
+<td>表示当前记录的类型，0表示普通记录，1表示B+树非叶节点记录，2表示最小记录，3表示最大记录</td>
+</tr>
+<tr>
+<td>next_record</td>
+<td>16</td>
+<td>表示下一条记录的相对位置</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>数据信息：mysql会为每个记录增加默认列</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>列名</th>
+<th>是否必须</th>
+<th>占用空间</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>row_id</td>
+<td>否</td>
+<td>6字节</td>
+<td>行ID，唯一标识一条记录</td>
+</tr>
+<tr>
+<td>transaction_id</td>
+<td>是</td>
+<td>6字节</td>
+<td>事务ID</td>
+</tr>
+<tr>
+<td>roll_pointer</td>
+<td>是</td>
+<td>7字节</td>
+<td>回滚指针</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>  注意：<br>  CHAR(10)类型，除真实数据以外的8个字节的统统都用空格字符填充<br>  如果主键已经指定了，那么row_id的列就不会自动添加</p>
+</blockquote>
+<h3 id="Redundant行格式"><a href="#Redundant行格式" class="headerlink" title="Redundant行格式"></a>Redundant行格式</h3><p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/4.png" alt="Redundant行格式"></p>
+<p>有些区别，不过大致相同。<br>采用了偏移量来实现，头信息中略有区别，NULL值也会存储。</p>
+<h2 id="行溢出数据"><a href="#行溢出数据" class="headerlink" title="行溢出数据"></a>行溢出数据</h2><h3 id="VARCHAR-M-最多能存储的数据"><a href="#VARCHAR-M-最多能存储的数据" class="headerlink" title="VARCHAR(M)最多能存储的数据"></a>VARCHAR(M)最多能存储的数据</h3><p>COMPACT行格式中，可变长的长度记录最多可以达到2个字节，也就是内容65535个字节，其中包括可变字符长度列表中长度的记录需要2个字节，NULL列表中的1个字节（非NULL则无），于是真实的内容占65532(或者65533),在不同的编码下对应的不同数量的字符长度。</p>
+<h3 id="记录中的数据太多产生的溢出"><a href="#记录中的数据太多产生的溢出" class="headerlink" title="记录中的数据太多产生的溢出"></a>记录中的数据太多产生的溢出</h3><ul>
+<li>而一个页的大小一般是16KB，也就是16384字节，而一个VARCHAR(M)类型的列就最多可以存储65532个字节，这样就可能造成一个页存放不了一条记录的尴尬情况。</li>
+<li>在Compact和Reduntant行格式中，对于占用存储空间非常大的列，在记录的真实数据处只会存储该列的一部分（768个字节）数据，把剩余的数据分散存储在几个连续的页中，只在记录的真实数据处用20个字节存储指向这些页的地址，从而可以找到剩余数据所在的页。</li>
+</ul>
+<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/5.png" alt="行溢出"></p>
+<p>除了varchar,text和blob类型都会有这个现象。</p>
+<h2 id="Dynamic和Compressed行格式"><a href="#Dynamic和Compressed行格式" class="headerlink" title="Dynamic和Compressed行格式"></a>Dynamic和Compressed行格式</h2><ul>
+<li>基本和COMPACT格式一样</li>
+<li>Dynamic和Compressed行格式，它们不会在记录的真实数据处存储字符串的前768个字节，而是把所有的字节都存储到其他页面中，只在记录的真实数据处存储其他页面的地址。</li>
+<li>Compressed行格式和Dynamic不同的一点是，Compressed行格式会把存储到其他页面的数据采用压缩算法进行压缩，以节省空间。</li>
+</ul>
+<h1 id="InnoDB数据页结构"><a href="#InnoDB数据页结构" class="headerlink" title="InnoDB数据页结构"></a>InnoDB数据页结构</h1><h2 id="数据页结构"><a href="#数据页结构" class="headerlink" title="数据页结构"></a>数据页结构</h2><p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/6.png" alt="数据页结构"></p>
+<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/7.png" alt="数据页结构"></p>
+<h2 id="记录行在页中的存储"><a href="#记录行在页中的存储" class="headerlink" title="记录行在页中的存储"></a>记录行在页中的存储</h2><p>用户的数据会按照指定的行格式存储到UserRecords中，这个部分一开始是不存在的，而是从Free Space这个部分中一点点的划分出。</p>
+<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/8.png" alt="记录在页中的存储"><br>那么记录行在页中是如何存储的呢？</p>
+<h2 id="记录头信息解析"><a href="#记录头信息解析" class="headerlink" title="记录头信息解析"></a>记录头信息解析</h2><p>再次回顾头信息里的字节含义：</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>大小（单位：bit）</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Retention1</td>
+<td>1</td>
+<td>没有使用</td>
+</tr>
+<tr>
+<td>Retention2</td>
+<td>1</td>
+<td>没有使用</td>
+</tr>
+<tr>
+<td>delete_mask</td>
+<td>1</td>
+<td>标记该记录是否被删除</td>
+</tr>
+<tr>
+<td>min_rec_mask</td>
+<td>1</td>
+<td>标记该记录是否为B+树的非叶子节点中的最小记录</td>
+</tr>
+<tr>
+<td>n_owned</td>
+<td>4</td>
+<td>表示当前槽管理的记录数</td>
+</tr>
+<tr>
+<td>heap_no</td>
+<td>13</td>
+<td>表示当前记录在记录堆的位置信息</td>
+</tr>
+<tr>
+<td>record_type</td>
+<td>3</td>
+<td>表示当前记录的类型，0表示普通记录，1表示B+树非叶节点记录，2表示最小记录，3表示最大记录</td>
+</tr>
+<tr>
+<td>next_record</td>
+<td>16</td>
+<td>表示下一条记录的相对位置</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>delete_mask：该记录行是否删除，删除的数据并不会立刻消息，而是标记，待重排列的时候统一处理，另外，已删除的数据空间是可以被覆盖的。</li>
+<li>min_rec_mask：这个属性标记该记录是否为B+树的非叶子节点中的最小记录，之后详解。</li>
+<li>n_owned：当前页管理的记录数，待详解。</li>
+<li>heap_no：表示该记录在页中的（相对）位置，从2开始，因为在infimum+supremum中已经存在了两条“最小记录”和“最大记录”的记录。</li>
+<li>record_type：0表示普通记录，1表示B+树非叶节点记录，2表示最小记录，3表示最大记录。</li>
+<li>next_record：记录在页中存储的数据结构类似于单链表，因此这个数据表示类似链表中的指针，大小表示从当前真实数据到下一个真实数据的距离。</li>
+</ul>
+<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/9.png" alt="记录存储结构"></p>
+<p>当记录被删除，并不会从页中立刻消失，而是地址的指向发生变化。</p>
+<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/10.png" alt="记录被删除后的变化"></p>
+<p>如果我们想找某条数据，当然也可以遍历这条链表进行查找，但是这样效率不高。</p>
+<p>一个好的灵感来自书的目录，按章节区分，先确定所属的章，再从章中去找节。</p>
+<p>这个“章”在InnoDB中以偏移量来表示，称为“槽”。<br>槽中存放着所有正常记录（包括最小、最大不包括删除的记录）<br>每个槽的偏移量以最后一条记录的地址的偏移量来赋值。<br>最后一条记录中的n_owned表示在当前槽中有多少个记录。</p>
+<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/11.png" alt="优化记录搜索"></p>
+<p>规定：对于最小记录所在的分组只能有 1 条记录，最大记录所在的分组拥有的记录条数只能在 1~8 条之间，剩下的分组中记录的条数范围只能在是 4~8 条之间。</p>
+<p>这样处理之后：查询的过程可以简化为下面两个步骤：</p>
+<ol>
+<li>通过二分法确定该记录所在的槽。</li>
+<li>通过记录的next_record属性组成的链表遍历查找该槽中的各个记录</li>
+</ol>
+<h2 id="Page-Header"><a href="#Page-Header" class="headerlink" title="Page Header"></a>Page Header</h2><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>占用空间大小</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PAGE_N_DIR_SLOTS</td>
+<td>2字节</td>
+<td>在页目录中的槽数量</td>
+</tr>
+<tr>
+<td>PAGE_HEAP_TOP</td>
+<td>2字节</td>
+<td>第一个记录的地址</td>
+</tr>
+<tr>
+<td>PAGE_N_HEAP</td>
+<td>2字节</td>
+<td>本页中的记录的数量（包括最小和最大记录以及标记为删除的记录v）</td>
+</tr>
+<tr>
+<td>PAGE_FREE</td>
+<td>2字节</td>
+<td>指向可重用空间的地址（就是标记为删除的记录地址）</td>
+</tr>
+<tr>
+<td>PAGE_GARBAGE</td>
+<td>2字节</td>
+<td>已删除的字节数，行记录结构中delete_flag为1的记录大小总数</td>
+</tr>
+<tr>
+<td>PAGE_LAST_INSERT</td>
+<td>2字节</td>
+<td>最后插入记录的位置</td>
+</tr>
+<tr>
+<td>PAGE_DIRECTION</td>
+<td>2字节</td>
+<td>最后插入的方向</td>
+</tr>
+<tr>
+<td>PAGE_N_DIRECTION</td>
+<td>2字节</td>
+<td>一个方向连续插入的记录数量</td>
+</tr>
+<tr>
+<td>PAGE_N_RECS</td>
+<td>2字节</td>
+<td>该页中记录的数量（不包括最小和最大记录以及被标记为删除的记录）</td>
+</tr>
+<tr>
+<td>PAGE_MAX_TRX_ID</td>
+<td>8字节</td>
+<td>修改当前页的最大事务ID，该值仅在二级索引中定义</td>
+</tr>
+<tr>
+<td>PAGE_LEVEL</td>
+<td>2字节</td>
+<td>当前页在索引树中的位置，高度</td>
+</tr>
+<tr>
+<td>PAGE_INDEX_ID</td>
+<td>8字节</td>
+<td>索引ID，表示当前页属于哪个索引</td>
+</tr>
+<tr>
+<td>PAGE_BTR</td>
+<td>10字节</td>
+<td>非叶节点所在段的segment header，仅在B+树的Root页定义</td>
+</tr>
+<tr>
+<td>PAGE_LEVEL</td>
+<td>10字节</td>
+<td>B+树所在段的segment header，仅在B+树的Root页定义</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>PAGE_DIRECTION:新插入的一条记录的主键值比上一条记录的主键值大，我们说这条记录的插入方向是右边，反之则是左边。</li>
+<li>PAGE_N_DIRECTION：假设连续几次插入新记录的方向都是一致的，InnoDB会把沿着同一个方向插入记录的条数记下来。</li>
+</ul>
+<h2 id="File-Header"><a href="#File-Header" class="headerlink" title="File Header"></a>File Header</h2><p>Page Header：记录页内的相关信息<br>File Header：记录页外的相关信息</p>
+<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/12.png" alt="文件头中的字节含义"></p>
+<ul>
+<li>FIL_PAGE_SPACE_OR_CHKSUM：表示当前页面的校验和，对于一个很长很长的字节串来说，我们会通过某种算法来计算一个比较短的值来代表这个很长的字节串，这个比较短的值就称为校验和。比较页之前可以先比较校验和，如果校验和都不一致，那么页面一定不一样，可以大大的节省时间。</li>
+<li>FIL_PAGE_OFFSET：页号。唯一标识。</li>
+<li><p>FIL_PAGE_TYPE：一般存放记录的数据页的类型其实是FIL_PAGE_INDEX，也就是所谓的B+树叶子节点</p>
+<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/13.png" alt="页类型"></p>
+</li>
+<li><p>FIL_PAGE_PREV和FIL_PAGE_NEXT：一张表中可以有成千上万条记录，一个页只有16KB，所以可能需要好多页来存放数据，FIL_PAGE_PREV和FIL_PAGE_NEXT就分别代表本页的上一个和下一个页的页号。需要注意的是，并不是所有类型的页都有上一个和下一个页的属性。</p>
+</li>
+</ul>
+<h2 id="File-Trailer"><a href="#File-Trailer" class="headerlink" title="File Trailer"></a>File Trailer</h2><p>如果在数据同步的过程中断电了怎么办？<br>在页尾同样加上4个字节的校验和做前后对比，判断数据是否正常。<br>另外还有4个字节的LSN日志序列位置，用来处理如果前后校验和不一致的时候，来回滚数据。</p>
+<h1 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h1><h2 id="没有索引的情况"><a href="#没有索引的情况" class="headerlink" title="没有索引的情况"></a>没有索引的情况</h2><ul>
+<li>单页查找：<ol>
+<li>以主键为搜索条件：之前讲过页目录和槽的概念，因此这里可以使用目录页的二分法来快速定位。　</li>
+<li>以其它列为搜索条件：这时候没有建立相应的目录，因此需要从从最小记录开始全部遍历一遍。</li>
+</ol>
+</li>
+<li>多页查找：<br>由于我们并不能快速的定位到记录所在的页，所以只能从第一个页沿着双向链表一直往下找，在每一个页中根据单页查找的方式去查找指定的记录。</li>
+</ul>
+<p>显然，这种查找的效率实在是太低了。</p>
+<h2 id="一个简单的索引"><a href="#一个简单的索引" class="headerlink" title="一个简单的索引"></a>一个简单的索引</h2><p>先来看一下页中记录的简化图：</p>
+<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/14.png" alt="页中记录的简化"></p>
+<p>当一个页装不下之后会装到多个页中，并且这些页可能都是不连续的，但是满足<strong>下一个数据页中用户记录的主键值必须大于上一个页中用户记录的主键值</strong>这样的一个规律。效果如下：</p>
+<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/15.png" alt="分页记录效果"></p>
+<p>现在建立一个目录，目录中的每一项包含页数和最小主键值两项数据：</p>
+<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/16.png" alt="目录项"></p>
+<p>这个目录就叫索引。</p>
+<h2 id="InnoDB中的索引方案"><a href="#InnoDB中的索引方案" class="headerlink" title="InnoDB中的索引方案"></a>InnoDB中的索引方案</h2><p>为了更灵活的管理目录项，采取页的方式同样的去存储目录的信息：</p>
+<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/17.png" alt="目录页"></p>
+<p>如何区别页中的数据是用户数据还是目录数据？</p>
+<ul>
+<li>目录项记录行格式中的record_type为1。</li>
+<li>目录项记录主键值和页的编号两个列。</li>
+<li>只有在存储目录项记录的页中的主键值最小的目录项记录的min_rec_mask值为1，其他别的记录的min_rec_mask值都是0。</li>
+</ul>
+<p>除此之外没有其他区别，他们的页面类型都是0x45BF</p>
+<p>再做查询：</p>
+<ol>
+<li>先查询记录存在的页（由于不唯一，可能存在多个页中）</li>
+<li>在页中做之前提到的单页查询。</li>
+</ol>
+<p>虽然说目录项记录中只存储主键值和对应的页号，比用户记录需要的存储空间小多了，但是不论怎么说一个页只有16KB大小，能存放的目录项记录也是有限的，如果目录项太多，一个页面放不下，就需要多个页面，这时候就需要采取同样的方式对多个目录页再建立一个目录页。</p>
+<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/18.png" alt="B+树"></p>
+<p>实际用户记录其实都存放在B+树的最底层的节点上，这些节点也被称为叶子节点或叶节点。</p>
+<h3 id="聚簇索引"><a href="#聚簇索引" class="headerlink" title="聚簇索引"></a>聚簇索引</h3><ol>
+<li>按主键大小记录行和页。<ul>
+<li>页内按主键大小顺序构成单链表</li>
+<li>页之前按主键大小顺序构成双链表</li>
+</ul>
+</li>
+<li>B+树的叶子节点存储的是完整的用户记录。</li>
+</ol>
+<p>这种聚簇索引并不需要我们在MySQL语句中显式的去创建，InnoDB存储引擎会自动的为我们创建聚簇索引。另外有趣的一点是，在InnoDB存储引擎中，聚簇索引就是数据的存储方式（所有的用户记录都存储在了叶子节点），也就是所谓的索引即数据。</p>
+<h3 id="二级索引"><a href="#二级索引" class="headerlink" title="二级索引"></a>二级索引</h3><p>聚簇索引通过主键大小顺序来记录，但是如果我们的查询条件不是主键，就不起作用了。<br>因此需要建立新的索引树，称为二级索引：</p>
+<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/19.png" alt="二级索引"></p>
+<p>与聚簇索引的区别：</p>
+<ol>
+<li>真实内容中只有主键和对应的索引列。</li>
+<li>以索引列的大小进行记录。</li>
+</ol>
+<p>因为二级索引的页节点中只有主键和对应的索引列，所以想要查询完整的数据，必须再根据主键值去聚簇索引中再查找一遍完整的用户记录。</p>
+<h3 id="联合索引"><a href="#联合索引" class="headerlink" title="联合索引"></a>联合索引</h3><p>使用多个列建立的二级索引就是联合索引。<br>联合索引先通过第一个字段顺序记录，在第一个记录大小一致的时候通过第二个字段顺序记录。</p>
+<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/20.png" alt="联合索引"></p>
+<h2 id="MyISAM中的索引方案"><a href="#MyISAM中的索引方案" class="headerlink" title="MyISAM中的索引方案"></a>MyISAM中的索引方案</h2><p>InnoDB中索引的叶节点中存储了所有的数据，因此索引即数据。<br>而MyISAM中索引和数据分开了。将表中的记录按照插入时间顺序的存储在一块存储空间上，可以通过行号来访问（定长的情况）。</p>
+<p><img src="/2018/09/28/MySQL/数据库InnoDB数据存储、页结构以及MySQL索引/数据库InnoDB数据存储、页结构以及MySQL索引/png1/21.png" alt="MyISAM数据存储"></p>
+<p>MyISAM一开始会为主键创建一个B+树索引，只是这个索引的数据只有主键和行号。中建立的索引全部都是二级索引</p>
+<h2 id="MySQL中创建和删除索引的语句"><a href="#MySQL中创建和删除索引的语句" class="headerlink" title="MySQL中创建和删除索引的语句"></a>MySQL中创建和删除索引的语句</h2><p>MySql会自动的为主键和UNIQUE字段建立聚簇索引。</p>
+<p>手动创建：</p>
+<ol>
+<li>建表时：INDEX 索引名 (需要被索引的单个列或多个列)</li>
+<li>建表后：ALTER TABLE 表名 ADD [INDEX|KEY] 索引名 (需要被索引的单个列或多个列)</li>
+</ol>
+<p>手动删除：<br>ALTER TABLE 表名 DROP [INDEX|KEY] 索引名;</p>
+
+      
+    </div>
+    
+    
+    
+
+	
+	<div>
+      
+        
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Sun 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Sun 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MySQL索引/" rel="tag"><i class="fa fa-tag"></i> MySQL索引</a>
+          
+            <a href="/tags/InnoDB记录存储结构/" rel="tag"><i class="fa fa-tag"></i> InnoDB记录存储结构</a>
+          
+            <a href="/tags/InnoDB数据页结构/" rel="tag"><i class="fa fa-tag"></i> InnoDB数据页结构</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/30/cmpNet/计算机网络自顶向下：第一章-概论/" rel="next" title="计算机网络自顶向下：第一章-概论">
+                <i class="fa fa-chevron-left"></i> 计算机网络自顶向下：第一章-概论
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/29/MySQL/MySQL存储程序/存储程序/" rel="prev" title="存储程序">
+                存储程序 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjMzMS8xMjg2Ng=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/head.png" alt="Sun">
+            
+              <p class="site-author-name" itemprop="name">Sun</p>
+              <p class="site-description motion-element" itemprop="description">Lv.0</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/sunyi720" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#InnoDB记录存储结构"><span class="nav-number">1.</span> <span class="nav-text">InnoDB记录存储结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#InnoDB页"><span class="nav-number">1.1.</span> <span class="nav-text">InnoDB页</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#行格式"><span class="nav-number">1.2.</span> <span class="nav-text">行格式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#COMPACT行格式"><span class="nav-number">1.2.1.</span> <span class="nav-text">COMPACT行格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redundant行格式"><span class="nav-number">1.2.2.</span> <span class="nav-text">Redundant行格式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#行溢出数据"><span class="nav-number">1.3.</span> <span class="nav-text">行溢出数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#VARCHAR-M-最多能存储的数据"><span class="nav-number">1.3.1.</span> <span class="nav-text">VARCHAR(M)最多能存储的数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#记录中的数据太多产生的溢出"><span class="nav-number">1.3.2.</span> <span class="nav-text">记录中的数据太多产生的溢出</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dynamic和Compressed行格式"><span class="nav-number">1.4.</span> <span class="nav-text">Dynamic和Compressed行格式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#InnoDB数据页结构"><span class="nav-number">2.</span> <span class="nav-text">InnoDB数据页结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据页结构"><span class="nav-number">2.1.</span> <span class="nav-text">数据页结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#记录行在页中的存储"><span class="nav-number">2.2.</span> <span class="nav-text">记录行在页中的存储</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#记录头信息解析"><span class="nav-number">2.3.</span> <span class="nav-text">记录头信息解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Page-Header"><span class="nav-number">2.4.</span> <span class="nav-text">Page Header</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#File-Header"><span class="nav-number">2.5.</span> <span class="nav-text">File Header</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#File-Trailer"><span class="nav-number">2.6.</span> <span class="nav-text">File Trailer</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#索引"><span class="nav-number">3.</span> <span class="nav-text">索引</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#没有索引的情况"><span class="nav-number">3.1.</span> <span class="nav-text">没有索引的情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个简单的索引"><span class="nav-number">3.2.</span> <span class="nav-text">一个简单的索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#InnoDB中的索引方案"><span class="nav-number">3.3.</span> <span class="nav-text">InnoDB中的索引方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#聚簇索引"><span class="nav-number">3.3.1.</span> <span class="nav-text">聚簇索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二级索引"><span class="nav-number">3.3.2.</span> <span class="nav-text">二级索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#联合索引"><span class="nav-number">3.3.3.</span> <span class="nav-text">联合索引</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MyISAM中的索引方案"><span class="nav-number">3.4.</span> <span class="nav-text">MyISAM中的索引方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL中创建和删除索引的语句"><span class="nav-number">3.5.</span> <span class="nav-text">MySQL中创建和删除索引的语句</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sun</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("iTVMQ8rz1NpV1RJ716VOA2rG-gzGzoHsz", "j0zy5JQ2bmQXtJ8PeP5gAiKM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>
