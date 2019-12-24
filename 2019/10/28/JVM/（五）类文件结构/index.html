@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.google.com//css?family=ZCOOL KuaiLe:300,300italic,400,400italic,700,700italicNoto Serif SC:300,300italic,400,400italic,700,700italicMoul:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JVM,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="类文件结构本节主要介绍：  class文件结构 jvm指令集  无关性的基石如何理解JAVA的平台无关性？ JVM处理的实际上是class文件，只要实现在不同机器上的JVM，使得具有处理class文件的能力，就具有了平台无关性 java和class是分离的，java只是可以编译成class的一种语言，于此类似的还有Jython,JRuby,Groovy等语言。  Class文件的结构class文件">
+<meta name="keywords" content="JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="（五）类文件结构">
+<meta property="og:url" content="https://sunyi720.github.io/2019/10/28/JVM/（五）类文件结构/index.html">
+<meta property="og:site_name" content="Sun">
+<meta property="og:description" content="类文件结构本节主要介绍：  class文件结构 jvm指令集  无关性的基石如何理解JAVA的平台无关性？ JVM处理的实际上是class文件，只要实现在不同机器上的JVM，使得具有处理class文件的能力，就具有了平台无关性 java和class是分离的，java只是可以编译成class的一种语言，于此类似的还有Jython,JRuby,Groovy等语言。  Class文件的结构class文件">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://sunyi720.github.io/2019/10/28/JVM/（五）类文件结构/01.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/10/28/JVM/（五）类文件结构/02.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/10/28/JVM/（五）类文件结构/03.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/10/28/JVM/（五）类文件结构/04.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/10/28/JVM/（五）类文件结构/05.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/10/28/JVM/（五）类文件结构/06.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/10/28/JVM/（五）类文件结构/07.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/10/28/JVM/（五）类文件结构/08.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/10/28/JVM/（五）类文件结构/09.png">
+<meta property="og:updated_time" content="2019-11-27T11:41:43.378Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="（五）类文件结构">
+<meta name="twitter:description" content="类文件结构本节主要介绍：  class文件结构 jvm指令集  无关性的基石如何理解JAVA的平台无关性？ JVM处理的实际上是class文件，只要实现在不同机器上的JVM，使得具有处理class文件的能力，就具有了平台无关性 java和class是分离的，java只是可以编译成class的一种语言，于此类似的还有Jython,JRuby,Groovy等语言。  Class文件的结构class文件">
+<meta name="twitter:image" content="https://sunyi720.github.io/2019/10/28/JVM/（五）类文件结构/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":20},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://sunyi720.github.io/2019/10/28/JVM/（五）类文件结构/">
+
+
+
+
+
+  <title>（五）类文件结构 | Sun</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sun</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数字人生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2019/10/28/JVM/（五）类文件结构/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">（五）类文件结构</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-28T17:35:00+08:00">
+                2019-10-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/JVM/" itemprop="url" rel="index">
+                    <span itemprop="name">JVM</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/10/28/JVM/（五）类文件结构/" class="leancloud_visitors" data-flag-title="（五）类文件结构">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="类文件结构"><a href="#类文件结构" class="headerlink" title="类文件结构"></a>类文件结构</h1><p>本节主要介绍：</p>
+<ol>
+<li>class文件结构</li>
+<li>jvm指令集</li>
+</ol>
+<h2 id="无关性的基石"><a href="#无关性的基石" class="headerlink" title="无关性的基石"></a>无关性的基石</h2><p><strong>如何理解JAVA的平台无关性？</strong></p>
+<p>JVM处理的实际上是class文件，只要实现在不同机器上的JVM，使得具有处理class文件的能力，就具有了平台无关性</p>
+<p>java和class是分离的，java只是可以编译成class的一种语言，于此类似的还有Jython,JRuby,Groovy等语言。</p>
+<p><img src="/2019/10/28/JVM/（五）类文件结构/01.png" alt="语言无关性"></p>
+<h2 id="Class文件的结构"><a href="#Class文件的结构" class="headerlink" title="Class文件的结构"></a>Class文件的结构</h2><p><strong>class文件的结构？</strong></p>
+<p>Class文件是一组以8位字节为基础单位的二进制流，各个数据项目严格按照顺序紧凑地排列在Class文件中，中间没有添加任何分隔符，这使得整个Class文件中存储的内容几乎全部都是程序运行的必要数据。</p>
+<p>根据Java虚拟机规范的规定，Class文件格式采用一种类似于C语言结构体的伪结构来存储，这种伪结构中只有两种数据类型：无符号数和表：</p>
+<ul>
+<li>无符号数属于基本数据类型，以u1、u2、u4、u8来分别代表1、2、4、8个字节的无符号数。</li>
+<li>表是由多个无符号数或其他表作为数据项构成的符合数据类型，所有的表都习惯性地以“_info”结尾。</li>
+</ul>
+<p>整个 Class 文件就是一张表，它由下表中所示的数据项构成：</p>
+<p><img src="/2019/10/28/JVM/（五）类文件结构/02.png" alt="Class表结构"></p>
+<p>下面按照这个表的顺序一一说明</p>
+<h3 id="魔数和版本"><a href="#魔数和版本" class="headerlink" title="魔数和版本"></a>魔数和版本</h3><p><strong>什么是魔数？</strong></p>
+<p>Class文件的头4个字节，唯一作用是确定文件是否为一个可被虚拟机接受的Class文件，固定为“0xCAFEBABE”。</p>
+<p>紧接着魔数的4个字节存储的是Class文件的版本号：第5和第6两个字节是次版本号（Minor Version），第7和第8个字节是主版本号（Major Version）。</p>
+<p><strong>class文件和类、接口的关系？</strong></p>
+<p>class文件一定对应着一个类或者接口<br>但是生成class文件的方式很多，甚至可以不作为一个文件存在</p>
+<p><strong>class文件版本兼容的问题？</strong></p>
+<p>高版本的JDK能够向下兼容低版本的Class文件，虚拟机会拒绝执行超过其版本号的Class文件。</p>
+<h3 id="常量池"><a href="#常量池" class="headerlink" title="常量池"></a>常量池</h3><p><strong>什么是常量池？</strong></p>
+<p>主版本号之后是常量池入口，常量池可以理解为 Class 文件之中的资源仓库，它是 Class 文件结构中与其他项目关联最多的数据类型，也是占用 Class 文件空间最大的数据项目之一，同是它还是 Class 文件中第一个出现的表类型数据项目。</p>
+<p>因为常量池中常量的数量是不固定的，所以在常量池入口需要放置一个 u2 类型的数据来表示常量池的容量「constant_pool_count」</p>
+<p><strong>为什么要把第0项常量空出来？</strong></p>
+<p>之所以将第 0 项常量空出来是为了满足后面某些指向常量池的索引值的数据在特定情况下需要表达「不引用任何一个常量池项目」的含义，这种情况可以把索引值置为 0 来表示。</p>
+<p><strong>常量池中主要存放什么？</strong></p>
+<p>常量池中主要存放两大类常量：字面量和符号引用。</p>
+<ul>
+<li>字面量比较接近 Java 语言层面的常量概念，如字符串、声明为 final 的常量值等。</li>
+<li>符号引用属于编译原理方面的概念，包括了以下三类常量：<ul>
+<li>类和接口的全限定名</li>
+<li>字段的名称和描述符</li>
+<li>方法的名称和描述符</li>
+</ul>
+</li>
+</ul>
+<p><strong>全限定名？简单名称？描述符？</strong></p>
+<ul>
+<li>全限定名：用来描述类或接口名，和java中的全限定名有些区别，如java.lang.Object在class中的全限定名是java/lang/Object</li>
+<li>简单名称：用来描述字段或者方法，如toString()，的简单名就是toString</li>
+<li>描述符：用来描述字段的数据类型，方法的参数和返回。</li>
+</ul>
+<p><strong>描述符的具体描述规则？</strong></p>
+<p><img src="/2019/10/28/JVM/（五）类文件结构/03.png" alt="描述符"></p>
+<ol>
+<li><p>字段</p>
+<p>如：<br>基本类型：int ==&gt; I<br>对象类型：String ==&gt; Ljava/lang/String;<br>数组类型：long[] ==&gt; [J</p>
+</li>
+<li><p>方法</p>
+<p>如：<br>Object m(int i, double d, Thread t) {..} ==&gt; (IDLjava/lang/Thread)Ljava/lang/Object</p>
+</li>
+</ol>
+<p><strong>什么是特征签名？</strong></p>
+<ol>
+<li>Java语言层面的方法特征签名：特征签名 = 方法名 + 参数类型 + 参数顺序；</li>
+<li>JVM层面的方法特征签名：特征签名 = 方法名 + 参数类型 + 参数顺序 + 返回值类型</li>
+</ol>
+<p><strong>javac编译和C编译的区别?</strong></p>
+<p>javac没有“链接”这一阶段，走的是运行时动态链接</p>
+<p>常量池表结构：</p>
+<p><img src="/2019/10/28/JVM/（五）类文件结构/04.png" alt="常量池表结构"></p>
+<p>分析Class字节码的工具：Class文件都是二进制格式，可通过Jdk/bin/javap.exe工具，分析Class文件字节码。关于javap用法，可通过javap –help来查看。</p>
+<p>详情可以参考：<a href="https://blog.csdn.net/luanlouis/article/details/40301985" target="_blank" rel="noopener">https://blog.csdn.net/luanlouis/article/details/40301985</a></p>
+<h3 id="访问标志"><a href="#访问标志" class="headerlink" title="访问标志"></a>访问标志</h3><p>2个字节代表，标示用于识别一些类或者接口层次的访问信息.</p>
+<p><img src="/2019/10/28/JVM/（五）类文件结构/05.png" alt="访问标志"></p>
+<h3 id="类索引、父类索引、接口索引集合"><a href="#类索引、父类索引、接口索引集合" class="headerlink" title="类索引、父类索引、接口索引集合"></a>类索引、父类索引、接口索引集合</h3><ul>
+<li>类索引：u2，确定该类的全限定名</li>
+<li>父类索引：u2，确定该类的父类的全限定名</li>
+<li>接口索引：u2（接口数）+u2[]（接口的全限定名），确定实现了哪些接口</li>
+</ul>
+<p>索引都会指向常量池中CONSTANT_Class_info类型的常量</p>
+<h3 id="字段表集合"><a href="#字段表集合" class="headerlink" title="字段表集合"></a>字段表集合</h3><p>字段表用于描述类或接口中声明的变量，格式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">field_info &#123;</span><br><span class="line">    u2             access_flags; //访问标识</span><br><span class="line">    u2             name_index;  //名称索引</span><br><span class="line">    u2             descriptor_index; //描述符索引</span><br><span class="line">    u2             attributes_count; //属性个数</span><br><span class="line">    attribute_info attributes[attributes_count];  //属性表的具体内容</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>字段访问标识如下：(表中加粗项是字段独有的)</p>
+<p><img src="/2019/10/28/JVM/（五）类文件结构/06.png" alt="字段访问标志"></p>
+<p>什么是类型签名？</p>
+<h3 id="方法表集合"><a href="#方法表集合" class="headerlink" title="方法表集合"></a>方法表集合</h3><p>方法表用于描述类或接口中声明的方法，格式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">method_info &#123;</span><br><span class="line">    u2             access_flags; //访问标识</span><br><span class="line">    u2             name_index;  //名称索引</span><br><span class="line">    u2             descriptor_index;  //描述符索引</span><br><span class="line">    u2             attributes_count;  //属性个数</span><br><span class="line">    attribute_info attributes[attributes_count]; //属性表的具体内容</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>方法访问标识如下：(表中加粗项是方法独有的)</p>
+<p><img src="/2019/10/28/JVM/（五）类文件结构/07.png" alt="方法访问标志"></p>
+<p><strong>方法中的代码在哪？</strong></p>
+<p>对于方法里的Java代码，进过编译器编译成字节码指令后，存放在方法属性表集合中“code”的属性内（属性表见后文介绍）。</p>
+<p><strong>父类中的方法需要展示吗？</strong></p>
+<p>如果没有覆盖，则不展示</p>
+<p><strong>如何区别重载的方法？</strong></p>
+<p>根据特征签名：指方法中各个参数在常量池的字段符号引用的集合，不包括返回值。</p>
+<blockquote>
+<p>上述是java中的，Class文件格式中，特征签名范围更广，包括了返回值</p>
+</blockquote>
+<h3 id="属性表"><a href="#属性表" class="headerlink" title="属性表"></a>属性表</h3><p>属性表格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">attribute_info &#123;</span><br><span class="line">    u2 attribute_name_index;   //属性名索引</span><br><span class="line">    u4 attribute_length;       //属性长度</span><br><span class="line">    u1 info[attribute_length]; //属性的具体内容</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>属性表的限制相对宽松，不需要各个属性表有严格的顺序，只有不与已有的属性名重复，任何自定义的编译器都可以向属性表中写入自定义的属性信息，Java虚拟机运行时会忽略掉无法识别的属性。 关于虚拟机规范中预定义的属性，这里不展开讲了，列举几个常用的。</p>
+<p>常用的几个：</p>
+<p><img src="/2019/10/28/JVM/（五）类文件结构/08.png" alt="常用属性"></p>
+<h4 id="Code属性表"><a href="#Code属性表" class="headerlink" title="Code属性表"></a>Code属性表</h4><p> java程序方法体中的代码，经编译后得到的字节码指令存储在Code属性内，Code属性位于方法表的属性集合中。但与native或者abstract的方法则不会存在Code属性中。</p>
+<p>Code是class中非常重要的属性，并可以以此分为两个部分：代码（Code）和元数据（其他）</p>
+<p>Code属性的格式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Code_attribute &#123;</span><br><span class="line">    u2 attribute_name_index; //常量池中的uft8类型的索引，值固定为”Code“</span><br><span class="line">    u4 attribute_length; //属性值长度，为整个属性表长度-6</span><br><span class="line">    u2 max_stack;   //操作数栈的最大深度值，jvm运行时根据该值配置栈帧</span><br><span class="line">    u2 max_locals;  //局部变量栈最大存储空间，单位是slot</span><br><span class="line">    u4 code_length; // 字节码指令的个数</span><br><span class="line">    u1 code[code_length]; // 具体的字节码指令</span><br><span class="line">    u2 exception_table_length; //异常的个数</span><br><span class="line">    &#123;   u2 start_pc;</span><br><span class="line">        u2 end_pc;</span><br><span class="line">        u2 handler_pc; //当字节码在[start_pc, end_pc)区间出现catch_type或子类，则转到handler_pc行继续处理。</span><br><span class="line">        u2 catch_type; //当catch_type=0，则任意异常都需转到handler_pc处理</span><br><span class="line">    &#125; exception_table[exception_table_length]; //具体的异常内容</span><br><span class="line">    u2 attributes_count;     //属性的个数</span><br><span class="line">    attribute_info attributes[attributes_count]; //具体的属性内容</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>本地局部变量表中存储哪些信息？</strong></p>
+<p>入参，局部变量，异常处理器的参数（catch中定义的异常）</p>
+<p><strong>为什么没有任何局部变量Locals会等于1？</strong></p>
+<p>实例方法中有隐藏参数this, 显式异常处理器的参数，方法体定义的局部变量都使用局部变量表来存放。</p>
+<p>另外：max_locals不等于所有局部变量所占Slot之和，因为Slot可以重用，javac编译器会根据变量的作用域来分配Slot给各个变量使用，从而计算出max_locals大小。</p>
+<h4 id="异常属性表"><a href="#异常属性表" class="headerlink" title="异常属性表"></a>异常属性表</h4><p>格式如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Exceptions_attribute &#123;</span><br><span class="line">    u2 attribute_name_index;//&quot;Exceptions&quot;</span><br><span class="line">    u4 attribute_length;//属性长度，不包括开头6字节</span><br><span class="line">    u2 number_of_exceptions;//异常数</span><br><span class="line">    u2 exception_index_table[number_of_exceptions];//CONSTANT_Class_info索引</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>异常属性表和Code中的异常表的区别？</strong></p>
+<p>这里的异常属性表仅表示throw后的异常类</p>
+<h4 id="LineNumberTable属性"><a href="#LineNumberTable属性" class="headerlink" title="LineNumberTable属性"></a>LineNumberTable属性</h4><p>Code属性可选的可变长属性。它可以被调试器用来确定哪个Java虚拟机代码阵列的一部分对应于一给定行号的原始源文件中</p>
+<p>格式如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">LineNumberTable_attribute &#123;</span><br><span class="line">    u2 attribute_name_index;//&quot;LineNumberTable&quot;</span><br><span class="line">    u4 attribute_length;//属性长度，不包括开头6字节</span><br><span class="line">    u2 line_number_table_length;//line_number_table表个数</span><br><span class="line">    &#123;   u2 start_pc;//code属性中的字节码偏移量</span><br><span class="line">        u2 line_number;	//源码中的行号</span><br><span class="line">    &#125; line_number_table[line_number_table_length];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="LocalVariableTable属性"><a href="#LocalVariableTable属性" class="headerlink" title="LocalVariableTable属性"></a>LocalVariableTable属性</h4><p>Code属性可选的可变长属性。它可以被调试器使用的方法的执行过程中，以确定给定的本地变量的值以及作为域</p>
+<p>格式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">LocalVariableTable_attribute &#123;</span><br><span class="line">    u2 attribute_name_index;//&quot;LocalVariableTable&quot;</span><br><span class="line">    u4 attribute_length;//属性长度，不包括开头6字节</span><br><span class="line">    u2 local_variable_table_length;</span><br><span class="line">    &#123;   u2 start_pc;//生命周期开始的字节码偏移量</span><br><span class="line">        u2 length;//作用范围长度</span><br><span class="line">        u2 name_index;//CONSTANT_UTF_info索引，名字</span><br><span class="line">        u2 descriptor_index;//CONSTANT_UTF_info索引，描述符</span><br><span class="line">        u2 index;//在局部变量栈中Slot的位置，如果是64位，则占两个Slot</span><br><span class="line">    &#125; local_variable_table[local_variable_table_length];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="SourceFile属性"><a href="#SourceFile属性" class="headerlink" title="SourceFile属性"></a>SourceFile属性</h4><p>class文件可选的固定长度的属性。描述文件名，最多只有一个。</p>
+<p>格式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SourceFile_attribute &#123;</span><br><span class="line">    u2 attribute_name_index;//&quot;SourceFile&quot;</span><br><span class="line">    u4 attribute_length;//属性长度，不包括开头6字节</span><br><span class="line">    u2 sourcefile_index;//CONSTANT_UTF_info索引，名字</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="ConstantValue属性"><a href="#ConstantValue属性" class="headerlink" title="ConstantValue属性"></a>ConstantValue属性</h4><p>字段表的定长属性，用来表示字段表中被static修饰的字段</p>
+<ul>
+<li>类变量: 在类构造器方法或者使用ConstantValue属性来赋值</li>
+<li>实例变量：在实例构造器方法进行赋值</li>
+</ul>
+<p>格式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ConstantValue_attribute &#123;</span><br><span class="line">    u2 attribute_name_index;//&quot;ConstantValue&quot;</span><br><span class="line">    u4 attribute_length;</span><br><span class="line">    u2 constantvalue_index;//CONSTANT_Long、CONSTANT_Float等等</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="InnerClasses属性"><a href="#InnerClasses属性" class="headerlink" title="InnerClasses属性"></a>InnerClasses属性</h4><p>class文件中的变长属性，用来表示内部类</p>
+<p>格式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">InnerClasses_attribute &#123;</span><br><span class="line">    u2 attribute_name_index;//&quot;InnerClasses&quot;</span><br><span class="line">    u4 attribute_length;</span><br><span class="line">    u2 number_of_classes;</span><br><span class="line">    &#123;   u2 inner_class_info_index;//指向常量池中CONSTANT_Class_info索引，表示内部类符号引用</span><br><span class="line">        u2 outer_class_info_index;//指向常量池中CONSTANT_Class_info索引，表示宿主类符号引用</span><br><span class="line">        u2 inner_name_index;//指向常量池中CONSTANT_UTF8_info索引，表示内部类名字</span><br><span class="line">        u2 inner_class_access_flags;//访问标志</span><br><span class="line">    &#125; classes[number_of_classes];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="Deprecated及Synthetic属性"><a href="#Deprecated及Synthetic属性" class="headerlink" title="Deprecated及Synthetic属性"></a>Deprecated及Synthetic属性</h4><p>Deprecated表示过时，Synthetic表示非用户产生<br>class文件，字段，方法可选属性，只包含前6个简单字节</p>
+<h4 id="StackMapTable属性"><a href="#StackMapTable属性" class="headerlink" title="StackMapTable属性"></a>StackMapTable属性</h4><p>Code属性中复杂的变长属性，在字节码加载时被新类检查验证器（Type Checker）使用，用来校验字节码的合法性</p>
+<h4 id="Signature属性"><a href="#Signature属性" class="headerlink" title="Signature属性"></a>Signature属性</h4><p>class文件、字段表、方法表的可选定长属性，用来表示泛型类型<br>格式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Signature_attribute &#123;</span><br><span class="line">    u2 attribute_name_index;//&quot;Signature&quot;</span><br><span class="line">    u4 attribute_length;</span><br><span class="line">    u2 signature_index;//CONSTANT_Utf8_info</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="BootstrapMethods属性"><a href="#BootstrapMethods属性" class="headerlink" title="BootstrapMethods属性"></a>BootstrapMethods属性</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CONSTANT_InvokeDynamic_info &#123;</span><br><span class="line">    u1 tag;</span><br><span class="line">    u2 bootstrap_method_attr_index;//BootstrapMethods_attribute</span><br><span class="line">    u2 name_and_type_index;//CONSTANT_NameAndType_info</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">BootstrapMethods_attribute &#123;</span><br><span class="line">    u2 attribute_name_index;</span><br><span class="line">    u4 attribute_length;</span><br><span class="line">    u2 num_bootstrap_methods;</span><br><span class="line">    &#123;   u2 bootstrap_method_ref;// CONSTANT_MethodHandle_info</span><br><span class="line">        u2 num_bootstrap_arguments;</span><br><span class="line">        u2 bootstrap_arguments[num_bootstrap_arguments];//入参</span><br><span class="line">    &#125; bootstrap_methods[num_bootstrap_methods];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CONSTANT_MethodHandle_info &#123;</span><br><span class="line">    u1 tag;</span><br><span class="line">    u1 reference_kind;</span><br><span class="line">    u2 reference_index;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">CONSTANT_MethodType_info &#123;</span><br><span class="line">    u1 tag;</span><br><span class="line">    u2 descriptor_index;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/2019/10/28/JVM/（五）类文件结构/09.png" alt="MethodHandle_info中的类型"></p>
+<p>复杂属性，和InvokeDynamic指令密切相关</p>
+<h2 id="字节码指令介绍"><a href="#字节码指令介绍" class="headerlink" title="字节码指令介绍"></a>字节码指令介绍</h2><p>Java虚拟机采用基于栈的架构，其指令由操作码和操作数组成。</p>
+<p>操作码：一个字节长度(0~255)，意味着指令集的操作码个数不能操作256条。<br>操作数：一条指令可以有零或者多个操作数，且操作数可以是1个或者多个字节。编译后的代码没有采用操作数长度对齐方式，比如16位无符号整数需使用两个字节储存(假设为byte1和byte2)，那么真实值是 (byte1 &lt;&lt; 8) | byte2。</p>
+<p><strong>放弃操作数对齐意味着什么？</strong></p>
+<ul>
+<li>优势：可以省略很多填充和间隔符号，从而减少数据量，具有更高的传输效率；Java起初就是为了面向网络、智能家具而设计的，故更加注重传输效率。</li>
+<li>劣势：运行时从字节码里构建出具体数据结构，需要花费部分CPU时间，从而导致解释执行字节码会损失部分性能。</li>
+</ul>
+<p><strong>一个字节长度的指令集带来的限制？</strong></p>
+<p>Java虚拟机的指令集对于特定操作只提供有限的类型相关指令，并非为每一种数据类型都有相应的操作指令。必要时，有些指令可用于将不支持的类型转换为可被支持的类型。</p>
+<p><strong>如何保证同步开始的指令无论是否异常一定被释放？</strong></p>
+<p>编译器会自动生成一个异常处理器</p>
+<p>指令参考：<a href="http://gityuan.com/2015/10/24/jvm-bytecode-grammar/" target="_blank" rel="noopener">http://gityuan.com/2015/10/24/jvm-bytecode-grammar/</a></p>
+<h2 id="共有设计和私有实现"><a href="#共有设计和私有实现" class="headerlink" title="共有设计和私有实现"></a>共有设计和私有实现</h2><h2 id="Class文件的发展历史"><a href="#Class文件的发展历史" class="headerlink" title="Class文件的发展历史"></a>Class文件的发展历史</h2>
+      
+    </div>
+    
+    
+    
+
+	
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2019/10/28/JVM/（五）类文件结构/">（五）类文件结构</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Sun 的个人博客">Sun</a></p>
+  <p><span>发布时间:</span>2019年10月28日 - 17:10</p>
+  <p><span>最后更新:</span>2019年11月27日 - 19:11</p>
+  <p><span>原始链接:</span><a href="/2019/10/28/JVM/（五）类文件结构/" title="（五）类文件结构">https://sunyi720.github.io/2019/10/28/JVM/（五）类文件结构/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2019/10/28/JVM/（五）类文件结构/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Sun 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Sun 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JVM/" rel="tag"><i class="fa fa-tag"></i> JVM</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/28/MySQL/Mysql并发/" rel="next" title="Mysql并发">
+                <i class="fa fa-chevron-left"></i> Mysql并发
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/04/JVM/（六）虚拟机类加载机制/" rel="prev" title="（六）虚拟机类加载机制">
+                （六）虚拟机类加载机制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjMzMS8xMjg2Ng=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/head.png" alt="Sun">
+            
+              <p class="site-author-name" itemprop="name">Sun</p>
+              <p class="site-description motion-element" itemprop="description">Lv.0</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/sunyi720" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#类文件结构"><span class="nav-number">1.</span> <span class="nav-text">类文件结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#无关性的基石"><span class="nav-number">1.1.</span> <span class="nav-text">无关性的基石</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Class文件的结构"><span class="nav-number">1.2.</span> <span class="nav-text">Class文件的结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#魔数和版本"><span class="nav-number">1.2.1.</span> <span class="nav-text">魔数和版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常量池"><span class="nav-number">1.2.2.</span> <span class="nav-text">常量池</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问标志"><span class="nav-number">1.2.3.</span> <span class="nav-text">访问标志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类索引、父类索引、接口索引集合"><span class="nav-number">1.2.4.</span> <span class="nav-text">类索引、父类索引、接口索引集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字段表集合"><span class="nav-number">1.2.5.</span> <span class="nav-text">字段表集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法表集合"><span class="nav-number">1.2.6.</span> <span class="nav-text">方法表集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性表"><span class="nav-number">1.2.7.</span> <span class="nav-text">属性表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Code属性表"><span class="nav-number">1.2.7.1.</span> <span class="nav-text">Code属性表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常属性表"><span class="nav-number">1.2.7.2.</span> <span class="nav-text">异常属性表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LineNumberTable属性"><span class="nav-number">1.2.7.3.</span> <span class="nav-text">LineNumberTable属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LocalVariableTable属性"><span class="nav-number">1.2.7.4.</span> <span class="nav-text">LocalVariableTable属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SourceFile属性"><span class="nav-number">1.2.7.5.</span> <span class="nav-text">SourceFile属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ConstantValue属性"><span class="nav-number">1.2.7.6.</span> <span class="nav-text">ConstantValue属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#InnerClasses属性"><span class="nav-number">1.2.7.7.</span> <span class="nav-text">InnerClasses属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Deprecated及Synthetic属性"><span class="nav-number">1.2.7.8.</span> <span class="nav-text">Deprecated及Synthetic属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#StackMapTable属性"><span class="nav-number">1.2.7.9.</span> <span class="nav-text">StackMapTable属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Signature属性"><span class="nav-number">1.2.7.10.</span> <span class="nav-text">Signature属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BootstrapMethods属性"><span class="nav-number">1.2.7.11.</span> <span class="nav-text">BootstrapMethods属性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字节码指令介绍"><span class="nav-number">1.3.</span> <span class="nav-text">字节码指令介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#共有设计和私有实现"><span class="nav-number">1.4.</span> <span class="nav-text">共有设计和私有实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Class文件的发展历史"><span class="nav-number">1.5.</span> <span class="nav-text">Class文件的发展历史</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sun</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("iTVMQ8rz1NpV1RJ716VOA2rG-gzGzoHsz", "j0zy5JQ2bmQXtJ8PeP5gAiKM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

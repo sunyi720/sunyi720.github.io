@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.google.com//css?family=ZCOOL KuaiLe:300,300italic,400,400italic,700,700italicNoto Serif SC:300,300italic,400,400italic,700,700italicMoul:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JVM,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="虚拟机字节码执行引擎本节主要内容：  了解虚拟机运行时栈帧结构 了解方法定位的过程：解析和分派 了解jvm对动态类型语言的支持 了解jvm的基于栈的字节码解释执行引擎  概述虚拟机和物理机的区别？ 物理机的执行引擎是由硬件实现（exe文件，可执行二进制）的，和物理机的执行过程不同的是虚拟机的执行引擎由于自己实现的。 运行时栈帧结构相关说明：每一个线程都有一个栈,也就是前文中提到的虚拟机栈，栈中的基">
+<meta name="keywords" content="JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="（七）虚拟机字节码执行引擎">
+<meta property="og:url" content="https://sunyi720.github.io/2019/11/20/JVM/（七）虚拟机字节码执行引擎/index.html">
+<meta property="og:site_name" content="Sun">
+<meta property="og:description" content="虚拟机字节码执行引擎本节主要内容：  了解虚拟机运行时栈帧结构 了解方法定位的过程：解析和分派 了解jvm对动态类型语言的支持 了解jvm的基于栈的字节码解释执行引擎  概述虚拟机和物理机的区别？ 物理机的执行引擎是由硬件实现（exe文件，可执行二进制）的，和物理机的执行过程不同的是虚拟机的执行引擎由于自己实现的。 运行时栈帧结构相关说明：每一个线程都有一个栈,也就是前文中提到的虚拟机栈，栈中的基">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://sunyi720.github.io/2019/11/20/JVM/（七）虚拟机字节码执行引擎/01.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/11/20/JVM/（七）虚拟机字节码执行引擎/02.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/11/20/JVM/（七）虚拟机字节码执行引擎/03.png">
+<meta property="og:updated_time" content="2019-11-20T07:14:47.443Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="（七）虚拟机字节码执行引擎">
+<meta name="twitter:description" content="虚拟机字节码执行引擎本节主要内容：  了解虚拟机运行时栈帧结构 了解方法定位的过程：解析和分派 了解jvm对动态类型语言的支持 了解jvm的基于栈的字节码解释执行引擎  概述虚拟机和物理机的区别？ 物理机的执行引擎是由硬件实现（exe文件，可执行二进制）的，和物理机的执行过程不同的是虚拟机的执行引擎由于自己实现的。 运行时栈帧结构相关说明：每一个线程都有一个栈,也就是前文中提到的虚拟机栈，栈中的基">
+<meta name="twitter:image" content="https://sunyi720.github.io/2019/11/20/JVM/（七）虚拟机字节码执行引擎/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":20},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://sunyi720.github.io/2019/11/20/JVM/（七）虚拟机字节码执行引擎/">
+
+
+
+
+
+  <title>（七）虚拟机字节码执行引擎 | Sun</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sun</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数字人生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2019/11/20/JVM/（七）虚拟机字节码执行引擎/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">（七）虚拟机字节码执行引擎</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-20T14:52:00+08:00">
+                2019-11-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/JVM/" itemprop="url" rel="index">
+                    <span itemprop="name">JVM</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/11/20/JVM/（七）虚拟机字节码执行引擎/" class="leancloud_visitors" data-flag-title="（七）虚拟机字节码执行引擎">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="虚拟机字节码执行引擎"><a href="#虚拟机字节码执行引擎" class="headerlink" title="虚拟机字节码执行引擎"></a>虚拟机字节码执行引擎</h1><p>本节主要内容：</p>
+<ol>
+<li>了解虚拟机运行时栈帧结构</li>
+<li>了解方法定位的过程：解析和分派</li>
+<li>了解jvm对动态类型语言的支持</li>
+<li>了解jvm的基于栈的字节码解释执行引擎</li>
+</ol>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p><strong>虚拟机和物理机的区别？</strong></p>
+<p>物理机的执行引擎是由硬件实现（exe文件，可执行二进制）的，和物理机的执行过程不同的是虚拟机的执行引擎由于自己实现的。</p>
+<h2 id="运行时栈帧结构"><a href="#运行时栈帧结构" class="headerlink" title="运行时栈帧结构"></a>运行时栈帧结构</h2><p>相关说明：每一个线程都有一个栈,也就是前文中提到的虚拟机栈，栈中的基本元素我们称之为栈帧。栈帧是用于支持虚拟机进行方法调用和方法执行的数据结构。每个栈帧都包括了一下几部分：局部变量表、操作数栈、动态连接、方法的返回地址 和一些额外的附加信息。<code>栈帧中需要多大的局部变量表和多深的操作数栈在编译代码的过程中已经完全确定，并写入到方法表的Code属性中</code>。在活动的线程中，位于当前栈顶的栈帧才是有效的，称之为当前帧，与这个栈帧相关联的方法称为当前方法。执行引擎运行的所有字节码指令只针对当前栈帧进行操作。需要注意的是一个栈中能容纳的栈帧是受限，过深的方法调用可能会导<br>致StackOverFlowError，当然，我们可以认为设置栈的大小。其模型示意图大体如下：</p>
+<p><img src="/2019/11/20/JVM/（七）虚拟机字节码执行引擎/01.png" alt="运行时栈帧结构"></p>
+<h3 id="局部变量表"><a href="#局部变量表" class="headerlink" title="局部变量表"></a>局部变量表</h3><p><strong>局部变量表法的存放？</strong></p>
+<p>局部变量表中存储入参、局部变量、异常<br>code属性中的指令会使用到局部变量表<br>一个存储单位称为Slot</p>
+<p><strong>一个Slot的大小？能存放哪些数据类型？</strong></p>
+<p>虚拟机规范并没有明确规定一个Slot的大小，只是很有导向性地说到每个 Slot 都应该能存储一个 boolean、byte、char、short、int、float、reference 或 returnAddress 类型的数据(32位或者更小)，而 long 和 double（64位）可以使用两个slot去存储。</p>
+<p><strong>reference类型表示什么？</strong></p>
+<p>虚拟机规范并没有明确指明它的长度，也没有明确指明它的数据结构，但是虚拟机通过 reference 数据可以做到两点：</p>
+<ol>
+<li>通过此 reference 引用，可以直接或间接的查找到对象在 Java 堆上的其实地址索引</li>
+<li>通过此 reference 引用，可以直接或间接地查找到对象所属数据类型在方法区中的存储的类型信息</li>
+</ol>
+<p><strong>Slot复用对GC的影响？</strong></p>
+<p>Slot在离开作用域之后、离开方法之前，如果没有重新覆盖值，有可能还会持有对象的引用，这会影响GC的回收</p>
+<p><strong>需要把“赋null值来优化内存回收”作为编码规则吗？</strong></p>
+<ol>
+<li>注意以恰当的作用域来控制变量的回收即可，上述情况不常见</li>
+<li>赋null值的操作只在解释执行下的概念模型中有效，在JIT模式下无效</li>
+</ol>
+<p><strong>局部变量和类变量的区别？</strong></p>
+<p>类变量有<code>准备阶段</code>，局部变量无，因此必须赋初值</p>
+<h3 id="操作数栈"><a href="#操作数栈" class="headerlink" title="操作数栈"></a>操作数栈</h3><p><strong>相关说明:</strong></p>
+<ul>
+<li>Java 虚拟机的解释执行引擎称为”基于栈的执行引擎”，其中所指的”栈”就是操作数栈。也就是说，指令的执行过程也就是入栈、出栈的过程（代替寄存器）</li>
+<li>操作数栈的最大深度也是在编译时期就写入到方法表的 Code 属性的 max_stacks 数据项中。</li>
+<li>栈容量的单位是 “字宽”，对于 32 位虚拟机来说，一个 “字宽” 占 4 个字节，对于 64 位虚拟机来说，一个 “字宽” 占 8 个字节</li>
+<li>操作数栈的每一个元素可以是可以是任意 Java 数据类型，包括 long 和 double，32 位数据类型所占的栈容量为 1，64 位数据类型所占的栈容量为 2</li>
+</ul>
+<h3 id="动态连接"><a href="#动态连接" class="headerlink" title="动态连接"></a>动态连接</h3><p><strong>什么是动态连接？为什么需要动态连接？</strong></p>
+<p>在指令执行期间进行符号地址的转换，就是动态连接。<br>这么做的原因是有些指令操作的对象的实际类型只有在指令执行的时候才可以确定。</p>
+<h3 id="方法返回地址"><a href="#方法返回地址" class="headerlink" title="方法返回地址"></a>方法返回地址</h3><p><strong>方法返回的两种方式：</strong></p>
+<ul>
+<li>正常完成出口，栈中需要保存调用处的PC值作为返回地址。</li>
+<li>异常完成出口：返回地址是要通过异常处理器表来确定的，栈帧中一般不会保存这部分信息。</li>
+</ul>
+<h2 id="方法调用"><a href="#方法调用" class="headerlink" title="方法调用"></a>方法调用</h2><p><strong>方法调用的任务是什么？</strong></p>
+<p>方法调用的任务是确认调用哪个方法，并不是执行。</p>
+<blockquote>
+<p>也就是说，这里的方法调用的含义是方法“确认”</p>
+</blockquote>
+<h3 id="解析（Resolution）"><a href="#解析（Resolution）" class="headerlink" title="解析（Resolution）"></a>解析（Resolution）</h3><p><strong>什么是解析？</strong></p>
+<p>有几种方法的调用，在加载阶段就可以确认该方法的直接引用，前提是：方法在程序真正运行之前就有一个可确定的调用版本（调用哪一个方法），并且这个方法的调用版本在运行期是不可变的（也就是说不包括接口方法和抽象方法）。换句话说，调用目标在程序代码写好、编译器进行编译时就必须确定下来。这类方法的调用（确认）称为解析。</p>
+<blockquote>
+<p>这里的解析和类加载的解析阶段概念有些区别</p>
+</blockquote>
+<p><strong>哪些方法符合解析的条件？</strong></p>
+<p>有四种方法是进行的方法的解析：静态方法、私有方法、实例构造器、父类方法，这四类方法称为非虚方法，与之对应的就是续方法（final 方法除外），调用这四类方法的字节码指令是：</p>
+<ul>
+<li>invokestatic：调用静态方法</li>
+<li>invokespecial：调用实例构造器方法<init>、私有方法、父类方法</init></li>
+</ul>
+<p>除了这两种方法调用的指令外还有：</p>
+<ul>
+<li>invokevirtual：调用所有的虚方法</li>
+<li>invokeinterface：调用接口方法，会在运行时确认一个实现此接口的对象</li>
+<li>invokedynamic：先在运行时动态解析出调用点限定符所引用的方法，然后再执行该方法。</li>
+</ul>
+<h3 id="分派"><a href="#分派" class="headerlink" title="分派"></a>分派</h3><p><strong>什么是分派？</strong></p>
+<p>根据入参、出参（都称为宗量）来确定调用的方法就是分派</p>
+<h4 id="静态分派"><a href="#静态分派" class="headerlink" title="静态分派"></a>静态分派</h4><p><strong>静态分派的案例：</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StaticDispatch</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Human</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Man</span> <span class="keyword">extends</span> <span class="title">Human</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Woman</span> <span class="keyword">extends</span> <span class="title">Human</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(Human guy)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"hello, guy"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(Main guy)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"hello, man"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(Woman guy)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"hello, woman"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Human man = <span class="keyword">new</span> Man();</span><br><span class="line">        Human woman = <span class="keyword">new</span> Woman();</span><br><span class="line">        StaticDispatch dispatch = <span class="keyword">new</span> StaticDispatch();</span><br><span class="line">        dispatch.sayHello(man);</span><br><span class="line">        dispatch.sayHello(woman);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//result:</span></span><br><span class="line"><span class="comment">//hello, guy</span></span><br><span class="line"><span class="comment">//hello, guy</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>什么是静态类型（外观类型）和实际类型？</strong></p>
+<ul>
+<li>静态类型：编译时变量的类型</li>
+<li>实际类型：执行时变量的类型</li>
+</ul>
+<p><strong>什么是静态分派？</strong></p>
+<p>依赖静态类型定位目标方法的分派动作称为静态分派<br>静态分配发生在编译阶段，静态分派的动作实际上不是由虚拟机来执行的，而是由编译器来执行的。</p>
+<p><strong>分派和解析的关系？</strong></p>
+<p>分派和解析并非“非黑即白”的关系<br>而是从不同的角度去确认调用方法的一个概念<br>静态分派发生在编译时期<br>解析发生在加载阶段<br>动态分派发生在执行阶段</p>
+<h4 id="动态分派"><a href="#动态分派" class="headerlink" title="动态分派"></a>动态分派</h4><p><strong>动态分派的案例：</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DynamicDispatch</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Human</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Man</span> <span class="keyword">extends</span> <span class="title">Human</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">"hello, man"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Woman</span> <span class="keyword">extends</span> <span class="title">Human</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">"hello, woman"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Human man = <span class="keyword">new</span> Man();</span><br><span class="line">        Human woman = <span class="keyword">new</span> Woman();</span><br><span class="line">        man.sayHello();</span><br><span class="line">        woman.sayHello();</span><br><span class="line">        man = <span class="keyword">new</span> Woman();</span><br><span class="line">        man.sayHello();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//result</span></span><br><span class="line"><span class="comment">//hello, man</span></span><br><span class="line"><span class="comment">//hello, woman</span></span><br><span class="line"><span class="comment">//hello, man</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>什么是动态分派？</strong></p>
+<p>执行阶段根据实际类型来定位方法<br>指令上表现为invokevirtual和invokeinterface</p>
+<p><strong>invokevirtual的指令运行时大致解析过程？</strong></p>
+<ol>
+<li>找到操作数栈顶的引用所指的对象的实际类型，记做C</li>
+<li>在类型C中查找与常量中的描述符和简单名称相同的方法，如果找到则进行访问权限的判断，如果通过则返回这个方法的直接引用，查找结束；如果权限不通过，则返回 java.lang.IllegalAccessError 的异常</li>
+<li>如果在C中没有找到描述符和简单名称都符合的方法，则按照继承关系从下往上依次在 C 的父类中进行查找和验证过程</li>
+<li>如果最终还是没有找到该方法，则抛出 java.lang.AbstractMethodError 的异常</li>
+</ol>
+<h4 id="单分派和多分派"><a href="#单分派和多分派" class="headerlink" title="单分派和多分派"></a>单分派和多分派</h4><p><strong>什么是单分派和多分派？</strong></p>
+<p>根据分派时依据的宗量多少，可以分为单分派和多分派。</p>
+<p><strong>java（1.8前）的分派类型是什么？</strong></p>
+<p>Java 语言还是一门 “静态多分派、动态单分派” 的语言：</p>
+<ul>
+<li>静态多分派：静态分派时根据参数的静态类型和方法接受者的静态类型选择目标方法</li>
+<li>动态单分派：动态分派时根据方法接受者的实际类型替换目标方法</li>
+</ul>
+<h4 id="虚拟机动态分派的实现"><a href="#虚拟机动态分派的实现" class="headerlink" title="虚拟机动态分派的实现"></a>虚拟机动态分派的实现</h4><p><strong>实际分派需要考虑什么问题？</strong></p>
+<p>虚拟机中的动态分派是十分频繁的动作，并且是在运行时在类方法元数据中进行搜索的，因此基于性能的考虑，虚拟机会采用各种优化手段优化动态分派的过程，最常见的”稳定优化”的手段就是为类在方法区中建立一个虚方法表，使用虚方法表索引来代替元数据以提高性能。</p>
+<p><strong>虚方法表介绍：</strong></p>
+<p><img src="/2019/11/20/JVM/（七）虚拟机字节码执行引擎/02.png" alt="运行时栈帧结构"></p>
+<p>上图就是一个虚方法表，Father、Son、Object 三个类在方法区中都有一个自己的虚方法表，如果子类中实现了父类的方法，那么在子类的虚方法表中该方法就指向子类实现的该方法的入口地址，如果子类中没有重写父类中的方法，那么在子类的虚方法表中，该方法的索引就指向父类的虚方法表中的方法的入口地址。</p>
+<p>有两点需要注意：</p>
+<ol>
+<li>为了程序实现上的方便，一个具有相同签名的方法，在子类的方法表和父类的方法表中应该具有相同的索引，这样在类型变化的时候，只需要改变查找方法的虚方法表即可。</li>
+<li>虚方法表是在类加载的连接阶段实现的，类的变量初始化完成之后，就会初始化该类的虚方法表</li>
+</ol>
+<h3 id="动态类型语言支持"><a href="#动态类型语言支持" class="headerlink" title="动态类型语言支持"></a>动态类型语言支持</h3><p><strong>什么是动态类型语言？</strong></p>
+<p>主要特性：</p>
+<ol>
+<li>在运行期进行类型检查</li>
+<li>变量没有类型而变量的值有类型</li>
+</ol>
+<p><strong>什么是“在编译器/运行期进行”？</strong></p>
+<p>某种检查/验证进行的时期</p>
+<p><strong>什么是“类型检查”？</strong></p>
+<p>类型检查指验证操作接收者是否为合适的类型数据以及赋值是否合乎类型要求。</p>
+<p><strong>动态语言和静态语言谁更好？</strong></p>
+<p>动态语言：</p>
+<ul>
+<li>优点：动态检查的一个显著优点是它提供了宽松、少限制的程序设计环境，这在交互式语言中是十分有用的；动态检查允许对变量的后期约束，从而给予编程较大灵活性，还可以在引入某些新定义类型时，不需改变现行程序代码,即具有动态多态性；动态检查可允许更丰富的类型系统，特别地，易于将类型作为一阶对象处理，可允许异质的结构类型，便于数组下标分析。</li>
+<li>缺点：（1）增加了程序运行时间，影响了效率；（2）需要数据具有类型标志；（3）错误发现太晚，不能防止运行错的出现。</li>
+</ul>
+<p>静态语言：</p>
+<ul>
+<li>优点：静态分析有利于错误的早时发现和代码优化、效率提高，也防止了关于类型的运行出错。</li>
+<li>缺点：没有了动态方式所具有的灵活性，引入新的类型可能需对原程序的修改和重编译；静态检查也必须要求类型系统是可判定的以保证终止性，从而使类型系统有较大限制，许多类型是不允许的。</li>
+</ul>
+<p><strong>与JAVA语言，JVM有什么关系？</strong></p>
+<p>动态类型语言最重要的是对方法调用的影响，也就是在运行时才去定位需要调用的方法，简称<code>动态定位</code>。</p>
+<p>早期的java一直都是静态类型的语言，而JVM的目标是能更好的支持更多的语言，这其中包括动态语言，jdk1.7之前基本不支持动态语言，1.7引出新指令invokedynamic来支持动态语言，java1.7中使用MethodHandle来支持动态，但是也并没有使用到invokedynamic指令，从1.8的lambda中才有明显的运用。</p>
+<p><strong>动态分派和动态类型语言的区别？</strong></p>
+<p>动态分派利用运行期的<code>实际类型</code>来实现，但依然会用编译期的<code>静态类型</code>进行类型检查<br>而动态类型语言要求编译期<code>静态类型</code>也不确定，在运行时期才进行类型检查。</p>
+<p><strong>JDK1.7如何支持动态类型（MethodHandle）？</strong></p>
+<p><code>MethodHandle的关键是让分派逻辑不固化在class文件上（连静态类型也不确定），而是通过一个具体的方法来完成方法的定位，MethodHandle的含义就是分派的结果，也就是方法调用的位置</code></p>
+<ol>
+<li>创建MethodType对象，指定方法的签名（即方法参数以及方法返回值的类型）。</li>
+<li>在MethodHandles.Lookup中查找类型为MethodType的MethodHandle；</li>
+<li>传入方法参数并调用MethodHandle.invoke或者MethodHandle.invokeExact方法。</li>
+</ol>
+<p>案例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    MethodHandleTest mht = <span class="keyword">new</span> MethodHandleTest();</span><br><span class="line">    MethodHandle mh = getString(mht);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        String o = (String) mh.invoke(mht, <span class="string">"ssss"</span>);</span><br><span class="line">        System.out.println(o);</span><br><span class="line">    &#125;<span class="keyword">catch</span> (Throwable throwable) &#123;</span><br><span class="line">        throwable.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> MethodHandle <span class="title">getString</span><span class="params">(Object Recevier)</span></span>&#123;</span><br><span class="line">    MethodType mt = MethodType.methodType(String.class,String.class);</span><br><span class="line">    MethodHandle mh = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        mh = MethodHandles.lookup().findVirtual(Recevier.getClass(),<span class="string">"toString"</span>,Recevier);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> mh;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>MethodHandle和反射（Reflection）的区别？</strong></p>
+<ol>
+<li>反射是模拟java代码层面的调用，MethodHandle是模拟字节码层面的调用。</li>
+<li>Reflection是重量级，而MethodHandle是轻量级。</li>
+<li>由于MethodHandle是对字节码的方法指令调用的模拟，那理论上虚拟机在这方面做的各种优化（如方法内联），在MethodHandle上也应当可以采用类似思路去支持（但目前实现还不完善）。而通过反射去调用方法则不行。</li>
+</ol>
+<p><strong>CONSTANT_MethodHandle_info和MethodHandle类的关系？</strong><br>InvokeDynamic指令介绍：</p>
+<p>InvokeDynamic和MethodHandle机制一样，只是MethodHandle是java代码的实现，InvokeDynamic是字节码的实现。</p>
+<p><strong>InvokeDynamic指令与前4条invoke*指令的区别？</strong></p>
+<h2 id="基于栈的字节码解释执行引擎"><a href="#基于栈的字节码解释执行引擎" class="headerlink" title="基于栈的字节码解释执行引擎"></a>基于栈的字节码解释执行引擎</h2><p><strong>解释执行和编译执行的定义？</strong></p>
+<ol>
+<li>解释执行：代码由生成字节码指令之后，由解释器解释执行</li>
+<li>编译执行：通过即时编译器生成本地代码执行</li>
+</ol>
+<p><img src="/2019/11/20/JVM/（七）虚拟机字节码执行引擎/03.png" alt="编译过程"></p>
+<p><strong>java编译包含了哪些步骤？</strong></p>
+<p>生成字节码的过程发生在虚拟机外，解释器在虚拟机内，因此属于半独立编译</p>
+<p><strong>基于栈的指令集合基于寄存器的指令集区别以及优缺点？</strong></p>
+<p>基于栈的指令集中的指令是依赖于操作数栈运行的，基于寄存器的指令是依赖于寄存器进行工作的。用一个简单的例子说明：1 + 1 这个例子来说明：</p>
+<ul>
+<li><p>基于栈的指令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">iconst_1</span><br><span class="line">iconst_1</span><br><span class="line">iadd</span><br><span class="line">istore_0</span><br></pre></td></tr></table></figure>
+<p>两条 iconst_1 指令分别把两个 1 压入到工作栈中去，然后执行 iadd 两条指令，对栈顶的两个 1 进行出栈并相加的动作，然后将相加的结果 2 压入到栈中，接着执行 istore_0 将栈顶的 2 存入到局部变量表中第 0 个 Slot 中去</p>
+</li>
+<li><p>基于寄存器的指令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mov  eax, 1</span><br><span class="line">add  eax, 1</span><br></pre></td></tr></table></figure>
+<p>mov 指令将寄存器 eax 中的值设置为 1，然后执行 add 指令将寄存器 eax 中的值加 1，结果就保存在 eax 寄存器中</p>
+</li>
+</ul>
+<p><strong>基于栈的指令的特点:</strong></p>
+<ul>
+<li>可移植：寄存器由硬件决定，限制较大，但是虚拟机可以在不同硬件条件的机器上执行(虚拟机本身需要不同的实现)</li>
+<li>代码相对更加紧凑：字节码中每个字节就对应一条指令，而多地址指令集中还需要存放参数</li>
+<li>编译器实现更加简单</li>
+<li>基于栈的指令缺点就是执行速度慢：因为虚拟机中操作数栈是在内存中实现的，频繁的栈访问也就意味着频繁的访问内存，内存的访问还是要比直接操作寄存器要慢的</li>
+</ul>
+<p><strong>案例：</strong></p>
+<p>注意：</p>
+<ol>
+<li>案例的执行过程仅仅是一种概念模型，虚拟机最终会对执行过程做一些优化来提高性能，实际的运作过程不一定完全符合概念模型的描述。</li>
+<li>更准确的说，实际情况会和上面描述的概念模型差距非常大，这种差距产生的原因是虚拟机中解释器和即时编译器都会对输入的字节码进行优化。</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+	
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2019/11/20/JVM/（七）虚拟机字节码执行引擎/">（七）虚拟机字节码执行引擎</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Sun 的个人博客">Sun</a></p>
+  <p><span>发布时间:</span>2019年11月20日 - 14:11</p>
+  <p><span>最后更新:</span>2019年11月20日 - 15:11</p>
+  <p><span>原始链接:</span><a href="/2019/11/20/JVM/（七）虚拟机字节码执行引擎/" title="（七）虚拟机字节码执行引擎">https://sunyi720.github.io/2019/11/20/JVM/（七）虚拟机字节码执行引擎/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2019/11/20/JVM/（七）虚拟机字节码执行引擎/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Sun 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Sun 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JVM/" rel="tag"><i class="fa fa-tag"></i> JVM</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/04/JVM/（六）虚拟机类加载机制/" rel="next" title="（六）虚拟机类加载机制">
+                <i class="fa fa-chevron-left"></i> （六）虚拟机类加载机制
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/04/JVM/（八）早期（编译器）优化/" rel="prev" title="（八）早期（编译器）优化">
+                （八）早期（编译器）优化 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjMzMS8xMjg2Ng=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/head.png" alt="Sun">
+            
+              <p class="site-author-name" itemprop="name">Sun</p>
+              <p class="site-description motion-element" itemprop="description">Lv.0</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/sunyi720" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#虚拟机字节码执行引擎"><span class="nav-number">1.</span> <span class="nav-text">虚拟机字节码执行引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行时栈帧结构"><span class="nav-number">1.2.</span> <span class="nav-text">运行时栈帧结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#局部变量表"><span class="nav-number">1.2.1.</span> <span class="nav-text">局部变量表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作数栈"><span class="nav-number">1.2.2.</span> <span class="nav-text">操作数栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态连接"><span class="nav-number">1.2.3.</span> <span class="nav-text">动态连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法返回地址"><span class="nav-number">1.2.4.</span> <span class="nav-text">方法返回地址</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法调用"><span class="nav-number">1.3.</span> <span class="nav-text">方法调用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解析（Resolution）"><span class="nav-number">1.3.1.</span> <span class="nav-text">解析（Resolution）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分派"><span class="nav-number">1.3.2.</span> <span class="nav-text">分派</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#静态分派"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">静态分派</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#动态分派"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">动态分派</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#单分派和多分派"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">单分派和多分派</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#虚拟机动态分派的实现"><span class="nav-number">1.3.2.4.</span> <span class="nav-text">虚拟机动态分派的实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态类型语言支持"><span class="nav-number">1.3.3.</span> <span class="nav-text">动态类型语言支持</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于栈的字节码解释执行引擎"><span class="nav-number">1.4.</span> <span class="nav-text">基于栈的字节码解释执行引擎</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sun</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("iTVMQ8rz1NpV1RJ716VOA2rG-gzGzoHsz", "j0zy5JQ2bmQXtJ8PeP5gAiKM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

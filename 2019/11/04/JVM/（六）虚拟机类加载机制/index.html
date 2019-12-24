@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.google.com//css?family=ZCOOL KuaiLe:300,300italic,400,400italic,700,700italicNoto Serif SC:300,300italic,400,400italic,700,700italicMoul:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JVM,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="虚拟机类加载机制本节主要内容：  介绍了类加载过程中：“加载”、“验证”、“准备”、“解析”、“初始化”这5个阶段中虚拟机进行了了那些动作， 介绍了类加载器的工作原理及对虚拟机的意义。  概述两个约定：  后面的类泛指类和接口，需要区别对待的地方会特别指出 class文件并非指硬盘上真实的文件，而泛指一串二进制字节码  类加载时机类加载——类的生命周期？  类加载的过程是按部就班？ 类加载的过程是">
+<meta name="keywords" content="JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="（六）虚拟机类加载机制">
+<meta property="og:url" content="https://sunyi720.github.io/2019/11/04/JVM/（六）虚拟机类加载机制/index.html">
+<meta property="og:site_name" content="Sun">
+<meta property="og:description" content="虚拟机类加载机制本节主要内容：  介绍了类加载过程中：“加载”、“验证”、“准备”、“解析”、“初始化”这5个阶段中虚拟机进行了了那些动作， 介绍了类加载器的工作原理及对虚拟机的意义。  概述两个约定：  后面的类泛指类和接口，需要区别对待的地方会特别指出 class文件并非指硬盘上真实的文件，而泛指一串二进制字节码  类加载时机类加载——类的生命周期？  类加载的过程是按部就班？ 类加载的过程是">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://sunyi720.github.io/2019/11/04/JVM/（六）虚拟机类加载机制/01.png">
+<meta property="og:image" content="https://sunyi720.github.io/2019/11/04/JVM/（六）虚拟机类加载机制/02.png">
+<meta property="og:updated_time" content="2019-11-04T08:46:29.478Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="（六）虚拟机类加载机制">
+<meta name="twitter:description" content="虚拟机类加载机制本节主要内容：  介绍了类加载过程中：“加载”、“验证”、“准备”、“解析”、“初始化”这5个阶段中虚拟机进行了了那些动作， 介绍了类加载器的工作原理及对虚拟机的意义。  概述两个约定：  后面的类泛指类和接口，需要区别对待的地方会特别指出 class文件并非指硬盘上真实的文件，而泛指一串二进制字节码  类加载时机类加载——类的生命周期？  类加载的过程是按部就班？ 类加载的过程是">
+<meta name="twitter:image" content="https://sunyi720.github.io/2019/11/04/JVM/（六）虚拟机类加载机制/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":20},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://sunyi720.github.io/2019/11/04/JVM/（六）虚拟机类加载机制/">
+
+
+
+
+
+  <title>（六）虚拟机类加载机制 | Sun</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sun</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数字人生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2019/11/04/JVM/（六）虚拟机类加载机制/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">（六）虚拟机类加载机制</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-04T13:52:00+08:00">
+                2019-11-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/JVM/" itemprop="url" rel="index">
+                    <span itemprop="name">JVM</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/11/04/JVM/（六）虚拟机类加载机制/" class="leancloud_visitors" data-flag-title="（六）虚拟机类加载机制">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="虚拟机类加载机制"><a href="#虚拟机类加载机制" class="headerlink" title="虚拟机类加载机制"></a>虚拟机类加载机制</h1><p>本节主要内容：</p>
+<ol>
+<li>介绍了类加载过程中：“加载”、“验证”、“准备”、“解析”、“初始化”这5个阶段中虚拟机进行了了那些动作，</li>
+<li>介绍了类加载器的工作原理及对虚拟机的意义。</li>
+</ol>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>两个约定：</p>
+<ol>
+<li>后面的类泛指类和接口，需要区别对待的地方会特别指出</li>
+<li>class文件并非指硬盘上真实的文件，而泛指一串二进制字节码</li>
+</ol>
+<h2 id="类加载时机"><a href="#类加载时机" class="headerlink" title="类加载时机"></a>类加载时机</h2><p><strong>类加载——类的生命周期？</strong></p>
+<p><img src="/2019/11/04/JVM/（六）虚拟机类加载机制/01.png" alt="类的生命周期"></p>
+<p><strong>类加载的过程是按部就班？</strong></p>
+<p>类加载的过程是交叉的，之力只是指开始的时机是按部就班的。<br>比如在加载阶段未结束就会进行第二阶段的验证</p>
+<p><strong>什么时候开始加载阶段？</strong></p>
+<p>类的加载阶段的启动条件“有且仅有”下面5个：</p>
+<ol>
+<li>遇到new（对应新建对象）、getstatic（对应访问类变量、static final除外）、putstatic（对应设置类变量、static final除外）、invokestatic（调用类方法即静态方法）这4条指令时，如果类没有加载，则需要先触发其加载。</li>
+<li>对类进行反射调用时，如果类没有加载，则必须触发加载</li>
+<li>当初始化一个类时，如果其父类没有加载，则必须先加载他的父类</li>
+<li>虚拟机执行的main方法入口，这个类必须加载</li>
+<li>JDK1.7.动态语言支持时，如果java.lang.invoke.MethodHandler指向的是REF_getstatic,REF_putstatic、REF_invokestatic的方法句柄时，必须先加载这个类</li>
+</ol>
+<p><strong>如何理解有且仅有？</strong></p>
+<p>比如下面的情况是不会触发加载的：</p>
+<ol>
+<li>通过子类访问到父类中的静态字段，只会触发父类的初始化，不会触发子类的加载</li>
+<li>new一个数组对象(newarray指令)，只会触发数组对象的加载，并不会触发数组元素类的加载</li>
+<li>getstatic（对应访问类变量、static final除外），意思是调用常量并不会触发被调用类的加载，因为常量会存储在调用类的常量池中</li>
+</ol>
+<p><strong>接口和类加载阶段的区别？</strong></p>
+<p>第三点有区别，当初始化一个接口时，并不要求父接口也初始化，当使用父接口时初始化</p>
+<h2 id="类加载的过程"><a href="#类加载的过程" class="headerlink" title="类加载的过程"></a>类加载的过程</h2><h3 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h3><p><strong>加载的目标？</strong></p>
+<ol>
+<li>通过一个类的全限定名来获取定义此类的二进制字节流。</li>
+<li>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构</li>
+<li>在内存中生成一个代表这个类的java.lang.Class对象，作为方法区这个类的各种数据的访问入口<blockquote>
+<p>对于HotSpot虚拟机而言，Class对象比较特殊，它虽是对象，但存放在方法区里</p>
+</blockquote>
+</li>
+</ol>
+<p>详细推荐参考<a href="https://blog.csdn.net/luanlouis/article/details/50529868" target="_blank" rel="noopener">https://blog.csdn.net/luanlouis/article/details/50529868</a></p>
+<p><strong>加载阶段的可控性体现在？</strong></p>
+<p>对于字节流的获取，jvm并没有明确的限制，比如：</p>
+<ul>
+<li>从ZIP包中读取</li>
+<li>从网络中获取</li>
+<li>运行时计算生成</li>
+<li>从其他文件生成，如JSP技术</li>
+</ul>
+<p><strong>数组类加载阶段的有什么不同？</strong></p>
+<p>数组类本身不由加载器创建，而是用JVM虚拟机创建。而对于数据元素，按一下规则：</p>
+<ul>
+<li>如果数组元素是引用类型，则用该引用类型的类加载器去加载</li>
+<li>如果数组元素是基础类型，则用引导类加载器去加载</li>
+</ul>
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p><strong>验证开始时机？</strong></p>
+<p>在加载阶段的第二步之前</p>
+<p><strong>验证的目的？</strong></p>
+<p>确保输入的Class文件的字节流能正确地解析并存储于方法区之内，格式上符合描述一个Java类型信息的要求，并且不会危害虚拟机自身的安全。</p>
+<p><strong>为什么需要验证？</strong></p>
+<p>java语言本身是安全的（在编译时会进行安全验证），但是Class文件并不要求用JAVA编译而来，对于从其他渠道获取的二进制字节流，有必要验证器安全性</p>
+<p><strong>验证的过程：</strong></p>
+<p>从整体上看，验证阶段大致上会完成下面四个阶段的检验动作：文件格式验证、元数据验证、字节码验证、符号引用验证。</p>
+<ul>
+<li><p>文件格式验证：验证字节流是否符合Class文件格式的规范，并且能被当前版本的虚拟机处理。</p>
+<ul>
+<li>是否以魔数0xCAFEBABE开头。</li>
+<li>主次版本号是否在当前虚拟机的处理范围之内</li>
+<li>常量池的常量中是否有不被支持的常量类型（tag标志）。</li>
+<li>指向常量的各种索引值中是否有指向不存在的常量或不符合类型的常量。</li>
+<li>Class文件中各个部分及文件本身是否有被删除的或附加的其他信息。</li>
+<li>……</li>
+</ul>
+<blockquote>
+<p>只有通过了这个阶段的验证后，字节流才会进入方法区中进行存储，所以后面的3个验证阶段全部是基于方法区的存储结构进行的，不会再直接操作字节流。</p>
+</blockquote>
+</li>
+<li><p>元数据验证：对字节码描述的信息（即类的元数据信息）进行语义分析，以保证其描述的信息符合Java语言规范的要求。</p>
+<ul>
+<li>该类是否有父类（除了java.lang.Object之外，所有的类都应有父类）</li>
+<li>该类的父类是否继承了不允许被继承的类（final修饰的类）</li>
+<li>若此类不是抽象类，是否实现了其父类或接口之中要求实现的所有方法</li>
+<li>……</li>
+</ul>
+</li>
+<li><p>字节码验证：进行数据流和控制流分析（主要在Code属性），确定程序语义是合法的、符合逻辑的。</p>
+<ul>
+<li>保证任意时刻操作数栈的数据类型与指令代码序列都能配合工作。</li>
+<li>保证跳转指令不会跳转到方法体以外的字节码指令上。</li>
+<li>保证方法体中类型转换是有效的，例如子类对象可以赋值给父类数据类型，但父类对象赋值给子类数据类型是危险和不合法的。</li>
+<li>……</li>
+</ul>
+</li>
+<li><p>符号引用验证：对类自身以外（常量池中的各种符号引用）的信息进行匹配性校验，确保第三阶段——解析阶段的动作能正常执行。</p>
+<ul>
+<li>符号引用中通过字符串描述的全限定名是否能找到对应的类。</li>
+<li>指定的类中是否存在符合描述符与简单名称描述的方法与字段。</li>
+<li>符号引用中的类、字段、方法的访问性（private、protected、public、default）是否可被当前类访问。</li>
+</ul>
+</li>
+</ul>
+<p><strong>更多说明：</strong></p>
+<p>验证阶段是一个非常重要但不是一定必要（因为对运行期没有影响）的阶段。如果所运行的全部代码都已经被反复验证过，那么在实施阶段就可以考虑使用<code>-Xverify:none</code>参数来关闭大部分的类验证措施，以缩短虚拟机类加载的时间。</p>
+<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p><strong>准备的目的？</strong></p>
+<ul>
+<li>为类变量分配内存(方法区)</li>
+<li>设置类变量初始值</li>
+</ul>
+<p><strong>两个容易混淆的概念？</strong></p>
+<ol>
+<li>在准备阶段进行内存分配的仅包括类变量（被static修饰的变量），而不包括实例变量，实例变量将会在对象实例化时随着对象一起分配在Java堆中。</li>
+<li>这里的初始值仅仅是数据类型对应的零值（被final修饰的常量除外）<br><img src="/2019/11/04/JVM/（六）虚拟机类加载机制/02.png" alt="类的生命周期"></li>
+</ol>
+<h3 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h3><p><strong>解析的目的？</strong></p>
+<p>解析阶段是虚拟机将常量池内的符号引用替换为直接引用的过程。</p>
+<p><strong>符号引用和直接引用的关系？</strong></p>
+<ul>
+<li>符号引用（Symbol References）：符号引用以一组符号来描述所引用的目标，符号可以是任何形式的字面量，只要使用时能无歧义地定位到目标即可。</li>
+<li>直接引用（Direct References）：直接引用可以是直接内存中目标的指针、相对偏移量或是一个能间接定位到目标的句柄。</li>
+</ul>
+<p><strong>解析的时间？</strong></p>
+<p>虚拟机规范并未规定解析动作发生的具体时间，仅要求在执行anewarray、checkcast、getfield、getstatic、instanceof、invokeinterface、invokespecial、invokestatic、invokevirtual、multianewarray、new、putfield和putstatic这13个用于操作符号引用的字节码指令之前，先对它们所使用的符号引用进行解析。所以虚拟机实现可以根据需要来判断到底是在类被加载器加载时就对常量池中的符号进行解析，还是等到一个符号引用将要被使用前才去解析它。</p>
+<blockquote>
+<p>加载的启动指令有且只有4个，而解析有13个，实际上是不矛盾的，我的认为是，一开始只有main方法所在类会被加载，之后都是在符号引用被解析的时候被加载的，而已经被加载过的再次被解析时，可以直接从缓存中拿到直接引用。</p>
+</blockquote>
+<p><strong>对一个符号进行多次解析是什么结果？</strong></p>
+<p>对同一个符号引用进行多次解析请求是很常见的，除 invokedynamic 指令外（ invokedynamic指令是用于动态语言支持的，它所对应的引用称为“动态调用点限定符”，必须等到程序实际运行到这条指令的时候，解析动作才能进行）虚拟机实现可能会对第一次解析的结果进行缓存（将直接引用保存在运行时常量池中），无论是否真正执行了多次解析动作，虚拟机实现必须保证在同一个实体中，如果一个符号引用之前已经被成功解析过，后续的引用解析请求就应当一直成功，反之亦然。</p>
+<p>类或接口解析步骤？<br>字段解析步骤？<br>类方法解析步骤？<br>接口方法解析？</p>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>除了加载阶段可以通过自定义的类加载器参与之外，其余动作完全由虚拟机主导和控制。到了初始化阶段，才真正执行类中定义的JAVA代码（字节码）</p>
+<p><strong>准备阶段和初始化阶段的区别？</strong></p>
+<p>在准备阶段，变量已经赋过一次系统要求的初始值，而在初始化阶段，根据程序员通过程序制定的主观计划去初始化类变量和其它资源，简单说，初始化阶段即虚拟机执行类构造器<clinit>()方法的过程。</clinit></p>
+<p><strong>类构造器<clinit>的运行特点？</clinit></strong></p>
+<ul>
+<li><clinit>()方法是由编译器自动收集类中所有类变量的赋值动作和静态语句块（static{} 块）中的语句合并产生的，编译器收集的顺序由语句在源文件中出现的顺序决定，特别注意的是，静态语句块只能访问到定义在它之前的类变量，定义在它之后的类变量只能赋值，不能访问。</clinit></li>
+<li><clinit>()方法与类的构造函数（或者说实例构造器<init>() 方法）不同，不需要显式的调用父类的()方法。虚拟机会自动保证在子类的<clinit>()方法运行之前，父类的<clinit>()方法已经执行结束。</clinit></clinit></init></clinit></li>
+<li>由于父类的<clinit>()方法先执行，也就意味着父类中定义的静态语句块要优于子类的变量赋值操作。</clinit></li>
+<li><clinit>()方法对于类或接口不是必须的，如果一个类中不包含静态语句块，也没有对类变量的赋值操作，编译器可以不为该类生成<clinit>()方法。</clinit></clinit></li>
+<li>接口中不可以使用静态语句块，但仍然有类变量初始化的赋值操作，因此接口与类一样都会生成<clinit>()方法。但接口与类不同的是，执行接口的<clinit>()方法不需要先执行父接口的<clinit>()方法。</clinit></clinit></clinit></li>
+<li>虚拟机会保证一个类的<clinit>()方法在多线程环境下被正确的加锁和同步，如果多个线程同时初始化一个类，只会有一个线程执行这个类的<clinit>()方法，其它线程都会阻塞等待，直到活动线程执行<clinit>()方法完毕。</clinit></clinit></clinit></li>
+</ul>
+<h2 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h2><p><strong>类加载器对类“相等”的影响？</strong></p>
+<p>Class文件和类加载器一同决定了一个类的唯一性<br>意味着同一个Class文件，如果是不同的类加载器加载的，那么他们就是不同的类</p>
+<p><strong>类加载器的分类？</strong></p>
+<p>从Java虚拟机的角度分为两种不同的类加载器：启动类加载器（Bootstrap ClassLoader）和其他类加载器。其中启动类加载器，使用C++语言实现，是虚拟机自身的一部分；其余的类加载器都由Java语言实现，独立于虚拟机之外，并且全都继承自java.lang.ClassLoader类。（这里只限于HotSpot虚拟机）</p>
+<ul>
+<li>启动类加载器（Bootstrap ClassLoader）：这个类加载器负责将存放在<code>&lt;JAVA_HOME&gt;\lib</code>目录中的，或者被-Xbootclasspath参数所指定的路径中的，并且是虚拟机识别的（仅按照文件名识别，如rt.jar，名字不符合的类库即使放在lib目录中也不会被加载）类库加载到虚拟机内存中。</li>
+<li>扩展类加载器（Extension ClassLoader）：这个加载器由sun.misc.Launcher$ExtClassLoader实现，它负责加载<code>&lt;JAVA_HOME&gt;\lib\ext</code>目录中的，或者被java.ext.dirs系统变量所指定的路径中的所有类库，开发者可以直接使用扩展类加载器。</li>
+<li>应用程序类加载器（Application ClassLoader）：这个类加载器由sun.misc.Launcher$AppClassLoader实现。由于这个类加载器是ClassLoader中的getSystemClassLoader()方法的返回值，所以一般也称它为系统类加载器。它负责加载用户类路径（ClassPath）上所指定的类库，开发者可以直接使用这个类加载器，如果应用程序中没有自定义过自己的类加载器，一般情况下这个就是程序中默认的类加载器。</li>
+</ul>
+<p><strong>什么是双亲委托模型？为什么使用双亲委托模型？</strong></p>
+<p>双亲委派模型（Pattern Delegation Model）,要求除了顶层的启动类加载器外，其余的类加载器都应该有自己的父类加载器。这里父子关系通常是子类通过组合关系而不是继承关系来复用父加载器的代码。</p>
+<p>双亲委派模型的工作过程： 如果一个类加载器收到了类加载的请求，先把这个请求委派给父类加载器去完成（所以所有的加载请求最终都应该传送到顶层的启动类加载器中），只有当父加载器反馈自己无法完成加载请求时，子加载器才会尝试自己去加载。</p>
+<p>使用双亲委派模型来组织类加载器之间的关系，有一个显而易见的好处就是java类随着它的类加载器一起具备了一种带有优先级的层次关系。</p>
+<p><strong>双亲委托模型为什么会被3次大规模的破坏？</strong></p>
+<ul>
+<li><p>第一次破坏是因为类加载器和抽象类java.lang.ClassLoader在JDK1.0就存在的，而双亲委派模型在JDK1.2之后才被引入，所以对于之前已经存在的用户自定义类加载器，是不符合双亲委托模型的，因此，为了引入双亲委派模型时做了一定的妥协：在java.lang.ClassLoader中引入了一个findClass()方法，DK1.2之后不提倡用户去覆盖loadClass()方法，而是把自己的类加载逻辑写到findClass()方法中。</p>
+</li>
+<li><p>第二次破坏是因为模型自身的缺陷，现实中存在这样的场景：基础的类加载器需要求调用用户的代码，而基础的类加载器可能不认识用户的代码。为此，Java设计团队引入的设计时“线程上下文类加载器（Thread Context ClassLoader）”。这样可以通过父类加载器请求子类加载器去完成类加载动作。已经违背了双亲委派模型的一般性原则。</p>
+</li>
+<li><p>第三次破坏 是由于用户对程序动态性的追求导致的。这里所说的动态性是指：“代码热替换”、“模块热部署”等等比较热门的词。说白了就是希望应用程序能够像我们的计算机外设一样，接上鼠标、U盘不用重启机器就能立即使用。OSGi是当前业界“事实上”的Java模块化标准，OSGi实现模块化热部署的关键是它自定义的类加载器机制的实现。每一个程序模块（OSGi中称为Bundle）都有一个自己的类加载器，当需要更换一个Bundle时，就把Bundle连同类加载器一起换掉以实现代码的热替换。在OSGi环境下，类加载器不再是双亲委派模型中的树状结构，而是进一步发展为更加复杂的网状结构。</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+	
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2019/11/04/JVM/（六）虚拟机类加载机制/">（六）虚拟机类加载机制</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Sun 的个人博客">Sun</a></p>
+  <p><span>发布时间:</span>2019年11月04日 - 13:11</p>
+  <p><span>最后更新:</span>2019年11月04日 - 16:11</p>
+  <p><span>原始链接:</span><a href="/2019/11/04/JVM/（六）虚拟机类加载机制/" title="（六）虚拟机类加载机制">https://sunyi720.github.io/2019/11/04/JVM/（六）虚拟机类加载机制/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2019/11/04/JVM/（六）虚拟机类加载机制/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Sun 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Sun 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JVM/" rel="tag"><i class="fa fa-tag"></i> JVM</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/28/JVM/（五）类文件结构/" rel="next" title="（五）类文件结构">
+                <i class="fa fa-chevron-left"></i> （五）类文件结构
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/20/JVM/（七）虚拟机字节码执行引擎/" rel="prev" title="（七）虚拟机字节码执行引擎">
+                （七）虚拟机字节码执行引擎 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjMzMS8xMjg2Ng=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/head.png" alt="Sun">
+            
+              <p class="site-author-name" itemprop="name">Sun</p>
+              <p class="site-description motion-element" itemprop="description">Lv.0</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/sunyi720" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#虚拟机类加载机制"><span class="nav-number">1.</span> <span class="nav-text">虚拟机类加载机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类加载时机"><span class="nav-number">1.2.</span> <span class="nav-text">类加载时机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类加载的过程"><span class="nav-number">1.3.</span> <span class="nav-text">类加载的过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#加载"><span class="nav-number">1.3.1.</span> <span class="nav-text">加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证"><span class="nav-number">1.3.2.</span> <span class="nav-text">验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#准备"><span class="nav-number">1.3.3.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解析"><span class="nav-number">1.3.4.</span> <span class="nav-text">解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化"><span class="nav-number">1.3.5.</span> <span class="nav-text">初始化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类加载器"><span class="nav-number">1.4.</span> <span class="nav-text">类加载器</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sun</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("iTVMQ8rz1NpV1RJ716VOA2rG-gzGzoHsz", "j0zy5JQ2bmQXtJ8PeP5gAiKM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>
