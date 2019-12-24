@@ -289,7 +289,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2018/10/08/MySQL/命令执行过程和基本管理/">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2018/10/08/MySQL/索引优化/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sun">
@@ -308,7 +308,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/10/08/MySQL/命令执行过程和基本管理/" itemprop="url">MySQL命令执行过程和基本管理</a></h1>
+                <a class="post-title-link" href="/2018/10/08/MySQL/索引优化/" itemprop="url">索引优化</a></h1>
         
 
         <div class="post-meta">
@@ -360,7 +360,7 @@
 
           
           
-             <span id="/2018/10/08/MySQL/命令执行过程和基本管理/" class="leancloud_visitors" data-flag-title="MySQL命令执行过程和基本管理">
+             <span id="/2018/10/08/MySQL/索引优化/" class="leancloud_visitors" data-flag-title="索引优化">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -393,20 +393,25 @@
       
         
           
-          MySQL命令执行过程客户端如何连接MySQ L服务端？
+          索引优化索引一定可以好么？
+索引的代价
+空间上：存储索引页需要额外的空间。
+时间上：对数据的增删改都需要去维护索引。
 
-TCP/IP：指定IP，端口号，用户名，密码进行连接。
-命名管道和共享内存：WINDOWS客户端，服务端连接方式。
-Unix套接字：类Unix客户端，服务端连接方式。
+如何使用索引能发挥最大能力？
+会使用索引的场景
+全值匹配
+匹配左边的列
+匹配范围值
+精确匹配某一列并范围匹配另外一列
+用于排序
+用于分组
 
-语句在服务端如何处理?
-
-MySQL的基本管理如何启动MySQL？
-U
+关于联合索引中的搜索顺序你知道吗？尽量按
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/10/08/MySQL/命令执行过程和基本管理/#more" rel="contents">
+            <a class="btn" href="/2018/10/08/MySQL/索引优化/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
