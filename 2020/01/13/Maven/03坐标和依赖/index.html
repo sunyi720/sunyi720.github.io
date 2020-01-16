@@ -124,7 +124,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://sunyi720.github.io/2020/01/13/Maven/03坐标和依赖/01.png">
 <meta property="og:image" content="https://sunyi720.github.io/2020/01/13/Maven/03坐标和依赖/02.png">
-<meta property="og:updated_time" content="2020-01-13T07:26:47.721Z">
+<meta property="og:updated_time" content="2020-01-16T08:09:39.362Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="03坐标和依赖">
 <meta name="twitter:description" content="坐标和依赖何为Maven坐标世界上任何一个构件都可以使用maven坐标唯一标识，maven坐标的元素包括groupId，artifactId，version，packaging，classifier。现在，只要我们提供正确的坐标元素，maven就能找到对应的构件。 坐标详解 groupId：定义当前这个maven项目录属的实际项目，表示方式通常与域名反向相对应。 artifactId：定义实际项目">
@@ -401,7 +401,7 @@
 <li>packaging：定义maven项目的打包方式，如果不定义packaging，默认使用jar。</li>
 <li>classifier：帮助定义构建输出的一些附属构件。不能直接定义classifier。</li>
 </ul>
-<p>实际项目和Maven项目是什么关系？</p>
+<p><strong>实际项目和Maven项目是什么关系？</strong></p>
 <p>一个公司（组织）下可以由很多个实际项目，而一个实际项目可以分成多个模块，因此artifactId用来定义一个maven项目，也就是一个模块</p>
 <h2 id="依赖范围"><a href="#依赖范围" class="headerlink" title="依赖范围"></a>依赖范围</h2><p>程序编译，测试，运行阶段所需要的依赖是有区别的，比如测试所需要的依赖在运行时就不需要，那么这部分空间就可以被节约，Maven针对程序编译，测试，运行阶段所需要的依赖不同而自动引入到不同的classpath（classpath是应用加载器的扫描路径，也就是类加载的路径范围）</p>
 <p>设置依赖范围的元素是<scope></scope></p>
@@ -414,7 +414,7 @@
 </ul>
 <p><img src="/2020/01/13/Maven/03坐标和依赖/01.png" alt="依赖范围"></p>
 <h2 id="依赖传递"><a href="#依赖传递" class="headerlink" title="依赖传递"></a>依赖传递</h2><p>依赖传递的提出为了解决问题：如果A依赖B，而B依赖C，C需要在A中声明吗？<br>答案是：C会作为A的<code>传递性依赖</code>自动引入</p>
-<p>依赖的范围如何传递？</p>
+<p><strong>依赖的范围如何传递？</strong></p>
 <p><img src="/2020/01/13/Maven/03坐标和依赖/02.png" alt="依赖范围传递"></p>
 <h2 id="依赖调解"><a href="#依赖调解" class="headerlink" title="依赖调解"></a>依赖调解</h2><p>依赖调解的提出为了解决问题：</p>
 <ol>
@@ -441,7 +441,7 @@
   <p><span>本文标题:</span><a href="/2020/01/13/Maven/03坐标和依赖/">03坐标和依赖</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Sun 的个人博客">Sun</a></p>
   <p><span>发布时间:</span>2020年01月13日 - 10:01</p>
-  <p><span>最后更新:</span>2020年01月13日 - 15:01</p>
+  <p><span>最后更新:</span>2020年01月16日 - 16:01</p>
   <p><span>原始链接:</span><a href="/2020/01/13/Maven/03坐标和依赖/" title="03坐标和依赖">https://sunyi720.github.io/2020/01/13/Maven/03坐标和依赖/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2020/01/13/Maven/03坐标和依赖/" aria-label="复制成功！"></i></span>
   </p>
