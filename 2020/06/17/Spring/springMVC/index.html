@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.google.com//css?family=ZCOOL KuaiLe:300,300italic,400,400italic,700,700italicNoto Serif SC:300,300italic,400,400italic,700,700italicMoul:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="spring,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="spring MVC为什么在WEB下接入spring？ 极高的提高开发效率 如何在web环境中整合spring容器？ 常见的web容器是tomcat，在tomcat中主要的组件是servlet、监听器等，tomcat的配置在WEB-INF/web.xml中 常见配置： 12345678910111213141516171819202122232425262728293031323334353637">
+<meta name="keywords" content="spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring MVC">
+<meta property="og:url" content="https://sunyi720.github.io/2020/06/17/Spring/springMVC/index.html">
+<meta property="og:site_name" content="Sun">
+<meta property="og:description" content="spring MVC为什么在WEB下接入spring？ 极高的提高开发效率 如何在web环境中整合spring容器？ 常见的web容器是tomcat，在tomcat中主要的组件是servlet、监听器等，tomcat的配置在WEB-INF/web.xml中 常见配置： 12345678910111213141516171819202122232425262728293031323334353637">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://sunyi720.github.io/2020/06/17/Spring/springMVC/image-20200609155939201.png">
+<meta property="og:image" content="https://sunyi720.github.io/2020/06/17/Spring/springMVC/image-20200609172103097.png">
+<meta property="og:updated_time" content="2020-06-23T08:04:00.186Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="spring MVC">
+<meta name="twitter:description" content="spring MVC为什么在WEB下接入spring？ 极高的提高开发效率 如何在web环境中整合spring容器？ 常见的web容器是tomcat，在tomcat中主要的组件是servlet、监听器等，tomcat的配置在WEB-INF/web.xml中 常见配置： 12345678910111213141516171819202122232425262728293031323334353637">
+<meta name="twitter:image" content="https://sunyi720.github.io/2020/06/17/Spring/springMVC/image-20200609155939201.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":false},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":20},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://sunyi720.github.io/2020/06/17/Spring/springMVC/">
+
+
+
+
+
+  <title>spring MVC | Sun</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sun</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数字人生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2020/06/17/Spring/springMVC/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">spring MVC</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-17T20:15:00+08:00">
+                2020-06-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/spring/" itemprop="url" rel="index">
+                    <span itemprop="name">spring</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/06/17/Spring/springMVC/" class="leancloud_visitors" data-flag-title="spring MVC">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="spring-MVC"><a href="#spring-MVC" class="headerlink" title="spring MVC"></a>spring MVC</h1><p>为什么在WEB下接入spring？</p>
+<p>极高的提高开发效率</p>
+<p>如何在web环境中整合spring容器？</p>
+<p>常见的web容器是tomcat，在tomcat中主要的组件是servlet、监听器等，tomcat的配置在WEB-INF/web.xml中</p>
+<p>常见配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">web-app</span> <span class="attr">xmlns</span>=<span class="string">"http://xmlns.jcp.org/xml/ns/javaee"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">version</span>=<span class="string">"4.0"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--配置根容器上下文配置文件，默认位置是/WEB-INF/applicationContext.xml--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">context-param</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>/WEB-INF/applicationContext.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">context-param</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--监听器--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">listener</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">listener-class</span>&gt;</span>org.springframework.web.context.ContextLoaderListener<span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">listener</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 配置DispatchcerServlet --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>Main<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--配置servlet容器上下文配置文件，默认位置是WEB-INF/[DispatcherServlet的Servlet名字,也就是Main]-servlet.xml--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath:Main-servlet.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- load-on-startup：表示启动容器时初始化该Servlet； --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">load-on-startup</span>&gt;</span>1<span class="tag">&lt;/<span class="name">load-on-startup</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>Main<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- url-pattern：表示哪些请求交给Spring Web MVC处理， “/” 是用来定义默认servlet映射的。 --&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 也可以如“*.html”表示拦截所有以html为扩展名的请求。 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="根容器的初始化"><a href="#根容器的初始化" class="headerlink" title="根容器的初始化"></a>根容器的初始化</h2><p>先来看看 ContextLoaderListener 有什么作用：</p>
+<p><img src="/2020/06/17/Spring/springMVC/image-20200609155939201.png" alt="image-20200609155939201"></p>
+<p>ContextLoaderListener 实现了 ServletContextListener 接口，ServletContextListener 是 tomcat 中的监听器：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ServletContextListener</span> <span class="keyword">extends</span> <span class="title">EventListener</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * web应用启动时调用</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">contextInitialized</span><span class="params">(ServletContextEvent sce)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * web应有销毁时调用</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">contextDestroyed</span><span class="params">(ServletContextEvent sce)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接着看 ContextLoaderListener 如何实现 contextInitialized：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ContextLoaderListener</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">contextInitialized</span><span class="params">(ServletContextEvent event)</span> </span>&#123;</span><br><span class="line">        initWebApplicationContext(event.getServletContext());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>调用了父类方法 ContextLoader：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ContextLoader</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> WebApplicationContext <span class="title">initWebApplicationContext</span><span class="params">(ServletContext servletContext)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//校验和日志...</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 1. 实例化容器</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.context == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">this</span>.context = createWebApplicationContext(servletContext);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 2. 配置并启动</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.context <span class="keyword">instanceof</span> ConfigurableWebApplicationContext) &#123;</span><br><span class="line">                ConfigurableWebApplicationContext cwac = (ConfigurableWebApplicationContext) <span class="keyword">this</span>.context;</span><br><span class="line">                <span class="comment">//设置父容器</span></span><br><span class="line">                <span class="keyword">if</span> (!cwac.isActive()) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (cwac.getParent() == <span class="keyword">null</span>) &#123;</span><br><span class="line">                        ApplicationContext parent = loadParentContext(servletContext);</span><br><span class="line">                        cwac.setParent(parent);</span><br><span class="line">                    &#125;</span><br><span class="line">                    configureAndRefreshWebApplicationContext(cwac, servletContext);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 3. 保存容器</span></span><br><span class="line">            servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, <span class="keyword">this</span>.context);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//其他无关代码..</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.context;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接着看如何进行容器的实例化，进入 ContextLoader##createWebApplicationContext() ：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ContextLoader</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> WebApplicationContext <span class="title">createWebApplicationContext</span><span class="params">(ServletContext sc)</span> </span>&#123;</span><br><span class="line">        Class&lt;?&gt; contextClass = determineContextClass(sc);</span><br><span class="line">        <span class="keyword">if</span> (!ConfigurableWebApplicationContext.class.isAssignableFrom(contextClass)) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ApplicationContextException(<span class="string">"Custom context class ["</span> + contextClass.getName() +</span><br><span class="line">                    <span class="string">"] is not of type ["</span> + ConfigurableWebApplicationContext.class.getName() + <span class="string">"]"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> (ConfigurableWebApplicationContext) BeanUtils.instantiateClass(contextClass);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>进入 ContextLoader##determineContextClass()，该方法决定容器的具体类型 ：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ContextLoader</span> </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> Class&lt;?&gt; determineContextClass(ServletContext servletContext) &#123;</span><br><span class="line">        <span class="comment">// 1. 查询xml中contextClass参数配置</span></span><br><span class="line">        String contextClassName = servletContext.getInitParameter(CONTEXT_CLASS_PARAM);</span><br><span class="line">        <span class="keyword">if</span> (contextClassName != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> ClassUtils.forName(contextClassName, ClassUtils.getDefaultClassLoader());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 2. 无配置采用默认类型 XmlWebApplicationContext.class</span></span><br><span class="line">            contextClassName = defaultStrategies.getProperty(WebApplicationContext.class.getName());</span><br><span class="line">            <span class="keyword">return</span> ClassUtils.forName(contextClassName, ContextLoader.class.getClassLoader());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接着看如何配置容器并启动，进入 ContextLoader##configureAndRefreshWebApplicationContext()：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ContextLoader</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">configureAndRefreshWebApplicationContext</span><span class="params">(ConfigurableWebApplicationContext wac, ServletContext sc)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (ObjectUtils.identityToString(wac).equals(wac.getId())) &#123;</span><br><span class="line">            <span class="comment">// 配置容器id</span></span><br><span class="line">            String idParam = sc.getInitParameter(CONTEXT_ID_PARAM);</span><br><span class="line">            <span class="keyword">if</span> (idParam != <span class="keyword">null</span>) &#123;</span><br><span class="line">                wac.setId(idParam);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">// Generate default id...</span></span><br><span class="line">                wac.setId(ConfigurableWebApplicationContext.APPLICATION_CONTEXT_ID_PREFIX +</span><br><span class="line">                        ObjectUtils.getDisplayString(sc.getContextPath()));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 保存 ServletContext</span></span><br><span class="line">        wac.setServletContext(sc);</span><br><span class="line">        <span class="comment">// 配置 bean定义 xml路径，默认是/WEB-INF/applicationContext.xml</span></span><br><span class="line">        String configLocationParam = sc.getInitParameter(CONFIG_LOCATION_PARAM);</span><br><span class="line">        <span class="keyword">if</span> (configLocationParam != <span class="keyword">null</span>) &#123;</span><br><span class="line">            wac.setConfigLocation(configLocationParam);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//else...</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 启动容器</span></span><br><span class="line">        wac.refresh();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>直此，根容器就启动起来，根容器 和 ServetContext 相互持有对方的实例，因此根容器所处的上下文就是 ServetContext  上下文，之后便可在web环境下使用spring容器的 IOC 和 AOP 功能。</p>
+<h2 id="spring-MVC-1"><a href="#spring-MVC-1" class="headerlink" title="spring MVC"></a>spring MVC</h2><p>MVC 就不必多言了，至于为什么选择 spring MVC，而不是struts2等，还不是因为它比较好用。</p>
+<p>如何接入spring MVC 呢，还记得我们之前配置文件中配置的一个servlet吗？——DispatcherServlet</p>
+<p>DispatcherServlet 作为 tomcat 的组件，有其web容器中的生命周期：</p>
+<p><img src="/2020/06/17/Spring/springMVC/image-20200609172103097.png" alt="image-20200609172103097"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Servlet</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(ServletConfig config)</span> <span class="keyword">throws</span> ServletException</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> ServletConfig <span class="title">getServletConfig</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(ServletRequest req, ServletResponse res)</span> <span class="keyword">throws</span> ServletException, IOException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getServletInfo</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所有 servlet 的init方法在 tomcat 启动时都会被调用，我们看 DispatcherServlet 的 init()，其实现在父类 HttpServletBean 中：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HttpServletBean</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> <span class="keyword">throws</span> ServletException </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (logger.isDebugEnabled()) &#123;</span><br><span class="line">			logger.debug(<span class="string">"Initializing servlet '"</span> + getServletName() + <span class="string">"'"</span>);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 从xml的init参数设置属性值</span></span><br><span class="line">		PropertyValues pvs = <span class="keyword">new</span> ServletConfigPropertyValues(getServletConfig(), <span class="keyword">this</span>.requiredProperties);</span><br><span class="line">		<span class="keyword">if</span> (!pvs.isEmpty()) &#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				BeanWrapper bw = PropertyAccessorFactory.forBeanPropertyAccess(<span class="keyword">this</span>);</span><br><span class="line">				ResourceLoader resourceLoader = <span class="keyword">new</span> ServletContextResourceLoader(getServletContext());</span><br><span class="line">				bw.registerCustomEditor(Resource.class, <span class="keyword">new</span> ResourceEditor(resourceLoader, getEnvironment()));</span><br><span class="line">				initBeanWrapper(bw);</span><br><span class="line">				bw.setPropertyValues(pvs, <span class="keyword">true</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">catch</span> (BeansException ex) &#123;</span><br><span class="line">				<span class="keyword">if</span> (logger.isErrorEnabled()) &#123;</span><br><span class="line">					logger.error(<span class="string">"Failed to set bean properties on servlet '"</span> + getServletName() + <span class="string">"'"</span>, ex);</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">throw</span> ex;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 让子类做他们想做的事情</span></span><br><span class="line">		initServletBean();</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (logger.isDebugEnabled()) &#123;</span><br><span class="line">			logger.debug(<span class="string">"Servlet '"</span> + getServletName() + <span class="string">"' configured successfully"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;   PropertyValue 和 BeanWrapper 使用小案例：</span><br><span class="line">&gt;   A a = new A();</span><br><span class="line">&gt;   BeanWrapper beanWrapper = new BeanWrapperImpl(a);</span><br><span class="line">&gt;   PropertyValue propertyValue = new PropertyValue(&quot;name&quot;,&quot;qqq&quot;);</span><br><span class="line">&gt;   beanWrapper.setPropertyValue(propertyValue);</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>子类 FrameworkServlet 重写了 initServletBean 方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FrameworkServlet</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">initServletBean</span><span class="params">()</span> <span class="keyword">throws</span> ServletException </span>&#123;</span><br><span class="line">        getServletContext().log(<span class="string">"Initializing Spring FrameworkServlet '"</span> + getServletName() + <span class="string">"'"</span>);</span><br><span class="line">        <span class="keyword">long</span> startTime = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.webApplicationContext = initWebApplicationContext();</span><br><span class="line">        initFrameworkServlet();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>进入 FrameworkServlet##initWebApplicationContext ：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FrameworkServlet</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> WebApplicationContext <span class="title">initWebApplicationContext</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    	<span class="comment">// rootContext 就是之前创建的 根容器</span></span><br><span class="line">        WebApplicationContext rootContext =</span><br><span class="line">                WebApplicationContextUtils.getWebApplicationContext(getServletContext());</span><br><span class="line">        <span class="comment">// 初始化容器，contextClass参数可以执行容器类，否则默认XmlWebApplicationContext</span></span><br><span class="line">        wac = createWebApplicationContext(rootContext);</span><br><span class="line">        <span class="comment">// 让子类执行初始化工作</span></span><br><span class="line">        onRefresh(wac);</span><br><span class="line">        <span class="keyword">return</span> wac;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为什么创建了两个容器？</p>
+<p>根容器是web环境下使用的，管理tomcat中所有的bean，而子容器是servlet下使用的，仅管理springMVC中所有的Bean .</p>
+<p>追溯 onRefresh(wac) ，可以走到 DispatcherServlet##initStrategies中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class DispatcherServlet&#123;</span><br><span class="line">	protected void initStrategies(ApplicationContext context) &#123;</span><br><span class="line">		initMultipartResolver(context);</span><br><span class="line">		initLocaleResolver(context);</span><br><span class="line">		initThemeResolver(context);</span><br><span class="line">		initHandlerMappings(context);</span><br><span class="line">		initHandlerAdapters(context);</span><br><span class="line">		initHandlerExceptionResolvers(context);</span><br><span class="line">		initRequestToViewNameTranslator(context);</span><br><span class="line">		initViewResolvers(context);</span><br><span class="line">		initFlashMapManager(context);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，initStrategies中做了大量的初始化工作，以 initHandlerMappings 为例说明：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DispatcherServlet</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initHandlerMappings</span><span class="params">(ApplicationContext context)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.handlerMappings = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">this</span>.detectAllHandlerMappings) &#123;</span><br><span class="line">        <span class="comment">// 1. 初始化为容器中所有HandlerMapping类的bean</span></span><br><span class="line">            Map&lt;String, HandlerMapping&gt; matchingBeans =</span><br><span class="line">					BeanFactoryUtils.beansOfTypeIncludingAncestors(context, HandlerMapping.class, <span class="keyword">true</span>, <span class="keyword">false</span>);</span><br><span class="line">			<span class="keyword">if</span> (!matchingBeans.isEmpty()) &#123;</span><br><span class="line">				<span class="keyword">this</span>.handlerMappings = <span class="keyword">new</span> ArrayList&lt;&gt;(matchingBeans.values());</span><br><span class="line">				<span class="comment">// We keep HandlerMappings in sorted order.</span></span><br><span class="line">				AnnotationAwareOrderComparator.sort(<span class="keyword">this</span>.handlerMappings);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 2. 初始化为name是handlerMapping的bean</span></span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				HandlerMapping hm = context.getBean(HANDLER_MAPPING_BEAN_NAME, HandlerMapping.class);</span><br><span class="line">				<span class="keyword">this</span>.handlerMappings = Collections.singletonList(hm);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">catch</span> (NoSuchBeanDefinitionException ex) &#123;</span><br><span class="line">				<span class="comment">// Ignore, we'll add a default HandlerMapping later.</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 3. 容器中没有定义，则采用默认 BeanNameUrlHandlerMapping/RequestMappingHandlerMapping</span></span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">this</span>.handlerMappings == <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">this</span>.handlerMappings = getDefaultStrategies(context, HandlerMapping.class);</span><br><span class="line">			<span class="keyword">if</span> (logger.isDebugEnabled()) &#123;</span><br><span class="line">				logger.debug(<span class="string">"No HandlerMappings found in servlet '"</span> + getServletName() + <span class="string">"': using default"</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>至此，DispatcherServlet 中持有了另一个 spring容器。</p>
+<p>那么来到第二个问题，servlet 如何工作？</p>
+<p>当有请求到来时，根据web中定义的url映射会指派到指定的servlet中执行相应的service()方法， DispatcherServlet 的 service() 实现在 父类 FrameworkServlet 中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FrameworkServlet</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">        HttpMethod httpMethod = HttpMethod.resolve(request.getMethod());</span><br><span class="line">        <span class="keyword">if</span> (HttpMethod.PATCH == httpMethod || httpMethod == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">// 关键方法</span></span><br><span class="line">            processRequest(request, response);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 最终也会走到processRequest</span></span><br><span class="line">            <span class="keyword">super</span>.service(request, response);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>进入 FrameworkServlet##processRequest</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FrameworkServlet</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">processRequest</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 1. 初始化 LocaleContextHolder RequestContextHolder </span></span><br><span class="line">        <span class="comment">// initContextHolders(request, localeContext, requestAttributes);</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2. 关键方法</span></span><br><span class="line">        doService(request, response);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>进入 DispatcherServle##doService：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DispatcherServle</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 1. request.setAttribute...</span></span><br><span class="line">    </span><br><span class="line">    doDispatch(request, response);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>进入 DispatcherServle##doDispatch：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DispatcherServle</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doDispatch</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//忽略无关代码...</span></span><br><span class="line">        </span><br><span class="line">        processedRequest = checkMultipart(request);</span><br><span class="line">        HandlerExecutionChain mappedHandler = getHandler(processedRequest);</span><br><span class="line">        HandlerAdapter ha = getHandlerAdapter(mappedHandler.getHandler());</span><br><span class="line">        mappedHandler.applyPreHandle(processedRequest, response);</span><br><span class="line">        ModelAndView mv = ha.handle(processedRequest, response, mappedHandler.getHandler());</span><br><span class="line">        applyDefaultViewName(processedRequest, mv);</span><br><span class="line">        mappedHandler.applyPostHandle(processedRequest, response, mv);</span><br><span class="line">        processDispatchResult(processedRequest, response, mappedHandler, mv, dispatchException);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>要理解上面代码到底在做什么，我们得学习下面知识点：</p>
+<ul>
+<li>HandlerMapping：匹配url和处理器</li>
+<li>HandlerExecutionChain：包装处理器和拦截器</li>
+<li>HandlerAdapter：适配处理器：</li>
+<li>ModelAndView：模型和视图</li>
+<li>View：视图</li>
+</ul>
+<h3 id="HandlerMapping"><a href="#HandlerMapping" class="headerlink" title="HandlerMapping"></a>HandlerMapping</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">HandlerMapping</span> </span>&#123;</span><br><span class="line">    <span class="function">HandlerExecutionChain <span class="title">getHandler</span><span class="params">(HttpServletRequest request)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>AbstractHandlerMapping 做了基本的实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AbstractHandlerMapping</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> HandlerExecutionChain <span class="title">getHandler</span><span class="params">(HttpServletRequest request)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// 1. 匹配对应的handler实例 由子类实现</span></span><br><span class="line">        Object handler = getHandlerInternal(request);</span><br><span class="line">        <span class="comment">// 2. 若对应不到，采取默认的handler实例</span></span><br><span class="line">        <span class="keyword">if</span> (handler == <span class="keyword">null</span>) &#123;</span><br><span class="line">            handler = getDefaultHandler();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (handler == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 3. 或是字符串，则从容器中获取对应实例</span></span><br><span class="line">        <span class="keyword">if</span> (handler <span class="keyword">instanceof</span> String) &#123;</span><br><span class="line">            String handlerName = (String) handler;</span><br><span class="line">            handler = obtainApplicationContext().getBean(handlerName);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 4. 加入拦截器，包装成 HandlerExecutionChain</span></span><br><span class="line">        HandlerExecutionChain executionChain = getHandlerExecutionChain(handler, request);</span><br><span class="line">        <span class="keyword">if</span> (CorsUtils.isCorsRequest(request)) &#123;</span><br><span class="line">            CorsConfiguration globalConfig = <span class="keyword">this</span>.globalCorsConfigSource.getCorsConfiguration(request);</span><br><span class="line">            CorsConfiguration handlerConfig = getCorsConfiguration(handler, request);</span><br><span class="line">            CorsConfiguration config = (globalConfig != <span class="keyword">null</span> ? globalConfig.combine(handlerConfig) : handlerConfig);</span><br><span class="line">            executionChain = getCorsHandlerExecutionChain(request, executionChain, config);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> executionChain;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>getHandlerInternal 的匹配逻辑由子类实现，常用的有：</p>
+<ul>
+<li>AbstractHandlerMethodMapping：匹配url到一个Handler方法</li>
+<li>AbstractUrlHandlerMapping：匹配url到一个Handler类</li>
+</ul>
+<p>以 AbstractUrlHandlerMapping 为例进行说明：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractUrlHandlerMapping</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Map&lt;String, Object&gt; handlerMap = <span class="keyword">new</span> LinkedHashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> Object <span class="title">getHandlerInternal</span><span class="params">(HttpServletRequest request)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// 获取 url</span></span><br><span class="line">        String lookupPath = getUrlPathHelper().getLookupPathForRequest(request);</span><br><span class="line">        <span class="comment">// 根据 handlerMap 进行匹配</span></span><br><span class="line">        Object handler = lookupHandler(lookupPath, request);</span><br><span class="line">        <span class="keyword">if</span> (handler == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">// We need to care for the default handler directly, since we need to</span></span><br><span class="line">            <span class="comment">// expose the PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE for it as well.</span></span><br><span class="line">            Object rawHandler = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">if</span> (<span class="string">"/"</span>.equals(lookupPath)) &#123;</span><br><span class="line">                rawHandler = getRootHandler();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (rawHandler == <span class="keyword">null</span>) &#123;</span><br><span class="line">                rawHandler = getDefaultHandler();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (rawHandler != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">// Bean name or resolved handler?</span></span><br><span class="line">                <span class="keyword">if</span> (rawHandler <span class="keyword">instanceof</span> String) &#123;</span><br><span class="line">                    String handlerName = (String) rawHandler;</span><br><span class="line">                    rawHandler = obtainApplicationContext().getBean(handlerName);</span><br><span class="line">                &#125;</span><br><span class="line">                validateHandler(rawHandler, request);</span><br><span class="line">                handler = buildPathExposingHandler(rawHandler, lookupPath, lookupPath, <span class="keyword">null</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> handler;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有子类去处理 handlerMap 的初始化，以 SimpleUrlHandlerMapping 为例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SimpleUrlHandlerMapping</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 父类实现了 ApplicationContextAware</span></span><br><span class="line"><span class="comment">     * 在 setApplicationContext 中会调用initApplicationContext()</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initApplicationContext</span><span class="params">()</span> <span class="keyword">throws</span> BeansException </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.initApplicationContext();</span><br><span class="line">        registerHandlers(<span class="keyword">this</span>.urlMap);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 初始化 handlerMap</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">registerHandlers</span><span class="params">(Map&lt;String, Object&gt; urlMap)</span> <span class="keyword">throws</span> BeansException </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (urlMap.isEmpty()) &#123;</span><br><span class="line">            logger.warn(<span class="string">"Neither 'urlMap' nor 'mappings' set on SimpleUrlHandlerMapping"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            urlMap.forEach((url, handler) -&gt; &#123;</span><br><span class="line">                <span class="comment">// Prepend with slash if not already present.</span></span><br><span class="line">                <span class="keyword">if</span> (!url.startsWith(<span class="string">"/"</span>)) &#123;</span><br><span class="line">                    url = <span class="string">"/"</span> + url;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// Remove whitespace from handler bean name.</span></span><br><span class="line">                <span class="keyword">if</span> (handler <span class="keyword">instanceof</span> String) &#123;</span><br><span class="line">                    handler = ((String) handler).trim();</span><br><span class="line">                &#125;</span><br><span class="line">                registerHandler(url, handler);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="HandlerExecutionChain"><a href="#HandlerExecutionChain" class="headerlink" title="HandlerExecutionChain"></a>HandlerExecutionChain</h3><p>HandlerExecutionChain 持有 处理器 和 拦截器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HandlerExecutionChain</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> Object handler;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> HandlerInterceptor[] interceptors;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> List&lt;HandlerInterceptor&gt; interceptorList;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//else....</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="HandlerAdapter"><a href="#HandlerAdapter" class="headerlink" title="HandlerAdapter"></a>HandlerAdapter</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">HandlerAdapter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">boolean</span> <span class="title">supports</span><span class="params">(Object handler)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="function">ModelAndView <span class="title">handle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">long</span> <span class="title">getLastModified</span><span class="params">(HttpServletRequest request, Object handler)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>处理器的类型很多，统一适配成 HandlerAdapter 执行如：</p>
+<ul>
+<li>接口 Controller，适配器 SimpleControllerHandlerAdapter</li>
+<li>接口 HttpRequestHandler，适配器 HttpRequestHandlerAdapter</li>
+<li>接口 Servlet，适配器 SimpleServletHandlerAdapter</li>
+</ul>
+<p>以 SimpleControllerHandlerAdapter 为例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleControllerHandlerAdapter</span> <span class="keyword">implements</span> <span class="title">HandlerAdapter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">supports</span><span class="params">(Object handler)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (handler <span class="keyword">instanceof</span> Controller);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ModelAndView <span class="title">handle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ((Controller) handler).handleRequest(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getLastModified</span><span class="params">(HttpServletRequest request, Object handler)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (handler <span class="keyword">instanceof</span> LastModified) &#123;</span><br><span class="line">            <span class="keyword">return</span> ((LastModified) handler).getLastModified(request);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1L</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="ModelAndView"><a href="#ModelAndView" class="headerlink" title="ModelAndView"></a>ModelAndView</h3><p>持有 Model 和 View (或者 字符名)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ModelAndView</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    <span class="keyword">private</span> Object view;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    <span class="keyword">private</span> ModelMap model;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="View"><a href="#View" class="headerlink" title="View"></a>View</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">View</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 将返回解析到 response 中</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">render</span><span class="params">(@Nullable Map&lt;String, ?&gt; model,</span></span></span><br><span class="line"><span class="function"><span class="params">                HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>抽象实现：AbstractView</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractView</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">render</span><span class="params">(@Nullable Map&lt;String, ?&gt; model, HttpServletRequest request,</span></span></span><br><span class="line"><span class="function"><span class="params">			HttpServletResponse response)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 必要时，将 staticAttributes 和 requestContextAttribute 也整合到model中</span></span><br><span class="line">		Map&lt;String, Object&gt; mergedModel = createMergedOutputModel(model, request, response);</span><br><span class="line">		prepareResponse(request, response);</span><br><span class="line">		<span class="comment">//由子类实现</span></span><br><span class="line">		renderMergedOutputModel(mergedModel, getRequestToExpose(request), response);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>具体如何解析返回，由子类实现 renderMergedOutputModel 来实现，如 pdf（AbstractPdfView），excel（AbstractXlsView），资源文件jsp（InternalResourceView）等等</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AbstractPdfView</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">renderMergedOutputModel</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">			Map&lt;String, Object&gt; model, HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// IE workaround: write into byte array first.</span></span><br><span class="line">		ByteArrayOutputStream baos = createTemporaryOutputStream();</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Apply preferences and build metadata.</span></span><br><span class="line">		Document document = newDocument();</span><br><span class="line">		PdfWriter writer = newWriter(document, baos);</span><br><span class="line">		prepareWriter(model, writer, request);</span><br><span class="line">		buildPdfMetadata(model, document, request);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Build PDF document.</span></span><br><span class="line">		document.open();</span><br><span class="line">		buildPdfDocument(model, document, writer, request, response);</span><br><span class="line">		document.close();</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Flush to HTTP response.</span></span><br><span class="line">		writeToResponse(response, baos);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="RequestToViewNameTranslator"><a href="#RequestToViewNameTranslator" class="headerlink" title="RequestToViewNameTranslator"></a>RequestToViewNameTranslator</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">RequestToViewNameTranslator</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 根据 request 获取一个 view name</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="meta">@Nullable</span></span><br><span class="line">	<span class="function">String <span class="title">getViewName</span><span class="params">(HttpServletRequest request)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有一个默认实现 DefaultRequestToViewNameTranslator，列如：/www/qwe.jsp 将会解析为 www/qwe</p>
+<h3 id="ViewResolver"><a href="#ViewResolver" class="headerlink" title="ViewResolver"></a>ViewResolver</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ViewResolver</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 将 view字符名 解析为 View</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="meta">@Nullable</span></span><br><span class="line">	<span class="function">View <span class="title">resolveViewName</span><span class="params">(String viewName, Locale locale)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如 InternalResourceViewResolver 将view字符名 解析为 InternalResourceView</p>
+<h3 id="DispatcherServle-doDispatch"><a href="#DispatcherServle-doDispatch" class="headerlink" title="DispatcherServle##doDispatch"></a>DispatcherServle##doDispatch</h3><p>再回到之前的 DispatcherServle##doDispatch 中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class DispatcherServle &#123;</span><br><span class="line">    protected void doDispatch(HttpServletRequest request, HttpServletResponse response) &#123;</span><br><span class="line">        // 忽略无关代码...</span><br><span class="line">        </span><br><span class="line">        processedRequest = checkMultipart(request);</span><br><span class="line">        // 获取 HandlerExecutionChain</span><br><span class="line">        HandlerExecutionChain mappedHandler = getHandler(processedRequest);</span><br><span class="line">        </span><br><span class="line">        // 适配 Handler</span><br><span class="line">        HandlerAdapter ha = getHandlerAdapter(mappedHandler.getHandler());</span><br><span class="line">        </span><br><span class="line">        // 拦截器前置处理</span><br><span class="line">        mappedHandler.applyPreHandle(processedRequest, response);</span><br><span class="line">        </span><br><span class="line">        // 处理器执行</span><br><span class="line">        ModelAndView mv = ha.handle(processedRequest, response, mappedHandler.getHandler());</span><br><span class="line">        </span><br><span class="line">        // RequestToViewNameTranslator 解析 request 获取 view Name</span><br><span class="line">        applyDefaultViewName(processedRequest, mv);</span><br><span class="line">        </span><br><span class="line">        // 拦截器后置处理</span><br><span class="line">        mappedHandler.applyPostHandle(processedRequest, response, mv);</span><br><span class="line">        </span><br><span class="line">        // 1. ViewResolver 解析 view Name 获取 View 对象</span><br><span class="line">        // 2. 执行 View##render 方法，处理成 response</span><br><span class="line">        processDispatchResult(processedRequest, response, mappedHandler, mv, dispatchException);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+	
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2020/06/17/Spring/springMVC/">spring MVC</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Sun 的个人博客">Sun</a></p>
+  <p><span>发布时间:</span>2020年06月17日 - 20:06</p>
+  <p><span>最后更新:</span>2020年06月23日 - 16:06</p>
+  <p><span>原始链接:</span><a href="/2020/06/17/Spring/springMVC/" title="spring MVC">https://sunyi720.github.io/2020/06/17/Spring/springMVC/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2020/06/17/Spring/springMVC/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Sun 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Sun 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/spring/" rel="tag"><i class="fa fa-tag"></i> spring</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/28/Java/反射与代理/" rel="next" title="反射性能分析和代理原理">
+                <i class="fa fa-chevron-left"></i> 反射性能分析和代理原理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/06/23/Java/ThreadLocal系列源码分析/" rel="prev" title="ThreadLocal系列源码分析">
+                ThreadLocal系列源码分析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjMzMS8xMjg2Ng=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/head.png" alt="Sun">
+            
+              <p class="site-author-name" itemprop="name">Sun</p>
+              <p class="site-description motion-element" itemprop="description">Lv.0</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">76</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/sunyi720" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#spring-MVC"><span class="nav-number">1.</span> <span class="nav-text">spring MVC</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#根容器的初始化"><span class="nav-number">1.1.</span> <span class="nav-text">根容器的初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spring-MVC-1"><span class="nav-number">1.2.</span> <span class="nav-text">spring MVC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HandlerMapping"><span class="nav-number">1.2.1.</span> <span class="nav-text">HandlerMapping</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HandlerExecutionChain"><span class="nav-number">1.2.2.</span> <span class="nav-text">HandlerExecutionChain</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HandlerAdapter"><span class="nav-number">1.2.3.</span> <span class="nav-text">HandlerAdapter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ModelAndView"><span class="nav-number">1.2.4.</span> <span class="nav-text">ModelAndView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#View"><span class="nav-number">1.2.5.</span> <span class="nav-text">View</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RequestToViewNameTranslator"><span class="nav-number">1.2.6.</span> <span class="nav-text">RequestToViewNameTranslator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ViewResolver"><span class="nav-number">1.2.7.</span> <span class="nav-text">ViewResolver</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DispatcherServle-doDispatch"><span class="nav-number">1.2.8.</span> <span class="nav-text">DispatcherServle##doDispatch</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sun</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("iTVMQ8rz1NpV1RJ716VOA2rG-gzGzoHsz", "j0zy5JQ2bmQXtJ8PeP5gAiKM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

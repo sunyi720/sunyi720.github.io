@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.google.com//css?family=ZCOOL KuaiLe:300,300italic,400,400italic,700,700italicNoto Serif SC:300,300italic,400,400italic,700,700italicMoul:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="linux,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="linux常用命令cd命令切换目录 cd /root/Docements # 切换到目录/root/Docementscd ./path          # 切换到当前目录下的path目录中，“.”表示当前目录cd ../path         # 切换到上层目录中的path目录中，“..”表示上一层目录 ls命令查看文件与目录 -l ：列出长数据串，包含文件的属性与权限数据等-a ：列出全部">
+<meta name="keywords" content="linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux常用命令">
+<meta property="og:url" content="https://sunyi720.github.io/2019/04/15/Java/linux常用命令/index.html">
+<meta property="og:site_name" content="Sun">
+<meta property="og:description" content="linux常用命令cd命令切换目录 cd /root/Docements # 切换到目录/root/Docementscd ./path          # 切换到当前目录下的path目录中，“.”表示当前目录cd ../path         # 切换到上层目录中的path目录中，“..”表示上一层目录 ls命令查看文件与目录 -l ：列出长数据串，包含文件的属性与权限数据等-a ：列出全部">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-06-23T07:31:23.688Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux常用命令">
+<meta name="twitter:description" content="linux常用命令cd命令切换目录 cd /root/Docements # 切换到目录/root/Docementscd ./path          # 切换到当前目录下的path目录中，“.”表示当前目录cd ../path         # 切换到上层目录中的path目录中，“..”表示上一层目录 ls命令查看文件与目录 -l ：列出长数据串，包含文件的属性与权限数据等-a ：列出全部">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":false},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":20},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://sunyi720.github.io/2019/04/15/Java/linux常用命令/">
+
+
+
+
+
+  <title>linux常用命令 | Sun</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sun</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数字人生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2019/04/15/Java/linux常用命令/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">linux常用命令</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-15T15:43:00+08:00">
+                2019-04-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/04/15/Java/linux常用命令/" class="leancloud_visitors" data-flag-title="linux常用命令">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="linux常用命令"><a href="#linux常用命令" class="headerlink" title="linux常用命令"></a>linux常用命令</h1><h2 id="cd命令"><a href="#cd命令" class="headerlink" title="cd命令"></a>cd命令</h2><p>切换目录</p>
+<p>cd /root/Docements # 切换到目录/root/Docements<br>cd ./path          # 切换到当前目录下的path目录中，“.”表示当前目录<br>cd ../path         # 切换到上层目录中的path目录中，“..”表示上一层目录</p>
+<h2 id="ls命令"><a href="#ls命令" class="headerlink" title="ls命令"></a>ls命令</h2><p>查看文件与目录</p>
+<p>-l ：列出长数据串，包含文件的属性与权限数据等<br>-a ：列出全部的文件，连同隐藏文件（开头为.的文件）一起列出来（常用）<br>-d ：仅列出目录本身，而不是列出目录的文件数据<br>-h ：将文件容量以较易读的方式（GB，kB等）列出来<br>-R ：连同子目录的内容一起列出（递归列出），等于该目录下的所有文件都会显示出来</p>
+<h2 id="grep命令"><a href="#grep命令" class="headerlink" title="grep命令"></a>grep命令</h2><p>该命令常用于分析一行的信息，若当中有我们所需要的信息，就将该行显示出来，该命令通常与管道命令一起使用，用于对一些命令的输出进行筛选加工等等，它的简单语法为<br>grep [-acinv] [–color=auto] ‘查找字符串’ filename</p>
+<p>它的常用参数如下：<br>-a ：将binary文件以text文件的方式查找数据<br>-c ：计算找到‘查找字符串’的次数<br>-i ：忽略大小写的区别，即把大小写视为相同<br>-v ：反向选择，即显示出没有‘查找字符串’内容的那一行</p>
+<p>例如：<br>grep –color=auto ‘MANPATH’ /etc/man.config  # 取出文件/etc/man.config中包含MANPATH的行，并把找到的关键字加上颜色<br>ls -l | grep -i file                         # 把ls -l的输出中包含字母file（不区分大小写）的内容输出</p>
+<h2 id="find命令"><a href="#find命令" class="headerlink" title="find命令"></a>find命令</h2><p>查找的功能非常强大的命令，相对而言，它的使用也相对较为复杂，参数也比较多，所以在这里将给把它们分类列出，它的基本语法如下：<br>find [PATH] [option] [action]</p>
+<p>与时间有关的参数：<br>-mtime n : n为数字，意思为在n天之前的“一天内”被更改过的文件；<br>-mtime +n : 列出在n天之前（不含n天本身）被更改过的文件名；<br>-mtime -n : 列出在n天之内（含n天本身）被更改过的文件名；<br>-newer file : 列出比file还要新的文件名<br>例如：<br>find /root -mtime 0 # 在当前目录下查找今天之内有改动的文件</p>
+<p>与用户或用户组名有关的参数：<br>-user name : 列出文件所有者为name的文件<br>-group name : 列出文件所属用户组为name的文件<br>-uid n : 列出文件所有者为用户ID为n的文件<br>-gid n : 列出文件所属用户组为用户组ID为n的文件<br>例如：<br>find /home/ljianhui -user ljianhui # 在目录/home/ljianhui中找出所有者为ljianhui的文件</p>
+<p>与文件权限及名称有关的参数：<br>-name filename ：找出文件名为filename的文件<br>-size [+-]SIZE ：找出比SIZE还要大（+）或小（-）的文件<br>-tpye TYPE ：查找文件的类型为TYPE的文件，TYPE的值主要有：一般文件（f)、设备文件（b、c）、目录（d）、连接文件（l）、socket（s）、FIFO管道文件（p）；<br>-perm mode ：查找文件权限刚好等于mode的文件，mode用数字表示，如0755；<br>-perm -mode ：查找文件权限必须要全部包括mode权限的文件，mode用数字表示<br>-perm +mode ：查找文件权限包含任一mode的权限的文件，mode用数字表示<br>例如：<br>find / -name passwd # 查找文件名为passwd的文件<br>find . -perm 0755 # 查找当前目录中文件权限的0755的文件<br>find . -size +12k # 查找当前目录中大于12KB的文件，注意c表示byte</p>
+<h2 id="cp命令"><a href="#cp命令" class="headerlink" title="cp命令"></a>cp命令</h2><p>该命令用于复制文件，copy之意，它还可以把多个文件一次性地复制到一个目录下，它的常用参数如下：<br>-a ：将文件的特性一起复制<br>-p ：连同文件的属性一起复制，而非使用默认方式，与-a相似，常用于备份<br>-i ：若目标文件已经存在时，在覆盖时会先询问操作的进行<br>-r ：递归持续复制，用于目录的复制行为<br>-u ：目标文件与源文件有差异时才会复制<br>例如 ：<br>cp -a file1 file2        # 连同文件的所有特性把文件file1复制成文件file2<br>cp file1 file2 file3 dir # 把文件file1、file2、file3复制到目录dir中</p>
+<h2 id="mv命令"><a href="#mv命令" class="headerlink" title="mv命令"></a>mv命令</h2><p>该命令用于移动文件、目录或更名，move之意，它的常用参数如下：<br>-f ：force强制的意思，如果目标文件已经存在，不会询问而直接覆盖<br>-i ：若目标文件已经存在，就会询问是否覆盖<br>-u ：若目标文件已经存在，且比目标文件新，才会更新<br>注：该命令可以把一个文件或多个文件一次移动一个文件夹中，但是最后一个目标文件一定要是“目录”。</p>
+<p>例如：<br>mv file1 file2 file3 dir # 把文件file1、file2、file3移动到目录dir中<br>mv file1 file2           # 把文件file1重命名为file2</p>
+<h2 id="rm命令"><a href="#rm命令" class="headerlink" title="rm命令"></a>rm命令</h2><p>该命令用于删除文件或目录，remove之间，它的常用参数如下：<br>-f ：就是force的意思，忽略不存在的文件，不会出现警告消息<br>-i ：互动模式，在删除前会询问用户是否操作<br>-r ：递归删除，最常用于目录删除，它是一个非常危险的参数<br>例如：<br>rm -i file # 删除文件file，在删除之前会询问是否进行该操作<br>rm -fr dir # 强制删除目录dir中的所有文件</p>
+<h2 id="ps命令"><a href="#ps命令" class="headerlink" title="ps命令"></a>ps命令</h2><p>该命令用于将某个时间点的进程运行情况选取下来并输出，process之意，它的常用参数如下：<br>-A ：所有的进程均显示出来<br>-a ：不与terminal有关的所有进程<br>-u ：有效用户的相关进程<br>-x ：一般与a参数一起使用，可列出较完整的信息<br>-l ：较长，较详细地将PID的信息列出<br>其实我们只要记住ps一般使用的命令参数搭配即可，它们并不多，如下：<br>ps aux # 查看系统所有的进程数据<br>ps ax # 查看不与terminal有关的所有进程<br>ps -lA # 查看系统所有的进程数据<br>ps axjf # 查看连同一部分进程树状态</p>
+<h2 id="kill命令"><a href="#kill命令" class="headerlink" title="kill命令"></a>kill命令</h2><p>该命令用于向某个工作（%jobnumber）或者是某个PID（数字）传送一个信号，它通常与ps和jobs命令一起使用，它的基本语法如下：<br>kill -signal PID<br>signal的常用参数如下：<br>注：最前面的数字为信号的代号，使用时可以用代号代替相应的信号。<br>1：SIGHUP，启动被终止的进程<br>2：SIGINT，相当于输入ctrl+c，中断一个程序的进行<br>9：SIGKILL，强制中断一个进程的进行<br>15：SIGTERM，以正常的结束进程方式来终止进程<br>17：SIGSTOP，相当于输入ctrl+z，暂停一个进程的进行<br>例如：<br>kill -SIGTERM %1  # 以正常的结束进程方式来终于第一个后台工作，可用jobs命令查看后台中的第一个工作进程<br>kill -SIGHUP PID  # 重新改动进程ID为PID的进程，PID可用ps命令通过管道命令加上grep命令进行筛选获得</p>
+<h2 id="killall命令"><a href="#killall命令" class="headerlink" title="killall命令"></a>killall命令</h2><p>该命令用于向一个命令启动的进程发送一个信号，它的一般语法如下：<br>killall [-iIe] [command name]<br>它的参数如下：<br>-i ：交互式的意思，若需要删除时，会询问用户<br>-e ：表示后面接的command name要一致，但command name不能超过15个字符<br>-I ：命令名称忽略大小写<br>例如：<br>killall -SIGHUP syslogd # 重新启动syslogd</p>
+<h2 id="file命令"><a href="#file命令" class="headerlink" title="file命令"></a>file命令</h2><p>该命令用于判断接在file命令后的文件的基本数据，因为在Linux下文件的类型并不是以后缀为分的，所以这个命令对我们来说就很有用了，它的用法非常简单，基本语法如下：<br>file filename<br>例如：<br>file ./test</p>
+<h2 id="tar命令"><a href="#tar命令" class="headerlink" title="tar命令"></a>tar命令</h2><p>该命令用于对文件进行打包，默认情况并不会压缩，如果指定了相应的参数，它还会调用相应的压缩程序（如gzip和bzip等）进行压缩和解压。它的常用参数如下：<br>-c ：新建打包文件<br>-t ：查看打包文件的内容含有哪些文件名<br>-x ：解打包或解压缩的功能，可以搭配-C（大写）指定解压的目录，注意-c,-t,-x不能同时出现在同一条命令中<br>-j ：通过bzip2的支持进行压缩/解压缩<br>-z ：通过gzip的支持进行压缩/解压缩<br>-v ：在压缩/解压缩过程中，将正在处理的文件名显示出来<br>-f filename ：filename为要处理的文件<br>-C dir ：指定压缩/解压缩的目录dir<br>上面的解说可以已经让你晕过去了，但是通常我们只需要记住下面三条命令即可：<br>压缩：tar -jcv -f filename.tar.bz2 要被处理的文件或目录名称<br>查询：tar -jtv -f filename.tar.bz2<br>解压：tar -jxv -f filename.tar.bz2 -C 欲解压缩的目录<br>注：文件名并不定要以后缀tar.bz2结尾，这里主要是为了说明使用的压缩程序为bzip2</p>
+<h2 id="cat命令"><a href="#cat命令" class="headerlink" title="cat命令"></a>cat命令</h2><p>该命令用于查看文本文件的内容，后接要查看的文件名，通常可用管道与more和less一起使用，从而可以一页页地查看数据。例如：<br>cat text | less # 查看text文件中的内容<br>注：这条命令也可以使用less text来代替</p>
+<h2 id="chgrp命令"><a href="#chgrp命令" class="headerlink" title="chgrp命令"></a>chgrp命令</h2><p>该命令用于改变文件所属用户组，它的使用非常简单，它的基本用法如下：<br>chgrp [-R] dirname/filename<br>-R ：进行递归的持续对所有文件和子目录更改<br>例如：<br>chgrp users -R ./dir # 递归地把dir目录下中的所有文件和子目录下所有文件的用户组修改为users</p>
+<h2 id="chown命令"><a href="#chown命令" class="headerlink" title="chown命令"></a>chown命令</h2><p>该命令用于改变文件的所有者，与chgrp命令的使用方法相同，只是修改的文件属性不同，不再详述。</p>
+<h2 id="chmod命令"><a href="#chmod命令" class="headerlink" title="chmod命令"></a>chmod命令</h2><p>该命令用于改变文件的权限，一般的用法如下：<br>chmod [-R] xyz 文件或目录<br>-R：进行递归的持续更改，即连同子目录下的所有文件都会更改<br>同时，chmod还可以使用u（user）、g（group）、o（other）、a（all）和+（加入）、-（删除）、=（设置）跟rwx搭配来对文件的权限进行更改。</p>
+<p>例如：<br>chmod 0755 file # 把file的文件权限改变为-rxwr-xr-x<br>chmod g+w file # 向file的文件权限中加入用户组可写权限<br>18、vim命令<br>该命令主要用于文本编辑，它接一个或多个文件名作为参数，如果文件存在就打开，如果文件不存在就以该文件名创建一个文件。vim是一个非常好用的文本编辑器，它里面有很多非常好用的命令，在这里不再多说。你可以从这里下载vim常用操作的详细说明。</p>
+<h2 id="gcc命令"><a href="#gcc命令" class="headerlink" title="gcc命令"></a>gcc命令</h2><p>对于一个用Linux开发C程序的人来说，这个命令就非常重要了，它用于把C语言的源程序文件，编译成可执行程序，由于g++的很多参数跟它非常相似，所以这里只介绍gcc的参数，它的常用参数如下：<br>-o ：output之意，用于指定生成一个可执行文件的文件名<br>-c ：用于把源文件生成目标文件（.o)，并阻止编译器创建一个完整的程序<br>-I ：增加编译时搜索头文件的路径<br>-L ：增加编译时搜索静态连接库的路径<br>-S ：把源文件生成汇编代码文件<br>-lm：表示标准库的目录中名为libm.a的函数库<br>-lpthread ：连接NPTL实现的线程库<br>-std= ：用于指定把使用的C语言的版本</p>
+<p>例如：<br>gcc -o test test.c -lm -std=c99 # 把源文件test.c按照c99标准编译成可执行程序test</p>
+<p>gcc -S test.c                   # 把源文件test.c转换为相应的汇编程序源文件test.s</p>
+<h2 id="time命令"><a href="#time命令" class="headerlink" title="time命令"></a>time命令</h2><p>该命令用于测算一个命令（即程序）的执行时间。它的使用非常简单，就像平时输入命令一样，不过在命令的前面加入一个time即可，例如：<br>time ./process<br>time ps aux<br>在程序或命令运行结束后，在最后输出了三个时间，它们分别是：<br>user：用户CPU时间，命令执行完成花费的用户CPU时间，即命令在用户态中执行时间总和；<br>system：系统CPU时间，命令执行完成花费的系统CPU时间，即命令在核心态中执行时间总和；<br>real：实际时间，从command命令行开始执行到运行终止的消逝时间；</p>
+
+      
+    </div>
+    
+    
+    
+
+	
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2019/04/15/Java/linux常用命令/">linux常用命令</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Sun 的个人博客">Sun</a></p>
+  <p><span>发布时间:</span>2019年04月15日 - 15:04</p>
+  <p><span>最后更新:</span>2020年06月23日 - 15:06</p>
+  <p><span>原始链接:</span><a href="/2019/04/15/Java/linux常用命令/" title="linux常用命令">https://sunyi720.github.io/2019/04/15/Java/linux常用命令/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2019/04/15/Java/linux常用命令/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Sun 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Sun 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/08/cmpNet/计算机网络自顶向下：第三章-传输层/" rel="next" title="计算机网络自顶向下：第三章-传输层">
+                <i class="fa fa-chevron-left"></i> 计算机网络自顶向下：第三章-传输层
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/25/cmpNet/计算机网络自顶向下：第四章-网络层/" rel="prev" title="计算机网络自顶向下：第四章-网络层">
+                计算机网络自顶向下：第四章-网络层 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjMzMS8xMjg2Ng=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/head.png" alt="Sun">
+            
+              <p class="site-author-name" itemprop="name">Sun</p>
+              <p class="site-description motion-element" itemprop="description">Lv.0</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">76</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/sunyi720" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#linux常用命令"><span class="nav-number">1.</span> <span class="nav-text">linux常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#cd命令"><span class="nav-number">1.1.</span> <span class="nav-text">cd命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ls命令"><span class="nav-number">1.2.</span> <span class="nav-text">ls命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#grep命令"><span class="nav-number">1.3.</span> <span class="nav-text">grep命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#find命令"><span class="nav-number">1.4.</span> <span class="nav-text">find命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cp命令"><span class="nav-number">1.5.</span> <span class="nav-text">cp命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mv命令"><span class="nav-number">1.6.</span> <span class="nav-text">mv命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rm命令"><span class="nav-number">1.7.</span> <span class="nav-text">rm命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ps命令"><span class="nav-number">1.8.</span> <span class="nav-text">ps命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kill命令"><span class="nav-number">1.9.</span> <span class="nav-text">kill命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#killall命令"><span class="nav-number">1.10.</span> <span class="nav-text">killall命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#file命令"><span class="nav-number">1.11.</span> <span class="nav-text">file命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tar命令"><span class="nav-number">1.12.</span> <span class="nav-text">tar命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cat命令"><span class="nav-number">1.13.</span> <span class="nav-text">cat命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chgrp命令"><span class="nav-number">1.14.</span> <span class="nav-text">chgrp命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chown命令"><span class="nav-number">1.15.</span> <span class="nav-text">chown命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chmod命令"><span class="nav-number">1.16.</span> <span class="nav-text">chmod命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gcc命令"><span class="nav-number">1.17.</span> <span class="nav-text">gcc命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#time命令"><span class="nav-number">1.18.</span> <span class="nav-text">time命令</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sun</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("iTVMQ8rz1NpV1RJ716VOA2rG-gzGzoHsz", "j0zy5JQ2bmQXtJ8PeP5gAiKM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

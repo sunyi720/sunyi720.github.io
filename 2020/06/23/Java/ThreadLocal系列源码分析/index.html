@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="https://fonts.google.com//css?family=ZCOOL KuaiLe:300,300italic,400,400italic,700,700italicNoto Serif SC:300,300italic,400,400italic,700,700italicMoul:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="ThreadLocal系列源码分析ThreadLocal 源码分析：直接看 ThreadLocal##get() 方法： 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748class ThreadLocal &amp;#123;    public T get() &amp;#123;">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ThreadLocal系列源码分析">
+<meta property="og:url" content="https://sunyi720.github.io/2020/06/23/Java/ThreadLocal系列源码分析/index.html">
+<meta property="og:site_name" content="Sun">
+<meta property="og:description" content="ThreadLocal系列源码分析ThreadLocal 源码分析：直接看 ThreadLocal##get() 方法： 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748class ThreadLocal &amp;#123;    public T get() &amp;#123;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWcyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTU2OTQ4NC8yMDE5MDIvMTU2OTQ4NC0yMDE5MDIyNjE0MTcyMjkyMi0xMDY0MDc1NzY4LnBuZw?x-oss-process=image/format,png">
+<meta property="og:updated_time" content="2020-06-23T08:48:54.497Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ThreadLocal系列源码分析">
+<meta name="twitter:description" content="ThreadLocal系列源码分析ThreadLocal 源码分析：直接看 ThreadLocal##get() 方法： 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748class ThreadLocal &amp;#123;    public T get() &amp;#123;">
+<meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWcyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTU2OTQ4NC8yMDE5MDIvMTU2OTQ4NC0yMDE5MDIyNjE0MTcyMjkyMi0xMDY0MDc1NzY4LnBuZw?x-oss-process=image/format,png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":false},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":20},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://sunyi720.github.io/2020/06/23/Java/ThreadLocal系列源码分析/">
+
+
+
+
+
+  <title>ThreadLocal系列源码分析 | Sun</title>
+  
+
+
+
+
+
+
+
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sun</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">数字人生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2020/06/23/Java/ThreadLocal系列源码分析/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ThreadLocal系列源码分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-23T15:13:00+08:00">
+                2020-06-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/06/23/Java/ThreadLocal系列源码分析/" class="leancloud_visitors" data-flag-title="ThreadLocal系列源码分析">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="ThreadLocal系列源码分析"><a href="#ThreadLocal系列源码分析" class="headerlink" title="ThreadLocal系列源码分析"></a>ThreadLocal系列源码分析</h1><h2 id="ThreadLocal-源码分析："><a href="#ThreadLocal-源码分析：" class="headerlink" title="ThreadLocal 源码分析："></a>ThreadLocal 源码分析：</h2><p>直接看 ThreadLocal##get() 方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThreadLocal</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 1. 获取当前线程</span></span><br><span class="line">        Thread t = Thread.currentThread();</span><br><span class="line">        <span class="comment">// 2. 获取线程对象中的属性 threadLocals表</span></span><br><span class="line">        ThreadLocalMap map = getMap(t);</span><br><span class="line">        <span class="keyword">if</span> (map != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">// 3. 获取Entry</span></span><br><span class="line">            ThreadLocalMap.Entry e = map.getEntry(<span class="keyword">this</span>);</span><br><span class="line">            <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">                <span class="comment">// 4. 返回value值，即 ThreadLocal 存储的线程相关的值</span></span><br><span class="line">                        T result = (T) e.value;</span><br><span class="line">                <span class="keyword">return</span> result;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 5. 如果 map 为空，则设置并返回初始值</span></span><br><span class="line">        <span class="keyword">return</span> setInitialValue();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 每个线程都保存自己的一份 ThreadLocal 表</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">ThreadLocalMap <span class="title">getMap</span><span class="params">(Thread t)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> t.threadLocals;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 设置并返回初始值</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> T <span class="title">setInitialValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        T value = initialValue();</span><br><span class="line">        Thread t = Thread.currentThread();</span><br><span class="line">        ThreadLocalMap map = getMap(t);</span><br><span class="line">        <span class="keyword">if</span> (map != <span class="keyword">null</span>)</span><br><span class="line">            map.set(<span class="keyword">this</span>, value);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            createMap(t, value);</span><br><span class="line">        <span class="keyword">return</span> value;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 设置初始值</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> T <span class="title">initialValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再看 ThreadLocal##set()</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThreadLocal</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(T value)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 1. 获取当前线程</span></span><br><span class="line">        Thread t = Thread.currentThread();</span><br><span class="line">        <span class="comment">// 2. 获取线程对象中的属性 ThreadLocalMap</span></span><br><span class="line">        ThreadLocalMap map = getMap(t);</span><br><span class="line">        <span class="keyword">if</span> (map != <span class="keyword">null</span>)</span><br><span class="line">            map.set(<span class="keyword">this</span>, value);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            createMap(t, value);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">createMap</span><span class="params">(Thread t, T firstValue)</span> </span>&#123;</span><br><span class="line">        t.threadLocals = <span class="keyword">new</span> ThreadLocalMap(<span class="keyword">this</span>, firstValue);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>每个线程都保存自己的一份 ThreadLocal 表，这个表长啥样？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    ThreadLocal.ThreadLocalMap threadLocals = <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThreadLocal</span> </span>&#123;</span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadLocalMap</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 定制了自己的 hash 算法，每个Entry都可定位到指定的索引</span></span><br><span class="line">        <span class="keyword">private</span> Entry[] table;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Entry</span> <span class="keyword">extends</span> <span class="title">WeakReference</span>&lt;<span class="title">ThreadLocal</span>&lt;?&gt;&gt; </span>&#123;</span><br><span class="line">            <span class="comment">/** The value associated with this ThreadLocal. */</span></span><br><span class="line">            Object value;</span><br><span class="line"></span><br><span class="line">            Entry(ThreadLocal&lt;?&gt; k, Object v) &#123;</span><br><span class="line">                <span class="keyword">super</span>(k);</span><br><span class="line">                value = v;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>WeakReference&lt;ThreadLocal&lt;?&gt;&gt; 表示只有一个 ThreadLocal 引用，但是这个引用比较特殊</p>
+<h2 id="ThreadLocal-为什么要使用-WeakReference？"><a href="#ThreadLocal-为什么要使用-WeakReference？" class="headerlink" title="ThreadLocal 为什么要使用 WeakReference？"></a>ThreadLocal 为什么要使用 WeakReference？</h2><p>当发生 GC 时，WeakReference 中持有的引用便会被回收，这样的意义是：当 ThreadLocal 置为 Null 时，Thread 中的 map 自动进行回收（只有 map 中的 key 会自动回收）。</p>
+<h2 id="WeakReference-应用场景？"><a href="#WeakReference-应用场景？" class="headerlink" title="WeakReference 应用场景？"></a>WeakReference 应用场景？</h2><ol>
+<li>map 自动回收</li>
+<li>缓存自动释放</li>
+</ol>
+<h2 id="WeakReference-内的引用如果被回收了，自身如何存在？"><a href="#WeakReference-内的引用如果被回收了，自身如何存在？" class="headerlink" title="WeakReference 内的引用如果被回收了，自身如何存在？"></a>WeakReference 内的引用如果被回收了，自身如何存在？</h2><p>自身不会被回收，但是会被放到 ReferenceQuene 中（如果有初始化），发生回收后，可以遍历 ReferenceQuene 来进行后续操作。</p>
+<h2 id="feign-中使用-RequestInterceptor-遇到的一个问题："><a href="#feign-中使用-RequestInterceptor-遇到的一个问题：" class="headerlink" title="feign 中使用 RequestInterceptor 遇到的一个问题："></a>feign 中使用 RequestInterceptor 遇到的一个问题：</h2><p>当 Hystrix资源隔离策略 为线程模式时，RequestInterceptor 会变成异步执行，这时候 RequestContextHolder.getRequestAttributes() 拿到的结果会为 Null ，这是因为 RequestContextHolder 基于 ThreadLocal。</p>
+<h2 id="如何解决上述问题？"><a href="#如何解决上述问题？" class="headerlink" title="如何解决上述问题？"></a>如何解决上述问题？</h2><p>使用 InheritableThreadLocal ，该类可以实现父线程的 ThreadLocalMap 传递到子线程的 ThreadLocalMap中。</p>
+<h2 id="InheritableThreadLocal-源码分析"><a href="#InheritableThreadLocal-源码分析" class="headerlink" title="InheritableThreadLocal 源码分析"></a>InheritableThreadLocal 源码分析</h2><p>ThreadLocalMap 的传递发生在新线程创建时，那么可以从 Thread 的初始化方法入手：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 除了有 ThreadLocal 表 还有 inheritableThreadLocals 表</span></span><br><span class="line">    ThreadLocal.ThreadLocalMap inheritableThreadLocals = <span class="keyword">null</span>;</span><br><span class="line">    </span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// ...忽略无关代码</span></span><br><span class="line">        <span class="keyword">if</span> (inheritThreadLocals &amp;&amp; parent.inheritableThreadLocals != <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="comment">// 这里把父线程中的 inheritableThreadLocals表 传递到子线程中的 inheritableThreadLocals表</span></span><br><span class="line">            <span class="keyword">this</span>.inheritableThreadLocals =</span><br><span class="line">                ThreadLocal.createInheritedMap(parent.inheritableThreadLocals);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再看 ThreadLocal##createInheritedMap()</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThreadLocal</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> ThreadLocalMap <span class="title">createInheritedMap</span><span class="params">(ThreadLocalMap parentMap)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ThreadLocalMap(parentMap);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadLocalMap</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="title">ThreadLocalMap</span><span class="params">(ThreadLocalMap parentMap)</span> </span>&#123;</span><br><span class="line">            Entry[] parentTable = parentMap.table;</span><br><span class="line">            <span class="keyword">int</span> len = parentTable.length;</span><br><span class="line">            setThreshold(len);</span><br><span class="line">            table = <span class="keyword">new</span> Entry[len];</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; len; j++) &#123;</span><br><span class="line">                Entry e = parentTable[j];</span><br><span class="line">                <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">                    ThreadLocal&lt;Object&gt; key = (ThreadLocal&lt;Object&gt;) e.get();</span><br><span class="line">                    <span class="keyword">if</span> (key != <span class="keyword">null</span>) &#123;</span><br><span class="line">                        <span class="comment">// 核心方法</span></span><br><span class="line">                        Object value = key.childValue(e.value);</span><br><span class="line">                        Entry c = <span class="keyword">new</span> Entry(key, value);</span><br><span class="line">                        <span class="keyword">int</span> h = key.threadLocalHashCode &amp; (len - <span class="number">1</span>);</span><br><span class="line">                        <span class="keyword">while</span> (table[h] != <span class="keyword">null</span>)</span><br><span class="line">                            h = nextIndex(h, len);</span><br><span class="line">                        table[h] = c;</span><br><span class="line">                        size++;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function">T <span class="title">childValue</span><span class="params">(T parentValue)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> UnsupportedOperationException();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ThreadLocal 中 不支持 传递方法 childValue()，该方法由子类 InheritableThreadLocal 重写：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InheritableThreadLocal</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">ThreadLocal</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 重写 childValue()，支持传递</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> T <span class="title">childValue</span><span class="params">(T parentValue)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> parentValue;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 变更为操作 inheritableThreadLocals表</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">ThreadLocalMap <span class="title">getMap</span><span class="params">(Thread t)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> t.inheritableThreadLocals;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 变更为操作 inheritableThreadLocals表</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">createMap</span><span class="params">(Thread t, T firstValue)</span> </span>&#123;</span><br><span class="line">        t.inheritableThreadLocals = <span class="keyword">new</span> ThreadLocalMap(<span class="keyword">this</span>, firstValue);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="InheritableThreadLocal-有什么不足？"><a href="#InheritableThreadLocal-有什么不足？" class="headerlink" title="InheritableThreadLocal 有什么不足？"></a>InheritableThreadLocal 有什么不足？</h2><p>InheritableThreadLocal 只能做到父线程到子线程的传递，但目前往往会使用线程池，这时候 InheritableThreadLocal 就失效了。</p>
+<p>可以使用 TransmittableThreadLocal 解决上述问题，TransmittableThreadLocal 的任务是把 <strong>任务提交给线程池时</strong>的<code>ThreadLocal</code>值传递到 <strong>任务执行时</strong>。</p>
+<p>使用案例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">TransmittableThreadLocal&lt;String&gt; context = <span class="keyword">new</span> TransmittableThreadLocal&lt;String&gt;();</span><br><span class="line">context.set(<span class="string">"value-set-in-parent"</span>);</span><br><span class="line"></span><br><span class="line">Runnable task = <span class="keyword">new</span> Runnable();</span><br><span class="line"><span class="comment">// 额外的处理，生成修饰了的对象ttlRunnable</span></span><br><span class="line">Runnable ttlRunnable = TtlRunnable.get(task);</span><br><span class="line">executorService.submit(ttlRunnable);</span><br><span class="line"></span><br><span class="line"><span class="comment">// =====================================================</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Task中可以读取，值是"value-set-in-parent"</span></span><br><span class="line">String value = context.get();</span><br></pre></td></tr></table></figure>
+<p>那么来看看 TtlRunnable##get 中干了些啥</p>
+<h2 id="TransmittableThreadLocal-源码分析："><a href="#TransmittableThreadLocal-源码分析：" class="headerlink" title="TransmittableThreadLocal 源码分析："></a>TransmittableThreadLocal 源码分析：</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TtlRunnable</span> <span class="keyword">implements</span> <span class="title">Runnable</span>, <span class="title">TtlEnhanced</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> AtomicReference&lt;Object&gt; capturedRef;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Runnable runnable;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">boolean</span> releaseTtlValueReferenceAfterRun;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 核心</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">TtlRunnable</span><span class="params">(@Nonnull Runnable runnable, <span class="keyword">boolean</span> releaseTtlValueReferenceAfterRun)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 保存要传递的 ThreadLocalMap capture()</span></span><br><span class="line">        <span class="keyword">this</span>.capturedRef = <span class="keyword">new</span> AtomicReference&lt;Object&gt;(capture());</span><br><span class="line">        <span class="comment">// 保存原任务</span></span><br><span class="line">        <span class="keyword">this</span>.runnable = runnable;</span><br><span class="line">        <span class="comment">// 执行完后是否释放</span></span><br><span class="line">        <span class="keyword">this</span>.releaseTtlValueReferenceAfterRun = releaseTtlValueReferenceAfterRun;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TtlRunnable <span class="title">get</span><span class="params">(@Nullable Runnable runnable, <span class="keyword">boolean</span> releaseTtlValueReferenceAfterRun, <span class="keyword">boolean</span> idempotent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> == runnable) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 若发现已经是目标类型了（说明已经被包装过了）直接返回</span></span><br><span class="line">        <span class="keyword">if</span> (runnable <span class="keyword">instanceof</span> TtlEnhanced) &#123;</span><br><span class="line">            <span class="keyword">if</span> (idempotent) <span class="keyword">return</span> (TtlRunnable) runnable;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Already TtlRunnable!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 其实就是包装了一下</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> TtlRunnable(runnable, releaseTtlValueReferenceAfterRun);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>包装时核心的方法来自 TransmittableThreadLocal 中的 静态内部类 Transmitter##capture()</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TransmittableThreadLocal</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">InheritableThreadLocal</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Transmitter</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">capture</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="comment">/*</span></span><br><span class="line"><span class="comment">            * 该方法做主要功能只是把 holder 的值做一个拷贝</span></span><br><span class="line"><span class="comment">            */</span></span><br><span class="line">            Map&lt;TransmittableThreadLocal&lt;?&gt;, Object&gt; captured = <span class="keyword">new</span> HashMap&lt;TransmittableThreadLocal&lt;?&gt;, Object&gt;();</span><br><span class="line">            <span class="keyword">for</span> (TransmittableThreadLocal&lt;?&gt; threadLocal : holder.get().keySet()) &#123;</span><br><span class="line">                captured.put(threadLocal, threadLocal.copyValue());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> captured;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>holder 是啥？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// TransmittableThreadLocal 继承自 InheritableThreadLocal</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TransmittableThreadLocal</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">InheritableThreadLocal</span>&lt;<span class="title">T</span>&gt; </span>&#123; </span><br><span class="line">    <span class="comment">// holder 是一个 InheritableThreadLocal，存储 线程相关 的一个 Map</span></span><br><span class="line">    <span class="comment">// 该 map 即从 **任务提交给线程池时** 传递到 **任务执行时** 的 `ThreadLocal` 值</span></span><br><span class="line">    <span class="comment">// 采用 WeakHashMap</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> InheritableThreadLocal&lt;Map&lt;TransmittableThreadLocal&lt;?&gt;, ?&gt;&gt; holder =</span><br><span class="line">            <span class="keyword">new</span> InheritableThreadLocal&lt;Map&lt;TransmittableThreadLocal&lt;?&gt;, ?&gt;&gt;() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="keyword">protected</span> Map&lt;TransmittableThreadLocal&lt;?&gt;, ?&gt; initialValue() &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">new</span> WeakHashMap&lt;TransmittableThreadLocal&lt;?&gt;, Object&gt;();</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="keyword">protected</span> Map&lt;TransmittableThreadLocal&lt;?&gt;, ?&gt; childValue(Map&lt;TransmittableThreadLocal&lt;?&gt;, ?&gt; parentValue) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">new</span> WeakHashMap&lt;TransmittableThreadLocal&lt;?&gt;, Object&gt;(parentValue);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>holder 中数据的相关操作：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TransmittableThreadLocal</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">InheritableThreadLocal</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 重写 get()</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        T value = <span class="keyword">super</span>.get();</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != value) addValue();</span><br><span class="line">        <span class="keyword">return</span> value;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 重写 set()</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(T value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.set(value);</span><br><span class="line">        <span class="comment">// may set null to remove value</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> == value) removeValue();</span><br><span class="line">        <span class="keyword">else</span> addValue();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 重写 remove()</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        removeValue();</span><br><span class="line">        <span class="keyword">super</span>.remove();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * holder 写</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">addValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!holder.get().containsKey(<span class="keyword">this</span>)) &#123;</span><br><span class="line">            holder.get().put(<span class="keyword">this</span>, <span class="keyword">null</span>); <span class="comment">// WeakHashMap supports null value.</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * holder 删</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">removeValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        holder.get().remove(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>在线程A中写 TransmittableThreadLocal 时，便会将值放到 holder 的 map 中，holder 是一个ThreadLocal，也就是线程A持有的</li>
+<li>在线程A中创建一个任务时，将 holder 保存的值保存到任务中，随任务一起传递到线程B中</li>
+<li>在线程B中执行 TtlRunnable##run()</li>
+</ol>
+<p>可以看到 TtlRunnable 是把原任务做了一个包装，那么本身也是作为 Runnable，那么最关键的就是 run() 方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TtlRunnable</span> <span class="keyword">implements</span> <span class="title">Runnable</span>, <span class="title">TtlEnhanced</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 1. 获取传递来的 ThreadLocal Map</span></span><br><span class="line">        Object captured = capturedRef.get();</span><br><span class="line">        <span class="keyword">if</span> (captured == <span class="keyword">null</span> || releaseTtlValueReferenceAfterRun &amp;&amp; !capturedRef.compareAndSet(captured, <span class="keyword">null</span>)) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"TTL value reference is released after run!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 核心方法</span></span><br><span class="line">        <span class="comment">// 执行前，使用传递来的 ThreadLocal Map，覆盖本地的 ThreadLocalMap</span></span><br><span class="line">        Object backup = replay(captured);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 执行实际的任务</span></span><br><span class="line">            runnable.run();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="comment">// 回复本地的 ThreadLocalMap</span></span><br><span class="line">            restore(backup);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>核心方法 Transmitter##replay()：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TransmittableThreadLocal</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">InheritableThreadLocal</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Transmitter</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Nonnull</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">replay</span><span class="params">(@Nonnull Object captured)</span> </span>&#123;</span><br><span class="line">            <span class="comment">// 入参</span></span><br><span class="line">            Map&lt;TransmittableThreadLocal&lt;?&gt;, Object&gt; capturedMap = (Map&lt;TransmittableThreadLocal&lt;?&gt;, Object&gt;) captured;</span><br><span class="line">            <span class="comment">// 出参</span></span><br><span class="line">            Map&lt;TransmittableThreadLocal&lt;?&gt;, Object&gt; backup = <span class="keyword">new</span> HashMap&lt;TransmittableThreadLocal&lt;?&gt;, Object&gt;();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 1. 迭代本线程中的 holder</span></span><br><span class="line">            <span class="keyword">for</span> (Iterator&lt;? extends Map.Entry&lt;TransmittableThreadLocal&lt;?&gt;, ?&gt;&gt; iterator = holder.get().entrySet().iterator();</span><br><span class="line">                 iterator.hasNext(); ) &#123;</span><br><span class="line">                Map.Entry&lt;TransmittableThreadLocal&lt;?&gt;, ?&gt; next = iterator.next();</span><br><span class="line">                TransmittableThreadLocal&lt;?&gt; threadLocal = next.getKey();</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 2. 存储本线程中的 ThreadLocalMap 到 backup</span></span><br><span class="line">                backup.put(threadLocal, threadLocal.get());</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 3. 清除本线程中的 ThreadLocalMap</span></span><br><span class="line">                <span class="keyword">if</span> (!capturedMap.containsKey(threadLocal)) &#123;</span><br><span class="line">                    iterator.remove();</span><br><span class="line">                    threadLocal.superRemove();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 4. 执行 ThreadLocal##set()</span></span><br><span class="line">            <span class="comment">// 将传递的 ThreadLocalMap 设置到本线程的 ThreadLocalMap 中</span></span><br><span class="line">            setTtlValuesTo(capturedMap);</span><br><span class="line"></span><br><span class="line">            doExecuteCallback(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> backup;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setTtlValuesTo</span><span class="params">(@Nonnull Map&lt;TransmittableThreadLocal&lt;?&gt;, Object&gt; ttlValues)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">for</span> (Map.Entry&lt;TransmittableThreadLocal&lt;?&gt;, Object&gt; entry : ttlValues.entrySet()) &#123;</span><br><span class="line">                <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">                TransmittableThreadLocal&lt;Object&gt; threadLocal = (TransmittableThreadLocal&lt;Object&gt;) entry.getKey();</span><br><span class="line">                threadLocal.set(entry.getValue());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">doExecuteCallback</span><span class="params">(<span class="keyword">boolean</span> isBefore)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (Map.Entry&lt;TransmittableThreadLocal&lt;?&gt;, ?&gt; entry : holder.get().entrySet()) &#123;</span><br><span class="line">            TransmittableThreadLocal&lt;?&gt; threadLocal = entry.getKey();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (isBefore) threadLocal.beforeExecute();</span><br><span class="line">                <span class="keyword">else</span> threadLocal.afterExecute();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Throwable t) &#123;</span><br><span class="line">                <span class="keyword">if</span> (logger.isLoggable(Level.WARNING)) &#123;</span><br><span class="line">                    logger.log(Level.WARNING, <span class="string">"TTL exception when "</span> + (isBefore ? <span class="string">"beforeExecute"</span> : <span class="string">"afterExecute"</span>) + <span class="string">", cause: "</span> + t.toString(), t);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="TransmittableThreadLocal-流程总结："><a href="#TransmittableThreadLocal-流程总结：" class="headerlink" title="TransmittableThreadLocal 流程总结："></a>TransmittableThreadLocal 流程总结：</h2><ol>
+<li>在线程A中写 TransmittableThreadLocal 时，便会将值放到 holder 的 map 中，holder 是一个ThreadLocal，也就是线程A持有的</li>
+<li>在线程A中创建一个任务时，使用TtlRunnable做一层包装，将 holder 保存的值保存到任务中，随任务一起传递到线程B中</li>
+<li>在线程B中执行 TtlRunnable##run()</li>
+<li>执行前，使用传递来的 ThreadLocalMap，覆盖本地的 ThreadLocalMap</li>
+<li>执行Runnable##run()</li>
+<li>执行后，恢复本地的 ThreadLocalMap</li>
+</ol>
+<p>流程图：</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWcyMDE4LmNuYmxvZ3MuY29tL2Jsb2cvMTU2OTQ4NC8yMDE5MDIvMTU2OTQ4NC0yMDE5MDIyNjE0MTcyMjkyMi0xMDY0MDc1NzY4LnBuZw?x-oss-process=image/format,png" alt="img"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>ThreadLocal 根本问题是由于这是一个线程无关的变量，而传递的本质是使用一个线程共享的变量进行传递值，因为线程共享，所以需要注意 线程安全问题</li>
+<li>TransmittableThreadLocal 继承了 InheritableThreadLocal，因此在第一次被创建时，还是使用的 InheritableThreadLocal 的功能，而后在线程池中，从父线程中继承的 ThreadLocalMap，便是作为本地元素 ThreadLocalMap 被备份和恢复。</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+	
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2020/06/23/Java/ThreadLocal系列源码分析/">ThreadLocal系列源码分析</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Sun 的个人博客">Sun</a></p>
+  <p><span>发布时间:</span>2020年06月23日 - 15:06</p>
+  <p><span>最后更新:</span>2020年06月23日 - 16:06</p>
+  <p><span>原始链接:</span><a href="/2020/06/23/Java/ThreadLocal系列源码分析/" title="ThreadLocal系列源码分析">https://sunyi720.github.io/2020/06/23/Java/ThreadLocal系列源码分析/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://sunyi720.github.io/2020/06/23/Java/ThreadLocal系列源码分析/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+    });
+    });  
+</script>
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Sun 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Sun 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/06/17/Spring/springMVC/" rel="next" title="spring MVC">
+                <i class="fa fa-chevron-left"></i> spring MVC
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjMzMS8xMjg2Ng=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/head.png" alt="Sun">
+            
+              <p class="site-author-name" itemprop="name">Sun</p>
+              <p class="site-description motion-element" itemprop="description">Lv.0</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">76</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/sunyi720" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ThreadLocal系列源码分析"><span class="nav-number">1.</span> <span class="nav-text">ThreadLocal系列源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ThreadLocal-源码分析："><span class="nav-number">1.1.</span> <span class="nav-text">ThreadLocal 源码分析：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ThreadLocal-为什么要使用-WeakReference？"><span class="nav-number">1.2.</span> <span class="nav-text">ThreadLocal 为什么要使用 WeakReference？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WeakReference-应用场景？"><span class="nav-number">1.3.</span> <span class="nav-text">WeakReference 应用场景？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WeakReference-内的引用如果被回收了，自身如何存在？"><span class="nav-number">1.4.</span> <span class="nav-text">WeakReference 内的引用如果被回收了，自身如何存在？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#feign-中使用-RequestInterceptor-遇到的一个问题："><span class="nav-number">1.5.</span> <span class="nav-text">feign 中使用 RequestInterceptor 遇到的一个问题：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何解决上述问题？"><span class="nav-number">1.6.</span> <span class="nav-text">如何解决上述问题？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#InheritableThreadLocal-源码分析"><span class="nav-number">1.7.</span> <span class="nav-text">InheritableThreadLocal 源码分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#InheritableThreadLocal-有什么不足？"><span class="nav-number">1.8.</span> <span class="nav-text">InheritableThreadLocal 有什么不足？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TransmittableThreadLocal-源码分析："><span class="nav-number">1.9.</span> <span class="nav-text">TransmittableThreadLocal 源码分析：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TransmittableThreadLocal-流程总结："><span class="nav-number">1.10.</span> <span class="nav-text">TransmittableThreadLocal 流程总结：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.11.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sun</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("iTVMQ8rz1NpV1RJ716VOA2rG-gzGzoHsz", "j0zy5JQ2bmQXtJ8PeP5gAiKM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>
