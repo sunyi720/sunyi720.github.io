@@ -321,7 +321,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2020/06/23/Java/ThreadLocal系列源码分析/">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2020/09/09/Java并发编程/12构建自定义的同步工具/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sun">
@@ -340,7 +340,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/06/23/Java/ThreadLocal系列源码分析/" itemprop="url">ThreadLocal系列源码分析</a></h1>
+                <a class="post-title-link" href="/2020/09/09/Java并发编程/12构建自定义的同步工具/" itemprop="url">12构建自定义的同步工具</a></h1>
         
 
         <div class="post-meta">
@@ -352,8 +352,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-23T15:13:00+08:00">
-                2020-06-23
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-09T19:25:00+08:00">
+                2020-09-09
               </time>
             
 
@@ -375,8 +375,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/java并发编程/" itemprop="url" rel="index">
+                    <span itemprop="name">java并发编程</span>
                   </a>
                 </span>
 
@@ -392,7 +392,7 @@
 
           
           
-             <span id="/2020/06/23/Java/ThreadLocal系列源码分析/" class="leancloud_visitors" data-flag-title="ThreadLocal系列源码分析">
+             <span id="/2020/09/09/Java并发编程/12构建自定义的同步工具/" class="leancloud_visitors" data-flag-title="12构建自定义的同步工具">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -425,12 +425,17 @@
       
         
           
-          ThreadLocal系列源码分析ThreadLocal 源码分析：直接看 ThreadLocal##get() 方法：
-123456789101112131415161718192021222324252627282930313233343536373839404142434445464748cl
+          构建自定义的同步工具状态依赖性的类，操作有基于状态的前提条件：
+
+如FutureTask，获取一个任务结果前提条件是任务状态为“任务已完成”；
+如BlockingQueue，从队列中删除元素前提条件是队列状态为“非空”。
+如ReentrantLock，获取锁成功的前提条件是锁的状态为“可获取”。
+
+
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2020/06/23/Java/ThreadLocal系列源码分析/#more" rel="contents">
+            <a class="btn" href="/2020/09/09/Java并发编程/12构建自定义的同步工具/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -486,7 +491,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2020/06/17/Spring/springMVC/">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2020/09/04/Java并发编程/11显示锁/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sun">
@@ -505,7 +510,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/06/17/Spring/springMVC/" itemprop="url">spring MVC</a></h1>
+                <a class="post-title-link" href="/2020/09/04/Java并发编程/11显示锁/" itemprop="url">11显示锁</a></h1>
         
 
         <div class="post-meta">
@@ -517,8 +522,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-17T20:15:00+08:00">
-                2020-06-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-04T11:19:00+08:00">
+                2020-09-04
               </time>
             
 
@@ -540,8 +545,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/spring/" itemprop="url" rel="index">
-                    <span itemprop="name">spring</span>
+                  <a href="/categories/java并发编程/" itemprop="url" rel="index">
+                    <span itemprop="name">java并发编程</span>
                   </a>
                 </span>
 
@@ -557,7 +562,7 @@
 
           
           
-             <span id="/2020/06/17/Spring/springMVC/" class="leancloud_visitors" data-flag-title="spring MVC">
+             <span id="/2020/09/04/Java并发编程/11显示锁/" class="leancloud_visitors" data-flag-title="11显示锁">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -590,16 +595,14 @@
       
         
           
-          spring MVC为什么在WEB下接入spring？
-极高的提高开发效率
-如何在web环境中整合spring容器？
-常见的web容器是tomcat，在tomcat中主要的组件是servlet、监听器等，tomcat的配置在WEB-INF/web.xml中
-常见配置：
-123456789101112
+          显示锁显示锁可以代替 synchronized 吗？
+只有当 synchronized 不适用时，如中断，非块结构加锁，是可以代替的一种高级锁。
+Lock 和 ReentrantLockLock 定义了显示锁的方法属性：
+12345678910public interfece Lock&#123; 
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2020/06/17/Spring/springMVC/#more" rel="contents">
+            <a class="btn" href="/2020/09/04/Java并发编程/11显示锁/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -655,7 +658,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2020/05/28/Java/反射与代理/">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2020/08/28/Java并发编程/09性能和可伸缩性/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sun">
@@ -674,7 +677,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/05/28/Java/反射与代理/" itemprop="url">反射性能分析和代理原理</a></h1>
+                <a class="post-title-link" href="/2020/08/28/Java并发编程/09性能和可伸缩性/" itemprop="url">09性能和可伸缩性</a></h1>
         
 
         <div class="post-meta">
@@ -686,8 +689,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-28T15:12:00+08:00">
-                2020-05-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-28T14:41:00+08:00">
+                2020-08-28
               </time>
             
 
@@ -709,8 +712,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/java并发编程/" itemprop="url" rel="index">
+                    <span itemprop="name">java并发编程</span>
                   </a>
                 </span>
 
@@ -726,7 +729,7 @@
 
           
           
-             <span id="/2020/05/28/Java/反射与代理/" class="leancloud_visitors" data-flag-title="反射性能分析和代理原理">
+             <span id="/2020/08/28/Java并发编程/09性能和可伸缩性/" class="leancloud_visitors" data-flag-title="09性能和可伸缩性">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -759,18 +762,14 @@
       
         
           
-          反射性能分析和代理原理反射为什么效率差？一、结论
-Method#invoke 方法会对参数做装箱和拆箱操作
-需要检查方法可见性
-需要校验参数
-反射方法难以内联
-JIT 无法优化
-
-二、源码分析1. 使用案例：1234567891011121314151617181920public class Re
+          性能和可伸缩性使用线程的目的之一是为了提升性能，但与此同时可能也带来其他问题（安全性，活跃性，额外的开销），不论如何，首先要保证程序能正常的运行，其后在确定使用一个“更好”的方案前，不要主观猜测，最好是用数据证实其“更好”。
+对性能的思考提升性能意味着什么？
+用更少的资源做更多的事
+资源：CPU周期
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2020/05/28/Java/反射与代理/#more" rel="contents">
+            <a class="btn" href="/2020/08/28/Java并发编程/09性能和可伸缩性/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -826,7 +825,7 @@ JIT 无法优化
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2020/05/25/Spring/AOP的实现/">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2020/08/26/Java并发编程/08避免活跃性危险/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sun">
@@ -845,7 +844,7 @@ JIT 无法优化
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/05/25/Spring/AOP的实现/" itemprop="url">Spring AOP 实现</a></h1>
+                <a class="post-title-link" href="/2020/08/26/Java并发编程/08避免活跃性危险/" itemprop="url">08避免活跃性危险</a></h1>
         
 
         <div class="post-meta">
@@ -857,8 +856,8 @@ JIT 无法优化
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-25T15:17:00+08:00">
-                2020-05-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-26T20:03:00+08:00">
+                2020-08-26
               </time>
             
 
@@ -880,8 +879,8 @@ JIT 无法优化
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/spring/" itemprop="url" rel="index">
-                    <span itemprop="name">spring</span>
+                  <a href="/categories/java并发编程/" itemprop="url" rel="index">
+                    <span itemprop="name">java并发编程</span>
                   </a>
                 </span>
 
@@ -897,7 +896,7 @@ JIT 无法优化
 
           
           
-             <span id="/2020/05/25/Spring/AOP的实现/" class="leancloud_visitors" data-flag-title="Spring AOP 实现">
+             <span id="/2020/08/26/Java并发编程/08避免活跃性危险/" class="leancloud_visitors" data-flag-title="08避免活跃性危险">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -930,16 +929,13 @@ JIT 无法优化
       
         
           
-          Spring AOP 实现AOP概述为什么需要AOP？
-问题一：如何减少重复的代码？
-将重复的代码抽离出来，在多个地方显示地声明调用
-问题二：如何减少“声明调用”的代码重复？
-再抽离，再显示地声明？
-问题三：根据需要，每个地方的“声明调用”可能不完全相同，这是就无法统一抽离，并且这些“重复”可能是业
+          避免活跃性危险锁是一把双刃剑，通过加锁来保证线程安全，但过度使用，则会导致死锁。
+死锁在线程A持有锁L并想获得锁M的同时，线程B持有锁M并尝试获得锁L，线程AB均不会释放自己的锁，那么这两个线程将永远地等待下去
+在数据库系统的设中考虑了检测死锁以及从死锁中恢复。JVM没有办法解决死锁，只能在编程和测
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2020/05/25/Spring/AOP的实现/#more" rel="contents">
+            <a class="btn" href="/2020/08/26/Java并发编程/08避免活跃性危险/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -995,7 +991,7 @@ JIT 无法优化
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2020/05/12/Spring/IOC容器的实现/">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2020/08/25/Java并发编程/07线程池的使用/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sun">
@@ -1014,7 +1010,7 @@ JIT 无法优化
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/05/12/Spring/IOC容器的实现/" itemprop="url">IOC容器的实现</a></h1>
+                <a class="post-title-link" href="/2020/08/25/Java并发编程/07线程池的使用/" itemprop="url">07线程池的使用</a></h1>
         
 
         <div class="post-meta">
@@ -1026,8 +1022,8 @@ JIT 无法优化
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-12T20:09:00+08:00">
-                2020-05-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-25T18:44:00+08:00">
+                2020-08-25
               </time>
             
 
@@ -1049,8 +1045,8 @@ JIT 无法优化
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/spring/" itemprop="url" rel="index">
-                    <span itemprop="name">spring</span>
+                  <a href="/categories/java并发编程/" itemprop="url" rel="index">
+                    <span itemprop="name">java并发编程</span>
                   </a>
                 </span>
 
@@ -1066,7 +1062,7 @@ JIT 无法优化
 
           
           
-             <span id="/2020/05/12/Spring/IOC容器的实现/" class="leancloud_visitors" data-flag-title="IOC容器的实现">
+             <span id="/2020/08/25/Java并发编程/07线程池的使用/" class="leancloud_visitors" data-flag-title="07线程池的使用">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1099,16 +1095,14 @@ JIT 无法优化
       
         
           
-          IOC容器的实现容器的设计什么是依赖反转？为什么需要依赖反转？
-依赖对象的获得被反转了
-如果这个获取过程要靠自身实现，那么这将导致代码高度耦合并且难以维护和调试。
-什么是容器？什么是 BeanDefinition？他们是什么关系？
-IOC容器是实现依赖反转的载体
-BeanDefinition 是对依
+          线程池的使用任务提交和执行策略之前的隐性耦合线程池中任务提交需要指定执行策略的场景（隐性耦合）：
+
+依赖性任务：有依赖就会出现环，耦合①执行策略不得不顺序执行；当线程池不够大，可能出现依赖一个等待中的任务，耦合②线程池大小足够大
+使用线程封闭的任务：在单线程的Executor中执行，任务可以不是线程
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2020/05/12/Spring/IOC容器的实现/#more" rel="contents">
+            <a class="btn" href="/2020/08/25/Java并发编程/07线程池的使用/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1164,7 +1158,7 @@ BeanDefinition 是对依
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2020/05/11/Design Patterns/设计模式/">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2020/08/22/Java并发编程/06取消与关闭/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sun">
@@ -1183,7 +1177,7 @@ BeanDefinition 是对依
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/05/11/Design Patterns/设计模式/" itemprop="url">设计模式模式</a></h1>
+                <a class="post-title-link" href="/2020/08/22/Java并发编程/06取消与关闭/" itemprop="url">06取消和关闭</a></h1>
         
 
         <div class="post-meta">
@@ -1195,8 +1189,8 @@ BeanDefinition 是对依
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-11T17:12:00+08:00">
-                2020-05-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-22T17:14:00+08:00">
+                2020-08-22
               </time>
             
 
@@ -1218,8 +1212,8 @@ BeanDefinition 是对依
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
+                  <a href="/categories/java并发编程/" itemprop="url" rel="index">
+                    <span itemprop="name">java并发编程</span>
                   </a>
                 </span>
 
@@ -1235,7 +1229,7 @@ BeanDefinition 是对依
 
           
           
-             <span id="/2020/05/11/Design Patterns/设计模式/" class="leancloud_visitors" data-flag-title="设计模式模式">
+             <span id="/2020/08/22/Java并发编程/06取消与关闭/" class="leancloud_visitors" data-flag-title="06取消和关闭">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1268,17 +1262,20 @@ BeanDefinition 是对依
       
         
           
-          设计模式迭代器模式
-提供一个方法顺序的访问一个聚合对象中的各个元素，而不暴露其内部的表示。
+          取消和关闭为什么良好的处理取消和关闭很重要？
+感觉苹果就是取消机制做的好，所以用起来很舒服
+任务取消取消的含义？
+在任务正常完成之前停止
+何时会触发“取消”？
 
-
-
-Aggregate接口：需要遍历的对象的“集合”（抽象）
-123public interface Aggregate&#123;  public abstract iterator iterator()
+用户请求取消
+一定时间内未完成则取消
+应用程序事件：多任务搜索，其中一个搜索成功，其余的任务就取消
+错误：多任务爬虫，磁盘满了，所有任务取
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2020/05/11/Design Patterns/设计模式/#more" rel="contents">
+            <a class="btn" href="/2020/08/22/Java并发编程/06取消与关闭/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1334,7 +1331,7 @@ Aggregate接口：需要遍历的对象的“集合”（抽象）
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2020/01/16/Maven/09编写maven插件/">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2020/08/12/Java并发编程/05任务执行/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sun">
@@ -1353,7 +1350,7 @@ Aggregate接口：需要遍历的对象的“集合”（抽象）
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/01/16/Maven/09编写maven插件/" itemprop="url">09编写maven插件</a></h1>
+                <a class="post-title-link" href="/2020/08/12/Java并发编程/05任务执行/" itemprop="url">05任务执行</a></h1>
         
 
         <div class="post-meta">
@@ -1365,8 +1362,8 @@ Aggregate接口：需要遍历的对象的“集合”（抽象）
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-16T15:53:00+08:00">
-                2020-01-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-12T20:24:00+08:00">
+                2020-08-12
               </time>
             
 
@@ -1388,8 +1385,8 @@ Aggregate接口：需要遍历的对象的“集合”（抽象）
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Maven/" itemprop="url" rel="index">
-                    <span itemprop="name">Maven</span>
+                  <a href="/categories/java并发编程/" itemprop="url" rel="index">
+                    <span itemprop="name">java并发编程</span>
                   </a>
                 </span>
 
@@ -1405,7 +1402,7 @@ Aggregate接口：需要遍历的对象的“集合”（抽象）
 
           
           
-             <span id="/2020/01/16/Maven/09编写maven插件/" class="leancloud_visitors" data-flag-title="09编写maven插件">
+             <span id="/2020/08/12/Java并发编程/05任务执行/" class="leancloud_visitors" data-flag-title="05任务执行">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1438,14 +1435,21 @@ Aggregate接口：需要遍历的对象的“集合”（抽象）
       
         
           
-          编写maven插件步骤
-使用archetype创建一个Maven插件项目
-mvn archetype:generate -DarchetypeCatalog=internal
-1234567891011121314151617181920212223242526&lt;project xmlns="
+          任务执行“任务执行”的意义？
+
+简化程序的组织结构
+提供一种自然的事物边界来优化错误恢复过程
+提供一种自然的并行结构来提升并发性
+
+在线程中执行任务如何找出清晰的任务边界？
+理想情况下，任务并不依赖其它任务的状态、结果和边界效应
+串行的执行任务串行执行的问题？
+性能差，在等待IO时，CPU空闲
+响应
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2020/01/16/Maven/09编写maven插件/#more" rel="contents">
+            <a class="btn" href="/2020/08/12/Java并发编程/05任务执行/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1501,7 +1505,7 @@ mvn archetype:generate -DarchetypeCatalog=internal
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2020/01/16/Maven/08灵活的构建/">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2020/08/10/Java并发编程/04基础构建模块/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sun">
@@ -1520,7 +1524,7 @@ mvn archetype:generate -DarchetypeCatalog=internal
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/01/16/Maven/08灵活的构建/" itemprop="url">08灵活的构建</a></h1>
+                <a class="post-title-link" href="/2020/08/10/Java并发编程/04基础构建模块/" itemprop="url">04基础构建模块</a></h1>
         
 
         <div class="post-meta">
@@ -1532,8 +1536,8 @@ mvn archetype:generate -DarchetypeCatalog=internal
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-16T13:45:00+08:00">
-                2020-01-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-10T20:43:00+08:00">
+                2020-08-10
               </time>
             
 
@@ -1555,8 +1559,8 @@ mvn archetype:generate -DarchetypeCatalog=internal
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Maven/" itemprop="url" rel="index">
-                    <span itemprop="name">Maven</span>
+                  <a href="/categories/java并发编程/" itemprop="url" rel="index">
+                    <span itemprop="name">java并发编程</span>
                   </a>
                 </span>
 
@@ -1572,7 +1576,7 @@ mvn archetype:generate -DarchetypeCatalog=internal
 
           
           
-             <span id="/2020/01/16/Maven/08灵活的构建/" class="leancloud_visitors" data-flag-title="08灵活的构建">
+             <span id="/2020/08/10/Java并发编程/04基础构建模块/" class="leancloud_visitors" data-flag-title="04基础构建模块">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1605,15 +1609,16 @@ mvn archetype:generate -DarchetypeCatalog=internal
       
         
           
-          灵活的构建如何在不同的环境下展现不同的构建特性？
-Maven属性Maven中的属性有：
+          基础构建模块同步容器类实现方式 : 将他们的状态封装起来,并对每个公有方法都进行同步, 使得每次只有一个线程可以访问. 
+同步容器类的问题
+客户端在使用同步容器类时，无法保证绝对的线程安全，对复合操作要进行加锁
+线程间串行执行，并发性差
 
-内置属性：两个常用内置属性 ${basedir} 表示项目跟目录，即包含pom.xml文件的目录；${version} 表示项目版本
-POM属性：用户可以使用该类属性引用POM文件中对应元素的值。如${proj
+迭代器与  ConcurrentModificationEx
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2020/01/16/Maven/08灵活的构建/#more" rel="contents">
+            <a class="btn" href="/2020/08/10/Java并发编程/04基础构建模块/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1669,7 +1674,7 @@ POM属性：用户可以使用该类属性引用POM文件中对应元素的值�
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2020/01/15/Maven/07仓库+测试+版本管理/">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2020/08/08/Java并发编程/03对象的组合/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sun">
@@ -1688,7 +1693,7 @@ POM属性：用户可以使用该类属性引用POM文件中对应元素的值�
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/01/15/Maven/07仓库+测试+版本管理/" itemprop="url">07仓库+测试+版本管理</a></h1>
+                <a class="post-title-link" href="/2020/08/08/Java并发编程/03对象的组合/" itemprop="url">03对象的组合</a></h1>
         
 
         <div class="post-meta">
@@ -1700,8 +1705,8 @@ POM属性：用户可以使用该类属性引用POM文件中对应元素的值�
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-15T17:31:00+08:00">
-                2020-01-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-08T14:21:00+08:00">
+                2020-08-08
               </time>
             
 
@@ -1723,8 +1728,8 @@ POM属性：用户可以使用该类属性引用POM文件中对应元素的值�
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Maven/" itemprop="url" rel="index">
-                    <span itemprop="name">Maven</span>
+                  <a href="/categories/java并发编程/" itemprop="url" rel="index">
+                    <span itemprop="name">java并发编程</span>
                   </a>
                 </span>
 
@@ -1740,7 +1745,7 @@ POM属性：用户可以使用该类属性引用POM文件中对应元素的值�
 
           
           
-             <span id="/2020/01/15/Maven/07仓库+测试+版本管理/" class="leancloud_visitors" data-flag-title="07仓库+测试+版本管理">
+             <span id="/2020/08/08/Java并发编程/03对象的组合/" class="leancloud_visitors" data-flag-title="03对象的组合">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1773,15 +1778,14 @@ POM属性：用户可以使用该类属性引用POM文件中对应元素的值�
       
         
           
-          使用Nexus创建私服仓库和仓库组nexus仓库分类：
+          对象的组合如何才能设计一个线程安全的类？
 
-group（仓库组）：将多个宿主仓库聚合到同一个group中，使用中统一指定聚合仓库的仓库地址可以获取到同一group下的所有包，免去多仓库多地址的配置繁琐。聚合仓库的聚合成员可以在仓库设置中添加和移除。
-hosted（宿主仓库）：常用仓库
-
+找出构成对象状态的所有变量。
+要创建一个线程安全的类，首先要明白哪些状态是需要同步的，就是要先收集同步需求。例如：当类中的一个变量的int值是10，每次加一，那么下一次只能是11。当下一个状态需要依赖当前状态时，这个操作必须是一个复合操作。该操作必须是一个
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2020/01/15/Maven/07仓库+测试+版本管理/#more" rel="contents">
+            <a class="btn" href="/2020/08/08/Java并发编程/03对象的组合/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1837,7 +1841,7 @@ hosted（宿主仓库）：常用仓库
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2020/01/14/Maven/05生命周期和插件/">
+    <link itemprop="mainEntityOfPage" href="https://sunyi720.github.io/2020/08/04/Java并发编程/02对象的共享/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sun">
@@ -1856,7 +1860,7 @@ hosted（宿主仓库）：常用仓库
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/01/14/Maven/05生命周期和插件/" itemprop="url">05生命周期和插件</a></h1>
+                <a class="post-title-link" href="/2020/08/04/Java并发编程/02对象的共享/" itemprop="url">02对象的共享</a></h1>
         
 
         <div class="post-meta">
@@ -1868,8 +1872,8 @@ hosted（宿主仓库）：常用仓库
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-14T10:37:00+08:00">
-                2020-01-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-04T11:05:00+08:00">
+                2020-08-04
               </time>
             
 
@@ -1891,8 +1895,8 @@ hosted（宿主仓库）：常用仓库
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Maven/" itemprop="url" rel="index">
-                    <span itemprop="name">Maven</span>
+                  <a href="/categories/java并发编程/" itemprop="url" rel="index">
+                    <span itemprop="name">java并发编程</span>
                   </a>
                 </span>
 
@@ -1908,7 +1912,7 @@ hosted（宿主仓库）：常用仓库
 
           
           
-             <span id="/2020/01/14/Maven/05生命周期和插件/" class="leancloud_visitors" data-flag-title="05生命周期和插件">
+             <span id="/2020/08/04/Java并发编程/02对象的共享/" class="leancloud_visitors" data-flag-title="02对象的共享">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1941,13 +1945,18 @@ hosted（宿主仓库）：常用仓库
       
         
           
-          生命周期和插件什么是生命周期？
-Maven 构建生命周期就是 Maven 将一个整体任务划分为一个个的阶段，类似于流程图，按顺序依次执行。也可以指定该任务执行到中间的某个阶段结束。Maven 的内部有三个构建生命周期，分别是 clean, default, site。
-周期之间互相独立，周期内的阶段
+          对象的共享最低安全性？
+可能会读到一个错误的值，但至少是前一个线程设置的，而不是随机值。
+非 volatile 的 long和double的特殊性：
+无法保证最低安全性
+可见性问题：
+synchronized 和 volatile 的区别？
+
+volatile本质是在告诉jvm当前变量在寄存器（工作
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2020/01/14/Maven/05生命周期和插件/#more" rel="contents">
+            <a class="btn" href="/2020/08/04/Java并发编程/02对象的共享/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1994,7 +2003,7 @@ Maven 构建生命周期就是 Maven 将一个整体任务划分为一个个的�
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2042,7 +2051,7 @@ Maven 构建生命周期就是 Maven 将一个整体任务划分为一个个的�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">76</span>
+                  <span class="site-state-item-count">88</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2053,7 +2062,7 @@ Maven 构建生命周期就是 Maven 将一个整体任务划分为一个个的�
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2064,7 +2073,7 @@ Maven 构建生命周期就是 Maven 将一个整体任务划分为一个个的�
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-count">52</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
